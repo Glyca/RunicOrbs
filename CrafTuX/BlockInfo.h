@@ -1,4 +1,4 @@
-#ifndef BLOCKINFO_H
+﻿#ifndef BLOCKINFO_H
 #define BLOCKINFO_H
 
 const int SIZE_OF_A_INT_TIMES_8 = sizeof(int)*8;
@@ -11,7 +11,7 @@ const int POWERED_BITS_SIZE = 1;
 class BlockInfo
 {
 public:
-    BlockInfo(int value);
+    BlockInfo(int value = 0);
 
     // L'ID DU BLOCK (SON TYPE)
     int getValue() const;
@@ -24,7 +24,7 @@ public:
 private:
     int data[2]; // 64bits data
 
-    // Simplifi�
+    // Simplifié
     unsigned short int i_value;
     bool b_isPowered;
 
