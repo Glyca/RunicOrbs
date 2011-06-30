@@ -23,15 +23,8 @@ CraftuxHome::~CraftuxHome()
 
 void CraftuxHome::localTestLaunch()
 {
-   /* WrapperWindow* ww = new WrapperWindow();
-    ww->show();*/
-
     mw = new MainWindow();
     mw->show();
 
-    close();
-
-    /*QGLWidget* qw = new QGLWidget();
-    qw->show();*/
-
+    this->close();
 }

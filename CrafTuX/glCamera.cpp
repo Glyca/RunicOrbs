@@ -143,7 +143,7 @@ void glCamera::ChangeHeading(GLfloat degrees)
 		else
 		{
 			// Check to see if we are upside down.
-			if(m_PitchDegrees > 90 && m_PitchDegrees < 270 || (m_PitchDegrees < -90 && m_PitchDegrees > -270))
+			if((m_PitchDegrees > 90 && m_PitchDegrees < 270) || (m_PitchDegrees < -90 && m_PitchDegrees > -270))
 			{
 				// Ok we would normally increment here but since we are upside
 				// down then we need to decrement our heading.

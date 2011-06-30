@@ -39,7 +39,7 @@ private:
     void drawInfos();
     void renderBlocks();
 
-    // Test
+    // Testing
     void toggleLighting(void);
     void toggleTexture(void);
 
@@ -49,7 +49,6 @@ private:
     bool b_nowPlaying;
     int i_fpsCount;
     int i_lastFpsCount;
-    int i_theQuadRotation;
 
     // Caméra
     glCamera glc_camera;
@@ -58,14 +57,11 @@ private:
 
     // Personnage
     PhysicObject po_character;
-    float f_charX, f_charY, f_charZ; // Position
-    float f_charVX, f_charVY, f_charVZ; // Vitesse
 
-    BlockInfo* world[WORLD_SIZE_X][WORLD_SIZE_Y][WORLD_SIZE_Z];
+    // Monde
     WorldBlocks* m_worldBlocks;
 
     // Timers
-    QTimer* t_jump;
     QTimer* t_secondTimer;
 
     // Textures

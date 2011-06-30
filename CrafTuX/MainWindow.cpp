@@ -3,7 +3,6 @@
 #include "TextureManager.h"
 #include "Utils.h"
 #include <cstdlib> // rand()
-#include <QImage>
 
 const int LightPos[4] = {0,100,0,1};
 GLfloat AmbientColor[] = {(255.0f / 255.0f) -0.7f, (255.0f / 255.0f) -0.7f, (235.0f / 255.0f) -0.7f, 1.0f};
@@ -35,13 +34,10 @@ GLuint IndiceArray[36] = {
 #define VBO_NUMBER 16
 GLuint myVBOBuffer[VBO_NUMBER];
 
-MainWindow::MainWindow(QWidget *parent) : GLWidget(), f_charX(WORLD_SIZE_X/2), f_cameraAngle(45.0f), f_charY(WORLD_SIZE_Y - WORLD_SEA_LEVEL + 1), f_charZ(WORLD_SIZE_Z/2), f_charVX(0), f_charVY(0), f_charVZ(0), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), m_originalCursor(this->cursor())
+MainWindow::MainWindow(QWidget *parent) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), f_cameraAngle(45.0f), m_originalCursor(this->cursor())
 {
-    //GLWidget(60, parent, "Premier Polygone avec OpenGL et Qt");
-
-    setWindowTitle("Programme de test tournant sous OpenGL, développé par Glyca");
+    setWindowTitle(tr("Programme de test tournant sous OpenGL, développé par Glyca"));
     setMouseTracking(true);
-    setAutoBufferSwap(true);
 
     i_winwidth = this->width();
     i_winheight = this->height();
@@ -67,26 +63,18 @@ MainWindow::MainWindow(QWidget *parent) : GLWidget(), f_charX(WORLD_SIZE_X/2), f
     glc_camera.m_Position.z = WORLD_SIZE_Z/2;
 
     QCursor::setPos(i_winwidth/2, i_winheight/2);
-
 }
-
-/*MainWindow::~MainWindow()
-{
-
-}*/
 
 void MainWindow::initializeGL()
 {
-    //qDebug() << QString("Une fenetre OpenGL a ete cree de version " + format().majorVersion() + "." + format().minorVersion());
-
     qDebug() << "L'initialisation d'OpenGL a reussi";
+    qDebug("OpenGL>Window_version : %d.%d", format().majorVersion(), format().minorVersion());
     qDebug() << "OpenGL>Vendor :" << (char*)glGetString(GL_VENDOR);
     qDebug() << "OpenGL>Renderer :" << (char*)glGetString(GL_RENDERER);
     qDebug() << "OpenGL>Version :" << (char*)glGetString(GL_VERSION);
 
     GLint max_lights; glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
     qDebug() << "OpenGL>Max Lights :" << max_lights;
-    //qDebug() << "OpenGL>Extensions :" << (QString((char*)glGetString(GL_EXTENSIONS))).toLatin1();
 
     // Extensions OpenGL
     getGLExtensionFunctions().resolve(this->context());
@@ -235,7 +223,6 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 
     if(b_nowPlaying)
     {
-
 	if(keyEvent->key() == Qt::Key_Up)
 	{
 	    glc_camera.m_ForwardVelocity = 0.3f;
@@ -249,7 +236,6 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 	if(keyEvent->key() == Qt::Key_2) glc_camera.ChangePitch(-5.0f);
 	if(keyEvent->key() == Qt::Key_4) glc_camera.ChangeHeading(-5.0f);
 	if(keyEvent->key() == Qt::Key_6) glc_camera.ChangeHeading(5.0f);
-
     }
 
     switch(keyEvent->key())
@@ -260,6 +246,10 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 	else{
 	    setMouseTracking(false);
 	    this->setCursor(m_originalCursor); }
+	break;
+
+    case Qt::Key_E:
+	qDebug() << "OpenGL>Extensions :" << (QString((char*)glGetString(GL_EXTENSIONS))).toLatin1();
 	break;
 
     case Qt::Key_L:
@@ -383,9 +373,6 @@ void MainWindow::toggleTexture()
 	glEnable(GL_TEXTURE_2D);
 	// select modulate to mix texture with color for shading
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-	// Chargement des texures
-	/*glt_Dirt = TextureManager->loadTexture("C:\\Users\\Aurélien\\Dev\\Qt\\craftux\\CrafTuX-build-desktop\\release/SoilMud.jpg");
- glt_Rock = TextureManager->loadTexture("C:\\Users\\Aurélien\\Dev\\Qt\\craftux\\CrafTuX-build-desktop\\release/RockSmooth.jpg");*/
 	glt_Dirt = TextureManager->loadTexture("SoilMud.jpg");
 	glt_Rock = TextureManager->loadTexture("RockSmooth.jpg");
 	qDebug("Texture activees. Rock:%d ; Dirt:%d", glt_Rock, glt_Dirt);
@@ -407,8 +394,6 @@ void MainWindow::secondTimerProcess()
 
 void MainWindow::renderBlocks()
 {
-    //glTranslatef(-1.0f, -WORLD_SEA_LEVEL, 0.0f);
-
     // Rock
     if(b_textureEnabled)glBindTexture(GL_TEXTURE_2D, glt_Rock); // Choix de la texture
     for(int i = 0; i < WORLD_SIZE_X; i++)
