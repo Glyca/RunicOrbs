@@ -1,19 +1,18 @@
-#include "BlockInfo.h"
+ï»¿#include "BlockInfo.h"
 #include <QtGlobal>
 
-BlockInfo::BlockInfo(int value)
+BlockInfo::BlockInfo(int value) : i_value(value)
 {
     data[0] = data[1] = 0;
 
-    setValue(value);
     makePowered(true);
     //qDebug("Dans le contructeur de BlockInfo");
     /*qDebug("Taille d'un INT * 8 = %d", SIZE_OF_A_INT_TIMES_8);
-    qDebug("Le numéro de block passé est %d", value);
+    qDebug("Le numÃ©ro de block passÃ© est %d", value);
 
-    qDebug("La valeur de la donnée 1 est %d\nLa valeur de la donnée 2 est %d", data[0], data[1]);*/
+    qDebug("La valeur de la donnÃ©e 1 est %d\nLa valeur de la donnÃ©e 2 est %d", data[0], data[1]);*/
     //qDebug("Valeur du bloc : %d", getValue());
-    //qDebug("Est alimenté : %d", isPowered());
+    //qDebug("Est alimentÃ© : %d", isPowered());
 }
 
 int BlockInfo::getValue() const

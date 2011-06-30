@@ -46,7 +46,9 @@ MainWindow::MainWindow(QWidget *parent) : GLWidget(), f_charX(WORLD_SIZE_X/2), f
     i_winwidth = this->width();
     i_winheight = this->height();
 
-    fillBlocks();
+    // Création eet génération du monde
+    m_worldBlocks = new WorldBlocks(WORLD_SIZE_X, WORLD_SIZE_Y, WORLD_SIZE_Z, WORLD_SEA_LEVEL);
+    m_worldBlocks->generate(0);
 
     t_secondTimer = new QTimer(this);
     t_secondTimer->setInterval(1000);
@@ -403,46 +405,6 @@ void MainWindow::secondTimerProcess()
     i_fpsCount = 0;
 }
 
-void MainWindow::fillBlocks()
-{
-    qDebug("Generation du monde...");
-    qDebug("Taille demandee : (x=%d; y=%d; z=%d) sea_level : %d", WORLD_SIZE_X, WORLD_SIZE_Y, WORLD_SIZE_Z, WORLD_SEA_LEVEL);
-
-    // de la surface jusq'au dessus
-    for(int j = (WORLD_SIZE_Y - WORLD_SEA_LEVEL); j < (WORLD_SIZE_Y); j++)
-    {
-	for(int i = 0; i < WORLD_SIZE_X; i++)
-	{
-	    for(int k = 0; k < WORLD_SIZE_Z; k++)
-	    {
-		// On ne met que du vide
-		world[i][j][k] = new BlockInfo(0);
-	    }
-	}
-    }
-
-    // de la surface jusq'en dessous
-    for(int j = (WORLD_SIZE_Y - WORLD_SEA_LEVEL); j >= 0; j--)
-    {
-	for(int i = 0; i < WORLD_SIZE_X; i++)
-	{
-	    for(int k = 0; k < WORLD_SIZE_Z; k++)
-	    {
-		// Il y a une grosse proba d'avoir de la roche, puis un peu de terre, puis rarerent un trou
-		int random = rand() % 9;
-		// 0, 1, 2, 3, 4, 5 -> Roche
-		if(random <= 5) world[i][j][k] = new BlockInfo(1);
-		// 6, 7 -> Terre
-		if(random == 6 || random == 7) world[i][j][k] = new BlockInfo(2);
-		// 8 -> Vide
-		if(random == 8) world[i][j][k] = new BlockInfo(0);
-	    }
-	}
-    }
-    qDebug("Generation du monde terminee");
-}
-
-
 void MainWindow::renderBlocks()
 {
     //glTranslatef(-1.0f, -WORLD_SEA_LEVEL, 0.0f);
@@ -455,7 +417,7 @@ void MainWindow::renderBlocks()
 	{
 	    for(int k = 0; k < WORLD_SIZE_Z; k++)
 	    {
-		if(world[i][j][k]->getValue() == 1)
+		if(m_worldBlocks->block(i, j, k)->getValue() == 1)
 		{
 		    if(!b_textureEnabled)
 		    {
@@ -477,7 +439,7 @@ void MainWindow::renderBlocks()
 	{
 	    for(int k = 0; k < WORLD_SIZE_Z; k++)
 	    {
-		if(world[i][j][k]->getValue() == 2)
+		if(m_worldBlocks->block(i, j, k)->getValue() == 2)
 		{
 		    if(!b_textureEnabled)
 		    {

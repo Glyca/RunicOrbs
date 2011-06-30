@@ -5,6 +5,7 @@
 #include "BlockInfo.h"
 #include "glCamera.h"
 #include "PhysicObject.h"
+#include "WorldBlocks.h"
 
 const int WORLD_SIZE_X = 20;
 const int WORLD_SIZE_Y = 50;
@@ -36,7 +37,6 @@ private:
 
     void resizeGLreally();
     void drawInfos();
-    void fillBlocks();
     void renderBlocks();
 
     // Test
@@ -62,6 +62,7 @@ private:
     float f_charVX, f_charVY, f_charVZ; // Vitesse
 
     BlockInfo* world[WORLD_SIZE_X][WORLD_SIZE_Y][WORLD_SIZE_Z];
+    WorldBlocks* m_worldBlocks;
 
     // Timers
     QTimer* t_jump;

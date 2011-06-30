@@ -1,12 +1,11 @@
 ﻿#include "WorldBlocks.h"
 
 #include <stdlib.h> // NULL
-#include <QtGlobal> // qDebug
-
 
 WorldBlocks::WorldBlocks(const int WORLD_SIZE_X, const int WORLD_SIZE_Y, const int WORLD_SIZE_Z, const int SEA_LEVEL) : i_SIZE_X(WORLD_SIZE_X), i_SIZE_Y(WORLD_SIZE_Y), i_SIZE_Z(WORLD_SIZE_Z), i_SEA_LEVEL(SEA_LEVEL)
 {
-    p_BlocksInfo = new BlockInfo[i_SIZE_X * i_SIZE_Y * i_SIZE_Z];
+    int size = i_SIZE_X * i_SIZE_Y * i_SIZE_Z;
+    p_BlocksInfo = new BlockInfo[size];
 }
 
 void WorldBlocks::generate(int seed)
