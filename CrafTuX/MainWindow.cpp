@@ -34,17 +34,13 @@ GLuint IndiceArray[36] = {
 #define VBO_NUMBER 16
 GLuint myVBOBuffer[VBO_NUMBER];
 
-MainWindow::MainWindow(QWidget *parent) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), f_cameraAngle(45.0f), m_originalCursor(this->cursor())
+MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), f_cameraAngle(45.0f), m_originalCursor(this->cursor()), m_worldBlocks(worldBlocks)
 {
     setWindowTitle(tr("Programme de test tournant sous OpenGL, développé par Glyca"));
     setMouseTracking(true);
 
     i_winwidth = this->width();
     i_winheight = this->height();
-
-    // Création eet génération du monde
-    m_worldBlocks = new WorldBlocks(WORLD_SIZE_X, WORLD_SIZE_Y, WORLD_SIZE_Z, WORLD_SEA_LEVEL);
-    m_worldBlocks->generate(0);
 
     t_secondTimer = new QTimer(this);
     t_secondTimer->setInterval(1000);

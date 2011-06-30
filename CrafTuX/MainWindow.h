@@ -17,7 +17,7 @@ class MainWindow : public GLWidget
  Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(WorldBlocks* worldBlocks);
     virtual void initializeGL();
     virtual void resizeGL(int width, int height);
     virtual void paintGL();
