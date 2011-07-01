@@ -8,6 +8,8 @@
 #include "Vector3.h"
 
 const preal f_defaultMass = 0.01f;
+const preal f_g = 9.80665f;
+const preal f_G = 6.67234e-11f; // Mesure de 2010
 
 class PhysicObject : public QObject
 {
@@ -32,6 +34,7 @@ public: // Public temporairement
     Point pt_position; // La position de l'objet
     Vector3 v3_velocity, v3_acceleration; // Le vecteur vitesse et le vecteur accélération
     Vector3 v3_forces; // Somme des forces appliquées à l'objet
+
 };
 
 #endif // PHYSICOBJECT_H

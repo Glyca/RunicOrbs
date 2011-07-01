@@ -47,6 +47,8 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
     connect(t_secondTimer, SIGNAL(timeout()), this, SLOT(secondTimerProcess()));
     t_secondTimer->start();
 
+    po_character.pt_position.y = 100.0f;
+
     // Configuration de la caméra
     // Now set up our max values for the camera
     glc_camera.m_MaxForwardVelocity = 3.0f;
@@ -133,7 +135,7 @@ void MainWindow::paintGL()
 
     glColor3f(1.0f, 1.0f ,1.0f); // On écrit les infos en blanc
 
-    if(b_infosEnabled)
+    if(true)
     {
 	int offset = 10;
 
@@ -162,8 +164,6 @@ void MainWindow::paintGL()
 	renderText(5, offset, "Position = (" + ((QVariant)po_character.pt_position.x).toString() + ";" + ((QVariant)po_character.pt_position.y).toString() + ";" + ((QVariant)po_character.pt_position.z).toString() + ")");
 	offset += 20;
 	renderText(5, offset, "Vitesse = (" + ((QVariant)po_character.v3_velocity.i).toString() + ";" + ((QVariant)po_character.v3_velocity.j).toString() + ";" + ((QVariant)po_character.v3_velocity.k).toString() + ")");
-	offset += 20;
-	renderText(5, offset, "Accélération = (" + ((QVariant)po_character.v3_acceleration.i).toString() + ";" + ((QVariant)po_character.v3_acceleration.j).toString() + ";" + ((QVariant)po_character.v3_acceleration.k).toString() + ")");
 	offset += 20;
 	renderText(5, offset, "Poussée de 1N selon Ox en appuyant sur (F)");
 
@@ -283,8 +283,8 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 
     case Qt::Key_F3:
 	b_infosEnabled = !b_infosEnabled;
+	qDebug("Infos actives");
 	break;
-
     }
 }
 
