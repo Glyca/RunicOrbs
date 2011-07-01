@@ -7,10 +7,6 @@
 #include "Point.h"
 #include "Vector3.h"
 
-const preal f_defaultMass = 0.01f;
-const preal f_g = 9.80665f;
-const preal f_G = 6.67234e-11f; // Mesure de 2010
-
 class PhysicObject : public QObject
 {
     Q_OBJECT

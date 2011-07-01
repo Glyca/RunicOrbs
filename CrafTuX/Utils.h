@@ -5,6 +5,7 @@
 
 const float f_edgeSpace = 0.5f;
 
+// Singloton class
 class CUtils
 {
 public:

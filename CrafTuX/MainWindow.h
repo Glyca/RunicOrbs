@@ -56,7 +56,7 @@ private:
     int i_winheight, i_winwidth;
 
     // Personnage
-    PhysicObject po_character;
+    PhysicObject* po_character;
 
     // Monde
     WorldBlocks* m_worldBlocks;

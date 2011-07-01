@@ -55,4 +55,4 @@ DEFINES += GL_GLEXT_PROTOTYPES
 CODECFORTR = UTF-8
 # On désactive les infos de déboguage pour le mode release, les crackers n'en ont pas besoin
 QMAKE_CXXFLAGS_RELEASE -= -g
-
+QMAKE_CXXFLAGS += -save-temps -fverbose-asm
