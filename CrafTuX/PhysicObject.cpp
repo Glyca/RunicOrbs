@@ -7,15 +7,10 @@ PhysicObject::PhysicObject(preal mass) : f_mass(mass)
     {
 	f_mass = f_defaultMass;
     }
-
-    m_elapsedTimer.start();
 }
 
-void PhysicObject::processMove()
+void PhysicObject::processMove(float f_elapsedTimeSec)
 {
-    // Le deta de temps doit être en secondes
-    float f_elapsedTimeSec = m_elapsedTimer.elapsed() / 1000.0f;
-
     // On applique l'accélération due au poids
     v3_acceleration.j -= f_g;
 
@@ -35,9 +30,6 @@ void PhysicObject::processMove()
     pt_position.x += f_elapsedTimeSec*(v3_velocity.i);
     pt_position.y += f_elapsedTimeSec*(v3_velocity.j);
     pt_position.z += f_elapsedTimeSec*(v3_velocity.k);
-
-    // On redémarre le timer
-    m_elapsedTimer.restart();
 }
 
 void PhysicObject::applyForcev(Vector3 v3_force)

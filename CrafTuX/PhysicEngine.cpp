@@ -6,6 +6,7 @@ CPhysicEngine::CPhysicEngine(QObject *parent) :
     QObject(parent)
 {
     m_physicObjects.reserve(16);
+    m_elapsedTimer.start();
     qDebug("Moteur physique construit");
 }
 
@@ -29,6 +30,9 @@ void CPhysicEngine::processMoves()
 {
     foreach(PhysicObject* thePhysicObject, m_physicObjects)
     {
-	thePhysicObject->processMove();
+	thePhysicObject->processMove(m_elapsedTimer.elapsed() / 1000.0f);
     }
+
+    // On redémarre le timer
+    m_elapsedTimer.restart();
 }

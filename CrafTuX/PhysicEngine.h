@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QElapsedTimer>
 #include "PhysicObject.h"
 
 // Singloton class
@@ -25,6 +26,7 @@ public slots:
 
 private:
 
+    QElapsedTimer m_elapsedTimer;
     QList<PhysicObject*> m_physicObjects;
 
 };

@@ -14,7 +14,7 @@ public:
     PhysicObject(preal mass = f_defaultMass);
 
     // Modifie toutes les conposantes des vecteurs et coordonnées de l'objet
-    void processMove();
+    void processMove(float f_elapsedTimeSec);
 
     // Applique un vecteur force avec ces composantes en NEWTON
     void applyForcev(Vector3 v3_force);
@@ -22,8 +22,6 @@ public:
     inline preal getMass() const {return f_mass;}
 
 public: // Public temporairement
-
-    QElapsedTimer m_elapsedTimer;
 
     preal f_mass; // La masse de l'objet en KG
 
