@@ -32,7 +32,7 @@ void CTextureManager::free()
 
 GLuint CTextureManager::loadTexture(const char* filename)
 {
-    // ouverture de l'image
+  /*  // ouverture de l'image
     QString currentDir =  QDir::currentPath();
     qDebug() << "Dossier actuel : " << currentDir;
     QString currentPath(currentDir);
@@ -42,16 +42,17 @@ GLuint CTextureManager::loadTexture(const char* filename)
 
     qDebug() << "Tentative d'ouverture du fichier...";
     QFile qfile_myfile(currentPath);
-    if(qfile_myfile.isReadable()) qDebug() << "Le fichier est lisible";
+    if(qfile_myfile.isReadable()) qDebug() << "Le fichier est lisible";*/
 
     // ouverture de l'image
-    QImage qim_Texture(filename);
+    QString qs_filename = QString(filename);
+    QImage qim_TextureImage(qs_filename);
     GLuint gi_textureID[1];
-    if(qim_Texture.isNull()) qDebug("Texture [%s] load failed !", filename);
-    qim_Texture = mw->convertToGLFormat(qim_Texture);
+    if(qim_TextureImage.isNull()) qDebug("Texture [%s] load failed !", filename);
+    QImage qim_Texture = mw->convertToGLFormat(qim_TextureImage);
     // Demandons un ID de texture libre
     glGenTextures(1, &gi_textureID[0]);
-    // Bidons cet ID
+    // Bindons cet ID
     glBindTexture(GL_TEXTURE_2D, gi_textureID[0]);
     // Filtrage lorsqu'on rétrécit la texture
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

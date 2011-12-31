@@ -139,7 +139,7 @@ void MainWindow::paintGL()
 
     if(b_infosEnabled)
     {
-	int offset = 10;
+    int offset = 10; glLoadIdentity();
 
 	renderText(5, offset, "------ Informations (F3) ------");
 
@@ -170,12 +170,14 @@ void MainWindow::paintGL()
 	renderText(5, offset, "Poussée de 1N selon Ox en appuyant sur (F)");
 
 	offset += 30;
-	renderText(5, offset, "Images envoyées par seconde : " + ((QVariant)i_lastFpsCount).toString());
-	offset += 20;
 	renderText(5, offset, "[" + (b_lightingEnabled?QString("X"):"  ") + "] Eclairage activé (L)");
 	offset += 20;
-	renderText(5, offset, "[" + (b_textureEnabled?QString("X"):"  ") + "] Textures activées (T)");
+    renderText(5, offset, "[" + (b_textureEnabled?QString("X"):"  ") + "] Textures activées (T)");
     }
+
+    swapBuffers();
+
+    setWindowTitle(((QVariant)i_lastFpsCount).toString() + "FPS " + tr("Programme de test tournant sous OpenGL, développé par Glyca"));
 
     i_fpsCount++;
 }
@@ -228,6 +230,15 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 	else if(keyEvent->key() == Qt::Key_Down)
 	{
 	    glc_camera.m_ForwardVelocity = -0.3f;
+	}
+
+	if(keyEvent->key() == Qt::Key_Right)
+	{
+	    glc_camera.m_RightVelocity = 0.3f;
+	}
+	else if(keyEvent->key() == Qt::Key_Left)
+	{
+	    glc_camera.m_RightVelocity = -0.3f;
 	}
 
 	if(keyEvent->key() == Qt::Key_8) glc_camera.ChangePitch(5.0f);
@@ -298,6 +309,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent *keyEvent)
     if((keyEvent->key() == Qt::Key_Up) || (keyEvent->key() == Qt::Key_Down))
     {
 	glc_camera.m_ForwardVelocity = 0.0f; // On stoppe le perso
+    }
+    else if((keyEvent->key() == Qt::Key_Left) || (keyEvent->key() == Qt::Key_Right))
+    {
+	glc_camera.m_RightVelocity = 0.0f; // On stoppe le perso
     }
 }
 
@@ -371,8 +386,8 @@ void MainWindow::toggleTexture()
 	glEnable(GL_TEXTURE_2D);
 	// select modulate to mix texture with color for shading
 	glTexEnvf( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
-	glt_Dirt = TextureManager->loadTexture("SoilMud.jpg");
-	glt_Rock = TextureManager->loadTexture("RockSmooth.jpg");
+        glt_Dirt = TextureManager->loadTexture("Soil.png");
+        glt_Rock = TextureManager->loadTexture("Rock.png");
 	qDebug("Texture activees. Rock:%d ; Dirt:%d", glt_Rock, glt_Dirt);
     }
     else

@@ -18,7 +18,7 @@ public:
 	GLfloat m_PitchDegrees;
 	GLfloat m_MaxForwardVelocity;
 	GLfloat m_ForwardVelocity;
-	GLfloat m_LateralVelocity;
+	GLfloat m_RightVelocity;
 	glQuaternion m_qHeading;
 	glQuaternion m_qPitch;
 	glPoint m_Position;

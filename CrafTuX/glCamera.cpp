@@ -1,4 +1,4 @@
-﻿// glCamera.cpp: implementation of the glCamera class.
+// glCamera.cpp: implementation of the glCamera class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -17,7 +17,7 @@ glCamera::glCamera()
 	m_PitchDegrees			= 0.0f;
 	m_MaxForwardVelocity		= 0.0f;
 	m_ForwardVelocity		= 0.0f;
-	m_LateralVelocity		= 0.0f;
+	m_RightVelocity		= 0.0f;
 }
 
 glCamera::~glCamera()
