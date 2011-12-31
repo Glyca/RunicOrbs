@@ -50,6 +50,9 @@ private:
     int i_fpsCount;
     int i_lastFpsCount;
 
+    // OpenGL
+    GLvoid* vp_vertexArray;
+
     // Caméra
     glCamera glc_camera;
     float f_cameraAngle;

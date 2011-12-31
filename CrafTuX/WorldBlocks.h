@@ -19,6 +19,18 @@ public:
 	return &p_BlocksInfo[ID];
     }
 
+    inline int getSizeX(void) {
+        return i_SIZE_X;
+    }
+
+    inline int getSizeY(void) {
+        return i_SIZE_Y;
+    }
+
+    inline int getSizeZ(void) {
+        return i_SIZE_Z;
+    }
+
 private:
     int i_SIZE_X, i_SIZE_Y, i_SIZE_Z, i_SEA_LEVEL;
     BlockInfo* p_BlocksInfo; // pointeur vers les BlockInfo

@@ -35,7 +35,7 @@ GLuint IndiceArray[36] = {
 #define VBO_NUMBER 16
 GLuint myVBOBuffer[VBO_NUMBER];
 
-MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), f_cameraAngle(45.0f), m_originalCursor(this->cursor()), m_worldBlocks(worldBlocks)
+MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), f_cameraAngle(45.0f), m_worldBlocks(worldBlocks), m_originalCursor(this->cursor())
 {
     setWindowTitle(tr("Programme de test tournant sous OpenGL, développé par Glyca"));
     setMouseTracking(true);
@@ -62,7 +62,7 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
     glc_camera.m_Position.y = WORLD_SIZE_Y - WORLD_SEA_LEVEL + 1;
     glc_camera.m_Position.z = WORLD_SIZE_Z/2;
 
-    QCursor::setPos(i_winwidth/2, i_winheight/2);
+    QCursor::setPos(i_winwidth << 1, i_winheight << 1); // /2
 }
 
 void MainWindow::initializeGL()
