@@ -11,29 +11,51 @@ GLfloat AmbientColor[] = {(255.0f / 255.0f) -0.7f, (255.0f / 255.0f) -0.7f, (235
 GLfloat diffuse[] = {1.0f, 1.0f, 1.0f , 1.0f};
 GLfloat position[] = { 0.0f, WORLD_SIZE_Y, 0.0f, 0.5f };
 
-// Testing
-GLfloat CubeArray[48] = {
-    1.0f, 0.0f, 0.0f, -1.0f, 1.0f, -1.0f,
-    1.0f, 0.0f, 1.0f, -1.0f, -1.0f, -1.0f,
-    1.0f, 1.0f, 1.0f, -1.0f, 1.0f, 1.0f,
-    0.0f, 0.0f, 1.0f, -1.0f, -1.0f, 1.0f,
-    0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-    0.0f, 1.0f, 1.0f, 1.0f, -1.0f, 1.0f,
-    1.0f, 1.0f, 0.0f, 1.0f, 1.0f, -1.0f,
-    1.0f, 1.0f, 1.0f, 1.0f, -1.0f, -1.0f
-};
 
-GLuint IndiceArray[36] = {
-    0,1,2,2,1,3,
-    4,5,6,6,5,7,
-    3,1,5,5,1,7,
-    0,2,6,6,2,4,
-    6,7,0,0,7,1,
-    2,3,4,4,3,5
-};
+// cube ///////////////////////////////////////////////////////////////////////
+//    v6----- v5
+//   /|      /|
+//  v1------v0|
+//  | |     | |
+//  | |v7---|-|v4
+//  |/      |/
+//  v2------v3
 
-#define VBO_NUMBER 16
-GLuint myVBOBuffer[VBO_NUMBER];
+// vertex coords array
+GLfloat vertices[] = {1,1,1,  -1,1,1,  -1,-1,1,  1,-1,1,        // v0-v1-v2-v3
+                      1,1,1,  1,-1,1,  1,-1,-1,  1,1,-1,        // v0-v3-v4-v5
+                      1,1,1,  1,1,-1,  -1,1,-1,  -1,1,1,        // v0-v5-v6-v1
+                      -1,1,1,  -1,1,-1,  -1,-1,-1,  -1,-1,1,    // v1-v6-v7-v2
+                      -1,-1,-1,  1,-1,-1,  1,-1,1,  -1,-1,1,    // v7-v4-v3-v2
+                      1,-1,-1,  -1,-1,-1,  -1,1,-1,  1,1,-1};   // v4-v7-v6-v5
+
+// normal array
+GLfloat normals[] = {0,0,1,  0,0,1,  0,0,1,  0,0,1,             // v0-v1-v2-v3
+                     1,0,0,  1,0,0,  1,0,0, 1,0,0,              // v0-v3-v4-v5
+                     0,1,0,  0,1,0,  0,1,0, 0,1,0,              // v0-v5-v6-v1
+                     -1,0,0,  -1,0,0, -1,0,0,  -1,0,0,          // v1-v6-v7-v2
+                     0,-1,0,  0,-1,0,  0,-1,0,  0,-1,0,         // v7-v4-v3-v2
+                     0,0,-1,  0,0,-1,  0,0,-1,  0,0,-1};        // v4-v7-v6-v5
+
+// color array
+GLfloat colors[] = {1,1,1,  1,1,0,  1,0,0,  1,0,1,              // v0-v1-v2-v3
+                    1,1,1,  1,0,1,  0,0,1,  0,1,1,              // v0-v3-v4-v5
+                    1,1,1,  0,1,1,  0,1,0,  1,1,0,              // v0-v5-v6-v1
+                    1,1,0,  0,1,0,  0,0,0,  1,0,0,              // v1-v6-v7-v2
+                    0,0,0,  0,0,1,  1,0,1,  1,0,0,              // v7-v4-v3-v2
+                    0,0,1,  0,0,0,  0,1,0,  0,1,1};             // v4-v7-v6-v5
+
+// index array of vertex array for glDrawElements()
+// Notice the indices are listed straight from beginning to end as exactly
+// same order of vertex array without hopping, because of different normals at
+// a shared vertex. For this case, glDrawArrays() and glDrawElements() have no
+// difference.
+GLubyte indices[] = {0,1,2,3,
+                     4,5,6,7,
+                     8,9,10,11,
+                     12,13,14,15,
+                     16,17,18,19,
+                     20,21,22,23};
 
 MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), f_cameraAngle(45.0f), m_worldBlocks(worldBlocks), m_originalCursor(this->cursor())
 {
@@ -92,11 +114,6 @@ void MainWindow::initializeGL()
 
     // On indique la couleur de la lumière ambiante
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, AmbientColor);
-
-    // VBOs
-    glGenBuffers(VBO_NUMBER, myVBOBuffer); // On demande des numéros de VBO
-    glBindBuffer(GL_ARRAY_BUFFER, myVBOBuffer[0]); // On binde le buffer n°0
-
 }
 
 void MainWindow::resizeGL(int width, int height)
@@ -159,6 +176,8 @@ void MainWindow::paintGL()
 
 	offset += 30;
 	renderText(5, offset, "Position du joueur : (" + ((QVariant)glc_camera.m_Position.x).toString() + ";" + ((QVariant)glc_camera.m_Position.y).toString() + ";" + ((QVariant)glc_camera.m_Position.z).toString() + ") (UP/DOWN)");
+    offset += 20;
+    renderText(5, offset, "Vecteur direction : (" + ((QVariant)glc_camera.m_DirectionVector.i).toString() + ";" + ((QVariant)glc_camera.m_DirectionVector.j).toString() + ";" + ((QVariant)glc_camera.m_DirectionVector.k).toString() + ")");
 
 	offset += 30;
 	renderText(5, offset, "PhysicObject de masse " + ((QVariant)po_character->getMass()).toString() + "kg :");
@@ -451,18 +470,28 @@ void MainWindow::renderBlocks()
 	}
     }
 
-
     // Le petit physicObject !
     if(b_textureEnabled) glBindTexture(GL_TEXTURE_2D, 0); // Choix de la texture
 
-    if(!b_textureEnabled)
-    {
 	glColor3f(0.078f, 0.296f, 0.488f);
-    }
-    glTranslatef(po_character->pt_position.x, po_character->pt_position.y, po_character->pt_position.z);
-    Utils->fastCube();
-    glTranslatef(-po_character->pt_position.x, -po_character->pt_position.y, -po_character->pt_position.z);
 
+    glTranslatef(po_character->pt_position.x, po_character->pt_position.y, po_character->pt_position.z);
+
+    glEnableClientState(GL_NORMAL_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glNormalPointer(GL_FLOAT, 0, normals);
+    glColorPointer(3, GL_FLOAT, 0, colors);
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+
+    //glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, indices); les indices sont inutiles à cause des normales qui changent à chaque fois
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    glDisableClientState(GL_VERTEX_ARRAY);  // disable vertex arrays
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+
+    glTranslatef(-po_character->pt_position.x, -po_character->pt_position.y, -po_character->pt_position.z);
 }
 
 

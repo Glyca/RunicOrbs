@@ -47,8 +47,6 @@ HEADERS  += CraftuxHome.h \
 
 FORMS    += CraftuxHome.ui
 
-CONFIG += console
-
 DEFINES += GL_GLEXT_PROTOTYPES
 
 # Permet d'voir les traductions en UTF-8

@@ -1,4 +1,4 @@
-// glCamera.cpp: implementation of the glCamera class.
+﻿// glCamera.cpp: implementation of the glCamera class.
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -53,13 +53,15 @@ void glCamera::SetPrespective()
 	m_DirectionVector.i = Matrix[8];
 	m_DirectionVector.k = Matrix[10];
 
-	// Scale the direction by our speed.
-	m_DirectionVector *= m_ForwardVelocity;
-
+    // Scale the direction by our speed. AND
 	// Increment our position by the vector
-	m_Position.x += m_DirectionVector.i;
-	m_Position.y += m_DirectionVector.j;
-	m_Position.z += m_DirectionVector.k;
+    m_Position.x += m_DirectionVector.i * m_ForwardVelocity;
+    m_Position.y += m_DirectionVector.j * m_ForwardVelocity;
+    m_Position.z += m_DirectionVector.k * m_ForwardVelocity;
+
+    // Mouvement latéral à droite (avec le vecteur normal à droite (z;0;-x))
+    m_Position.x += m_DirectionVector.k * m_RightVelocity;
+    m_Position.z -= m_DirectionVector.i * m_RightVelocity;
 
 	// Translate to our new position.
 	glTranslatef(-m_Position.x, -m_Position.y, m_Position.z);
