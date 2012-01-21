@@ -10,8 +10,8 @@ WorldBlocks::WorldBlocks(const int WORLD_SIZE_X, const int WORLD_SIZE_Y, const i
 
 void WorldBlocks::generate(int seed)
 {
-    qDebug("Generation du monde...");
-    qDebug("Taille demandee : (x=%d; y=%d; z=%d) sea_level : %d", i_SIZE_X, i_SIZE_Y, i_SIZE_Z, i_SEA_LEVEL);
+	qDebug("Génération du monde...");
+	qDebug("Taille demandée : (x=%d; y=%d; z=%d) sea_level : %d", i_SIZE_X, i_SIZE_Y, i_SIZE_Z, i_SEA_LEVEL);
 
     // de la surface jusq'au dessus
     for(int j = (i_SIZE_Y - i_SEA_LEVEL); j < (i_SIZE_Y); j++)
@@ -44,5 +44,6 @@ void WorldBlocks::generate(int seed)
 	    }
 	}
     }
-    qDebug("Generation du monde terminee !");
+	qDebug("Génération du monde terminée !");
+	qDebug("Poids brut total : %d Kio", (i_SIZE_X * i_SIZE_Y * i_SIZE_Z * sizeof(BlockInfo)) >> 10);
 }

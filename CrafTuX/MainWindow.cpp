@@ -428,13 +428,17 @@ void MainWindow::secondTimerProcess()
 
 void MainWindow::renderBlocks()
 {
+	int i_worldSizeX = m_worldBlocks->getSizeX();
+	int i_worldSizeY = m_worldBlocks->getSizeY();
+	int i_worldSizeZ = m_worldBlocks->getSizeZ();
+
     // Rock
-    if(b_textureEnabled)glBindTexture(GL_TEXTURE_2D, glt_Rock); // Choix de la texture
-    for(int i = 0; i < WORLD_SIZE_X; i++)
+	if(b_textureEnabled) glBindTexture(GL_TEXTURE_2D, glt_Rock); // Choix de la texture
+	for(int i = 0; i < i_worldSizeX; i++)
     {
-	for(int j = 0; j < WORLD_SIZE_Y; j++)
+	for(int j = 0; j < i_worldSizeY; j++)
 	{
-	    for(int k = 0; k < WORLD_SIZE_Z; k++)
+		for(int k = 0; k < i_worldSizeZ; k++)
 	    {
 		if(m_worldBlocks->block(i, j, k)->getValue() == 1)
 		{
@@ -452,11 +456,11 @@ void MainWindow::renderBlocks()
 
     // Dirt
     if(b_textureEnabled) glBindTexture(GL_TEXTURE_2D, glt_Dirt); // Choix de la texture
-    for(int i = 0; i < WORLD_SIZE_X; i++)
+	for(int i = 0; i < i_worldSizeX; i++)
     {
-	for(int j = 0; j < WORLD_SIZE_Y; j++)
+	for(int j = 0; j < i_worldSizeY; j++)
 	{
-	    for(int k = 0; k < WORLD_SIZE_Z; k++)
+		for(int k = 0; k < i_worldSizeZ; k++)
 	    {
 		if(m_worldBlocks->block(i, j, k)->getValue() == 2)
 		{
