@@ -52,9 +52,8 @@ void CraftuxHome::localTestLaunch()
     worldBlocks->generate(0);
 
     mw = new MainWindow(worldBlocks);
-    mw->show();
-
-    this->close();
+	this->close();
+	mw->show();
 }
 
 void CraftuxHome::valueChangedX(int value)

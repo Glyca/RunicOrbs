@@ -19,7 +19,6 @@ CUtils* CUtils::getUtils()
 
 void CUtils::prepareCube()
 {
-    qDebug("Preparation du cube");
     gl_cubeList = glGenLists(1);
     glNewList(gl_cubeList, GL_COMPILE);
     drawCube2();
@@ -140,7 +139,6 @@ void CUtils::fastAxes()
 
 void CUtils::prepareAxes()
 {
-    qDebug("Preparation des axes");
     gl_axesList = glGenLists(1);
     glNewList(gl_axesList, GL_COMPILE);
     drawAxes();

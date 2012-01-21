@@ -21,10 +21,6 @@ public:
     virtual void initializeGL();
     virtual void resizeGL(int width, int height);
     virtual void paintGL();
-    /*virtual void initializeOverlayGL();
-    virtual void resizeOverlayGL(int w, int h);
-    virtual void paintOverlayGL();*/
-    void paintEventprout(QPaintEvent *paintEvent);
     virtual void keyPressEvent(QKeyEvent *keyEvent);
     virtual void keyReleaseEvent(QKeyEvent *keyEvent);
     virtual void mouseMoveEvent(QMouseEvent * mouseEvent);
