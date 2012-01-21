@@ -71,7 +71,7 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
     t_secondTimer->start();
 
     po_character = PhysicEngine->createPhysicObject();
-    po_character->pt_position.y = 100.0f;
+    po_character->v3_position.y = 100.0f;
 
     // Configuration de la caméra
     // Now set up our max values for the camera
@@ -182,9 +182,11 @@ void MainWindow::paintGL()
 	offset += 30;
 	renderText(5, offset, "PhysicObject de masse " + ((QVariant)po_character->getMass()).toString() + "kg :");
 	offset += 20;
-	renderText(5, offset, "Position = (" + ((QVariant)po_character->pt_position.x).toString() + ";" + ((QVariant)po_character->pt_position.y).toString() + ";" + ((QVariant)po_character->pt_position.z).toString() + ")");
+	renderText(5, offset, "Position = (" + ((QVariant)po_character->v3_position.x).toString() + ";" + ((QVariant)po_character->v3_position.y).toString() + ";" + ((QVariant)po_character->v3_position.z).toString() + ")");
 	offset += 20;
-	renderText(5, offset, "Vitesse = (" + ((QVariant)po_character->v3_velocity.i).toString() + ";" + ((QVariant)po_character->v3_velocity.j).toString() + ";" + ((QVariant)po_character->v3_velocity.k).toString() + ")");
+	renderText(5, offset, "Vitesse = (" + ((QVariant)po_character->v3_velocity.x).toString() + ";" + ((QVariant)po_character->v3_velocity.y).toString() + ";" + ((QVariant)po_character->v3_velocity.z).toString() + ")");
+	offset += 20;
+	renderText(5, offset, "Accélération = (" + ((QVariant)po_character->v3_acceleration.x).toString() + ";" + ((QVariant)po_character->v3_acceleration.y).toString() + ";" + ((QVariant)po_character->v3_acceleration.z).toString() + ")");
 	offset += 20;
 	renderText(5, offset, "Poussée de 1N selon Ox en appuyant sur (F)");
 
@@ -475,7 +477,7 @@ void MainWindow::renderBlocks()
 
 	glColor3f(0.078f, 0.296f, 0.488f);
 
-    glTranslatef(po_character->pt_position.x, po_character->pt_position.y, po_character->pt_position.z);
+    glTranslatef(po_character->v3_position.x, po_character->v3_position.y, po_character->v3_position.z);
 
     glEnableClientState(GL_NORMAL_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
@@ -491,7 +493,7 @@ void MainWindow::renderBlocks()
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
 
-    glTranslatef(-po_character->pt_position.x, -po_character->pt_position.y, -po_character->pt_position.z);
+    glTranslatef(-po_character->v3_position.x, -po_character->v3_position.y, -po_character->v3_position.z);
 }
 
 

@@ -6,24 +6,18 @@
 class Vector3
 {
 public:
-    Vector3(preal ni = 0, preal nj = 0, preal nk = 0) : i(ni), j(nj), k(nk) {}
+	Vector3(preal ni = 0, preal nj = 0, preal nk = 0) : x(ni), y(nj), z(nk) {}
 
-    Vector3(const Vector3& other)
-    {
-	i = other.i;
-	j = other.j;
-	k = other.k;
-    }
+	Vector3(const Vector3& other)
+	{
+		x = other.x;
+		y = other.y;
+		z = other.z;
+	}
 
-    /*inline Vector3& operator=(const Vector3& other)
-    {
+	inline void null() {x = y = z = 0;}
 
-
-    }*/
-
-    inline void null() {i = j = k = 0;}
-
-    preal i, j, k;
+	preal x, y, z;
 };
 
 #endif // VECTOR3_H

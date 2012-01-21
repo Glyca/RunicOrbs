@@ -3,38 +3,47 @@
 
 PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 {
-    if(f_mass == 0.0f)
-    {
-	f_mass = f_defaultMass;
-    }
+	if(f_mass == 0.0f)
+	{
+		f_mass = f_defaultMass;
+	}
 }
 
-void PhysicObject::processMove(float f_elapsedTimeSec)
+void PhysicObject::processMove(preal f_elapsedTimeSec)
 {
-    // On applique l'accélération due au poids
-    v3_acceleration.j -= f_g;
+	const preal f_h = 1e-3;
 
-    // Calcul de l'accélération en fonction de la somme des forces appliquées que l'on supprime ensuite
-    v3_acceleration.i += v3_forces.i / f_mass;
-    v3_acceleration.j += v3_forces.j / f_mass;
-    v3_acceleration.k += v3_forces.k / f_mass;
+	// On applique l'accélération due au poids
+	v3_forces.y -= f_g * f_mass;
 
-    v3_forces.null();
+	// On applique l'accélération due aux frottements fluides
+	v3_forces.x -= v3_velocity.x * f_h;
+	v3_forces.y -= v3_velocity.y * f_h;
+	v3_forces.z -= v3_velocity.z * f_h;
 
-    v3_velocity.i += f_elapsedTimeSec*(v3_acceleration.i);
-    v3_velocity.j += f_elapsedTimeSec*(v3_acceleration.j);
-    v3_velocity.k += f_elapsedTimeSec*(v3_acceleration.k);
+	// Calcul de l'accélération en fonction de la somme des forces appliquées que l'on supprime ensuite
+	// a = F / m
+	v3_acceleration.x = v3_forces.x / f_mass;
+	v3_acceleration.y = v3_forces.y / f_mass;
+	v3_acceleration.z = v3_forces.z / f_mass;
 
-    v3_acceleration.null();
+	// Les forces sont appliquées, donc on les supprime
+	v3_forces.null();
 
-    pt_position.x += f_elapsedTimeSec*(v3_velocity.i);
-    pt_position.y += f_elapsedTimeSec*(v3_velocity.j);
-    pt_position.z += f_elapsedTimeSec*(v3_velocity.k);
+	// v += a * dt
+	v3_velocity.x += v3_acceleration.x * f_elapsedTimeSec;
+	v3_velocity.y += v3_acceleration.y * f_elapsedTimeSec;
+	v3_velocity.z += v3_acceleration.z * f_elapsedTimeSec;
+
+	// x += v * dt
+	v3_position.x += v3_velocity.x * f_elapsedTimeSec;
+	v3_position.y += v3_velocity.y * f_elapsedTimeSec;
+	v3_position.z += v3_velocity.z * f_elapsedTimeSec;
 }
 
 void PhysicObject::applyForcev(Vector3 v3_force)
 {   
-    v3_forces.i += v3_force.i;
-    v3_forces.j += v3_force.j;
-    v3_forces.k += v3_force.k;
+	v3_forces.x += v3_force.x;
+	v3_forces.y += v3_force.y;
+	v3_forces.z += v3_force.z;
 }
