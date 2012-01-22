@@ -18,6 +18,9 @@ public:
     // Applique un vecteur force avec ces composantes en NEWTON
     void applyForcev(Vector3 v3_force);
 
+	void applyWeightForce();
+	void applyFluidFrictionForce();
+
     inline preal getMass() const {return f_mass;}
 
 public: // Public temporairement

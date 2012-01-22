@@ -13,6 +13,9 @@ class BlockInfo
 public:
     BlockInfo(int value = 0);
 
+	// Retourne un bloc vide
+	static BlockInfo* voidBlock();
+
     // L'ID DU BLOCK (SON TYPE)
     int getValue() const;
     void setValue(const int value);

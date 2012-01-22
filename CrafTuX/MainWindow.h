@@ -25,6 +25,8 @@ public:
     virtual void keyReleaseEvent(QKeyEvent *keyEvent);
     virtual void mouseMoveEvent(QMouseEvent * mouseEvent);
 
+	WorldBlocks* getWorldBlocksPointer();
+
 private slots:
 
     void secondTimerProcess(void);
@@ -54,8 +56,9 @@ private:
     float f_cameraAngle;
     int i_winheight, i_winwidth;
 
-    // Personnage
-    PhysicObject* po_character;
+	// Personnage & cube de test
+	PhysicObject* po_perso;
+	PhysicObject* po_cube;
 
     // Monde
     WorldBlocks* m_worldBlocks;

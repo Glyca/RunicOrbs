@@ -15,6 +15,11 @@ BlockInfo::BlockInfo(int value) : i_value(value)
     //qDebug("Est alimenté : %d", isPowered());
 }
 
+BlockInfo* BlockInfo::voidBlock() {
+	BlockInfo* voidBlock = new BlockInfo();
+	return voidBlock;
+}
+
 int BlockInfo::getValue() const
 {
     // return readShiftMaskBits(data[0], VALUE_BITS_SHIFT, VALUE_BITS_SIZE);

@@ -1,6 +1,7 @@
 ﻿#include "WorldBlocks.h"
 
 #include <stdlib.h> // NULL
+#include <cmath> // floor
 
 WorldBlocks::WorldBlocks(const int WORLD_SIZE_X, const int WORLD_SIZE_Y, const int WORLD_SIZE_Z, const int SEA_LEVEL) : i_SIZE_X(WORLD_SIZE_X), i_SIZE_Y(WORLD_SIZE_Y), i_SIZE_Z(WORLD_SIZE_Z), i_SEA_LEVEL(SEA_LEVEL)
 {
@@ -46,4 +47,17 @@ void WorldBlocks::generate(int seed)
 	}
 	qDebug("Génération du monde terminée !");
 	qDebug("Poids brut total : %ld Kio", (i_SIZE_X * i_SIZE_Y * i_SIZE_Z * sizeof(BlockInfo)) >> 10);
+}
+
+BlockInfo* WorldBlocks::blockBelow(preal f_x, preal f_y, preal f_z) {
+	int i_bx, i_by, i_bz;
+	WorldBlocks::prealToInt(f_x, f_y, f_z, i_bx, i_by, i_bz);
+	i_by--;
+	return block(i_bx, i_by, i_bz);
+}
+
+void WorldBlocks::prealToInt(preal f_x, preal f_y, preal f_z, int& i_x, int& i_y, int& i_z) {
+	i_x = floor(f_x);
+	i_y = floor(f_y);
+	i_z = floor(f_z);
 }

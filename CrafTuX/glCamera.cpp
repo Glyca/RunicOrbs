@@ -51,7 +51,7 @@ void glCamera::SetPrespective()
 	q = m_qHeading * m_qPitch;
 	q.CreateMatrix(Matrix);
 	m_DirectionVector.i = Matrix[8];
-	m_DirectionVector.k = Matrix[10];
+	m_DirectionVector.k = - Matrix[10]; // Change by Glyca (Z axis was inverted ??)
 
     // Scale the direction by our speed. AND
 	// Increment our position by the vector
@@ -59,12 +59,12 @@ void glCamera::SetPrespective()
     m_Position.y += m_DirectionVector.j * m_ForwardVelocity;
     m_Position.z += m_DirectionVector.k * m_ForwardVelocity;
 
-    // Mouvement latéral à droite (avec le vecteur normal à droite (z;0;-x))
-    m_Position.x += m_DirectionVector.k * m_RightVelocity;
-    m_Position.z -= m_DirectionVector.i * m_RightVelocity;
+	// Mouvement latéral à droite (avec le vecteur normal à droite (-z;0;x))
+	m_Position.x -= m_DirectionVector.k * m_RightVelocity;
+	m_Position.z += m_DirectionVector.i * m_RightVelocity;
 
 	// Translate to our new position.
-	glTranslatef(-m_Position.x, -m_Position.y, m_Position.z);
+	glTranslatef(-m_Position.x, -m_Position.y, -m_Position.z);
 }
 
 void glCamera::ChangePitch(GLfloat degrees)

@@ -1,5 +1,5 @@
 ﻿#include "PhysicObject.h"
-#include <cmath> // fabs
+#include "CraftuxHome.h" // to have the access to MainWindow
 
 PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 {
@@ -11,15 +11,17 @@ PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 
 void PhysicObject::processMove(preal f_elapsedTimeSec)
 {
-	const preal f_h = 1e-3;
+	// Si en dessous de nous c'est du vide, alors on applqiue le poids
+	int blockBelowValue = mw->getWorldBlocksPointer()->blockBelow(v3_position.x, v3_position.y, v3_position.z)->getValue();
+	if(blockBelowValue == 0) {
+		applyWeightForce();
+	}
+	else // Sinon on annule la vitesse (collision)
+	{
+		v3_velocity.null();
+	}
 
-	// On applique l'accélération due au poids
-	v3_forces.y -= f_g * f_mass;
-
-	// On applique l'accélération due aux frottements fluides
-	v3_forces.x -= v3_velocity.x * f_h;
-	v3_forces.y -= v3_velocity.y * f_h;
-	v3_forces.z -= v3_velocity.z * f_h;
+	applyFluidFrictionForce();
 
 	// Calcul de l'accélération en fonction de la somme des forces appliquées que l'on supprime ensuite
 	// a = F / m
@@ -46,4 +48,18 @@ void PhysicObject::applyForcev(Vector3 v3_force)
 	v3_forces.x += v3_force.x;
 	v3_forces.y += v3_force.y;
 	v3_forces.z += v3_force.z;
+}
+
+void PhysicObject::applyWeightForce()
+{
+	v3_forces.y -= f_g * f_mass;
+}
+
+void PhysicObject::applyFluidFrictionForce()
+{
+	// On applique l'accélération due aux frottements fluides
+	const preal f_h = 1e-3;
+	v3_forces.x -= v3_velocity.x * f_h;
+	v3_forces.y -= v3_velocity.y * f_h;
+	v3_forces.z -= v3_velocity.z * f_h;
 }
