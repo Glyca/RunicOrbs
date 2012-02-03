@@ -73,8 +73,6 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
 	po_cube = PhysicEngine->createPhysicObject();
 	po_cube->v3_position.y = 100.0f;
 
-	po_perso = PhysicEngine->createPhysicObject(10);
-
 	// Configuration de la caméra
 	// Now set up our max values for the camera
 	glc_camera.m_MaxForwardVelocity = 3.0f;
@@ -85,6 +83,11 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
 	glc_camera.m_Position.x = m_worldBlocks->getSizeX()/2;
 	glc_camera.m_Position.y = m_worldBlocks->getSizeY();
 	glc_camera.m_Position.z = m_worldBlocks->getSizeZ()/2;
+
+	po_perso = PhysicEngine->createPhysicObject(10);
+	po_perso->v3_position.x = glc_camera.m_Position.x;
+	po_perso->v3_position.y = glc_camera.m_Position.y;
+	po_perso->v3_position.z = glc_camera.m_Position.z;
 
 	QCursor::setPos(i_winwidth << 1, i_winheight << 1); // /2
 }
@@ -143,7 +146,7 @@ void MainWindow::paintGL()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	// Calcul de la caméra
+	// Mise à jour des coordonnées et calcul de la caméra
 	glc_camera.SetPrespective();
 
 	// Rendu des blocs
@@ -152,7 +155,13 @@ void MainWindow::paintGL()
 	// Rendu des axes Ox, Oy, Oz
 	Utils->fastAxes();
 
+	po_perso->v3_position.x = glc_camera.m_Position.x;
+	po_perso->v3_position.y = glc_camera.m_Position.y;
+	po_perso->v3_position.z = glc_camera.m_Position.z;
 	PhysicEngine->processMoves();
+	glc_camera.m_Position.x = po_perso->v3_position.x;
+	glc_camera.m_Position.y = po_perso->v3_position.y;
+	glc_camera.m_Position.z = po_perso->v3_position.z;
 
 	glColor3f(1.0f, 1.0f ,1.0f); // On écrit les infos en blanc
 
