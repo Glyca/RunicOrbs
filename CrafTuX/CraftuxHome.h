@@ -25,6 +25,7 @@ public:
 
 public slots:
     void localTestLaunch();
+	void localTestLaunch2();
 
     void valueChangedX(int value);
     void valueChangedY(int value);

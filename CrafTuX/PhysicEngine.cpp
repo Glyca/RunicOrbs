@@ -1,8 +1,8 @@
 ﻿#include "PhysicEngine.h"
 
-CPhysicEngine* CPhysicEngine::c_PhysicEngine = 0;
+PhysicEngine* PhysicEngine::c_PhysicEngine = 0;
 
-CPhysicEngine::CPhysicEngine(QObject *parent) :
+PhysicEngine::PhysicEngine(QObject *parent) :
 	QObject(parent)
 {
 	m_physicObjects.reserve(16);
@@ -10,23 +10,23 @@ CPhysicEngine::CPhysicEngine(QObject *parent) :
 	qDebug("Moteur physique construit");
 }
 
-CPhysicEngine* CPhysicEngine::getPhysicEngine()
+PhysicEngine* PhysicEngine::getPhysicEngine()
 {
 	if(c_PhysicEngine == 0)
 	{
-		c_PhysicEngine = new CPhysicEngine;
+		c_PhysicEngine = new PhysicEngine;
 	}
 	return c_PhysicEngine;
 }
 
-PhysicObject* CPhysicEngine::createPhysicObject(preal mass)
+PhysicObject* PhysicEngine::createPhysicObject(preal mass)
 {
 	PhysicObject* po = new PhysicObject(mass);
 	m_physicObjects.append(po);
 	return po;
 }
 
-void CPhysicEngine::processMoves()
+void PhysicEngine::processMoves()
 {
 	foreach(PhysicObject* thePhysicObject, m_physicObjects)
 	{

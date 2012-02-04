@@ -7,18 +7,18 @@
 #include "PhysicObject.h"
 
 // Singloton class
-class CPhysicEngine : public QObject
+class PhysicEngine : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    explicit CPhysicEngine(QObject *parent = 0);
+	explicit PhysicEngine(QObject *parent = 0);
 
-    static class CPhysicEngine* c_PhysicEngine;
-    static CPhysicEngine* getPhysicEngine();
+	static class PhysicEngine* c_PhysicEngine;
+	static PhysicEngine* getPhysicEngine();
 
-    PhysicObject* createPhysicObject(preal mass = f_defaultMass);
+	PhysicObject* createPhysicObject(preal mass = f_defaultMass);
 
-    void processMoves();
+	void processMoves();
 
 signals:
 
@@ -26,11 +26,11 @@ public slots:
 
 private:
 
-    QElapsedTimer m_elapsedTimer;
-    QList<PhysicObject*> m_physicObjects;
+	QElapsedTimer m_elapsedTimer;
+	QList<PhysicObject*> m_physicObjects;
 
 };
 
-#define PhysicEngine (CPhysicEngine::getPhysicEngine())
+#define GlobalPhysicEngine (PhysicEngine::getPhysicEngine())
 
 #endif // PHYSICENGINE_H

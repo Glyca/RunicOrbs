@@ -53,7 +53,6 @@ private:
 
     // Caméra
     glCamera glc_camera;
-    float f_cameraAngle;
     int i_winheight, i_winwidth;
 
 	// Personnage & cube de test

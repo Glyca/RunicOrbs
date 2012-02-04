@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl
+QT       += core gui opengl network
 
 TARGET = CrafTuX
 TEMPLATE = app
@@ -25,7 +25,19 @@ SOURCES += main.cpp\
     Point.cpp \
     Vector3.cpp \
     WorldBlocks.cpp \
-    glextensions.cpp
+    glextensions.cpp \
+    Chunk.cpp \
+    World.cpp \
+    Entity.cpp \
+    Player.cpp \
+    Me.cpp \
+    LocalServer.cpp \
+    MultiplayerServer.cpp \
+    ServerConnector.cpp \
+    LocalServerConnector.cpp \
+    RemoteServerConnector.cpp \
+    Server.cpp \
+    GameWindow.cpp
 
 HEADERS  += CraftuxHome.h \
     GLWidget.h \
@@ -43,7 +55,19 @@ HEADERS  += CraftuxHome.h \
     Vector3.h \
     PhysicSize.h \
     WorldBlocks.h \
-    glextensions.h
+    glextensions.h \
+    Chunk.h \
+    World.h \
+    Entity.h \
+    Player.h \
+    Me.h \
+    LocalServer.h \
+    MultiplayerServer.h \
+    ServerConnector.h \
+    LocalServerConnector.h \
+    RemoteServerConnector.h \
+    Server.h \
+    GameWindow.h
 
 FORMS    += CraftuxHome.ui
 

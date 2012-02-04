@@ -57,7 +57,7 @@ GLubyte indices[] = {0,1,2,3,
 					 16,17,18,19,
 					 20,21,22,23};
 
-MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), i_fpsCount(0), i_lastFpsCount(0), f_cameraAngle(45.0f), m_worldBlocks(worldBlocks), m_originalCursor(this->cursor())
+MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled(false), b_textureEnabled(false), b_infosEnabled(false), b_nowPlaying(true), i_fpsCount(0), i_lastFpsCount(0), m_worldBlocks(worldBlocks), m_originalCursor(this->cursor())
 {
 	setWindowTitle(tr("Programme de test tournant sous OpenGL, développé par Glyca"));
 	setMouseTracking(true);
@@ -70,7 +70,7 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
 	connect(t_secondTimer, SIGNAL(timeout()), this, SLOT(secondTimerProcess()));
 	t_secondTimer->start();
 
-	po_cube = PhysicEngine->createPhysicObject();
+	po_cube = GlobalPhysicEngine->createPhysicObject();
 	po_cube->v3_position.y = 100.0f;
 
 	// Configuration de la caméra
@@ -84,7 +84,7 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
 	glc_camera.m_Position.y = m_worldBlocks->getSizeY();
 	glc_camera.m_Position.z = m_worldBlocks->getSizeZ()/2;
 
-	po_perso = PhysicEngine->createPhysicObject(10);
+	po_perso = GlobalPhysicEngine->createPhysicObject(10);
 	po_perso->v3_position.x = glc_camera.m_Position.x;
 	po_perso->v3_position.y = glc_camera.m_Position.y;
 	po_perso->v3_position.z = glc_camera.m_Position.z;
@@ -158,7 +158,7 @@ void MainWindow::paintGL()
 	po_perso->v3_position.x = glc_camera.m_Position.x;
 	po_perso->v3_position.y = glc_camera.m_Position.y;
 	po_perso->v3_position.z = glc_camera.m_Position.z;
-	PhysicEngine->processMoves();
+	GlobalPhysicEngine->processMoves();
 	glc_camera.m_Position.x = po_perso->v3_position.x;
 	glc_camera.m_Position.y = po_perso->v3_position.y;
 	glc_camera.m_Position.z = po_perso->v3_position.z;

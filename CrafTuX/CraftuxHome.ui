@@ -275,10 +275,6 @@
         </layout>
        </item>
       </layout>
-      <zorder>verticalLayoutWidget_2</zorder>
-      <zorder>verticalLayoutWidget</zorder>
-      <zorder>verticalLayoutWidget_3</zorder>
-      <zorder>verticalLayoutWidget_4</zorder>
      </widget>
     </item>
     <item>
@@ -349,6 +345,19 @@
      </layout>
     </item>
    </layout>
+  </widget>
+  <widget class="QPushButton" name="test2Button">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>320</y>
+     <width>161</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Monde solo de test</string>
+   </property>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

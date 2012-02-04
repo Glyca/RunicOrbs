@@ -11,7 +11,7 @@ class GLWidget : public QGLWidget
 public:
     explicit GLWidget(int framesPerSecond = 25, QWidget *parent = 0, char *name = "CrafTuX", QGLFormat format = GLWidget::defaultFormat());
     virtual void initializeGL() = 0;
-    virtual void resizeGL(int width, int height) = 0;
+	virtual void resizeGL(int width, int height);
     virtual void paintGL() = 0;
     virtual void keyPressEvent( QKeyEvent *keyEvent );
 
@@ -22,7 +22,13 @@ public:
 public slots:
     virtual void timeOutSlot();
 
+protected:
+	int i_winheight, i_winwidth;
+	float f_cameraAngle;
+
 private:
+	void resizeGLreally();
+
     QTimer *t_Timer;
     bool b_Fullscreen;
 
