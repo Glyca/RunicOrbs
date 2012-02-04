@@ -6,7 +6,7 @@
 
 QT       += core gui opengl network
 
-TARGET = CrafTuX
+TARGET = craftux
 TEMPLATE = app
 
 SOURCES += main.cpp\
