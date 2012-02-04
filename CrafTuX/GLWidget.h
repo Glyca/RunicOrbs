@@ -6,7 +6,6 @@
 
 class GLWidget : public QGLWidget
 {
-
     Q_OBJECT
 public:
     explicit GLWidget(int framesPerSecond = 25, QWidget *parent = 0, char *name = "CrafTuX", QGLFormat format = GLWidget::defaultFormat());
@@ -23,11 +22,11 @@ public slots:
     virtual void timeOutSlot();
 
 protected:
+	void resizeGLreally();
 	int i_winheight, i_winwidth;
 	float f_cameraAngle;
 
 private:
-	void resizeGLreally();
 
     QTimer *t_Timer;
     bool b_Fullscreen;

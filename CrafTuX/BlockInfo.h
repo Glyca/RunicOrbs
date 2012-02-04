@@ -25,10 +25,8 @@ public:
     void makePowered(const bool yes);
 
 private:
-    int data[2]; // 64bits data
 
-    // Simplifié
-    unsigned short int i_value;
+	unsigned short int i_value;
     bool b_isPowered;
 
     inline int readShiftMaskBits(const int source, const int shift, const int size) const

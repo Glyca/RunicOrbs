@@ -121,26 +121,6 @@ void MainWindow::initializeGL()
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, AmbientColor);
 }
 
-void MainWindow::resizeGL(int width, int height)
-{
-	i_winwidth = width; i_winheight = height;
-	resizeGLreally();
-}
-
-void MainWindow::resizeGLreally()
-{
-	if(i_winheight == 0)
-		i_winheight = 1;
-	glViewport(0, 0, i_winwidth, i_winheight);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(f_cameraAngle, (GLfloat)i_winwidth/(GLfloat)i_winheight, 0.1f, 2000.0f);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
-
 void MainWindow::paintGL()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

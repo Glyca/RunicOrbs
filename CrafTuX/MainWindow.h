@@ -19,7 +19,6 @@ class MainWindow : public GLWidget
 public:
     explicit MainWindow(WorldBlocks* worldBlocks);
     virtual void initializeGL();
-    virtual void resizeGL(int width, int height);
     virtual void paintGL();
     virtual void keyPressEvent(QKeyEvent *keyEvent);
     virtual void keyReleaseEvent(QKeyEvent *keyEvent);
@@ -33,7 +32,6 @@ private slots:
 
 private:
 
-    void resizeGLreally();
     void drawInfos();
     void renderBlocks();
 
