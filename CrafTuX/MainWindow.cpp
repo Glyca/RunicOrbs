@@ -71,7 +71,7 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
 	t_secondTimer->start();
 
 	po_cube = GlobalPhysicEngine->createPhysicObject();
-	po_cube->v3_position.y = 100.0f;
+	po_cube->v_position.y = 100.0f;
 
 	// Configuration de la caméra
 	// Now set up our max values for the camera
@@ -85,9 +85,9 @@ MainWindow::MainWindow(WorldBlocks* worldBlocks) : GLWidget(), b_lightingEnabled
 	glc_camera.m_Position.z = m_worldBlocks->getSizeZ()/2;
 
 	po_perso = GlobalPhysicEngine->createPhysicObject(10);
-	po_perso->v3_position.x = glc_camera.m_Position.x;
-	po_perso->v3_position.y = glc_camera.m_Position.y;
-	po_perso->v3_position.z = glc_camera.m_Position.z;
+	po_perso->v_position.x = glc_camera.m_Position.x;
+	po_perso->v_position.y = glc_camera.m_Position.y;
+	po_perso->v_position.z = glc_camera.m_Position.z;
 
 	QCursor::setPos(i_winwidth << 1, i_winheight << 1); // /2
 }
@@ -135,13 +135,13 @@ void MainWindow::paintGL()
 	// Rendu des axes Ox, Oy, Oz
 	Utils->fastAxes();
 
-	po_perso->v3_position.x = glc_camera.m_Position.x;
-	po_perso->v3_position.y = glc_camera.m_Position.y;
-	po_perso->v3_position.z = glc_camera.m_Position.z;
+	po_perso->v_position.x = glc_camera.m_Position.x;
+	po_perso->v_position.y = glc_camera.m_Position.y;
+	po_perso->v_position.z = glc_camera.m_Position.z;
 	GlobalPhysicEngine->processMoves();
-	glc_camera.m_Position.x = po_perso->v3_position.x;
-	glc_camera.m_Position.y = po_perso->v3_position.y;
-	glc_camera.m_Position.z = po_perso->v3_position.z;
+	glc_camera.m_Position.x = po_perso->v_position.x;
+	glc_camera.m_Position.y = po_perso->v_position.y;
+	glc_camera.m_Position.z = po_perso->v_position.z;
 
 	glColor3f(1.0f, 1.0f ,1.0f); // On écrit les infos en blanc
 
@@ -179,11 +179,11 @@ void MainWindow::paintGL()
 		offset += 30;
 		renderText(5, offset, "PhysicObject de masse " + ((QVariant)po_cube->getMass()).toString() + "kg :");
 		offset += 20;
-		renderText(5, offset, "Position = (" + ((QVariant)po_cube->v3_position.x).toString() + ";" + ((QVariant)po_cube->v3_position.y).toString() + ";" + ((QVariant)po_cube->v3_position.z).toString() + ")");
+		renderText(5, offset, "Position = (" + ((QVariant)po_cube->v_position.x).toString() + ";" + ((QVariant)po_cube->v_position.y).toString() + ";" + ((QVariant)po_cube->v_position.z).toString() + ")");
 		offset += 20;
-		renderText(5, offset, "Vitesse = (" + ((QVariant)po_cube->v3_velocity.x).toString() + ";" + ((QVariant)po_cube->v3_velocity.y).toString() + ";" + ((QVariant)po_cube->v3_velocity.z).toString() + ")");
+		renderText(5, offset, "Vitesse = (" + ((QVariant)po_cube->v_velocity.x).toString() + ";" + ((QVariant)po_cube->v_velocity.y).toString() + ";" + ((QVariant)po_cube->v_velocity.z).toString() + ")");
 		offset += 20;
-		renderText(5, offset, "Accélération = (" + ((QVariant)po_cube->v3_acceleration.x).toString() + ";" + ((QVariant)po_cube->v3_acceleration.y).toString() + ";" + ((QVariant)po_cube->v3_acceleration.z).toString() + ")");
+		renderText(5, offset, "Accélération = (" + ((QVariant)po_cube->v_acceleration.x).toString() + ";" + ((QVariant)po_cube->v_acceleration.y).toString() + ";" + ((QVariant)po_cube->v_acceleration.z).toString() + ")");
 		offset += 20;
 		renderText(5, offset, "Poussée de 1N selon Ox en appuyant sur (F)");
 
@@ -247,7 +247,7 @@ void MainWindow::keyPressEvent(QKeyEvent *keyEvent)
 		break;
 
 	case Qt::Key_F:
-		po_cube->applyForcev(Vector3(1.0, 0, 0));
+		po_cube->applyForcev(Vector(1.0, 0, 0));
 		break;
 
 	case Qt::Key_T:
@@ -441,7 +441,7 @@ void MainWindow::renderBlocks()
 
 	glColor3f(0.078f, 0.296f, 0.488f);
 
-	glTranslatef(po_cube->v3_position.x, po_cube->v3_position.y, po_cube->v3_position.z);
+	glTranslatef(po_cube->v_position.x, po_cube->v_position.y, po_cube->v_position.z);
 
 	glEnableClientState(GL_NORMAL_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -457,7 +457,7 @@ void MainWindow::renderBlocks()
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
 
-	glTranslatef(-po_cube->v3_position.x, -po_cube->v3_position.y, -po_cube->v3_position.z);
+	glTranslatef(-po_cube->v_position.x, -po_cube->v_position.y, -po_cube->v_position.z);
 }
 
 WorldBlocks* MainWindow::getWorldBlocksPointer() {

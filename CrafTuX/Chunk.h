@@ -1,6 +1,7 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+#include <QtGlobal>
 #include <QObject>
 #include <QList>
 
@@ -22,12 +23,9 @@ public:
 	// Accède à un block
 	inline BlockInfo* block(const int x, const int y, const int z)
 	{
-		if(x <= CHUNK_X_SIZE && y <= CHUNK_Y_SIZE && z <= CHUNK_Z_SIZE) {
-			int ID = y + x * CHUNK_Y_SIZE + z * CHUNK_Y_SIZE * CHUNK_X_SIZE;
-			return &p_BlockInfos[ID];
-		} else {
-			return BlockInfo::voidBlock();
-		}
+		Q_ASSERT_X(x <= CHUNK_X_SIZE && y <= CHUNK_Y_SIZE && z <= CHUNK_Z_SIZE, "BlockInfo* Chunk::block(x, y, z)", "Demanded coordinates are out of the chunk !");
+		int ID = y + x * CHUNK_Y_SIZE + z * CHUNK_Y_SIZE * CHUNK_X_SIZE;
+		return &p_BlockInfos[ID];
 	}
 	
 signals:

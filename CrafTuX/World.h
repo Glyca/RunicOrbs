@@ -7,7 +7,7 @@
 #include "Chunk.h"
 #include "Entity.h"
 #include "PhysicEngine.h"
-#include "Vector3.h"
+#include "Vector.h"
 
 class World : public QObject
 {
@@ -15,7 +15,8 @@ class World : public QObject
 public:
 	explicit World(QObject *parent = 0);
 
-	BlockInfo* block(Vector3& position);
+	static void vector2int(Vector& vector, int& ix, int& iy, int& iz);
+	BlockInfo* block(Vector& position);
 	
 signals:
 	

@@ -22,8 +22,6 @@ SOURCES += main.cpp\
     glVector.cpp \
     glPoint.cpp \
     PhysicEngine.cpp \
-    Point.cpp \
-    Vector3.cpp \
     WorldBlocks.cpp \
     glextensions.cpp \
     Chunk.cpp \
@@ -37,7 +35,8 @@ SOURCES += main.cpp\
     LocalServerConnector.cpp \
     RemoteServerConnector.cpp \
     Server.cpp \
-    GameWindow.cpp
+    GameWindow.cpp \
+    Vector.cpp
 
 HEADERS  += CraftuxHome.h \
     GLWidget.h \
@@ -51,8 +50,6 @@ HEADERS  += CraftuxHome.h \
     glVector.h \
     glPoint.h \
     PhysicEngine.h \
-    Point.h \
-    Vector3.h \
     PhysicSize.h \
     WorldBlocks.h \
     glextensions.h \
@@ -67,7 +64,8 @@ HEADERS  += CraftuxHome.h \
     LocalServerConnector.h \
     RemoteServerConnector.h \
     Server.h \
-    GameWindow.h
+    GameWindow.h \
+    Vector.h
 
 FORMS    += CraftuxHome.ui
 

@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QElapsedTimer>
 #include "PhysicSize.h"
-#include "Vector3.h"
+#include "Vector.h"
 
 class PhysicObject : public QObject
 {
@@ -16,7 +16,7 @@ public:
 	void processMove(preal f_elapsedTimeSec);
 
     // Applique un vecteur force avec ces composantes en NEWTON
-    void applyForcev(Vector3 v3_force);
+	void applyForcev(Vector v_force);
 
 	void applyWeightForce();
 	void applyFluidFrictionForce();
@@ -27,9 +27,9 @@ public: // Public temporairement
 
     preal f_mass; // La masse de l'objet en KG
 
-	Vector3 v3_position; // La position de l'objet
-	Vector3 v3_velocity, v3_acceleration; // Le vecteur vitesse et le vecteur accélération
-    Vector3 v3_forces; // Somme des forces appliquées à l'objet
+	Vector v_position; // La position de l'objet
+	Vector v_velocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
+	Vector v_forces; // Somme des forces appliquées à l'objet
 
 };
 
