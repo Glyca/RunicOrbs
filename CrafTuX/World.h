@@ -2,6 +2,8 @@
 #define WORLD_H
 
 #include <QObject>
+#include <QMap>
+#include <QPair>
 
 #include "BlockInfo.h"
 #include "Chunk.h"
@@ -14,6 +16,10 @@ class World : public QObject
 	Q_OBJECT
 public:
 	explicit World(QObject *parent = 0);
+	~World();
+
+	Chunk* chunk(QPair<int, int> postion);
+	Chunk* chunk(Vector& postion);
 
 	static void vector2int(Vector& vector, int& ix, int& iy, int& iz);
 	BlockInfo* block(Vector& position);
@@ -23,12 +29,11 @@ signals:
 public slots:
 
 private:
-	QList<Chunk*> m_chunks;
-	QList<Entity*> m_entities;
-	PhysicEngine* m_physicEngine;
+	QMap<QPair<int, int>, Chunk*> m_chunks;
+	QList<Entity> m_entities;
+	PhysicEngine m_physicEngine;
 	int i_time;
 	int i_seed;
-
 	
 };
 
