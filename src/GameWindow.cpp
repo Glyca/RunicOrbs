@@ -8,14 +8,8 @@ GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
 
 void GameWindow::initializeGL()
 {
-	qDebug() << "L'initialisation d'OpenGL a réussi";
-	qDebug("OpenGL>Window_version : %d.%d", format().majorVersion(), format().minorVersion());
-	qDebug() << "OpenGL>Vendor :" << (char*)glGetString(GL_VENDOR);
-	qDebug() << "OpenGL>Renderer :" << (char*)glGetString(GL_RENDERER);
-	qDebug() << "OpenGL>Version :" << (char*)glGetString(GL_VERSION);
-
-	GLint max_lights; glGetIntegerv(GL_MAX_LIGHTS, &max_lights);
-	qDebug() << "OpenGL>Max Lights :" << max_lights;
+	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
+	qDebug() << "OpenGL driver :" << (char*)glGetString(GL_VENDOR)<< "|" << (char*)glGetString(GL_RENDERER)<< "|" << (char*)glGetString(GL_VERSION);
 
 	glShadeModel(GL_SMOOTH);
 	glClearColor(138.0f / 255.0f, 219.0f / 255.0f, 206.0f / 255.0f, 0.0f);

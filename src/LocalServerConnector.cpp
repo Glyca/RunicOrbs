@@ -2,5 +2,6 @@
 
 LocalServerConnector::LocalServerConnector()
 {
+	qDebug() << "Initialized " << metaObject()->className();
 }
 

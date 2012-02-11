@@ -6,6 +6,7 @@
 
 class LocalServerConnector : public ServerConnector
 {
+	Q_OBJECT
 public:
 	LocalServerConnector();
 
