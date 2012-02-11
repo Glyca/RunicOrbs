@@ -13,13 +13,15 @@ public:
 	explicit ServerConnector(QObject *parent = 0);
 
 	virtual World& world() = 0;
+
+	Me& me() const;
 	
 signals:
 	
 public slots:
 
 private:
-	Me m_me;
+	Me* m_me;
 };
 
 #endif // SERVERCONNECTOR_H

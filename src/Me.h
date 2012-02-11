@@ -10,7 +10,7 @@ public:
 	Me();
 
 private:
-	glCamera* m_camera;
+	glCamera m_camera;
 };
 
 #endif // ME_H

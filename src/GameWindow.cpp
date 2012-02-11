@@ -65,6 +65,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 void GameWindow::render2D(QPainter& painter)
 {
+	// TEXT
 	QString text = "CrafTuX version " CRAFTUX_VERSION;
 	QFontMetrics metrics = QFontMetrics(font());
 	int border = qMax(4, metrics.leading());
@@ -75,6 +76,9 @@ void GameWindow::render2D(QPainter& painter)
 	painter.setPen(Qt::white);
 	painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
 	painter.drawText((width() - rect.width())/2, border, rect.width(), rect.height(), Qt::AlignCenter | Qt::TextWordWrap, text);
+
+	QString postionText("Position : " + m_connector->me().v_position);
+	painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
 }
 
 void GameWindow::render3D()

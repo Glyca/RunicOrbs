@@ -35,8 +35,7 @@ SOURCES += main.cpp\
     LocalServerConnector.cpp \
     RemoteServerConnector.cpp \
     Server.cpp \
-    GameWindow.cpp \
-    Vector.cpp
+    GameWindow.cpp
 
 HEADERS  += CraftuxHome.h \
     GLWidget.h \
