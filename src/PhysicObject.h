@@ -12,9 +12,6 @@ class PhysicObject : public QObject
 public:
     PhysicObject(preal mass = f_defaultMass);
 
-    // Modifie toutes les conposantes des vecteurs et coordonnées de l'objet
-	void processMove(preal f_elapsedTimeSec);
-
     // Applique un vecteur force avec ces composantes en NEWTON
 	void applyForcev(Vector v_force);
 
@@ -31,6 +28,9 @@ public: // Public temporairement
 	Vector v_velocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
 	Vector v_forces; // Somme des forces appliquées à l'objet
 
+protected:
+	/*! Modifie toutes les conposantes des vecteurs et coordonnées de l'objet */
+	virtual void processMove(preal f_elapsedTimeSec);
 };
 
 #endif // PHYSICOBJECT_H

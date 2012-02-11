@@ -147,3 +147,24 @@ void GameWindow::setCamera()
 	// Let OpenGL set our new prespective on the world!
 	glMultMatrixf(f_glMatrix);
 }
+
+void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
+{
+	if(keyEvent->key() == Qt::Key_Up)
+	{
+		m_connector->me().walk(m_connector->me().direction());
+	}
+	else if(keyEvent->key() == Qt::Key_Down)
+	{
+		m_connector->me().walk(-(m_connector->me().direction()));
+	}
+	else if(keyEvent->key() == Qt::Key_Left || keyEvent->key() == Qt::Key_Right)
+	{
+
+	}
+}
+
+void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
+{
+
+}

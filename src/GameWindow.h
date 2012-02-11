@@ -18,6 +18,9 @@ private:
 
 	void setCamera();
 
+	void keyPressEvent(QKeyEvent* keyEvent);
+	void keyReleaseEvent(QKeyEvent* keyEvent);
+
 	ServerConnector* m_connector;
 };
 

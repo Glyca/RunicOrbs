@@ -1,5 +1,6 @@
 #include "Entity.h"
 
+#include <QtGlobal>
 #include <QQuaternion>
 
 Entity::Entity()
@@ -26,5 +27,13 @@ Vector Entity::direction()
 	v_direction.z = -(  1.0f - 2.0f * ( q.x() * q.x() + q.y() * q.y() )  ); // Change by Glyca (Z axis was inverted ??)
 
 	return v_direction;
+}
+
+void Entity::processMove(preal f_elapsedTimeSec)
+{
+	if(walking())
+	{
+		v_position += v_walkingDirection * 2; qDebug(QString("Avance v_walkingDirection:" + v_walkingDirection + " v_position:" + v_position).toAscii());
+	}
 }
 

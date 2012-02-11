@@ -76,6 +76,7 @@ CODECFORTR = UTF-8
 # On dsactive les infos de dboguage pour le mode release, les crackers n'en ont pas besoin
 QMAKE_CXXFLAGS_RELEASE -= -g
 #QMAKE_CXXFLAGS += -save-temps -fverbose-asm
+#QMAKE_LFLAGS = -Wl,-O3 -Wl,-Map,craftux.map
 
 OTHER_FILES += \
     README.md

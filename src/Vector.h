@@ -38,6 +38,14 @@ public:
 		return *this;
 	}
 
+	inline Vector& operator-()
+	{
+		x -= x;
+		y -= y;
+		z -= z;
+		return *this;
+	}
+
 	// Operators between Vectors and preals
 
 	inline Vector& operator*=(const preal real)
