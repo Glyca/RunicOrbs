@@ -4,9 +4,9 @@ CrafTuX is a test project using OpenGL and Qt4. You are in a 3D world with rando
 #Building
 ##General
 In order to compile CraftTuX, you must have Qt and OpenGL development librairies installed. An easy way to do this is to download the [QtSDK](http://qt.nokia.com/downloads/).
-Then download the source and open CrafTuX.pro, in QtCreator for example. You just have to click on compile :)
+Then download the source and open `CrafTuX.pro`, in QtCreator for example. You just have to click on compile :)
 ##Linux
-On Linux, you *may* have to include manually OpenGL librairies in the .pro file, such as
+On Linux, you *may* have to include manually OpenGL librairies in the `CrafTuX.pro` file, such as
 
 ```Makefile
 INCLUDEPATH += /usr/include/GL
