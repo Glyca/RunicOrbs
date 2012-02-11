@@ -3,6 +3,9 @@
 
 #include "PhysicSize.h"
 
+#include <QString>
+#include <QVariant>
+
 class Vector
 {
 public:
@@ -51,6 +54,13 @@ public:
 		y /= real;
 		z /= real;
 		return *this;
+	}
+
+	// Useful
+
+	inline operator QString()
+	{
+		return QString("(" + QVariant(x).toString() + "; " + QVariant(y).toString() + "; " + QVariant(z).toString() + ")");
 	}
 
 	preal x, y, z;
