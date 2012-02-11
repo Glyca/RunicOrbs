@@ -18,10 +18,6 @@ private:
 
 	void setCamera();
 
-	// *! The direction the player is looking at
-	Vector direction();
-
-	qreal f_pitchDegrees, f_headingDegrees;
 	ServerConnector* m_connector;
 };
 
