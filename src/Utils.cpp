@@ -149,22 +149,22 @@ void CUtils::prepareAxes()
 void CUtils::drawAxes()
 {
     // Dessin de Ox ROUGE
-    glColor3f(1.0f, 0.0f, 0.0f);
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(WORLD_SIZE_X*2, 0.0f, 0.0f);
-    glEnd();
-    // Oy VERT
-    glColor3f(0.0f, 1.0f, 0.0f);
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, WORLD_SIZE_Y*2, 0.0f);
-    glEnd();
-    // Oz BLEU
-    glColor3f(0.0f, 0.0f, 1.0f);
-    glBegin(GL_LINES);
-    glVertex3f(0.0f, 0.0f, 0.0f);
-    glVertex3f(0.0f, 0.0f, WORLD_SIZE_Z*2);
-    glEnd();
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(WORLD_SIZE_X*2, 0.0f, 0.0f);
+	glEnd();
+	// Oy VERT
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, WORLD_SIZE_Y*2, 0.0f);
+	glEnd();
+	// Oz BLEU
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, WORLD_SIZE_Z*2);
+	glEnd();
 }
 

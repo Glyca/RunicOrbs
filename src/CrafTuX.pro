@@ -65,7 +65,8 @@ HEADERS  += CraftuxHome.h \
     RemoteServerConnector.h \
     Server.h \
     GameWindow.h \
-    Vector.h
+    Vector.h \
+    version.h
 
 FORMS    += CraftuxHome.ui
 

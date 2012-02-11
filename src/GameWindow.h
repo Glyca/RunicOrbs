@@ -9,10 +9,12 @@ class GameWindow : public GLWidget
 public:
 	GameWindow(ServerConnector* connector);
 
-	virtual void initializeGL();
-	virtual void paintGL();
-
 private:
+	void initializeGL();
+	void paintEvent(QPaintEvent* event);
+
+	void render2D(QPainter& painter);
+	void render3D();
 
 	ServerConnector* m_connector;
 };

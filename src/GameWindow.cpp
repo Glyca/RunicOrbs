@@ -1,7 +1,9 @@
 #include "GameWindow.h"
+#include "version.h"
 
 GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
 {
+	setAutoFillBackground(false);
 }
 
 void GameWindow::initializeGL()
@@ -25,10 +27,74 @@ void GameWindow::initializeGL()
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 }
 
-void GameWindow::paintGL()
+void GameWindow::paintEvent(QPaintEvent *event)
 {
+	setWindowTitle("CrafTuX");
+
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
+	glShadeModel(GL_SMOOTH);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_MULTISAMPLE);
+	static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glLoadIdentity();
 
-	glColor3f(1.0f, 1.0f ,1.0f); // On écrit les infos en blanc
+	render3D(); // 3D render
+
+	glShadeModel(GL_FLAT);
+	glDisable(GL_CULL_FACE);
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
+
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+
+	// 2D render and flush
+	QPainter painter(this);
+	render2D(painter);
+	painter.end();
+}
+
+void GameWindow::render2D(QPainter& painter)
+{
+	QString text = "CrafTuX version " CRAFTUX_VERSION;
+	QFontMetrics metrics = QFontMetrics(font());
+	int border = qMax(4, metrics.leading());
+
+	QRect rect = metrics.boundingRect(0, 0, width() - 2*border, int(height()*0.125), Qt::AlignCenter | Qt::TextWordWrap, text);
+	painter.setRenderHint(QPainter::TextAntialiasing);
+	painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
+	painter.setPen(Qt::white);
+	painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
+	painter.drawText((width() - rect.width())/2, border, rect.width(), rect.height(), Qt::AlignCenter | Qt::TextWordWrap, text);
+}
+
+void GameWindow::render3D()
+{
+	// Dessin de Ox ROUGE
+	glColor3f(1.0f, 0.0f, 0.0f);
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(60.0f, 0.0f, 0.0f);
+	glEnd();
+	// Oy VERT
+	glColor3f(0.0f, 1.0f, 0.0f);
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(60.0f, 60.0f, 0.0f);
+	glEnd();
+	// Oz BLEU
+	glColor3f(0.0f, 0.0f, 1.0f);
+	glBegin(GL_LINES);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(60.0f, 0.0f, 60.0f);
+	glEnd();
 }
