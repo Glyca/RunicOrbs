@@ -16,6 +16,12 @@ private:
 	void render2D(QPainter& painter);
 	void render3D();
 
+	void setCamera();
+
+	// *! The direction the player is looking at
+	Vector direction();
+
+	qreal f_pitchDegrees, f_headingDegrees;
 	ServerConnector* m_connector;
 };
 

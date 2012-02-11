@@ -1,6 +1,8 @@
 #include "GameWindow.h"
 #include "version.h"
 
+#include <QQuaternion>
+
 GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
 {
 	setAutoFillBackground(false);
@@ -41,6 +43,8 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 	glLoadIdentity();
 
+	setCamera();
+
 	render3D(); // 3D render
 
 	glShadeModel(GL_FLAT);
@@ -73,6 +77,9 @@ void GameWindow::render2D(QPainter& painter)
 
 	QString postionText("Position : " + m_connector->me().v_position);
 	painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
+
+	QString directionText("Direction : " + direction());
+	painter.drawText(0, border*2 + rect.height(), width() - border, rect.height(), Qt::AlignRight, directionText);
 }
 
 void GameWindow::render3D()
@@ -95,4 +102,68 @@ void GameWindow::render3D()
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(60.0f, 0.0f, 60.0f);
 	glEnd();
+}
+
+void GameWindow::setCamera()
+{
+	GLfloat f_glMatrix[16];
+	QQuaternion q; // Quaternion to create the OpenGl matrix
+
+	QQuaternion q_pitch, q_heading;
+
+	// Make the Quaternions that will represent our rotations
+	q_pitch.fromAxisAndAngle(1, 0, 0, f_pitchDegrees);
+	q_heading.fromAxisAndAngle(0, 1, 0, f_headingDegrees);
+
+	q = q_pitch * q_heading;
+
+	// m_glMatrix = q :
+	{
+		// First row
+		f_glMatrix[ 0] = 1.0f - 2.0f * ( q.y() * q.y() + q.z() * q.z() );
+		f_glMatrix[ 1] = 2.0f * (q.x() * q.y() + q.z() * q.scalar());
+		f_glMatrix[ 2] = 2.0f * (q.x() * q.z() - q.y() * q.scalar());
+		f_glMatrix[ 3] = 0.0f;
+
+		// Second row
+		f_glMatrix[ 4] = 2.0f * ( q.x() * q.y() - q.z() * q.scalar() );
+		f_glMatrix[ 5] = 1.0f - 2.0f * ( q.x() * q.x() + q.z() * q.z() );
+		f_glMatrix[ 6] = 2.0f * (q.z() * q.y() + q.x() * q.scalar() );
+		f_glMatrix[ 7] = 0.0f;
+
+		// Third row
+		f_glMatrix[ 8] = 2.0f * ( q.x() * q.z() + q.y() * q.scalar() );
+		f_glMatrix[ 9] = 2.0f * ( q.y() * q.z() - q.x() * q.scalar() );
+		f_glMatrix[10] = 1.0f - 2.0f * ( q.x() * q.x() + q.y() * q.y() );
+		f_glMatrix[11] = 0.0f;
+
+		// Fourth row
+		f_glMatrix[12] = 0;
+		f_glMatrix[13] = 0;
+		f_glMatrix[14] = 0;
+		f_glMatrix[15] = 1.0f;
+	}
+
+	// Let OpenGL set our new prespective on the world!
+	glMultMatrixf(f_glMatrix);
+}
+
+Vector GameWindow::direction()
+{
+	Vector v_direction;
+	QQuaternion q, q_pitch, q_heading;
+
+	// Make the Quaternions that will represent our rotations
+	q_pitch.fromAxisAndAngle(1, 0, 0, f_pitchDegrees);
+	q_heading.fromAxisAndAngle(0, 1, 0, f_headingDegrees);
+
+	// Create a matrix from the pitch Quaternion and get the j vector
+	// for our direction. (we don't need all the matrix, just Matrix[9])
+	v_direction.y = 2.0f * ( q_pitch.y() * q_pitch.z() - q_pitch.x() * q_pitch.scalar() );
+
+	// Combine the heading and pitch rotations and make a matrix to get
+	// the i and j vectors for our direction.
+	q = q_pitch * q_heading;
+	v_direction.x = 2.0f * ( q.x() * q.z() + q.y() * q.scalar() );
+	v_direction.z = -(  1.0f - 2.0f * ( q.x() * q.x() + q.y() * q.y() )  ); // Change by Glyca (Z axis was inverted ??)
 }
