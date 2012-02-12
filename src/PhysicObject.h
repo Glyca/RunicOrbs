@@ -6,9 +6,12 @@
 #include "PhysicSize.h"
 #include "Vector.h"
 
+class PhysicEngine;
+
 class PhysicObject : public QObject
 {
     Q_OBJECT
+	friend class PhysicEngine;
 public:
     PhysicObject(preal mass = f_defaultMass);
 
@@ -28,7 +31,7 @@ public: // Public temporairement
 	Vector v_velocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
 	Vector v_forces; // Somme des forces appliquées à l'objet
 
-protected:
+public: // protected
 	/*! Modifie toutes les conposantes des vecteurs et coordonnées de l'objet */
 	virtual void processMove(preal f_elapsedTimeSec);
 };

@@ -18,6 +18,8 @@ public:
 	explicit World(QObject *parent = 0);
 	~World();
 
+	inline PhysicEngine* physicEngine() {return &m_physicEngine;}
+
 	Chunk* chunk(QPair<int, int> postion);
 	Chunk* chunk(Vector& postion);
 

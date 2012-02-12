@@ -3,7 +3,7 @@
 #include <QtGlobal>
 #include <QQuaternion>
 
-Entity::Entity()
+Entity::Entity() : f_pitchDegrees(0), f_headingDegrees(0), b_walking(false), m_walkingDirection(WalkingDirection_Stop)
 {
 }
 
@@ -31,9 +31,31 @@ Vector Entity::direction()
 
 void Entity::processMove(preal f_elapsedTimeSec)
 {
+	const preal f_walkingVelocity = 5.0f;
 	if(walking())
-	{
-		v_position += v_walkingDirection * 2; qDebug(QString("Avance v_walkingDirection:" + v_walkingDirection + " v_position:" + v_position).toAscii());
+	{ qDebug("is walking !");
+		if(m_walkingDirection & WalkingDirection_Forward)
+		{
+			v_position += direction() * f_walkingVelocity * f_elapsedTimeSec;
+		}
+		if(m_walkingDirection & WalkingDirection_Backward)
+		{
+			v_position += - direction() * f_walkingVelocity * f_elapsedTimeSec;
+		}
+		if(m_walkingDirection & WalkingDirection_Left)
+		{
+			// Mouvement latéral à droite (avec le vecteur normal à droite (-z;0;x))
+			v_position.x -= - direction().z * f_walkingVelocity * f_elapsedTimeSec;
+			v_position.z += - direction().x * f_walkingVelocity * f_elapsedTimeSec;
+		}
+		if(m_walkingDirection & WalkingDirection_Right)
+		{
+			// Mouvement latéral à droite (avec le vecteur normal à droite (-z;0;x))
+			v_position.x -= direction().z * f_walkingVelocity * f_elapsedTimeSec;
+			v_position.z += direction().x * f_walkingVelocity * f_elapsedTimeSec;
+		}
 	}
+
+	PhysicObject::processMove(f_elapsedTimeSec);
 }
 
