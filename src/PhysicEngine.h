@@ -18,6 +18,8 @@ public:
 
 	PhysicObject* createPhysicObject(preal mass = f_defaultMass);
 
+	inline void attach(PhysicObject* po) {m_physicObjects.append(po);}
+
 	void processMoves();
 
 signals:

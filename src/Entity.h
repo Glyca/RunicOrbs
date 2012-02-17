@@ -13,7 +13,7 @@ public:
 	inline qreal pitch() const {return f_pitchDegrees;}
 	inline void pitch(const qreal pitchDegrees) {f_pitchDegrees = pitchDegrees;}
 	inline qreal heading() const {return f_headingDegrees;}
-	inline void heading(const qreal headingDegrees) {f_pitchDegrees = headingDegrees;}
+	inline void heading(const qreal headingDegrees) {f_headingDegrees = headingDegrees;}
 
 	typedef enum {WalkingDirection_Stop = 0,
 				  WalkingDirection_Forward = 1,
@@ -32,7 +32,7 @@ public:
 
 
 protected:
-	virtual void processMove(preal f_elapsedTimeSec);
+	void processMove(preal f_elapsedTimeSec);
 
 private:
 	qreal f_pitchDegrees, f_headingDegrees;

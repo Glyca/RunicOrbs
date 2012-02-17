@@ -5,6 +5,7 @@
 
 GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
 {
+	m_connector->world().physicEngine()->attach(m_connector->me());
 	setAutoFillBackground(false);
 	setMouseTracking(true);
 }
@@ -78,13 +79,13 @@ void GameWindow::render2D(QPainter& painter)
 	painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
 	painter.drawText((width() - rect.width())/2, border, rect.width(), rect.height(), Qt::AlignCenter | Qt::TextWordWrap, text);
 
-	QString postionText("Position : " + m_connector->me().v_position);
+	QString postionText("Position : " + m_connector->me()->v_position);
 	painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
 
-	QString directionText("Direction : " + m_connector->me().direction());
+	QString directionText("Direction : " + m_connector->me()->direction());
 	painter.drawText(0, border*2 + rect.height(), width() - border, rect.height(), Qt::AlignRight, directionText);
 
-	QString pitchheadingText("Pitch : " + QVariant(m_connector->me().pitch()).toString() + " // Heading : " + QVariant(m_connector->me().heading()).toString());
+	QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Heading : " + QVariant(m_connector->me()->heading()).toString());
 	painter.drawText(border, border*2 + rect.height(), width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
 }
 
@@ -118,8 +119,8 @@ void GameWindow::setCamera()
 	QQuaternion q_pitch, q_heading;
 
 	// Make the Quaternions that will represent our rotations
-	q_pitch.fromAxisAndAngle(1, 0, 0, m_connector->me().pitch());
-	q_heading.fromAxisAndAngle(0, 1, 0, m_connector->me().heading());
+	q_pitch.fromAxisAndAngle(1, 0, 0, m_connector->me()->pitch());
+	q_heading.fromAxisAndAngle(0, 1, 0, m_connector->me()->heading());
 
 	q = q_pitch * q_heading;
 
@@ -158,19 +159,19 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
 	if(keyEvent->key() == Qt::Key_Up)
 	{
-		m_connector->me().walk(Entity::WalkingDirection_Forward);
+		m_connector->me()->walk(Entity::WalkingDirection_Forward);
 	}
 	if(keyEvent->key() == Qt::Key_Down)
 	{
-		m_connector->me().walk(Entity::WalkingDirection_Backward);
+		m_connector->me()->walk(Entity::WalkingDirection_Backward);
 	}
 	if(keyEvent->key() == Qt::Key_Left)
 	{
-		m_connector->me().walk(Entity::WalkingDirection_Left);
+		m_connector->me()->walk(Entity::WalkingDirection_Left);
 	}
 	if(keyEvent->key() == Qt::Key_Right)
 	{
-		m_connector->me().walk(Entity::WalkingDirection_Right);
+		m_connector->me()->walk(Entity::WalkingDirection_Right);
 	}
 
 	GLWidget::keyPressEvent(keyEvent);
@@ -180,19 +181,19 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
 	if(keyEvent->key() == Qt::Key_Up)
 	{
-		m_connector->me().stopWalk(Entity::WalkingDirection_Forward);
+		m_connector->me()->stopWalk(Entity::WalkingDirection_Forward);
 	}
 	if(keyEvent->key() == Qt::Key_Down)
 	{
-		m_connector->me().stopWalk(Entity::WalkingDirection_Backward);
+		m_connector->me()->stopWalk(Entity::WalkingDirection_Backward);
 	}
 	if(keyEvent->key() == Qt::Key_Left)
 	{
-		m_connector->me().stopWalk(Entity::WalkingDirection_Left);
+		m_connector->me()->stopWalk(Entity::WalkingDirection_Left);
 	}
 	if(keyEvent->key() == Qt::Key_Right)
 	{
-		m_connector->me().stopWalk(Entity::WalkingDirection_Right);
+		m_connector->me()->stopWalk(Entity::WalkingDirection_Right);
 	}
 
 	GLWidget::keyReleaseEvent(keyEvent);
@@ -214,23 +215,23 @@ void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 	if(MouseX < CenterX)
 	{
 		f_delta = GLfloat(CenterX - MouseX);
-		m_connector->me().heading(m_connector->me().heading() - f_moveSpeed * f_delta);
+		m_connector->me()->heading(m_connector->me()->heading() - f_moveSpeed * f_delta);
 	}
 	else if(MouseX > CenterX)
 	{
 		f_delta = GLfloat(MouseX - CenterX);
-		m_connector->me().heading(m_connector->me().heading() + f_moveSpeed * f_delta);
+		m_connector->me()->heading(m_connector->me()->heading() + f_moveSpeed * f_delta);
 	}
 
 	if(MouseY < CenterY)
 	{
 		f_delta = GLfloat(CenterY - MouseY);
-		m_connector->me().pitch(m_connector->me().pitch() - f_moveSpeed * f_delta);
+		m_connector->me()->pitch(m_connector->me()->pitch() - f_moveSpeed * f_delta);
 	}
 	else if(MouseY > CenterY)
 	{
 		f_delta = GLfloat(MouseY - CenterY);
-		m_connector->me().pitch(m_connector->me().pitch() + f_moveSpeed * f_delta);
+		m_connector->me()->pitch(m_connector->me()->pitch() + f_moveSpeed * f_delta);
 	}
 
 	QCursor newCursor(this->cursor());

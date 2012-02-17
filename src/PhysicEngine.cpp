@@ -22,7 +22,7 @@ PhysicEngine* PhysicEngine::getPhysicEngine()
 PhysicObject* PhysicEngine::createPhysicObject(preal mass)
 {
 	PhysicObject* po = new PhysicObject(mass);
-	m_physicObjects.append(po);
+	this->attach(po);
 	return po;
 }
 

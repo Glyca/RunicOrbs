@@ -14,7 +14,7 @@ public:
 
 	virtual World& world() = 0;
 
-	Me& me() const;
+	inline Me* me() const {return m_me;}
 	
 signals:
 	
