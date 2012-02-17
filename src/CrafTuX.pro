@@ -12,7 +12,6 @@ TEMPLATE = app
 SOURCES += main.cpp\
 	CraftuxHome.cpp \
     GLWidget.cpp \
-    MainWindow.cpp \
     BlockInfo.cpp \
     PhysicObject.cpp \
     TextureManager.cpp \
@@ -39,7 +38,6 @@ SOURCES += main.cpp\
 
 HEADERS  += CraftuxHome.h \
     GLWidget.h \
-    MainWindow.h \
     BlockInfo.h \
     PhysicObject.h \
     TextureManager.h \

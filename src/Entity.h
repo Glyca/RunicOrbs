@@ -32,7 +32,7 @@ public:
 
 
 protected:
-	void processMove(preal f_elapsedTimeSec);
+	void processMove(preal f_elapsedTimeSec, World& workingWorld);
 
 private:
 	qreal f_pitchDegrees, f_headingDegrees;

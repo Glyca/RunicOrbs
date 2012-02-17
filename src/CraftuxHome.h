@@ -3,9 +3,6 @@
 
 #include <QWidget>
 
-#include "MainWindow.h"
-extern MainWindow* mw;
-
 const int MAX_WORLD_X = 100, DEFAULT_WORLD_X = 30;
 const int MAX_WORLD_Y = 128, DEFAULT_WORLD_Y = 64;
 const int MAX_WORLD_Z = 100, DEFAULT_WORLD_Z = 30;
@@ -25,7 +22,6 @@ public:
 
 public slots:
     void localTestLaunch();
-	void localTestLaunch2();
 
     void valueChangedX(int value);
     void valueChangedY(int value);

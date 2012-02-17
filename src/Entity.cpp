@@ -29,7 +29,7 @@ Vector Entity::direction()
 	return v_direction;
 }
 
-void Entity::processMove(preal f_elapsedTimeSec)
+void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
 {
 	const preal f_walkingVelocity = 5.0f;
 	if(walking())
@@ -56,6 +56,6 @@ void Entity::processMove(preal f_elapsedTimeSec)
 		}
 	}
 
-	PhysicObject::processMove(f_elapsedTimeSec);
+	PhysicObject::processMove(f_elapsedTimeSec, workingWorld);
 }
 

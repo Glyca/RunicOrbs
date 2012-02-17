@@ -1,5 +1,6 @@
 ﻿#include <cstdio>
 #include <cstdlib>
+#include <QTextCodec>
 #include <QtGui/QApplication>
 
 #include "CraftuxHome.h"

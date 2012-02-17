@@ -1,5 +1,6 @@
 ﻿#include "PhysicObject.h"
 #include "CraftuxHome.h" // to have the access to MainWindow
+#include "World.h"
 
 PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 {
@@ -9,17 +10,17 @@ PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 	}
 }
 
-void PhysicObject::processMove(preal f_elapsedTimeSec)
+void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 {
-	// Si en dessous de nous c'est du vide, alors on applqiue le poids
-	int blockBelowValue = mw->getWorldBlocksPointer()->blockBelow(v_position.x, v_position.y, v_position.z)->getValue();
+	/*// Si en dessous de nous c'est du vide, alors on applqiue le poids
+	int blockBelowValue = workingWorld.physicEngine()->blockBelow(v_position.x, v_position.y, v_position.z)->getValue();
 	if(blockBelowValue == 0) {
 		applyWeightForce();
 	}
 	else // Sinon on annule la vitesse (collision)
 	{
 		v_velocity.null();
-	}
+	}*/
 
 	applyFluidFrictionForce();
 
