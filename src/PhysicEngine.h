@@ -11,10 +11,7 @@ class PhysicEngine : public QObject
 {
 	Q_OBJECT
 public:
-	explicit PhysicEngine(QObject *parent = 0);
-
-	static class PhysicEngine* c_PhysicEngine;
-	static PhysicEngine* getPhysicEngine();
+	explicit PhysicEngine(World* world, QObject *parent = 0);
 
 	PhysicObject* createPhysicObject(preal mass = f_defaultMass);
 
@@ -30,9 +27,7 @@ private:
 
 	QElapsedTimer m_elapsedTimer;
 	QList<PhysicObject*> m_physicObjects;
-
+	World* m_workingWorld;
 };
-
-#define GlobalPhysicEngine (PhysicEngine::getPhysicEngine())
 
 #endif // PHYSICENGINE_H

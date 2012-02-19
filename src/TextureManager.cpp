@@ -49,7 +49,7 @@ GLuint CTextureManager::loadTexture(const char* filename)
     QImage qim_TextureImage(qs_filename);
     GLuint gi_textureID[1];
     if(qim_TextureImage.isNull()) qDebug("Texture [%s] load failed !", filename);
-    QImage qim_Texture = mw->convertToGLFormat(qim_TextureImage);
+	QImage qim_Texture = QGLWidget::convertToGLFormat(qim_TextureImage);
     // Demandons un ID de texture libre
     glGenTextures(1, &gi_textureID[0]);
     // Bindons cet ID

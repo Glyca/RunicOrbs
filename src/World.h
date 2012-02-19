@@ -2,7 +2,7 @@
 #define WORLD_H
 
 #include <QObject>
-#include <QMap>
+#include <QHash>
 #include <QPair>
 
 #include "BlockInfo.h"
@@ -18,25 +18,29 @@ public:
 	explicit World(QObject *parent = 0);
 	~World();
 
-	inline PhysicEngine* physicEngine() {return &m_physicEngine;}
+	inline PhysicEngine* physicEngine() {return m_physicEngine;}
 
 	Chunk* chunk(QPair<int, int> postion);
-	Chunk* chunk(Vector& postion);
+	Chunk* chunk(const Vector& postion);
 
 	static void vector2int(Vector& vector, int& ix, int& iy, int& iz);
-	BlockInfo* block(Vector& position);
+	BlockInfo* block(const Vector& position);
 	
 signals:
 	
 public slots:
 
 private:
-	QMap<QPair<int, int>, Chunk*> m_chunks;
+	QHash<QPair<int, int>, Chunk*> * m_chunks;
 	QList<Entity> m_entities;
-	PhysicEngine m_physicEngine;
+	PhysicEngine* m_physicEngine;
 	int i_time;
 	int i_seed;
 	
 };
+
+inline qint32 qHash(Chunk* chunk) {
+	return (size_t)chunk->hash();
+}
 
 #endif // WORLD_H

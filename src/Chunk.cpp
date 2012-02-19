@@ -11,7 +11,7 @@ void Chunk::generate(int seed)
 {
 	qDebug("Génération d'un chunk...");
 
-	for(int j = 0; j < CHUNK_HEIGHT << 1; j++)
+	for(int j = 0; j < CHUNK_HEIGHT >> 1; j++)
 	{
 		for(int i = 0; i < CHUNK_X_SIZE; i++)
 		{
@@ -23,7 +23,7 @@ void Chunk::generate(int seed)
 		}
 	}
 
-	for(int j = CHUNK_HEIGHT << 1; j < CHUNK_HEIGHT - 4; j++)
+	for(int j = CHUNK_HEIGHT >> 1; j < CHUNK_HEIGHT - 4; j++)
 	{
 		for(int i = 0; i < CHUNK_X_SIZE; i++)
 		{
