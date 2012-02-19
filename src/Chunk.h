@@ -4,6 +4,7 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
+#include <cmath>
 
 #include "BlockInfo.h"
 
@@ -25,13 +26,21 @@ public:
 	*/
 	inline BlockInfo* block(const int x, const int y, const int z)
 	{
-		Q_ASSERT_X(x <= CHUNK_X_SIZE && y <= CHUNK_Y_SIZE && z <= CHUNK_Z_SIZE, "BlockInfo* Chunk::block(x, y, z)", "Demanded coordinates are out of the chunk!");
-		int ID = y + x * CHUNK_Y_SIZE + z * CHUNK_Y_SIZE * CHUNK_X_SIZE;
-		return &p_BlockInfos[ID];
+		Q_ASSERT_X(fabs(x) <= CHUNK_X_SIZE  &&  fabs(z) <= CHUNK_Z_SIZE, "BlockInfo* Chunk::block(x, y, z)", "Demanded coordinates are out of the chunk!");
+		// if we are over or below the chunk
+		if(fabs(y) > CHUNK_HEIGHT)
+		{
+			return new BlockInfo(); // MEMORY LEAK !!!
+		}
+		else
+		{
+			int ID = y + x * CHUNK_Y_SIZE + z * CHUNK_Y_SIZE * CHUNK_X_SIZE;
+			return &p_BlockInfos[ID];
+		}
 	}
 
-	//! It is not a real hash ! It's juste to make a diffence between two chunk loaded into memory for operator==.
-	inline BlockInfo* hash() const {return p_BlockInfos;}
+	//! Render all blocks of the chunk
+	void render3D();
 	
 signals:
 	
@@ -40,10 +49,5 @@ public slots:
 private:
 	BlockInfo* p_BlockInfos; // pointeur vers les BlockInfo
 };
-
-inline bool operator==(const Chunk &chunk1, const Chunk& chunk2)
-{
-	return chunk1.hash() == chunk2.hash();
-}
 
 #endif // CHUNK_H

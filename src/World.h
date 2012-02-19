@@ -25,6 +25,8 @@ public:
 
 	static void vector2int(Vector& vector, int& ix, int& iy, int& iz);
 	BlockInfo* block(const Vector& position);
+
+	void render3D();
 	
 signals:
 	
@@ -38,9 +40,5 @@ private:
 	int i_seed;
 	
 };
-
-inline qint32 qHash(Chunk* chunk) {
-	return (size_t)chunk->hash();
-}
 
 #endif // WORLD_H

@@ -101,14 +101,17 @@ void GameWindow::render3D()
 	glColor3f(0.0f, 1.0f, 0.0f);
 	glBegin(GL_LINES);
 	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(60.0f, 60.0f, 0.0f);
+	glVertex3f(0.0f, 60.0f, 0.0f);
 	glEnd();
 	// Oz BLEU
 	glColor3f(0.0f, 0.0f, 1.0f);
 	glBegin(GL_LINES);
 	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(60.0f, 0.0f, 60.0f);
+	glVertex3f(0.0f, 0.0f, 60.0f);
 	glEnd();
+
+	// BLOCKS RENDER with a very very slow and old method for the moment
+	m_connector->world().render3D();
 }
 
 void GameWindow::setCamera()
@@ -119,40 +122,51 @@ void GameWindow::setCamera()
 	QQuaternion q_pitch, q_heading;
 
 	// Make the Quaternions that will represent our rotations
-	q_pitch.fromAxisAndAngle(1, 0, 0, m_connector->me()->pitch());
-	q_heading.fromAxisAndAngle(0, 1, 0, m_connector->me()->heading());
+	q_pitch = QQuaternion::fromAxisAndAngle(1, 0, 0, m_connector->me()->pitch());
+	q_heading = QQuaternion::fromAxisAndAngle(0, 1, 0, m_connector->me()->heading());
 
 	q = q_pitch * q_heading;
 
-	// m_glMatrix = q :
-	{
-		// First row
-		f_glMatrix[ 0] = 1.0f - 2.0f * ( q.y() * q.y() + q.z() * q.z() );
-		f_glMatrix[ 1] = 2.0f * (q.x() * q.y() + q.z() * q.scalar());
-		f_glMatrix[ 2] = 2.0f * (q.x() * q.z() - q.y() * q.scalar());
-		f_glMatrix[ 3] = 0.0f;
+	// http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation#Quaternion_to_Matrix
 
-		// Second row
-		f_glMatrix[ 4] = 2.0f * ( q.x() * q.y() - q.z() * q.scalar() );
-		f_glMatrix[ 5] = 1.0f - 2.0f * ( q.x() * q.x() + q.z() * q.z() );
-		f_glMatrix[ 6] = 2.0f * (q.z() * q.y() + q.x() * q.scalar() );
-		f_glMatrix[ 7] = 0.0f;
+	float x2 = q.x() * q.x();
+	float y2 = q.y() * q.y();
+	float z2 = q.z() * q.z();
+	float xy = q.x() * q.y();
+	float xz = q.x() * q.z();
+	float yz = q.y() * q.z();
+	float wx = q.scalar() * q.x();
+	float wy = q.scalar() * q.y();
+	float wz = q.scalar() * q.z();
 
-		// Third row
-		f_glMatrix[ 8] = 2.0f * ( q.x() * q.z() + q.y() * q.scalar() );
-		f_glMatrix[ 9] = 2.0f * ( q.y() * q.z() - q.x() * q.scalar() );
-		f_glMatrix[10] = 1.0f - 2.0f * ( q.x() * q.x() + q.y() * q.y() );
-		f_glMatrix[11] = 0.0f;
+	// First row
+	f_glMatrix[ 0] = 1.0f - 2.0f * (y2 + z2);
+	f_glMatrix[ 1] =        2.0f * (xy - wz);
+	f_glMatrix[ 2] =        2.0f * (xz + wy);
+	f_glMatrix[ 3] = 0.0f;
 
-		// Fourth row
-		f_glMatrix[12] = 0;
-		f_glMatrix[13] = 0;
-		f_glMatrix[14] = 0;
-		f_glMatrix[15] = 1.0f;
-	}
+	// Second row
+	f_glMatrix[ 4] =        2.0f * (xy + wz);
+	f_glMatrix[ 5] = 1.0f - 2.0f * (x2 + z2);
+	f_glMatrix[ 6] =        2.0f * (yz - wx);
+	f_glMatrix[ 7] = 0.0f;
+
+	// Third row
+	f_glMatrix[ 8] =        2.0f * (xz - wy);
+	f_glMatrix[ 9] =        2.0f * (yz + wx);
+	f_glMatrix[10] = 1.0f - 2.0f * (x2 + y2);
+	f_glMatrix[11] = 0.0f;
+
+	// Fourth row
+	f_glMatrix[12] = 0;
+	f_glMatrix[13] = 0;
+	f_glMatrix[14] = 0;
+	f_glMatrix[15] = 1.0f;
 
 	// Let OpenGL set our new prespective on the world!
 	glMultMatrixf(f_glMatrix);
+	// and translate to our postion
+	glTranslatef(-m_connector->me()->v_position.x, -m_connector->me()->v_position.y, -m_connector->me()->v_position.z);
 }
 
 void GameWindow::keyPressEvent(QKeyEvent* keyEvent)

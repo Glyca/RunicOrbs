@@ -8,6 +8,8 @@ PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 	{
 		f_mass = f_defaultMass;
 	}
+
+	v_position.y = 50;
 }
 
 void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
