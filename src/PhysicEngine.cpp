@@ -5,7 +5,7 @@ PhysicEngine::PhysicEngine(World* world, QObject *parent) : QObject(parent), m_w
 {
 	m_physicObjects.reserve(16);
 	m_elapsedTimer.start();
-	qDebug("Moteur physique construit");
+	qDebug("PhysicEngine created (currently have %d PhysicObjects)", m_physicObjects.count());
 }
 
 PhysicObject* PhysicEngine::createPhysicObject(preal mass)
