@@ -116,57 +116,11 @@ void GameWindow::render3D()
 
 void GameWindow::setCamera()
 {
-	GLfloat f_glMatrix[16];
-	QQuaternion q; // Quaternion to create the OpenGl matrix
-
-	QQuaternion q_pitch, q_heading;
-
-	// Make the Quaternions that will represent our rotations
-	q_pitch = QQuaternion::fromAxisAndAngle(1, 0, 0, m_connector->me()->pitch());
-	q_heading = QQuaternion::fromAxisAndAngle(0, 1, 0, m_connector->me()->heading());
-
-	q = q_pitch * q_heading;
-
-	// http://content.gpwiki.org/index.php/OpenGL:Tutorials:Using_Quaternions_to_represent_rotation#Quaternion_to_Matrix
-
-	float x2 = q.x() * q.x();
-	float y2 = q.y() * q.y();
-	float z2 = q.z() * q.z();
-	float xy = q.x() * q.y();
-	float xz = q.x() * q.z();
-	float yz = q.y() * q.z();
-	float wx = q.scalar() * q.x();
-	float wy = q.scalar() * q.y();
-	float wz = q.scalar() * q.z();
-
-	// First row
-	f_glMatrix[ 0] = 1.0f - 2.0f * (y2 + z2);
-	f_glMatrix[ 1] =        2.0f * (xy - wz);
-	f_glMatrix[ 2] =        2.0f * (xz + wy);
-	f_glMatrix[ 3] = 0.0f;
-
-	// Second row
-	f_glMatrix[ 4] =        2.0f * (xy + wz);
-	f_glMatrix[ 5] = 1.0f - 2.0f * (x2 + z2);
-	f_glMatrix[ 6] =        2.0f * (yz - wx);
-	f_glMatrix[ 7] = 0.0f;
-
-	// Third row
-	f_glMatrix[ 8] =        2.0f * (xz - wy);
-	f_glMatrix[ 9] =        2.0f * (yz + wx);
-	f_glMatrix[10] = 1.0f - 2.0f * (x2 + y2);
-	f_glMatrix[11] = 0.0f;
-
-	// Fourth row
-	f_glMatrix[12] = 0;
-	f_glMatrix[13] = 0;
-	f_glMatrix[14] = 0;
-	f_glMatrix[15] = 1.0f;
-
-	// Let OpenGL set our new prespective on the world!
-	glMultMatrixf(f_glMatrix);
-	// and translate to our postion
-	glTranslatef(-m_connector->me()->v_position.x, -m_connector->me()->v_position.y, -m_connector->me()->v_position.z);
+	Vector position = m_connector->me()->v_position;
+	Vector direction = m_connector->me()->direction();
+	gluLookAt(position.x, position.y, position.z,
+			  position.x + direction.x, position.y + direction.y, position.z + direction.z,
+			  0.0, 1.0, 0.0);
 }
 
 void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
@@ -215,7 +169,7 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 
 void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 {
-	const preal f_moveSpeed = 0.2f;
+	const preal f_moveSpeed = 0.15f;
 
 	GLfloat f_delta;
 	int MouseX, MouseY;

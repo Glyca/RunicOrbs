@@ -10,10 +10,20 @@ public:
 
 	/*! The direction the entity is looking at */
 	Vector direction();
-	inline qreal pitch() const {return f_pitchDegrees;}
-	inline void pitch(const qreal pitchDegrees) {f_pitchDegrees = pitchDegrees;}
-	inline qreal heading() const {return f_headingDegrees;}
-	inline void heading(const qreal headingDegrees) {f_headingDegrees = headingDegrees;}
+	inline float pitch() const {return f_pitchDegrees;}
+	inline void pitch(const float pitchDegrees)
+	{
+		f_pitchDegrees = pitchDegrees;
+		if(f_pitchDegrees < -360.0f) f_pitchDegrees += 360.0f;
+		if(f_pitchDegrees > 360.0f) f_pitchDegrees -= 360.0f;
+	}
+	inline float heading() const {return f_headingDegrees;}
+	inline void heading(const float headingDegrees)
+	{
+		f_headingDegrees = headingDegrees;
+		if(f_headingDegrees < -360.0f) f_headingDegrees += 360.0f;
+		if(f_headingDegrees > 360.0f) f_headingDegrees -= 360.0f;
+	}
 
 	typedef enum {WalkingDirection_Stop = 0,
 				  WalkingDirection_Forward = 1,
@@ -35,7 +45,7 @@ protected:
 	void processMove(preal f_elapsedTimeSec, World& workingWorld);
 
 private:
-	qreal f_pitchDegrees, f_headingDegrees;
+	float f_pitchDegrees, f_headingDegrees;
 	bool b_walking;
 	WalkingDirection m_walkingDirection;
 };
