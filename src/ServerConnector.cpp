@@ -1,5 +1,7 @@
 #include "ServerConnector.h"
 
+#include <QDebug>
+
 ServerConnector::ServerConnector(QObject *parent) :
 	QObject(parent)
 {
