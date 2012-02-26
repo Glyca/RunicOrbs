@@ -183,12 +183,12 @@ void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 	if(MouseX < CenterX)
 	{
 		f_delta = GLfloat(CenterX - MouseX);
-		m_connector->me()->heading(m_connector->me()->heading() - f_moveSpeed * f_delta);
+		m_connector->me()->heading(m_connector->me()->heading() + f_moveSpeed * f_delta);
 	}
 	else if(MouseX > CenterX)
 	{
 		f_delta = GLfloat(MouseX - CenterX);
-		m_connector->me()->heading(m_connector->me()->heading() + f_moveSpeed * f_delta);
+		m_connector->me()->heading(m_connector->me()->heading() - f_moveSpeed * f_delta);
 	}
 
 	if(MouseY < CenterY)
