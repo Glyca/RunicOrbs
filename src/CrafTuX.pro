@@ -16,10 +16,6 @@ SOURCES += main.cpp\
     PhysicObject.cpp \
     TextureManager.cpp \
     Utils.cpp \
-    glQuaternion.cpp \
-    glCamera.cpp \
-    glVector.cpp \
-    glPoint.cpp \
     PhysicEngine.cpp \
     WorldBlocks.cpp \
     glextensions.cpp \
@@ -42,10 +38,6 @@ HEADERS  += CraftuxHome.h \
     PhysicObject.h \
     TextureManager.h \
     Utils.h \
-    glQuaternion.h \
-    glCamera.h \
-    glVector.h \
-    glPoint.h \
     PhysicEngine.h \
     PhysicSize.h \
     WorldBlocks.h \
