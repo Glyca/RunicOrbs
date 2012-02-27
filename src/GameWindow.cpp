@@ -1,8 +1,6 @@
 #include "GameWindow.h"
 #include "version.h"
 
-#include <QQuaternion>
-
 GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
@@ -13,7 +11,7 @@ GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
 void GameWindow::initializeGL()
 {
 	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
-	qDebug() << "OpenGL driver :" << (char*)glGetString(GL_VENDOR)<< "|" << (char*)glGetString(GL_RENDERER)<< "|" << (char*)glGetString(GL_VERSION);
+	qDebug() << "OpenGL driver :" << (char*)glGetString(GL_VENDOR) << "|" << (char*)glGetString(GL_RENDERER)<< "|" << (char*)glGetString(GL_VERSION);
 
 	glShadeModel(GL_SMOOTH);
 	glClearColor(138.0f / 255.0f, 219.0f / 255.0f, 206.0f / 255.0f, 0.0f);

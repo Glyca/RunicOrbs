@@ -28,7 +28,7 @@ public:
 	{
 		Q_ASSERT_X(fabs(x) <= CHUNK_X_SIZE  &&  fabs(z) <= CHUNK_Z_SIZE, "BlockInfo* Chunk::block(x, y, z)", "Demanded coordinates are out of the chunk!");
 		// if we are over or below the chunk
-		if(fabs(y) > CHUNK_HEIGHT)
+		if(y > CHUNK_HEIGHT || y < 0.0)
 		{
 			return new BlockInfo(); // MEMORY LEAK !!!
 		}

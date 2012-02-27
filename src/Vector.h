@@ -6,6 +6,8 @@
 #include <QString>
 #include <QVariant>
 
+#include <cmath>
+
 class Vector
 {
 public:
@@ -19,6 +21,24 @@ public:
 	}
 
 	inline void null() {x = y = z = 0.0;}
+
+	inline preal squareLength()
+	{
+		return (x * x + y * y + z * z);
+	}
+
+	inline preal length()
+	{
+		return sqrt( squareLength() );
+	}
+
+	inline void normalize()
+	{
+		preal length = this->length();
+		x /= length;
+		y /= length;
+		z /= length;
+	}
 
 	// Operators between Vectors
 

@@ -1,5 +1,4 @@
 ﻿#include "PhysicObject.h"
-#include "CraftuxHome.h" // to have the access to MainWindow
 #include "World.h"
 
 PhysicObject::PhysicObject(preal mass) : f_mass(mass)
@@ -15,7 +14,7 @@ PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 {
 	// Si en dessous de nous c'est du vide, alors on applqiue le poids
-	int blockBelowValue = workingWorld.block((Vector(v_position.x, v_position.y - 1, v_position.z)))->getValue();
+	int blockBelowValue = workingWorld.block((Vector(v_position.x, (v_position.y + 0.1), v_position.z)))->getValue();
 	if(blockBelowValue == 0) {
 		applyWeightForce();
 	}
@@ -42,7 +41,12 @@ void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 
 void PhysicObject::applyForcev(Vector v_force)
 {   
-	v_forces += v_force;
+	v_forces.x += v_force.x;
+	v_forces.z += v_force.z;
+	if(v_force.y > 0.0) // If the y is not going into the ground (positive)
+	{
+		v_forces.y += v_force.y;
+	}
 }
 
 void PhysicObject::applyWeightForce()
