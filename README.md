@@ -15,12 +15,16 @@ Then download the source and open `CrafTuX.pro`, in QtCreator for example. You j
 ```
 (almost recoded from scratch)
 [ADDED] Got a reliable overpainting method working
-[ADDED] You can't fall into blocks anymore
-[ADDED] Simplified world generator a lot
+[ADDED] Camera is reliable, and now works without Quaternions
+[FIX] You can't fall into blocks anymore
+[FIX] Simplified world generator a lot
+[FIX] Code cleanup
 ```
 ##v0.0.1
 ```
 (very first version)
 [ADDED] Cuurent FPS are displayed in window title
 [ADDED] You fall thanks to the gravity
+[ADDED] Physic engine with forces, velocity, acceleration and fluid fiction.
+[ADDED] Randomly generated cubes are drawn
 ```
