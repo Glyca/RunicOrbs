@@ -14,7 +14,6 @@ SOURCES += main.cpp\
     PhysicObject.cpp \
     Utils.cpp \
     PhysicEngine.cpp \
-    WorldBlocks.cpp \
     Chunk.cpp \
     World.cpp \
     Entity.cpp \
@@ -38,7 +37,6 @@ HEADERS  += \
     Utils.h \
     PhysicEngine.h \
     PhysicSize.h \
-    WorldBlocks.h \
     Chunk.h \
     World.h \
     Entity.h \
