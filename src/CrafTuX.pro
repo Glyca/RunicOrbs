@@ -10,15 +10,11 @@ TARGET = craftux
 TEMPLATE = app
 
 SOURCES += main.cpp\
-	CraftuxHome.cpp \
-    GLWidget.cpp \
     BlockInfo.cpp \
     PhysicObject.cpp \
-    TextureManager.cpp \
     Utils.cpp \
     PhysicEngine.cpp \
     WorldBlocks.cpp \
-    glextensions.cpp \
     Chunk.cpp \
     World.cpp \
     Entity.cpp \
@@ -30,18 +26,19 @@ SOURCES += main.cpp\
     LocalServerConnector.cpp \
     RemoteServerConnector.cpp \
     Server.cpp \
-    GameWindow.cpp
+    gui/GameWindow.cpp \
+    gui/GLWidget.cpp \
+    gui/glextensions.cpp \
+    gui/CraftuxHome.cpp \
+    gui/TextureManager.cpp
 
-HEADERS  += CraftuxHome.h \
-    GLWidget.h \
+HEADERS  += \
     BlockInfo.h \
     PhysicObject.h \
-    TextureManager.h \
     Utils.h \
     PhysicEngine.h \
     PhysicSize.h \
     WorldBlocks.h \
-    glextensions.h \
     Chunk.h \
     World.h \
     Entity.h \
@@ -53,11 +50,16 @@ HEADERS  += CraftuxHome.h \
     LocalServerConnector.h \
     RemoteServerConnector.h \
     Server.h \
-    GameWindow.h \
     Vector.h \
-    version.h
+    version.h \
+    gui/GameWindow.h \
+    gui/GLWidget.h \
+    gui/glextensions.h \
+    gui/CraftuxHome.h \
+    gui/TextureManager.h
 
-FORMS    += CraftuxHome.ui
+FORMS    += \
+    gui/CraftuxHome.ui
 
 DEFINES += GL_GLEXT_PROTOTYPES
 
@@ -69,4 +71,4 @@ QMAKE_CXXFLAGS_RELEASE -= -g
 #QMAKE_LFLAGS = -Wl,-O3 -Wl,-Map,craftux.map
 
 OTHER_FILES += \
-    README.md
+    ../README.md

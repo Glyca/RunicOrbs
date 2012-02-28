@@ -3,7 +3,7 @@
 #include <QTextCodec>
 #include <QtGui/QApplication>
 
-#include "CraftuxHome.h"
+#include "gui/CraftuxHome.h"
 
 void craftuxMessageOutput(QtMsgType type, const char* msg)
 {
