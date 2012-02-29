@@ -1,7 +1,7 @@
 #include "GameWindow.h"
 #include "version.h"
 
-GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
+GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0)
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 	setAutoFillBackground(false);
@@ -89,7 +89,7 @@ void GameWindow::render2D(QPainter& painter)
 	painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
 
 	QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Heading : " + QVariant(m_connector->me()->heading()).toString());
-	painter.drawText(border, border*2 + rect.height(), width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
+	painter.drawText(border, border, width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
 }
 
 void GameWindow::render3D()

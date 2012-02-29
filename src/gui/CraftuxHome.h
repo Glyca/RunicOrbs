@@ -16,7 +16,7 @@ public:
     ~CraftuxHome();
 
 public slots:
-    void localTestLaunch();
+	void soloGameLaunch();
 
 private:
     Ui::CraftuxHome *ui;

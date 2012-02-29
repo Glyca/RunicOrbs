@@ -12,7 +12,8 @@ CraftuxHome::CraftuxHome(QWidget *parent) :
     ui(new Ui::CraftuxHome)
 {
     ui->setupUi(this);
-    connect(ui->TestButton, SIGNAL(clicked()), this, SLOT(localTestLaunch()));
+	connect(ui->soloButton, SIGNAL(clicked()), this, SLOT(soloGameLaunch()));
+	connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 CraftuxHome::~CraftuxHome()
@@ -20,11 +21,8 @@ CraftuxHome::~CraftuxHome()
     delete ui;
 }
 
-void CraftuxHome::localTestLaunch()
+void CraftuxHome::soloGameLaunch()
 {
-	ui->TestButton->setText(tr("Création de votre monde en cours..."));
-	this->repaint();
-
 	// Création et génération du monde
 	ServerConnector* connector = new LocalServerConnector();
 	GameWindow* gameWindow = new GameWindow(connector);
