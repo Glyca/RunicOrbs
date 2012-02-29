@@ -48,6 +48,7 @@ private:
 	float f_pitchDegrees, f_headingDegrees;
 	bool b_walking;
 	WalkingDirection m_walkingDirection;
+	Vector v_oldWalkingVelocity;
 };
 
 #endif // ENTITY_H
