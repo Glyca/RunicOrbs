@@ -11,20 +11,22 @@ In order to compile CraftTuX, you must have Qt and OpenGL development librairies
 Then download the source and open `CrafTuX.pro`, in QtCreator for example. You just have to click on compile :)
 
 #Changelog
-##v0.0.2 (not released yet)
+##v0.0.2 (Feb 29 2012)
 ```
-(almost recoded from scratch)
-[ADDED] Got a reliable overpainting method working
-[ADDED] Camera is reliable, and now works without Quaternions
+(almost recoded from scratch with things removed)
+[ADD] A whole new architecture created
+[ADD] Got a reliable overpainting method working
+[ADD] Camera is reliable, and now works without Quaternions
+[ADD] You can walk in two directions (ex. FORWARD-LEFT)
 [FIX] You can't fall into blocks anymore
 [FIX] Simplified world generator a lot
-[FIX] Code cleanup
+[FIX] Code and debug warnings cleanup
 ```
-##v0.0.1
+##v0.0.1 (Feb 5 2012)
 ```
 (very first version)
-[ADDED] Cuurent FPS are displayed in window title
-[ADDED] You fall thanks to the gravity
-[ADDED] Physic engine with forces, velocity, acceleration and fluid fiction.
-[ADDED] Randomly generated cubes are drawn
+[ADD] Cuurent FPS are displayed in window title
+[ADD] You fall thanks to the gravity
+[ADD] Physic engine with forces, velocity, acceleration and fluid fiction
+[ADD] Randomly generated cubes are drawn
 ```
