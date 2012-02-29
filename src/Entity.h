@@ -14,8 +14,8 @@ public:
 	inline void pitch(const float pitchDegrees)
 	{
 		f_pitchDegrees = pitchDegrees;
-		if(f_pitchDegrees < 90.0f) f_pitchDegrees = 90.0f;
-		if(f_pitchDegrees > 270.0f) f_pitchDegrees = 270.0f;
+                if(f_pitchDegrees < 91.0f) f_pitchDegrees = 91.0f;
+                if(f_pitchDegrees > 269.0f) f_pitchDegrees = 269.0f;
 	}
 	inline float heading() const {return f_headingDegrees;}
 	inline void heading(const float headingDegrees)
