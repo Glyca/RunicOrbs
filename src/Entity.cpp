@@ -22,36 +22,41 @@ Vector Entity::direction()
 
 void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
 {
-	const preal f_walkingForce = 10.0f;
+	Vector v_walkingVelocity;
+
 	if(walking())
 	{
-		Vector v_walkingForce = direction() * f_walkingForce * f_elapsedTimeSec;
+		const preal f_walkingVelocityCoefficient = 1.0e2f;
+		v_walkingVelocity = direction() * f_walkingVelocityCoefficient * f_elapsedTimeSec;
 		if(m_walkingDirection & WalkingDirection_Forward)
 		{
-			applyForcev(v_walkingForce);
+			v_walkingVelocity = v_walkingVelocity;
 		}
 		if(m_walkingDirection & WalkingDirection_Backward)
 		{
-			Vector backwardForce; backwardForce -= v_walkingForce;
-			applyForcev(backwardForce);
+			v_walkingVelocity = - v_walkingVelocity;
 		}
 		if(m_walkingDirection & WalkingDirection_Left)
 		{
 			// Mouvement latéral à droite (avec le vecteur normal à droite (-z;0;x))
-			Vector leftForce;
-			leftForce.x = v_walkingForce.z;
-			leftForce.z -= v_walkingForce.x;
-			applyForcev(leftForce);
+			Vector leftVelocity;
+			leftVelocity.x = v_walkingVelocity.z;
+			leftVelocity.z -= v_walkingVelocity.x;
+			v_walkingVelocity = leftVelocity;
 		}
 		if(m_walkingDirection & WalkingDirection_Right)
 		{
 			// Mouvement latéral à droite (avec le vecteur normal à droite (-z;0;x))
-			Vector rightForce;
-			rightForce.x -= v_walkingForce.z;
-			rightForce.z = v_walkingForce.x;
-			applyForcev(rightForce);
+			Vector rightVelocity;
+			rightVelocity.x -= v_walkingVelocity.z;
+			rightVelocity.z = v_walkingVelocity.x;
+			v_walkingVelocity = rightVelocity;
 		}
 	}
+
+	static Vector v_oldWalkingVelocity;
+	v_velocity += (v_walkingVelocity - v_oldWalkingVelocity);
+	v_oldWalkingVelocity = v_walkingVelocity;
 
 	PhysicObject::processMove(f_elapsedTimeSec, workingWorld);
 }

@@ -18,9 +18,9 @@ void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 	if(blockBelowValue == 0) {
 		applyWeightForce();
 	}
-	else // Sinon on annule la vitesse (collision)
+	else // Sinon on annule la vitesse verticale (collision)
 	{
-		v_velocity.null();
+		v_velocity.y = 0.0;
 	}
 
 	applyFluidFrictionForce();
@@ -41,12 +41,7 @@ void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 
 void PhysicObject::applyForcev(Vector v_force)
 {   
-	v_forces.x += v_force.x;
-	v_forces.z += v_force.z;
-	if(v_force.y > 0.0) // If the y is not going into the ground (positive)
-	{
-		v_forces.y += v_force.y;
-	}
+	v_forces += v_force;
 }
 
 void PhysicObject::applyWeightForce()
