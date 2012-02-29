@@ -4,7 +4,6 @@ CUtils *CUtils::c_Utils = 0;
 
 CUtils::CUtils() : b_cubeListCreated(false), b_axesListCreated(false)
 {
-    qDebug() << "Gestionaire de display lists construit";
 }
 
 CUtils* CUtils::getUtils()

@@ -43,7 +43,6 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glEnable(GL_MULTISAMPLE);
 	static GLfloat lightPosition[4] = { 0.5, 5.0, 7.0, 1.0 };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
@@ -88,7 +87,7 @@ void GameWindow::render2D(QPainter& painter)
 	QString postionText("Position : " + m_connector->me()->v_position);
 	painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
 
-	QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Heading : " + QVariant(m_connector->me()->heading()).toString());
+	QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
 	painter.drawText(border, border, width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
 }
 
@@ -130,19 +129,19 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
 	if(keyEvent->key() == Qt::Key_Up)
 	{
-		m_connector->me()->walk(Entity::WalkingDirection_Forward);
+		m_connector->me()->walk(Entity::WalkDirection_Forward);
 	}
 	if(keyEvent->key() == Qt::Key_Down)
 	{
-		m_connector->me()->walk(Entity::WalkingDirection_Backward);
+		m_connector->me()->walk(Entity::WalkDirection_Backward);
 	}
 	if(keyEvent->key() == Qt::Key_Left)
 	{
-		m_connector->me()->walk(Entity::WalkingDirection_Left);
+		m_connector->me()->walk(Entity::WalkDirection_Left);
 	}
 	if(keyEvent->key() == Qt::Key_Right)
 	{
-		m_connector->me()->walk(Entity::WalkingDirection_Right);
+		m_connector->me()->walk(Entity::WalkDirection_Right);
 	}
 
 	GLWidget::keyPressEvent(keyEvent);
@@ -152,19 +151,19 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
 	if(keyEvent->key() == Qt::Key_Up)
 	{
-		m_connector->me()->stopWalk(Entity::WalkingDirection_Forward);
+		m_connector->me()->stopWalk(Entity::WalkDirection_Forward);
 	}
 	if(keyEvent->key() == Qt::Key_Down)
 	{
-		m_connector->me()->stopWalk(Entity::WalkingDirection_Backward);
+		m_connector->me()->stopWalk(Entity::WalkDirection_Backward);
 	}
 	if(keyEvent->key() == Qt::Key_Left)
 	{
-		m_connector->me()->stopWalk(Entity::WalkingDirection_Left);
+		m_connector->me()->stopWalk(Entity::WalkDirection_Left);
 	}
 	if(keyEvent->key() == Qt::Key_Right)
 	{
-		m_connector->me()->stopWalk(Entity::WalkingDirection_Right);
+		m_connector->me()->stopWalk(Entity::WalkDirection_Right);
 	}
 
 	GLWidget::keyReleaseEvent(keyEvent);
@@ -186,12 +185,12 @@ void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 	if(MouseX < CenterX)
 	{
 		f_delta = GLfloat(CenterX - MouseX);
-		m_connector->me()->heading(m_connector->me()->heading() + f_moveSpeed * f_delta);
+		m_connector->me()->yaw(m_connector->me()->yaw() + f_moveSpeed * f_delta);
 	}
 	else if(MouseX > CenterX)
 	{
 		f_delta = GLfloat(MouseX - CenterX);
-		m_connector->me()->heading(m_connector->me()->heading() - f_moveSpeed * f_delta);
+		m_connector->me()->yaw(m_connector->me()->yaw() - f_moveSpeed * f_delta);
 	}
 
 	if(MouseY < CenterY)
