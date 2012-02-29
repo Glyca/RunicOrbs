@@ -22,7 +22,8 @@ public:
 	void applyWeightForce();
 	void applyFluidFrictionForce();
 
-	inline preal getMass() const {return f_mass;}
+	inline preal mass() const {return f_mass;}
+	inline void setMass(const preal mass) {f_mass = mass;}
 
 public: // Public temporairement
 
@@ -32,7 +33,7 @@ public: // Public temporairement
 	Vector v_velocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
 	Vector v_forces; // Somme des forces appliquées à l'objet
 
-public: // protected
+protected: // protected
 	/*! Modifie toutes les conposantes des vecteurs et coordonnées de l'objet */
 	virtual void processMove(preal f_elapsedTimeSec, World& workingWorld);
 };

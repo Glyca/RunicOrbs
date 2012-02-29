@@ -5,6 +5,12 @@ GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector)
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 	setAutoFillBackground(false);
+
+	t_secondTimer = new QTimer(this);
+	t_secondTimer->setInterval(1000);
+	t_secondTimer->connect(t_secondTimer, SIGNAL(timeout()), this, SLOT(secondTimerTimeout()));
+	t_secondTimer->start();
+
 	setMouseTracking(true);
 }
 
@@ -27,7 +33,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 {
 	m_connector->world().physicEngine()->processMoves();
 
-	setWindowTitle("CrafTuX");
+	setWindowTitle("CrafTuX | " + QVariant(i_FPS).toString() + tr(" FPS"));
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -61,6 +67,8 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	QPainter painter(this);
 	render2D(painter);
 	painter.end();
+
+	i_framesRenderedThisSecond++; // We rendered a frame !
 }
 
 void GameWindow::render2D(QPainter& painter)
@@ -79,9 +87,6 @@ void GameWindow::render2D(QPainter& painter)
 
 	QString postionText("Position : " + m_connector->me()->v_position);
 	painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
-
-	QString directionText("Direction : " + m_connector->me()->direction());
-	painter.drawText(0, border*2 + rect.height(), width() - border, rect.height(), Qt::AlignRight, directionText);
 
 	QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Heading : " + QVariant(m_connector->me()->heading()).toString());
 	painter.drawText(border, border*2 + rect.height(), width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
@@ -204,4 +209,10 @@ void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 	newCursor.setPos(mapToGlobal(QPoint(CenterX, CenterY)));
 	//newCursor.setShape(Qt::BlankCursor);
 	this->setCursor(newCursor);
+}
+
+void GameWindow::secondTimerTimeout()
+{
+	i_FPS = i_framesRenderedThisSecond;
+	i_framesRenderedThisSecond = 0;
 }

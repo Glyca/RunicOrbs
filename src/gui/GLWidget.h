@@ -8,7 +8,7 @@ class GLWidget : public QGLWidget
 {
     Q_OBJECT
 public:
-    explicit GLWidget(int framesPerSecond = 25, QWidget *parent = 0, char *name = "CrafTuX", QGLFormat format = GLWidget::defaultFormat());
+	explicit GLWidget(int framesPerSecond = 40, QWidget *parent = 0, char *name = "CrafTuX", QGLFormat format = GLWidget::defaultFormat());
     virtual void initializeGL() = 0;
 	virtual void resizeGL(int width, int height);
     virtual void keyPressEvent( QKeyEvent *keyEvent );
