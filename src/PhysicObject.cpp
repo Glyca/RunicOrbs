@@ -14,8 +14,7 @@ PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 {
 	// Si en dessous de nous c'est du vide, alors on applqiue le poids
-	int blockBelowValue = workingWorld.block((Vector(v_position.x, (v_position.y + 0.1), v_position.z)))->getValue();
-	if(blockBelowValue == 0) {
+	if(!this->touchesFloor(workingWorld)) {
 		applyWeightForce();
 	}
 	else // Sinon on annule la vitesse verticale (collision)
@@ -54,4 +53,9 @@ void PhysicObject::applyFluidFrictionForce()
 	// On applique l'accélération due aux frottements fluides
 	const preal f_h = 1e-3;
 	v_forces -= v_velocity * f_h;
+}
+
+bool PhysicObject::touchesFloor(World &workingWorld)
+{
+	return !(0 == workingWorld.block((Vector(v_position.x, (v_position.y + 0.1), v_position.z)))->getValue());
 }

@@ -34,21 +34,26 @@ public:
 	/*! Make the Entity walk to the direction direction */
 	inline void walk(WalkDirection direction) {m_walkDirection = (WalkDirection)(m_walkDirection | direction);}
 	/*! Stop the Entity walking for a direction */
-	inline void stopWalk(WalkDirection direction) {m_walkDirection = (WalkDirection)(m_walkDirection & ~direction);}
+	inline void stopWalking(WalkDirection direction) {m_walkDirection = (WalkDirection)(m_walkDirection & ~direction);}
 	/*! Stop the Entity walking */
-	inline void stopWalk() {m_walkDirection = WalkDirection_Stop;}
+	inline void stopWalking() {m_walkDirection = WalkDirection_Stop;}
 	/*! Wether the Entity is walking or not */
-	inline bool walking() const {return !(m_walkDirection == WalkDirection_Stop);}
+	inline bool isWalking() const {return !(m_walkDirection == WalkDirection_Stop);}
 
+	inline void jump() {b_jumping = true;}
+	inline void stopJumping() {b_jumping = false;}
+	inline bool isJumping() const {return b_jumping;}
 
 protected:
 	void processMove(preal f_elapsedTimeSec, World& workingWorld);
 
 private:
 	float f_pitchDegrees, f_yawDegrees;
-	bool b_walking;
+
 	WalkDirection m_walkDirection;
 	Vector v_oldWalkVelocity;
+
+	bool b_jumping;
 };
 
 #endif // ENTITY_H

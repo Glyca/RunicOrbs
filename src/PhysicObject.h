@@ -25,9 +25,10 @@ public:
 	inline preal mass() const {return f_mass;}
 	inline void setMass(const preal mass) {f_mass = mass;}
 
-public: // Public temporairement
+	/*! Wether the object is lying on the floor or not */
+	bool touchesFloor(World &workingWorld);
 
-	preal f_mass; // La masse de l'objet en KG
+public: // Public temporairement
 
 	Vector v_position; // La position de l'objet
 	Vector v_velocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
@@ -36,6 +37,8 @@ public: // Public temporairement
 protected: // protected
 	/*! Modifie toutes les conposantes des vecteurs et coordonnées de l'objet */
 	virtual void processMove(preal f_elapsedTimeSec, World& workingWorld);
+
+	preal f_mass; // La masse de l'objet en KG
 };
 
 #endif // PHYSICOBJECT_H

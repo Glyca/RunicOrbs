@@ -13,7 +13,7 @@ Then download the source and open `CrafTuX.pro`, in QtCreator for example. You j
 #Changelog
 ##v0.0.3 (not released yet)
 ```
-
+[ADD] Jump
 ```
 ##v0.0.2 (Feb 29 2012)
 ```

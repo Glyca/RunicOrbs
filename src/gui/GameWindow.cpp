@@ -31,6 +31,7 @@ void GameWindow::initializeGL()
 
 void GameWindow::paintEvent(QPaintEvent *event)
 {
+	Q_UNUSED(event);
 	m_connector->world().physicEngine()->processMoves();
 
 	setWindowTitle("CrafTuX | " + QVariant(i_FPS).toString() + tr(" FPS"));
@@ -143,6 +144,10 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 	{
 		m_connector->me()->walk(Entity::WalkDirection_Right);
 	}
+	if(keyEvent->key() == Qt::Key_0)
+	{
+		m_connector->me()->jump();
+	}
 
 	GLWidget::keyPressEvent(keyEvent);
 }
@@ -151,19 +156,23 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
 	if(keyEvent->key() == Qt::Key_Up)
 	{
-		m_connector->me()->stopWalk(Entity::WalkDirection_Forward);
+		m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
 	}
 	if(keyEvent->key() == Qt::Key_Down)
 	{
-		m_connector->me()->stopWalk(Entity::WalkDirection_Backward);
+		m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
 	}
 	if(keyEvent->key() == Qt::Key_Left)
 	{
-		m_connector->me()->stopWalk(Entity::WalkDirection_Left);
+		m_connector->me()->stopWalking(Entity::WalkDirection_Left);
 	}
 	if(keyEvent->key() == Qt::Key_Right)
 	{
-		m_connector->me()->stopWalk(Entity::WalkDirection_Right);
+		m_connector->me()->stopWalking(Entity::WalkDirection_Right);
+	}
+	if(keyEvent->key() == Qt::Key_0)
+	{
+		m_connector->me()->stopJumping();
 	}
 
 	GLWidget::keyReleaseEvent(keyEvent);

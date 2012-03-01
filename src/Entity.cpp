@@ -4,7 +4,7 @@
 #include <QtGlobal>
 #include <QDebug>
 
-Entity::Entity() : f_pitchDegrees(225.0f), f_yawDegrees(135.0f), b_walking(false), m_walkDirection(WalkDirection_Stop)
+Entity::Entity() : f_pitchDegrees(225.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
 {
 }
 
@@ -24,7 +24,7 @@ void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
 {
 	Vector v_walkVelocity;
 
-	if(walking())
+	if(isWalking())
 	{
 		const preal f_walkVelocityCoefficient = 1.0e2f;
 		Vector v_walkIncrement = direction() * f_walkVelocityCoefficient * f_elapsedTimeSec;
@@ -57,6 +57,12 @@ void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
 
 	v_velocity += (v_walkVelocity - v_oldWalkVelocity);
 	v_oldWalkVelocity = v_walkVelocity;
+
+	if(isJumping() && this->touchesFloor(workingWorld))
+	{
+		const preal f_jumpVerticalForce = 15000.0; // NEWTONS
+		applyForcev(Vector(0.0, f_jumpVerticalForce, 0.0));
+	}
 
 	PhysicObject::processMove(f_elapsedTimeSec, workingWorld);
 }
