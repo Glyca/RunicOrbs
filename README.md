@@ -11,6 +11,10 @@ In order to compile CraftTuX, you must have Qt and OpenGL development librairies
 Then download the source and open `CrafTuX.pro`, in QtCreator for example. You just have to click on compile :)
 
 #Changelog
+##v0.0.3 (not released yet)
+```
+
+```
 ##v0.0.2 (Feb 29 2012)
 ```
 (almost recoded from scratch with things removed)
