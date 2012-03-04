@@ -1,11 +1,17 @@
 #include "Chunk.h"
 #include "Utils.h"
+#include "gui/ChunkDrawer.h"
 
-Chunk::Chunk(QObject *parent) :
-	QObject(parent)
+Chunk::Chunk(QObject *parent) : QObject(parent), m_chunkDrawer(NULL)
 {
 	int size = CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE;
 	p_BlockInfos = new BlockInfo[size];
+}
+
+Chunk::~Chunk()
+{
+	delete m_chunkDrawer;
+	delete p_BlockInfos;
 }
 
 void Chunk::generate(int seed)
@@ -37,27 +43,11 @@ void Chunk::generate(int seed)
 
 void Chunk::render3D()
 {
-	for(int j = 0; j < CHUNK_HEIGHT; j++)
+	if(m_chunkDrawer == NULL)
 	{
-		for(int i = 0; i < CHUNK_X_SIZE; i++)
-		{
-			for(int k = 0; k < CHUNK_Z_SIZE; k++)
-			{
-				if(block(i, j, k)->getValue() == 1)
-				{
-					glColor3f(0.68f, 0.68f, 0.68f);
-					glTranslatef(i, j, k);
-					Utils->fastCube();
-					glTranslatef(-i, -j, -k);
-				}
-				else if(block(i, j, k)->getValue() == 2)
-				{
-					glColor3f(0.488f, 0.296f, 0.078f);
-					glTranslatef(i, j, k);
-					Utils->fastCube();
-					glTranslatef(-i, -j, -k);
-				}
-			}
-		}
+		m_chunkDrawer = new ChunkDrawer(this);
+		m_chunkDrawer->generateVBO();
 	}
+
+	m_chunkDrawer->render(); // Incredibly fast !
 }

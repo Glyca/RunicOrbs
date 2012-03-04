@@ -29,7 +29,8 @@ SOURCES += main.cpp\
     gui/GLWidget.cpp \
     gui/glextensions.cpp \
     gui/CraftuxHome.cpp \
-    gui/TextureManager.cpp
+    gui/TextureManager.cpp \
+    gui/ChunkDrawer.cpp
 
 HEADERS  += \
     BlockInfo.h \
@@ -54,7 +55,8 @@ HEADERS  += \
     gui/GLWidget.h \
     gui/glextensions.h \
     gui/CraftuxHome.h \
-    gui/TextureManager.h
+    gui/TextureManager.h \
+    gui/ChunkDrawer.h
 
 FORMS    += \
     gui/CraftuxHome.ui

@@ -7,6 +7,7 @@
 #include <cmath>
 
 #include "BlockInfo.h"
+class ChunkDrawer;
 
 const int CHUNK_X_SIZE = 4;
 const int CHUNK_Y_SIZE = 16;
@@ -18,6 +19,7 @@ class Chunk : public QObject
 	Q_OBJECT
 public:
 	explicit Chunk(QObject *parent = 0);
+	~Chunk();
 
 	void generate(int seed);
 
@@ -41,13 +43,14 @@ public:
 
 	//! Render all blocks of the chunk
 	void render3D();
-	
+
 signals:
-	
+
 public slots:
 
 private:
 	BlockInfo* p_BlockInfos; // pointeur vers les BlockInfo
+	ChunkDrawer* m_chunkDrawer;
 };
 
 #endif // CHUNK_H
