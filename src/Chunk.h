@@ -46,9 +46,9 @@ public:
 	/*! Convert coordinates relatives to the chunk into world coordinates */
 	inline void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const
 	{
-		worldX = m_position.first + chunkX;
+		worldX = m_position.first * CHUNK_X_SIZE + chunkX;
 		worldY = chunkY;
-		worldZ = m_position.second + chunkZ;
+		worldZ = m_position.second * CHUNK_Z_SIZE + chunkZ;
 	}
 
 	//! Render all blocks of the chunk
