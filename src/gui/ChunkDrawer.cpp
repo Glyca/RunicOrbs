@@ -7,15 +7,17 @@
 #define VERTEX_ARRAY_SIZE 24
 #define COLOR_ARRAY_SIZE 24
 
+const GLfloat CUBE_SIZE = 0.5f;
+
 GLfloat cubeVertexArray[VERTEX_ARRAY_SIZE] = {
-	-1.0f, -1.0f, 1.0f,
-	1.0f, -1.0f, 1.0f,
-	1.0f, 1.0f, 1.0f,
-	-1.0f, 1.0f, 1.0f,
-	-1.0f, -1.0f, -1.0f,
-	1.0f, -1.0f, -1.0f,
-	1.0f, 1.0f, -1.0f,
-	-1.0f, 1.0f, -1.0f
+	-CUBE_SIZE, -CUBE_SIZE, CUBE_SIZE,
+	CUBE_SIZE, -CUBE_SIZE, CUBE_SIZE,
+	CUBE_SIZE, CUBE_SIZE, CUBE_SIZE,
+	-CUBE_SIZE, CUBE_SIZE, CUBE_SIZE,
+	-CUBE_SIZE, -CUBE_SIZE, -CUBE_SIZE,
+	CUBE_SIZE, -CUBE_SIZE, -CUBE_SIZE,
+	CUBE_SIZE, CUBE_SIZE, -CUBE_SIZE,
+	-CUBE_SIZE, CUBE_SIZE, -CUBE_SIZE
 };
 
 GLuint cubeIndicesArray[36] = {
