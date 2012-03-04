@@ -1,4 +1,4 @@
-﻿#include "PhysicObject.h"
+#include "PhysicObject.h"
 #include "World.h"
 
 PhysicObject::PhysicObject(preal mass) : f_mass(mass)
@@ -57,5 +57,5 @@ void PhysicObject::applyFluidFrictionForce()
 
 bool PhysicObject::touchesFloor(World &workingWorld)
 {
-	return !(0 == workingWorld.block((Vector(v_position.x, (v_position.y + 0.1), v_position.z)))->getValue());
+	return !(0 == workingWorld.block((Vector(v_position.x, (v_position.y + 0.1), v_position.z)))->id());
 }

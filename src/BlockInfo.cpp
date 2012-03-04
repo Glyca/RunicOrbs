@@ -1,4 +1,4 @@
-﻿#include "BlockInfo.h"
+#include "BlockInfo.h"
 #include <QtGlobal>
 
 BlockInfo::BlockInfo(int value) : i_value(value)
@@ -11,12 +11,12 @@ BlockInfo* BlockInfo::voidBlock() {
 	return voidBlock;
 }
 
-int BlockInfo::getValue() const
+int BlockInfo::id() const
 {
 	return i_value;
 }
 
-void BlockInfo::setValue(const int value)
+void BlockInfo::setId(const int value)
 {
 	i_value = value;
 }

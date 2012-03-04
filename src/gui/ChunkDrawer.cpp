@@ -43,11 +43,11 @@ void ChunkDrawer::generateVBO()
 
 	int i_thCubeDrawed = 0; // th cube drawed (0 now)
 
-	for(int j = 0; j < CHUNK_HEIGHT; j++)
+	for(int i = 0; i < CHUNK_X_SIZE; i++)
 	{
-		for(int i = 0; i < CHUNK_X_SIZE; i++)
+		for(int k = 0; k < CHUNK_Z_SIZE; k++)
 		{
-			for(int k = 0; k < CHUNK_Z_SIZE; k++)
+			for(int j = 0; j < CHUNK_HEIGHT; j++)
 			{
 				for(int n = 0; n < 8; n++) // For each vector (3 floats) of our vertex array
 				{

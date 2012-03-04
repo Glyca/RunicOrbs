@@ -23,7 +23,7 @@ void Chunk::generate(int seed)
 			for(int k = 0; k < CHUNK_Z_SIZE; k++)
 			{
 				// On ne met que de la roche
-				block(i, j, k)->setValue(1);
+				block(i, j, k)->setId(1);
 			}
 		}
 	}
@@ -35,7 +35,7 @@ void Chunk::generate(int seed)
 			for(int k = 0; k < CHUNK_Z_SIZE; k++)
 			{
 				// On ne met que de la terre
-				block(i, j, k)->setValue(2);
+				block(i, j, k)->setId(2);
 			}
 		}
 	}
