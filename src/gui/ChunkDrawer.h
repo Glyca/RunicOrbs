@@ -19,10 +19,7 @@ private:
 	GLuint i_bufferVertex, i_bufferIndices;
 
 	int i_arraySize;
-	GLfloat* f_array;
-
 	int i_indiceArraySize;
-	GLuint* i_indiceArray;
 };
 
 #endif // CHUNKDRAWER_H

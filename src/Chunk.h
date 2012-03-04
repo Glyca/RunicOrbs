@@ -44,7 +44,7 @@ public:
 	}
 
 	/*! Convert coordinates relatives to the chunk into world coordinates */
-	inline void mapToWorld(int chunkX, int chunkY, int chunkZ, int& worldX, int& worldY, int& worldZ)
+	inline void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const
 	{
 		worldX = m_position.first + chunkX;
 		worldY = chunkY;

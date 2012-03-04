@@ -18,7 +18,7 @@ public:
 	explicit World(QObject *parent = 0);
 	~World();
 
-	inline PhysicEngine* physicEngine() {return m_physicEngine;}
+	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
 
 	Chunk* chunk(QPair<int, int> postion);
 	Chunk* chunk(const Vector& postion);
@@ -27,9 +27,9 @@ public:
 	BlockInfo* block(const Vector& position);
 
 	void render3D();
-	
+
 signals:
-	
+
 public slots:
 
 private:
@@ -38,7 +38,7 @@ private:
 	PhysicEngine* m_physicEngine;
 	int i_time;
 	int i_seed;
-	
+
 };
 
 #endif // WORLD_H

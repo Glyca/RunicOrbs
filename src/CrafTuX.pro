@@ -10,58 +10,56 @@ TARGET = craftux
 TEMPLATE = app
 
 SOURCES += main.cpp\
-    BlockInfo.cpp \
-    PhysicObject.cpp \
-    Utils.cpp \
-    PhysicEngine.cpp \
-    Chunk.cpp \
-    World.cpp \
-    Entity.cpp \
-    Player.cpp \
-    Me.cpp \
-    LocalServer.cpp \
-    MultiplayerServer.cpp \
-    ServerConnector.cpp \
-    LocalServerConnector.cpp \
-    RemoteServerConnector.cpp \
-    Server.cpp \
-    gui/GameWindow.cpp \
-    gui/GLWidget.cpp \
-    gui/glextensions.cpp \
-    gui/CraftuxHome.cpp \
-    gui/TextureManager.cpp \
-    gui/ChunkDrawer.cpp \
-    ChunkGenerator.cpp
+	BlockInfo.cpp \
+	PhysicObject.cpp \
+	PhysicEngine.cpp \
+	Chunk.cpp \
+	World.cpp \
+	Entity.cpp \
+	Player.cpp \
+	Me.cpp \
+	LocalServer.cpp \
+	MultiplayerServer.cpp \
+	ServerConnector.cpp \
+	LocalServerConnector.cpp \
+	RemoteServerConnector.cpp \
+	Server.cpp \
+	gui/GameWindow.cpp \
+	gui/GLWidget.cpp \
+	gui/glextensions.cpp \
+	gui/CraftuxHome.cpp \
+	gui/TextureManager.cpp \
+	gui/ChunkDrawer.cpp \
+	ChunkGenerator.cpp
 
 HEADERS  += \
-    BlockInfo.h \
-    PhysicObject.h \
-    Utils.h \
-    PhysicEngine.h \
-    PhysicSize.h \
-    Chunk.h \
-    World.h \
-    Entity.h \
-    Player.h \
-    Me.h \
-    LocalServer.h \
-    MultiplayerServer.h \
-    ServerConnector.h \
-    LocalServerConnector.h \
-    RemoteServerConnector.h \
-    Server.h \
-    Vector.h \
-    version.h \
-    gui/GameWindow.h \
-    gui/GLWidget.h \
-    gui/glextensions.h \
-    gui/CraftuxHome.h \
-    gui/TextureManager.h \
-    gui/ChunkDrawer.h \
-    ChunkGenerator.h
+	BlockInfo.h \
+	PhysicObject.h \
+	PhysicEngine.h \
+	PhysicSize.h \
+	Chunk.h \
+	World.h \
+	Entity.h \
+	Player.h \
+	Me.h \
+	LocalServer.h \
+	MultiplayerServer.h \
+	ServerConnector.h \
+	LocalServerConnector.h \
+	RemoteServerConnector.h \
+	Server.h \
+	Vector.h \
+	version.h \
+	gui/GameWindow.h \
+	gui/GLWidget.h \
+	gui/glextensions.h \
+	gui/CraftuxHome.h \
+	gui/TextureManager.h \
+	gui/ChunkDrawer.h \
+	ChunkGenerator.h
 
 FORMS    += \
-    gui/CraftuxHome.ui
+	gui/CraftuxHome.ui
 
 DEFINES += GL_GLEXT_PROTOTYPES
 
@@ -73,4 +71,4 @@ QMAKE_CXXFLAGS_RELEASE -= -g
 #QMAKE_LFLAGS = -Wl,-O3 -Wl,-Map,craftux.map
 
 OTHER_FILES += \
-    ../README.md
+	../README.md

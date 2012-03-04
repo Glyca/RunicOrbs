@@ -44,10 +44,10 @@ ChunkDrawer::~ChunkDrawer()
 void ChunkDrawer::generateVBO()
 {
 	// Firstly we create a table with the max size (ie. all blacks may be drawn, so we allocate space for all)
-	f_array = new GLfloat[(VERTEX_ARRAY_SIZE + COLOR_ARRAY_SIZE) * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
+	GLfloat* f_array = new GLfloat[(VERTEX_ARRAY_SIZE + COLOR_ARRAY_SIZE) * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
 	i_arraySize = 0; // and we say there is 0 bytes inside for now
 
-	i_indiceArray = new GLuint[sizeof(cubeIndicesArray) * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
+	GLuint* i_indiceArray = new GLuint[sizeof(cubeIndicesArray) * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
 	i_indiceArraySize = 0;
 
 	int i_thCubeDrawed = 0; // th cube drawed (0 now)
@@ -58,14 +58,17 @@ void ChunkDrawer::generateVBO()
 		{
 			for(int j = 0; j < CHUNK_HEIGHT; j++)
 			{
+				int wi, wj, wk; // These are the coordinates in the world
+				m_chunkToDraw->mapToWorld(i, j, k, wi, wj, wk);
+
 				if(*m_chunkToDraw->block(i, j, k) != AIR) // Really, we don't draw the air
 				{
 					for(int n = 0; n < 8; n++) // For each vector (3 floats) of our vertex array
 					{
 						// We copy the 3 conponents of the vector and translate them by the way
-						f_array[i_arraySize + 3 * n + 0] = cubeVertexArray[3 * n + 0] + i;
-						f_array[i_arraySize + 3 * n + 1] = cubeVertexArray[3 * n + 1] + j;
-						f_array[i_arraySize + 3 * n + 2] = cubeVertexArray[3 * n + 2] + k;
+						f_array[i_arraySize + 3 * n + 0] = cubeVertexArray[3 * n + 0] + wi; // We draw the chunk directly at its position in the world
+						f_array[i_arraySize + 3 * n + 1] = cubeVertexArray[3 * n + 1] + wj;
+						f_array[i_arraySize + 3 * n + 2] = cubeVertexArray[3 * n + 2] + wk;
 					}
 					// After the vertex array comes the color array
 					for(int n = 0; n < 8; n++)

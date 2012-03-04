@@ -60,9 +60,6 @@ void World::render3D()
 	QHashIterator<QPair<int, int>, Chunk*> it(*m_chunks);
 	while (it.hasNext()) {
 		it.next();
-		glPushMatrix();
-		glTranslatef(it.key().first * CHUNK_X_SIZE, 0.0f, it.key().second * CHUNK_Z_SIZE); // Translate to the pos of the chunk
 		it.value()->render3D();
-		glPopMatrix();
 	}
 }
