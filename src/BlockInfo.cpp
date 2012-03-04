@@ -1,5 +1,8 @@
 #include "BlockInfo.h"
-#include <QtGlobal>
+
+BlockInfo AIR(0);
+BlockInfo STONE(1);
+BlockInfo DIRT(2);
 
 BlockInfo::BlockInfo(int value) : i_value(value)
 {

@@ -42,10 +42,6 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	static GLfloat lightPosition[4] = { 0.5, 50.0, 7.0, 1.0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -58,7 +54,6 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glShadeModel(GL_FLAT);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();

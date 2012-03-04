@@ -18,8 +18,8 @@ private:
 	Chunk* m_chunkToDraw;
 	GLuint i_bufferVertex, i_bufferIndices;
 
-	int i_vertexArraySize;
-	GLfloat* f_vertexArray;
+	int i_arraySize;
+	GLfloat* f_array;
 
 	int i_indiceArraySize;
 	GLuint* i_indiceArray;

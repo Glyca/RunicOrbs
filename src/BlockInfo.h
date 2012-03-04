@@ -1,13 +1,6 @@
 ﻿#ifndef BLOCKINFO_H
 #define BLOCKINFO_H
 
-const int SIZE_OF_A_INT_TIMES_8 = sizeof(int)*8;
-
-const int VALUE_BITS_SHIFT = 0;
-const int VALUE_BITS_SIZE = 10;
-const int POWERED_BITS_SHIFT = 10;
-const int POWERED_BITS_SIZE = 1;
-
 class BlockInfo
 {
 public:
@@ -29,13 +22,20 @@ private:
 	unsigned short int i_value;
 	bool b_isPowered;
 
-	inline int readShiftMaskBits(const int source, const int shift, const int size) const
-	{
-	return (( (source << shift) << (SIZE_OF_A_INT_TIMES_8 - size) ) >> size);
-	}
-
-
-
 };
+
+inline bool operator==(const BlockInfo& block1, const BlockInfo& block2)
+{
+	return (block1.id() == block2.id());
+}
+
+inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
+{
+	return !(block1 == block2);
+}
+
+extern BlockInfo AIR;
+extern BlockInfo STONE;
+extern BlockInfo DIRT;
 
 #endif // BLOCKINFO_H

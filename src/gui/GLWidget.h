@@ -6,19 +6,19 @@
 
 class GLWidget : public QGLWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-	explicit GLWidget(int framesPerSecond = 40, QWidget *parent = 0, char *name = "CrafTuX", QGLFormat format = GLWidget::defaultFormat());
-    virtual void initializeGL() = 0;
+	explicit GLWidget(int framesPerSecond = 60, QWidget *parent = 0, char *name = "CrafTuX", QGLFormat format = GLWidget::defaultFormat());
+	virtual void initializeGL() = 0;
 	virtual void resizeGL(int width, int height);
-    virtual void keyPressEvent( QKeyEvent *keyEvent );
+	virtual void keyPressEvent( QKeyEvent *keyEvent );
 
-    void toggleFullWindow();
+	void toggleFullWindow();
 
-    static QGLFormat defaultFormat();
+	static QGLFormat defaultFormat();
 
 public slots:
-    virtual void timeOutSlot();
+	virtual void timeOutSlot();
 
 protected:
 	void resizeGLreally();
@@ -27,8 +27,8 @@ protected:
 
 private:
 
-    QTimer *t_Timer;
-    bool b_Fullscreen;
+	QTimer *t_Timer;
+	bool b_Fullscreen;
 
 
 };

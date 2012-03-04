@@ -60,9 +60,9 @@ public:
 
 	inline Vector& operator-()
 	{
-                x = - x;
-                y = - y;
-                z = - z;
+				x = - x;
+				y = - y;
+				z = - z;
 		return *this;
 	}
 
@@ -93,6 +93,11 @@ public:
 
 	preal x, y, z;
 };
+
+inline bool operator==(const Vector& v1, const Vector& v2)
+{
+	return (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z);
+}
 
 inline Vector operator+(const Vector& v1, const Vector& v2)
 {
