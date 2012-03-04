@@ -35,7 +35,7 @@ Chunk* World::chunk(QPair<int, int> postion)
 	}
 	else
 	{
-		Chunk* newChunk = new Chunk(this);
+		Chunk* newChunk = new Chunk(this, postion);
 		newChunk->generate(i_seed);
 		qDebug() << "Generated a chunk @" << postion;
 		m_chunks->insert(postion, newChunk);

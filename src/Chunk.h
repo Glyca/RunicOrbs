@@ -4,10 +4,12 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
+#include <QPair>
 #include <cmath>
 
 #include "BlockInfo.h"
 class ChunkDrawer;
+class ChunkGenerator;
 
 const int CHUNK_X_SIZE = 4;
 const int CHUNK_Y_SIZE = 16;
@@ -18,7 +20,7 @@ class Chunk : public QObject
 {
 	Q_OBJECT
 public:
-	explicit Chunk(QObject *parent = 0);
+	explicit Chunk(QObject *parent, QPair<int, int> position);
 	~Chunk();
 
 	void generate(int seed);
@@ -41,6 +43,14 @@ public:
 		}
 	}
 
+	/*! Convert coordinates relatives to the chunk into world coordinates */
+	inline void mapToWorld(int chunkX, int chunkY, int chunkZ, int& worldX, int& worldY, int& worldZ)
+	{
+		worldX = m_position.first + chunkX;
+		worldY = chunkY;
+		worldZ = m_position.second + chunkZ;
+	}
+
 	//! Render all blocks of the chunk
 	void render3D();
 
@@ -49,8 +59,10 @@ signals:
 public slots:
 
 private:
+	QPair<int, int> m_position; //! The postion of the chunk in chunk unit.
 	BlockInfo* p_BlockInfos; // pointeur vers les BlockInfo
 	ChunkDrawer* m_chunkDrawer;
+	ChunkGenerator* m_chunkGenerator;
 };
 
 #endif // CHUNK_H

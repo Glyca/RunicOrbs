@@ -58,7 +58,7 @@ void ChunkDrawer::generateVBO()
 		{
 			for(int j = 0; j < CHUNK_HEIGHT; j++)
 			{
-				if(*m_chunkToDraw->block(i, j, k) != AIR) // Really, we dont't draw the air
+				if(*m_chunkToDraw->block(i, j, k) != AIR) // Really, we don't draw the air
 				{
 					for(int n = 0; n < 8; n++) // For each vector (3 floats) of our vertex array
 					{
@@ -81,6 +81,12 @@ void ChunkDrawer::generateVBO()
 							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 0] = 0.5f; // R
 							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 1] = 0.28515625; // V
 							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 2] = 0.2265625; // B
+						}
+						else
+						{
+							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 0] = 0.9f; // R
+							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 1] = 0.98515625; // V
+							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 2] = 0.9265625; // B
 						}
 					}
 					// We just have generated a cube array, so we increase the size counter (wich is in fact an offset in the array)
