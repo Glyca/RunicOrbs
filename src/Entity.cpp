@@ -4,7 +4,7 @@
 #include <QtGlobal>
 #include <QDebug>
 
-Entity::Entity() : f_pitchDegrees(225.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
+Entity::Entity() : f_pitchDegrees(180.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
 {
 }
 

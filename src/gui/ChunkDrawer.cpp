@@ -2,10 +2,10 @@
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
 
-// How is stored our array :
-// [ 24 (VERTEX_ARRAY_SIZE) floats for the vertices, 24 (COLOR_ARRAY_SIZE) floats for cube color ]
-#define VERTEX_ARRAY_SIZE 24
-#define COLOR_ARRAY_SIZE 24
+// How is stored our array in VRAM :
+// [ VVV CCC ] [ VVV CCC ] [ VVV CCC ] [ VVV CCC ] ...
+const int VERTEX_ARRAY_SIZE = 24;
+const int COLOR_ARRAY_SIZE = 24;
 
 const GLfloat CUBE_SIZE = 0.5f;
 
@@ -20,7 +20,10 @@ GLfloat cubeVertexArray[VERTEX_ARRAY_SIZE] = {
 	-CUBE_SIZE, CUBE_SIZE, -CUBE_SIZE
 };
 
-GLuint cubeIndicesArray[36] = {
+const int INDICE_MAX = 7;
+const int INDICE_ARRAY_SIZE = 36;
+
+GLuint cubeIndicesArray[INDICE_ARRAY_SIZE] = {
 	0, 1, 2, 2, 3, 0,
 	3, 2, 6, 6, 7, 3,
 	7, 6, 5, 5, 4, 7,
@@ -47,14 +50,14 @@ void ChunkDrawer::generateVBO()
 	GLfloat* f_array = new GLfloat[(VERTEX_ARRAY_SIZE + COLOR_ARRAY_SIZE) * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
 	i_arraySize = 0; // and we say there is 0 bytes inside for now
 
-	GLuint* i_indiceArray = new GLuint[sizeof(cubeIndicesArray) * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
+	GLuint* i_indiceArray = new GLuint[INDICE_ARRAY_SIZE * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
 	i_indiceArraySize = 0;
 
 	int i_thCubeDrawed = 0; // th cube drawed (0 now)
 
-	for(int i = 0; i < CHUNK_X_SIZE; i++)
+	for(int k = 0; k < CHUNK_Z_SIZE; k++)
 	{
-		for(int k = 0; k < CHUNK_Z_SIZE; k++)
+		for(int i = 0; i < CHUNK_X_SIZE; i++)
 		{
 			for(int j = 0; j < CHUNK_HEIGHT; j++)
 			{
@@ -65,43 +68,44 @@ void ChunkDrawer::generateVBO()
 				{
 					for(int n = 0; n < 8; n++) // For each vector (3 floats) of our vertex array
 					{
-						// We copy the 3 conponents of the vector and translate them by the way
-						f_array[i_arraySize + 3 * n + 0] = cubeVertexArray[3 * n + 0] + wi; // We draw the chunk directly at its position in the world
-						f_array[i_arraySize + 3 * n + 1] = cubeVertexArray[3 * n + 1] + wj;
-						f_array[i_arraySize + 3 * n + 2] = cubeVertexArray[3 * n + 2] + wk;
-					}
-					// After the vertex array comes the color array
-					for(int n = 0; n < 8; n++)
-					{
+						int i_arrayOffset = i_arraySize + 6 * n;
+
+						// We copy the 3 components of the vector and translate them by the way
+						f_array[i_arrayOffset + 0] = cubeVertexArray[3 * n + 0] + wi; // We draw the chunk directly at its position in the world
+						f_array[i_arrayOffset + 1] = cubeVertexArray[3 * n + 1] + wj;
+						f_array[i_arrayOffset + 2] = cubeVertexArray[3 * n + 2] + wk;
+
+						// Then the 3 components of the color
 						if(*m_chunkToDraw->block(i, j, k) == STONE)
 						{
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 0] = 0.48828125f; // R
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 1] = 0.48828125f; // V
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 2] = 0.48828125f; // B
+							f_array[i_arrayOffset + 3] = 0.48828125f; // R
+							f_array[i_arrayOffset + 4] = 0.48828125f; // V
+							f_array[i_arrayOffset + 5] = 0.48828125f; // B
 						}
 						else if(*m_chunkToDraw->block(i, j, k) == DIRT)
 						{
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 0] = 0.5f; // R
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 1] = 0.28515625; // V
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 2] = 0.2265625; // B
+							f_array[i_arrayOffset + 3] = 0.5f; // R
+							f_array[i_arrayOffset + 4] = 0.28515625; // V
+							f_array[i_arrayOffset + 5] = 0.2265625; // B
 						}
 						else
 						{
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 0] = 0.9f; // R
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 1] = 0.98515625; // V
-							f_array[i_arraySize + VERTEX_ARRAY_SIZE + 3 * n + 2] = 0.9265625; // B
+							f_array[i_arrayOffset + 3] = 0.9f; // R
+							f_array[i_arrayOffset + 4] = 0.98515625; // V
+							f_array[i_arrayOffset + 5] = 0.9265625; // B
 						}
 					}
+
 					// We just have generated a cube array, so we increase the size counter (wich is in fact an offset in the array)
 					i_arraySize += VERTEX_ARRAY_SIZE + COLOR_ARRAY_SIZE;
 
 					// Now we copy an indice array with new numbers (+8 between each cube)
-					for(int n = 0; n < 36; n++)
+					for(int n = 0; n < INDICE_ARRAY_SIZE; n++)
 					{
-						i_indiceArray[i_indiceArraySize + n] = cubeIndicesArray[n] + i_thCubeDrawed * 8;
+						i_indiceArray[i_indiceArraySize + n] = cubeIndicesArray[n] + i_thCubeDrawed * (INDICE_MAX + 1);
 					}
 					// We take note of the new size of the indice array
-					i_indiceArraySize += 36;
+					i_indiceArraySize += INDICE_ARRAY_SIZE;
 
 					//We finished to generate arrays for a cube :
 					i_thCubeDrawed++;
@@ -129,20 +133,20 @@ void ChunkDrawer::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_bufferIndices);
 	glVertexPointer(3, // Coordinates per vertex
 					GL_FLOAT, // Data type
-					0, // Offset between each vertice
+					6 * sizeof(GLfloat), // Offset between each vertice
 					BUFFER_OFFSET(0)); // where is the first vertice
 
 	glColorPointer(3, // Coordinates per color
 				   GL_FLOAT, // Data type
-				   0, // Offset between each color
-				   BUFFER_OFFSET(VERTEX_ARRAY_SIZE*sizeof(float))); // where is the first color
+				   6 * sizeof(GLfloat), // Offset between each color
+				   BUFFER_OFFSET(3 * sizeof(GLfloat))); // where is the first color*/
 
 	// Activation d'utilisation des tableaux
 	glEnableClientState( GL_VERTEX_ARRAY );
 	glEnableClientState( GL_COLOR_ARRAY );
 
 	// Rendu de notre géométrie
-	glDrawElements(GL_TRIANGLES, i_indiceArraySize, GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, i_indiceArraySize, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 
 	// Désactivation des tableaux
 	glDisableClientState( GL_COLOR_ARRAY );
