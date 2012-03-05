@@ -10,10 +10,18 @@ You must have Qt librairies installed, since they are not provided in the zip.
 In order to compile CraftTuX, you must have Qt and OpenGL development librairies installed. An easy way to do this is to download the [QtSDK](http://qt.nokia.com/downloads/).
 Then download the source and open `CrafTuX.pro`, in QtCreator for example. You just have to click on compile :)
 
+#Contributing
+Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
+
 #Changelog
 ##v0.0.3 (not released yet)
 ```
 [ADD] Jump
+[ADD] New drawing method using VBOs. (decreases CPU usage by 90% for just a few chunks)
+[ADD] Blocks now have colors
+[ADD] New terrain generation method (experimental, using Perlin noise)
+[ADD] Chunks are now loaded at a good distance from the player, avoiding him to await the generation
+[ADD] The game can be paused and resumed properly
 ```
 ##v0.0.2 (Feb 29 2012)
 ```
@@ -29,7 +37,7 @@ Then download the source and open `CrafTuX.pro`, in QtCreator for example. You j
 ##v0.0.1 (Feb 5 2012)
 ```
 (very first version)
-[ADD] Cuurent FPS are displayed in window title
+[ADD] Current FPS are displayed in window title
 [ADD] You fall thanks to the gravity
 [ADD] Physic engine with forces, velocity, acceleration and fluid fiction
 [ADD] Randomly generated cubes are drawn
