@@ -1,7 +1,7 @@
 #include "GameWindow.h"
 #include "version.h"
 
-GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0)
+GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true)
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 	setAutoFillBackground(false);
@@ -22,7 +22,6 @@ void GameWindow::initializeGL()
 	glShadeModel(GL_SMOOTH);
 	glClearColor(138.0f / 255.0f, 219.0f / 255.0f, 206.0f / 255.0f, 0.0f);
 	glClearDepth(1.0f);
-	glEnable(GL_DEPTH_TEST); // test de profondeur
 	glDepthFunc(GL_LEQUAL);  // Fontion du test de profondeur
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glEnable(GL_CULL_FACE); // Optimisation
@@ -40,7 +39,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glPushMatrix();
 
 	glShadeModel(GL_SMOOTH);
-	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST); // test de profondeur
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -75,22 +74,34 @@ void GameWindow::paintEvent(QPaintEvent *event)
 void GameWindow::render2D(QPainter& painter)
 {
 	// TEXT
-	QString text = "CrafTuX version " CRAFTUX_VERSION;
+
 	QFontMetrics metrics = QFontMetrics(font());
 	int border = qMax(4, metrics.leading());
-
-	QRect rect = metrics.boundingRect(0, 0, width() - 2*border, int(height()*0.125), Qt::AlignCenter | Qt::TextWordWrap, text);
-	painter.setRenderHint(QPainter::TextAntialiasing);
-	painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
+	painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing);
 	painter.setPen(Qt::white);
-	painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
-	painter.drawText((width() - rect.width())/2, border, rect.width(), rect.height(), Qt::AlignCenter | Qt::TextWordWrap, text);
 
-	QString postionText("Position : " + m_connector->me()->v_position);
-	painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
+	if(b_playing)
+	{
+		QString text = "CrafTuX version " CRAFTUX_VERSION;
 
-	QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
-	painter.drawText(border, border, width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
+		QRect rect = metrics.boundingRect(0, 0, width() - 2*border, int(height()*0.125), Qt::AlignCenter | Qt::TextWordWrap, text);
+		painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
+		painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
+		painter.drawText((width() - rect.width())/2, border, rect.width(), rect.height(), Qt::AlignCenter | Qt::TextWordWrap, text);
+
+		QString postionText("Position : " + m_connector->me()->v_position);
+		painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
+
+		QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
+		painter.drawText(border, border, width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
+	}
+	else
+	{
+		QString text = tr("The game is paused\n\nYou can resume by pressing ESCAPE or quit with C.");
+		QRect rect = metrics.boundingRect(0, 0, width(), height(), Qt::AlignCenter | Qt::AlignHCenter, text);
+		painter.drawRoundedRect(rect.adjusted(-10, -10, 10, 10), 10.0, 10.0);
+		painter.drawText(0, 0, width(), height(), Qt::AlignCenter | Qt::AlignHCenter, text);
+	}
 }
 
 void GameWindow::render3D()
@@ -129,25 +140,28 @@ void GameWindow::setCamera()
 
 void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
-	if(keyEvent->key() == Qt::Key_Up)
+	if(b_playing)
 	{
-		m_connector->me()->walk(Entity::WalkDirection_Forward);
-	}
-	if(keyEvent->key() == Qt::Key_Down)
-	{
-		m_connector->me()->walk(Entity::WalkDirection_Backward);
-	}
-	if(keyEvent->key() == Qt::Key_Left)
-	{
-		m_connector->me()->walk(Entity::WalkDirection_Left);
-	}
-	if(keyEvent->key() == Qt::Key_Right)
-	{
-		m_connector->me()->walk(Entity::WalkDirection_Right);
-	}
-	if(keyEvent->key() == Qt::Key_0)
-	{
-		m_connector->me()->jump();
+		if(keyEvent->key() == Qt::Key_Up)
+		{
+			m_connector->me()->walk(Entity::WalkDirection_Forward);
+		}
+		if(keyEvent->key() == Qt::Key_Down)
+		{
+			m_connector->me()->walk(Entity::WalkDirection_Backward);
+		}
+		if(keyEvent->key() == Qt::Key_Left)
+		{
+			m_connector->me()->walk(Entity::WalkDirection_Left);
+		}
+		if(keyEvent->key() == Qt::Key_Right)
+		{
+			m_connector->me()->walk(Entity::WalkDirection_Right);
+		}
+		if(keyEvent->key() == Qt::Key_0)
+		{
+			m_connector->me()->jump();
+		}
 	}
 
 	GLWidget::keyPressEvent(keyEvent);
@@ -155,25 +169,33 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 
 void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
-	if(keyEvent->key() == Qt::Key_Up)
+	if(keyEvent->key() == Qt::Key_Escape)
 	{
-		m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
+		b_playing = !b_playing;
 	}
-	if(keyEvent->key() == Qt::Key_Down)
+
+	if(b_playing)
 	{
-		m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
-	}
-	if(keyEvent->key() == Qt::Key_Left)
-	{
-		m_connector->me()->stopWalking(Entity::WalkDirection_Left);
-	}
-	if(keyEvent->key() == Qt::Key_Right)
-	{
-		m_connector->me()->stopWalking(Entity::WalkDirection_Right);
-	}
-	if(keyEvent->key() == Qt::Key_0)
-	{
-		m_connector->me()->stopJumping();
+		if(keyEvent->key() == Qt::Key_Up)
+		{
+			m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
+		}
+		if(keyEvent->key() == Qt::Key_Down)
+		{
+			m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
+		}
+		if(keyEvent->key() == Qt::Key_Left)
+		{
+			m_connector->me()->stopWalking(Entity::WalkDirection_Left);
+		}
+		if(keyEvent->key() == Qt::Key_Right)
+		{
+			m_connector->me()->stopWalking(Entity::WalkDirection_Right);
+		}
+		if(keyEvent->key() == Qt::Key_0)
+		{
+			m_connector->me()->stopJumping();
+		}
 	}
 
 	GLWidget::keyReleaseEvent(keyEvent);
@@ -181,43 +203,48 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 
 void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 {
-	const preal f_moveSpeed = 0.15f;
-
-	GLfloat f_delta;
-	int MouseX, MouseY;
-
-	MouseX = mouseEvent->x();
-	MouseY = mouseEvent->y();
-
-	int CenterX = width() / 2;
-	int CenterY = height() / 2;
-
-	if(MouseX < CenterX)
+	if(b_playing)
 	{
-		f_delta = GLfloat(CenterX - MouseX);
-		m_connector->me()->yaw(m_connector->me()->yaw() + f_moveSpeed * f_delta);
-	}
-	else if(MouseX > CenterX)
-	{
-		f_delta = GLfloat(MouseX - CenterX);
-		m_connector->me()->yaw(m_connector->me()->yaw() - f_moveSpeed * f_delta);
+		const preal f_moveSpeed = 0.15f;
+
+		GLfloat f_delta;
+		int MouseX, MouseY;
+
+		MouseX = mouseEvent->x();
+		MouseY = mouseEvent->y();
+
+		int CenterX = width() / 2;
+		int CenterY = height() / 2;
+
+		if(MouseX < CenterX)
+		{
+			f_delta = GLfloat(CenterX - MouseX);
+			m_connector->me()->yaw(m_connector->me()->yaw() + f_moveSpeed * f_delta);
+		}
+		else if(MouseX > CenterX)
+		{
+			f_delta = GLfloat(MouseX - CenterX);
+			m_connector->me()->yaw(m_connector->me()->yaw() - f_moveSpeed * f_delta);
+		}
+
+		if(MouseY < CenterY)
+		{
+			f_delta = GLfloat(CenterY - MouseY);
+			m_connector->me()->pitch(m_connector->me()->pitch() - f_moveSpeed * f_delta);
+		}
+		else if(MouseY > CenterY)
+		{
+			f_delta = GLfloat(MouseY - CenterY);
+			m_connector->me()->pitch(m_connector->me()->pitch() + f_moveSpeed * f_delta);
+		}
+
+		QCursor newCursor(this->cursor());
+		newCursor.setPos(mapToGlobal(QPoint(CenterX, CenterY)));
+		//newCursor.setShape(Qt::BlankCursor);
+		this->setCursor(newCursor);
 	}
 
-	if(MouseY < CenterY)
-	{
-		f_delta = GLfloat(CenterY - MouseY);
-		m_connector->me()->pitch(m_connector->me()->pitch() - f_moveSpeed * f_delta);
-	}
-	else if(MouseY > CenterY)
-	{
-		f_delta = GLfloat(MouseY - CenterY);
-		m_connector->me()->pitch(m_connector->me()->pitch() + f_moveSpeed * f_delta);
-	}
-
-	QCursor newCursor(this->cursor());
-	newCursor.setPos(mapToGlobal(QPoint(CenterX, CenterY)));
-	//newCursor.setShape(Qt::BlankCursor);
-	this->setCursor(newCursor);
+	GLWidget::mouseMoveEvent(mouseEvent);
 }
 
 void GameWindow::secondTimerTimeout()

@@ -30,6 +30,9 @@ private:
 
 	QTimer* t_secondTimer;
 	int i_FPS, i_framesRenderedThisSecond;
+
+	bool b_playing; //! If the game is running (not paused)
+
 private slots:
 	void secondTimerTimeout();
 };
