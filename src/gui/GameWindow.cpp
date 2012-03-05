@@ -1,7 +1,8 @@
 #include "GameWindow.h"
 #include "version.h"
 
-GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true)
+GameWindow::GameWindow(ServerConnector* connector)
+	: m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor())
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 	setAutoFillBackground(false);
@@ -11,7 +12,7 @@ GameWindow::GameWindow(ServerConnector* connector) : m_connector(connector), i_F
 	t_secondTimer->connect(t_secondTimer, SIGNAL(timeout()), this, SLOT(secondTimerTimeout()));
 	t_secondTimer->start();
 
-	setMouseTracking(true);
+	resume();
 }
 
 void GameWindow::initializeGL()
@@ -171,7 +172,14 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
 	if(keyEvent->key() == Qt::Key_Escape)
 	{
-		b_playing = !b_playing;
+		if(b_playing)
+		{
+			pause();
+		}
+		else
+		{
+			resume();
+		}
 	}
 
 	if(b_playing)
@@ -240,11 +248,27 @@ void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 
 		QCursor newCursor(this->cursor());
 		newCursor.setPos(mapToGlobal(QPoint(CenterX, CenterY)));
-		//newCursor.setShape(Qt::BlankCursor);
 		this->setCursor(newCursor);
 	}
 
 	GLWidget::mouseMoveEvent(mouseEvent);
+}
+
+void GameWindow::pause()
+{
+	this->setCursor(m_originalCursor);
+	setMouseTracking(false);
+	b_playing = false;
+}
+
+void GameWindow::resume()
+{
+	QCursor newCursor(this->cursor());
+	newCursor.setShape(Qt::BlankCursor);
+	newCursor.setPos(width() >> 1, height() >> 1);
+	this->setCursor(newCursor);
+	setMouseTracking(true);
+	b_playing = true;
 }
 
 void GameWindow::secondTimerTimeout()
