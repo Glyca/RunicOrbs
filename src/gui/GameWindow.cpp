@@ -42,6 +42,11 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glShadeModel(GL_SMOOTH);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_COLOR_MATERIAL);
+	static GLfloat lightPosition[4] = { 5.0f, 14.0f, 5.0f, 1.0f };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -54,6 +59,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glShadeModel(GL_FLAT);
 	glDisable(GL_CULL_FACE);
 	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_LIGHTING);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
@@ -108,7 +114,7 @@ void GameWindow::render3D()
 	glVertex3f(0.0f, 0.0f, 60.0f);
 	glEnd();
 
-	// BLOCKS RENDER with a very very slow and old method for the moment
+	// BLOCKS RENDER
 	m_connector->world().render3D();
 }
 

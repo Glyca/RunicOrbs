@@ -48,7 +48,7 @@ void ChunkGenerator::generateChunk()
 			{
 				int wi, wj, wk; // Coordinates in the world
 				m_chunkToGenerate->mapToWorld(i, j, k, wi, wj, wk);
-				m_chunkToGenerate->block(i, j, k)->setId((int)floor(ChunkGenerator::noise(wi, wj, wk)) + 1);
+				m_chunkToGenerate->block(i, j, k)->setId((int)((ChunkGenerator::noise(wi, wj, wk) + 1.7)));
 			}
 		}
 	}
