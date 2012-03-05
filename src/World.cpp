@@ -7,39 +7,29 @@
 World::World(QObject *parent) : QObject(parent)
 {
 	m_physicEngine = new PhysicEngine(this, this);
-	m_chunks = new QHash<QPair<int, int>, Chunk*>();
+	m_chunks = new QHash<ChunkPostition, Chunk*>();
 }
 
 World::~World()
 {
-	QHashIterator<QPair<int, int>, Chunk*> it(*m_chunks);
+	QHashIterator<ChunkPostition, Chunk*> it(*m_chunks);
 	while (it.hasNext()) {
 		it.next();
 		delete it.value(); // Delete each chunks of the world
 	}
 	delete m_chunks;
+	delete m_physicEngine;
 }
 
-void World::vector2int(Vector& vector, int& ix, int& iy, int& iz)
+Chunk* World::chunk(ChunkPostition postion)
 {
-	ix = floor(vector.x);
-	iy = floor(vector.y);
-	iz = floor(vector.z);
-}
-
-Chunk* World::chunk(QPair<int, int> postion)
-{
-	if(m_chunks->contains(postion))
+	if(m_chunks->contains(postion)) // If the chunk is already loaded
 	{
 		return m_chunks->value(postion);
 	}
-	else
+	else // otherwise, we load it
 	{
-		Chunk* newChunk = new Chunk(this, postion);
-		newChunk->generate(i_seed);
-		qDebug() << "Generated a chunk @" << postion;
-		m_chunks->insert(postion, newChunk);
-		return newChunk;
+		return loadChunk(postion);
 	}
 }
 
@@ -47,7 +37,35 @@ Chunk* World::chunk(const Vector& position)
 {
 	int x = position.x / CHUNK_X_SIZE;
 	int z = position.z / CHUNK_Z_SIZE;
-	return chunk(QPair<int, int>(x, z));
+	return chunk(ChunkPostition(x, z));
+}
+
+Chunk* World::loadChunk(ChunkPostition postion)
+{
+	if(m_chunks->contains(postion)) // safety : If the chunk is already loaded
+	{
+		return m_chunks->value(postion);
+	}
+	else // otherwise, we generate a new fresh one
+	{
+		Chunk* newChunk = new Chunk(this, postion);
+		newChunk->generate(i_seed);
+		qDebug() << "Generated a chunk @" << postion;
+		m_chunks->insert(postion, newChunk);
+		emit chunkLoaded(postion);
+		return newChunk;
+	}
+}
+
+void World::unloadChunk(Chunk* chunk)
+{
+	unloadChunk(m_chunks->key(chunk));
+}
+
+void World::unloadChunk(ChunkPostition postion)
+{
+	delete m_chunks->value(postion);
+	m_chunks->remove(postion);
 }
 
 BlockInfo* World::block(const Vector& position)
