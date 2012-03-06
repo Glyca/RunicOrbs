@@ -45,8 +45,8 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	glEnable(GL_COLOR_MATERIAL);
-	static GLfloat lightPosition[4] = { 5.0f, 14.0f, 5.0f, 1.0f };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+	GLfloat globalAmbient[] = { 0.9f, 0.9f, 0.9f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -14,6 +14,7 @@ private:
 	int i_seed;
 	Chunk* m_chunkToGenerate;
 
+	static double noise(double xin, double yin);
 	static double noise(double xin, double yin, double zin);
 };
 
