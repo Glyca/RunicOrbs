@@ -6,7 +6,8 @@ GLWidget::GLWidget(int framesPerSecond, QWidget *parent, char *name, QGLFormat f
 {
 	setWindowTitle(QString::fromUtf8(name));
 	setFps(framesPerSecond);
-	getGLExtensionFunctions().resolve(context()); // Fix for ISSUE 1 ?
+	makeCurrent(); // We have to make context current to resolve OpenGL functions (Fixes ISSUE 2)
+	getGLExtensionFunctions().resolve(context()); // resolve OpenGL >1.5 functions (Fix for ISSUE 1)
 }
 
 void GLWidget::resizeGL(int width, int height)

@@ -1,4 +1,5 @@
 #include "ChunkDrawer.h"
+#include "glextensions.h" // Necessary for all OpenGL >1.5 calls
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
 

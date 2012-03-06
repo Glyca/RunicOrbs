@@ -3,6 +3,7 @@
 
 #include <QtOpenGL>
 #include <QGLWidget>
+#include <GL/glu.h> // necessary for all glu*() calls
 
 class GLWidget : public QGLWidget
 {
