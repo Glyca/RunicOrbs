@@ -1,10 +1,12 @@
 ﻿#include "GLWidget.h"
+#include "glextensions.h"
 
 GLWidget::GLWidget(int framesPerSecond, QWidget *parent, char *name, QGLFormat format)
 	: QGLWidget(format, parent), f_cameraAngle(45.0f), t_Timer(NULL), b_Fullscreen(false)
 {
 	setWindowTitle(QString::fromUtf8(name));
 	setFps(framesPerSecond);
+	getGLExtensionFunctions().resolve(context()); // Fix for ISSUE 1 ?
 }
 
 void GLWidget::resizeGL(int width, int height)
