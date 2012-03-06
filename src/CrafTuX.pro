@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl network
+QT       += core gui opengl network xml
 
 TARGET = craftux
 TEMPLATE = app
@@ -30,7 +30,9 @@ SOURCES += main.cpp\
 	gui/CraftuxHome.cpp \
 	gui/TextureManager.cpp \
 	gui/ChunkDrawer.cpp \
-	ChunkGenerator.cpp
+	ChunkGenerator.cpp \
+	gui/OptionsDialog.cpp \
+	ClientConfiguration.cpp
 
 HEADERS  += \
 	BlockInfo.h \
@@ -56,10 +58,13 @@ HEADERS  += \
 	gui/CraftuxHome.h \
 	gui/TextureManager.h \
 	gui/ChunkDrawer.h \
-	ChunkGenerator.h
+	ChunkGenerator.h \
+	gui/OptionsDialog.h \
+	ClientConfiguration.h
 
 FORMS    += \
-	gui/CraftuxHome.ui
+	gui/CraftuxHome.ui \
+	gui/OptionsDialog.ui
 
 DEFINES += GL_GLEXT_PROTOTYPES
 

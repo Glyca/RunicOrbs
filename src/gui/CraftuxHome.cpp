@@ -8,24 +8,27 @@
 #include "ui_CraftuxHome.h"
 
 CraftuxHome::CraftuxHome(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::CraftuxHome)
+	QWidget(parent),
+	ui(new Ui::CraftuxHome)
 {
-    ui->setupUi(this);
+	ui->setupUi(this);
 	connect(ui->soloButton, SIGNAL(clicked()), this, SLOT(soloGameLaunch()));
 	connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
 CraftuxHome::~CraftuxHome()
 {
-    delete ui;
+	delete ui;
 }
 
 void CraftuxHome::soloGameLaunch()
 {
+	QString configurationPath = qApp->applicationDirPath() + "/config.xml";
+	ClientConfiguration* configuration = new ClientConfiguration(configurationPath);
 	// Création et génération du monde
 	ServerConnector* connector = new LocalServerConnector();
-	GameWindow* gameWindow = new GameWindow(connector);
+	connector->world().setSeed(configuration->getSeed());
+	GameWindow* gameWindow = new GameWindow(configuration, connector);
 	this->close();
 	gameWindow->show();
 }

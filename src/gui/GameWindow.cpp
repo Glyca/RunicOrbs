@@ -1,10 +1,11 @@
 #include "GameWindow.h"
 #include "version.h"
 
-GameWindow::GameWindow(ServerConnector* connector)
-	: m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor())
+GameWindow::GameWindow(ClientConfiguration* configuration, ServerConnector* connector)
+	: m_configuration(configuration), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor())
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
+	setFps(configuration->getFps());
 	setAutoFillBackground(false);
 
 	t_secondTimer = new QTimer(this);

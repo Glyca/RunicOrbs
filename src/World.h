@@ -34,6 +34,8 @@ public:
 
 	BlockInfo* block(const Vector& position);
 
+	inline void setSeed(const int seed) {i_seed = seed;}
+
 	void render3D();
 
 signals:
@@ -48,7 +50,6 @@ private:
 	PhysicEngine* m_physicEngine;
 	int i_time;
 	int i_seed; //! Seed of the world
-
 };
 
 #endif // WORLD_H

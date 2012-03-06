@@ -3,6 +3,7 @@
 
 #include <QWidget>
 
+#include "ClientConfiguration.h"
 #include "GLWidget.h"
 #include "ServerConnector.h"
 
@@ -11,7 +12,7 @@ class GameWindow : public GLWidget
 	Q_OBJECT
 
 public:
-	GameWindow(ServerConnector* connector);
+	GameWindow(ClientConfiguration* configuration, ServerConnector* connector);
 
 private:
 	void initializeGL();
@@ -26,6 +27,7 @@ private:
 	void keyReleaseEvent(QKeyEvent* keyEvent);
 	void mouseMoveEvent(QMouseEvent* mouseEvent);
 
+	ClientConfiguration* m_configuration;
 	ServerConnector* m_connector;
 
 	QTimer* t_secondTimer;

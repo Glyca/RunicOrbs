@@ -21,6 +21,7 @@ public slots:
 	virtual void timeOutSlot();
 
 protected:
+	void setFps(const int targetFps);
 	void resizeGLreally();
 	int i_winheight, i_winwidth;
 	float f_cameraAngle;
