@@ -2,21 +2,27 @@
 #define OPTIONSDIALOG_H
 
 #include <QDialog>
+#include <QAbstractButton>
 
 namespace Ui {
-    class OptionsDialog;
+	class OptionsDialog;
 }
 
 class OptionsDialog : public QDialog
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit OptionsDialog(QWidget *parent = 0);
-    ~OptionsDialog();
+	explicit OptionsDialog(QWidget *parent = 0);
+	~OptionsDialog();
+
+public slots:
+	void onClick(QAbstractButton*);
 
 private:
-    Ui::OptionsDialog *ui;
+	void load();
+	void save();
+	Ui::OptionsDialog *ui;
 };
 
 #endif // OPTIONSDIALOG_H

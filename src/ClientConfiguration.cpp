@@ -2,14 +2,20 @@
 
 #include <QtXml/QtXml>
 
-ClientConfiguration::ClientConfiguration() : s_filename(QString())
+ClientConfiguration::ClientConfiguration()
 {
 	defaultValues();
+	setDefaultFilename();
 }
 
 ClientConfiguration::ClientConfiguration(const QString filename) : s_filename(filename)
 {
 	defaultValues(); // Set the defaults
+}
+
+void ClientConfiguration::loadDefaultConfigFile()
+{
+	setDefaultFilename();
 	load();
 }
 
@@ -23,6 +29,11 @@ void ClientConfiguration::defaultValues()
 void ClientConfiguration::setFilename(const QString filename)
 {
 	s_filename = filename;
+}
+
+void ClientConfiguration::setDefaultFilename()
+{
+	setFilename(qApp->applicationDirPath() + "/config.xml");
 }
 
 void ClientConfiguration::load()

@@ -11,10 +11,14 @@ public:
 	/*! Load the configuration from a file */
 	ClientConfiguration(const QString filename);
 
+	/*! Load the configuration from the configuration file */
+	void loadDefaultConfigFile();
+
 	/*! Populate config with default values */
 	void defaultValues();
 
 	void setFilename(const QString filename);
+	void setDefaultFilename();
 
 	/*! Load the configuration from the disk */
 	void load();

@@ -22,6 +22,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [ADD] New terrain generation method (experimental, using Perlin noise)
 [ADD] Chunks are now loaded at a good distance from the player, avoiding him to await the generation
 [ADD] The game can be paused and resumed properly
+[ADD] Game have a persistent, customizable configuration
 ```
 ##v0.0.2 (Feb 29 2012)
 ```
