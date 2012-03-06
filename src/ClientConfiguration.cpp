@@ -124,7 +124,7 @@ void ClientConfiguration::save()
 	QByteArray content = doc.toByteArray();
 	QFile file(s_filename);
 
-	if (!file.open(QIODevice::ReadWrite))
+	if (!file.open(QIODevice::ReadWrite | QIODevice::Truncate))
 	{
 		qCritical() << QObject::tr("Error opening client configuration file %1").arg(s_filename);
 		return;
