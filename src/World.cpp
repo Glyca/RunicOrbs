@@ -50,7 +50,6 @@ Chunk* World::loadChunk(ChunkPostition postion)
 	{
 		Chunk* newChunk = new Chunk(this, postion);
 		newChunk->generate(i_seed);
-		qDebug() << "Generated a chunk @" << postion;
 		m_chunks->insert(postion, newChunk);
 		emit chunkLoaded(postion);
 		return newChunk;
@@ -70,7 +69,9 @@ void World::unloadChunk(ChunkPostition postion)
 
 BlockInfo* World::block(const Vector& position)
 {
-	return chunk(position)->block((int)floor(position.x) % CHUNK_X_SIZE, (int)floor(position.y), (int)floor(position.z) % CHUNK_Z_SIZE); // Very ugly casts !
+	int x, y, z;
+	position.block(x, y, z); // Get the block integer coordinates
+	return chunk(position)->block(x % CHUNK_X_SIZE, y, z % CHUNK_Z_SIZE);
 }
 
 void World::render3D()

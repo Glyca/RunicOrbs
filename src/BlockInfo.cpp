@@ -6,7 +6,6 @@ BlockInfo DIRT(2);
 
 BlockInfo::BlockInfo(int value) : i_value(value)
 {
-	makePowered(true);
 }
 
 BlockInfo* BlockInfo::voidBlock() {
@@ -23,15 +22,4 @@ void BlockInfo::setId(const int value)
 {
 	i_value = value;
 }
-
-bool BlockInfo::isPowered() const
-{
-	return b_isPowered;
-}
-
-void BlockInfo::makePowered(const bool yes)
-{
-	b_isPowered = yes;
-}
-
 

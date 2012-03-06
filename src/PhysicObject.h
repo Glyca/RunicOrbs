@@ -26,7 +26,9 @@ public:
 	inline void setMass(const preal mass) {f_mass = mass;}
 
 	/*! Wether the object is lying on the floor or not */
-	bool touchesFloor(World &workingWorld);
+	bool touchesFloor(World& workingWorld);
+
+
 
 public: // Public temporairement
 
@@ -37,6 +39,8 @@ public: // Public temporairement
 protected: // protected
 	/*! Modifie toutes les conposantes des vecteurs et coordonnées de l'objet */
 	virtual void processMove(preal f_elapsedTimeSec, World& workingWorld);
+
+	void processCollisions(World& workingWorld);
 
 	preal f_mass; // La masse de l'objet en KG
 };

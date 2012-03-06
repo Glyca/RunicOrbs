@@ -91,6 +91,14 @@ public:
 		return QString("(" + QVariant(x).toString() + "; " + QVariant(y).toString() + "; " + QVariant(z).toString() + ")");
 	}
 
+	/*! Give the position of the block where vector is */
+	inline void block(int& bx, int& by, int& bz) const
+	{
+		bx = (x > 0) ? int(x) : int(x - 1);
+		by = (y > 0) ? int(y) : int(y - 1);
+		bz = (z > 0) ? int(z) : int(z - 1);
+	}
+
 	preal x, y, z;
 };
 

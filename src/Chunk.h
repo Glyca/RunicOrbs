@@ -11,9 +11,9 @@
 class ChunkDrawer;
 class ChunkGenerator;
 
-const int CHUNK_X_SIZE = 4;
-const int CHUNK_Y_SIZE = 16;
-const int CHUNK_Z_SIZE = 4;
+const int CHUNK_X_SIZE = 16;
+const int CHUNK_Y_SIZE = 64;
+const int CHUNK_Z_SIZE = 16;
 const int CHUNK_HEIGHT = CHUNK_Y_SIZE;
 
 class Chunk : public QObject

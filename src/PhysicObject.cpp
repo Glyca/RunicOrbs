@@ -1,6 +1,8 @@
 #include "PhysicObject.h"
 #include "World.h"
 
+#include <QDebug>
+
 PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 {
 	if(f_mass == 0.0f)
@@ -34,12 +36,14 @@ void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 	// v += a * dt
 	v_velocity += v_acceleration * f_elapsedTimeSec;
 
+	processCollisions(workingWorld);
+
 	// x += v * dt
 	v_position += v_velocity * f_elapsedTimeSec;
 }
 
 void PhysicObject::applyForcev(Vector v_force)
-{   
+{
 	v_forces += v_force;
 }
 
@@ -57,5 +61,33 @@ void PhysicObject::applyFluidFrictionForce()
 
 bool PhysicObject::touchesFloor(World &workingWorld)
 {
-	return !(0 == workingWorld.block((Vector(v_position.x, (v_position.y + 0.1), v_position.z)))->id());
+	return !workingWorld.block((Vector(v_position.x, (v_position.y - 0.2), v_position.z)))->isVoid();
+}
+
+void PhysicObject::processCollisions(World& workingWorld)
+{
+	const preal f_contour = 0.2;
+
+	if(v_velocity.x > 0 && !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid())
+	{
+		v_velocity.x = 0;
+	}
+	else if(v_velocity.x < 0 && !workingWorld.block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid())
+	{
+		v_velocity.x = 0;
+	}
+
+	if(v_velocity.y < 0 && !workingWorld.block((Vector(v_position.x, v_position.y - f_contour, v_position.z)))->isVoid())
+	{
+		v_velocity.y = 0;
+	}
+
+	if(v_velocity.z > 0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid())
+	{
+		v_velocity.z = 0;
+	}
+	else if(v_velocity.z < 0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid())
+	{
+		v_velocity.z = 0;
+	}
 }

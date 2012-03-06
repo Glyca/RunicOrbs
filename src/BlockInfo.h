@@ -13,15 +13,14 @@ public:
 	int id() const;
 	void setId(const int value);
 
-	// SI LE BLOC EST ELECTRIFIE
-	bool isPowered() const;
-	void makePowered(const bool yes);
+	inline bool isVoid()
+	{
+		return (id() == 0);
+	}
 
 private:
 
 	unsigned short int i_value;
-	bool b_isPowered;
-
 };
 
 inline bool operator==(const BlockInfo& block1, const BlockInfo& block2)
