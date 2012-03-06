@@ -1,5 +1,3 @@
-#include <cmath> // floor
-
 #include "World.h"
 #include <QDebug>
 #include <QtOpenGL>

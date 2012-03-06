@@ -61,12 +61,12 @@ void PhysicObject::applyFluidFrictionForce()
 
 bool PhysicObject::touchesFloor(World &workingWorld)
 {
-	return !workingWorld.block((Vector(v_position.x, (v_position.y - 0.2), v_position.z)))->isVoid();
+	return !workingWorld.block((Vector(v_position.x, (v_position.y - 0.1), v_position.z)))->isVoid();
 }
 
 void PhysicObject::processCollisions(World& workingWorld)
 {
-	const preal f_contour = 0.2;
+	const preal f_contour = 0.0;
 
 	if(v_velocity.x > 0 && !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid())
 	{

@@ -6,8 +6,17 @@
 #include <QString>
 #include <QVariant>
 
-#include <cmath>
+#include <cmath> // sqrt
 
+/*! Fastly return a correct integer floor value, used everywhere */
+inline static int ifloor(double x)
+{
+	return (x >= 0) ? (int)x : (int)(x - 1);
+}
+
+/*! \class Vector
+	\brief A representaion of a 3D vector that hold 3 doubles and is very convenient
+  */
 class Vector
 {
 public:
@@ -94,9 +103,9 @@ public:
 	/*! Give the position of the block where vector is */
 	inline void block(int& bx, int& by, int& bz) const
 	{
-		bx = (x > 0) ? int(x) : int(x - 1);
-		by = (y > 0) ? int(y) : int(y - 1);
-		bz = (z > 0) ? int(z) : int(z - 1);
+		bx = ifloor(x);
+		by = ifloor(y);
+		bz = ifloor(z);
 	}
 
 	preal x, y, z;
