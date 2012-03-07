@@ -21,13 +21,25 @@ void GameWindow::initializeGL()
 	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
 	qDebug() << "OpenGL driver :" << (char*)glGetString(GL_VENDOR) << "|" << (char*)glGetString(GL_RENDERER)<< "|" << (char*)glGetString(GL_VERSION);
 
-	glShadeModel(GL_SMOOTH);
 	glClearColor(138.0f / 255.0f, 219.0f / 255.0f, 206.0f / 255.0f, 0.0f);
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LEQUAL);  // Fontion du test de profondeur
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	glEnable(GL_CULL_FACE); // Optimisation
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
+
+	// Lighting
+	static GLfloat lightPosition[4] = { 0.0f, 100.0f, 0.0f, 1.0f };
+	static GLfloat lightAmbient[4] = { 0.15f, 0.15f, 0.15f, 0.5f };
+	static GLfloat lightDiffuse[4] = { 0.05f, 0.05f, 0.05f, 0.05f };
+	static GLfloat lightSpecular[4] = { 0.05f, 0.05f, 0.05f, 0.05f };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
+	glEnable(GL_COLOR_MATERIAL); // To mix light and colors
 }
 
 void GameWindow::paintEvent(QPaintEvent *event)
@@ -37,17 +49,9 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 	setWindowTitle("CrafTuX | " + QVariant(i_FPS).toString() + tr(" FPS"));
 
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-
-	glShadeModel(GL_SMOOTH);
-	glEnable(GL_DEPTH_TEST); // test de profondeur
-	glEnable(GL_CULL_FACE);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_COLOR_MATERIAL);
-	GLfloat globalAmbient[] = { 0.9f, 0.9f, 0.9f, 1.0f };
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, globalAmbient);
+	glShadeModel(GL_SMOOTH); // re-enable
+	glEnable(GL_DEPTH_TEST); // re-enable
+	glEnable(GL_LIGHTING); // re-enable
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -57,13 +61,9 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 	render3D(); // 3D render
 
-	glShadeModel(GL_FLAT);
-	glDisable(GL_CULL_FACE);
+	glShadeModel(GL_FLAT); // disnable
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
-
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
 
 	// 2D render and flush
 	QPainter painter(this);
