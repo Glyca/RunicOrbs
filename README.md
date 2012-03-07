@@ -14,15 +14,19 @@ Then download the source and open `CrafTuX.pro`, in QtCreator for example. You j
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
 
 #Changelog
-##v0.0.3 (not released yet)
+##v0.0.3 (March 7 2012)
 ```
+(the biggest step forward for the moment)
 [ADD] Jump
 [ADD] New drawing method using VBOs. (decreases CPU usage by 90% for just a few chunks)
 [ADD] Blocks now have colors
 [ADD] New terrain generation method (experimental, using Perlin noise)
 [ADD] Chunks are now loaded at a good distance from the player, avoiding him to await the generation
 [ADD] The game can be paused and resumed properly
-[ADD] Game have a persistent, customizable configuration
+[ADD] Game have a persistent, customizable configuration for FPS (and almost the seed)
+[ADD] Lighting. Shapes are more visible
+[ADD] Collisions. You cant't go throught blocks anymore
+[FIX] Compilable on Windows since OpenGL 1.5 and higher functions are loaded
 ```
 ##v0.0.2 (Feb 29 2012)
 ```
@@ -31,7 +35,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [ADD] Got a reliable overpainting method working
 [ADD] Camera is reliable, and now works without Quaternions
 [ADD] You can walk in two directions (ex. FORWARD-LEFT)
-[FIX] You can't fall into blocks anymore
+[ADD] You can't fall into blocks anymore
 [FIX] Simplified world generator a lot
 [FIX] Code and debug warnings cleanup
 ```
