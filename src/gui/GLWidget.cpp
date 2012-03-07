@@ -2,7 +2,7 @@
 #include "glextensions.h"
 
 GLWidget::GLWidget(int framesPerSecond, QWidget *parent, char *name, QGLFormat format)
-	: QGLWidget(format, parent), f_cameraAngle(45.0f), t_Timer(NULL), b_Fullscreen(false)
+	: QGLWidget(format, parent), f_cameraAngle(70.0f), t_Timer(NULL), b_Fullscreen(false)
 {
 	setWindowTitle(QString::fromUtf8(name));
 	setFps(framesPerSecond);
@@ -40,7 +40,7 @@ void GLWidget::resizeGLreally()
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(f_cameraAngle, (GLfloat)i_winwidth/(GLfloat)i_winheight, 0.1f, 2000.0f);
+	gluPerspective(f_cameraAngle, (GLfloat)i_winwidth/(GLfloat)i_winheight, 0.2f, 2000.0f);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();

@@ -68,7 +68,7 @@ void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
 
 	if(isJumping() && this->touchesFloor(workingWorld))
 	{
-		const preal f_jumpVerticalForce = 15000.0; // NEWTONS
+		const preal f_jumpVerticalForce = 12000.0; // NEWTONS
 		applyForcev(Vector(0.0, f_jumpVerticalForce, 0.0));
 	}
 

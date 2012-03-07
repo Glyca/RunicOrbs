@@ -77,7 +77,7 @@ bool PhysicObject::touchesFloor(World& workingWorld)
 
 void PhysicObject::processCollisions(World& workingWorld)
 {
-	const preal f_contour = 0.4;
+	const preal f_contour = 0.2;
 
 	if(v_tempVelocity.x > 0.0 && !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid())
 	{

@@ -2,7 +2,7 @@
 #include "version.h"
 
 GameWindow::GameWindow(ClientConfiguration* configuration, ServerConnector* connector)
-	: m_configuration(configuration), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor())
+	: m_configuration(configuration), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor()), f_characterHeight(1.70f) // not 1.75 because eyes are a little bit under
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 	setFps(configuration->getFps());
@@ -21,7 +21,7 @@ void GameWindow::initializeGL()
 	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
 	qDebug() << "OpenGL driver :" << (char*)glGetString(GL_VENDOR) << "|" << (char*)glGetString(GL_RENDERER)<< "|" << (char*)glGetString(GL_VERSION);
 
-	glClearColor(138.0f / 255.0f, 219.0f / 255.0f, 206.0f / 255.0f, 0.0f);
+	glClearColor(138.0f / 255.0f, 198.0f / 255.0f, 206.0f / 255.0f, 0.0f);
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LEQUAL);  // Fontion du test de profondeur
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
@@ -29,9 +29,9 @@ void GameWindow::initializeGL()
 
 	// Lighting
 	static GLfloat lightPosition[4] = { 0.0f, 100.0f, 0.0f, 1.0f };
-	static GLfloat lightAmbient[4] = { 0.2f, 0.2f, 0.2f, 0.5f };
-	static GLfloat lightDiffuse[4] = { 0.05f, 0.05f, 0.05f, 0.05f };
-	static GLfloat lightSpecular[4] = { 0.05f, 0.05f, 0.05f, 0.05f };
+	static GLfloat lightAmbient[4] = { 0.22f, 0.22f, 0.22f, 0.5f };
+	static GLfloat lightDiffuse[4] = { 0.06f, 0.06f, 0.06f, 0.05f };
+	static GLfloat lightSpecular[4] = { 0.025f, 0.025f, 0.025f, 0.05f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
@@ -135,8 +135,8 @@ void GameWindow::setCamera()
 {
 	Vector position = m_connector->me()->v_position;
 	Vector direction = m_connector->me()->direction();
-	gluLookAt(position.x, position.y, position.z,
-			  position.x + direction.x, position.y + direction.y, position.z + direction.z,
+	gluLookAt(position.x, position.y + f_characterHeight, position.z,
+			  position.x + direction.x, position.y + direction.y + f_characterHeight, position.z + direction.z,
 			  0.0, 1.0, 0.0);
 }
 
