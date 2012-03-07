@@ -13,6 +13,11 @@ PhysicObject::PhysicObject(preal mass) : f_mass(mass)
 	v_position.y = 50;
 }
 
+PhysicObject::~PhysicObject()
+{
+
+}
+
 void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 {
 	// Si en dessous de nous c'est du vide, alors on applqiue le poids
@@ -61,12 +66,12 @@ void PhysicObject::applyFluidFrictionForce()
 
 bool PhysicObject::touchesFloor(World &workingWorld)
 {
-	return !workingWorld.block((Vector(v_position.x, (v_position.y - 0.1), v_position.z)))->isVoid();
+	return !workingWorld.block((Vector(v_position.x, (v_position.y - 1), v_position.z)))->isVoid();
 }
 
 void PhysicObject::processCollisions(World& workingWorld)
 {
-	const preal f_contour = 0.0;
+	const preal f_contour = 0.1;
 
 	if(v_velocity.x > 0 && !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid())
 	{

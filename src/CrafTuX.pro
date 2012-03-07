@@ -10,7 +10,6 @@ TARGET = craftux
 TEMPLATE = app
 
 SOURCES += main.cpp\
-	BlockInfo.cpp \
 	PhysicObject.cpp \
 	PhysicEngine.cpp \
 	Chunk.cpp \
@@ -32,10 +31,10 @@ SOURCES += main.cpp\
 	gui/ChunkDrawer.cpp \
 	ChunkGenerator.cpp \
 	gui/OptionsDialog.cpp \
-	ClientConfiguration.cpp
+	ClientConfiguration.cpp \
+    blocks/BlockInfo.cpp
 
 HEADERS  += \
-	BlockInfo.h \
 	PhysicObject.h \
 	PhysicEngine.h \
 	PhysicSize.h \
@@ -60,7 +59,8 @@ HEADERS  += \
 	gui/ChunkDrawer.h \
 	ChunkGenerator.h \
 	gui/OptionsDialog.h \
-	ClientConfiguration.h
+	ClientConfiguration.h \
+    blocks/BlockInfo.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

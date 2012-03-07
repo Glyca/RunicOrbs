@@ -15,6 +15,7 @@ class PhysicObject : public QObject
 	friend class PhysicEngine;
 public:
 	PhysicObject(preal mass = f_defaultMass);
+	virtual ~PhysicObject();
 
 	// Applique un vecteur force avec ces composantes en NEWTON
 	void applyForcev(Vector v_force);

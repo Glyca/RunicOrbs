@@ -8,6 +8,11 @@ Entity::Entity() : f_pitchDegrees(180.0f), f_yawDegrees(135.0f), m_walkDirection
 {
 }
 
+Entity::~Entity()
+{
+
+}
+
 Vector Entity::direction()
 {
 	Vector v_direction;

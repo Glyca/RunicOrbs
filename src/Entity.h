@@ -7,6 +7,7 @@ class Entity : public PhysicObject
 {
 public:
 	Entity();
+	virtual ~Entity();
 
 	/*! The direction the entity is looking at */
 	Vector direction();

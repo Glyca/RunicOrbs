@@ -5,7 +5,7 @@
 #include <QHash>
 #include <QPair>
 
-#include "BlockInfo.h"
+#include "blocks/BlockInfo.h"
 #include "Chunk.h"
 #include "Entity.h"
 #include "PhysicEngine.h"

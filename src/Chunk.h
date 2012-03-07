@@ -7,7 +7,7 @@
 #include <QPair>
 #include <cmath>
 
-#include "BlockInfo.h"
+#include "blocks/BlockInfo.h"
 class ChunkDrawer;
 class ChunkGenerator;
 
