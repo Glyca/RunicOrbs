@@ -33,8 +33,25 @@ Chunk* World::chunk(ChunkPostition postion)
 
 Chunk* World::chunk(const Vector& position)
 {
-	int x = position.x / CHUNK_X_SIZE;
-	int z = position.z / CHUNK_Z_SIZE;
+	int x, z;
+	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
+	// but chunk -0;-0 is impossible, hence the -1
+	if(position.x < 0)
+	{
+		x = position.x / CHUNK_X_SIZE - 1;
+	}
+	else
+	{
+		x = position.x / CHUNK_X_SIZE;
+	}
+	if(position.z < 0)
+	{
+		z = position.z / CHUNK_Z_SIZE - 1;
+	}
+	else
+	{
+		z = position.z / CHUNK_Z_SIZE;
+	}
 	return chunk(ChunkPostition(x, z));
 }
 
@@ -68,8 +85,30 @@ void World::unloadChunk(ChunkPostition postion)
 BlockInfo* World::block(const Vector& position)
 {
 	int x, y, z;
-	position.block(x, y, z); // Get the block integer coordinates
-	return chunk(position)->block(x % CHUNK_X_SIZE, y, z % CHUNK_Z_SIZE);
+	position.toBlock(x, y, z); // Get the block integer coordinates in the world
+	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk
+
+	if(x < 0)
+	{
+		int chunkPosX = x / CHUNK_X_SIZE - 1;
+		chunkBlockX = x - chunkPosX * CHUNK_X_SIZE;
+	}
+	else // in positives we can use modulo
+	{
+		chunkBlockX = x % CHUNK_X_SIZE;
+	}
+
+	if(z < 0)
+	{
+		int chunkPosZ = z / CHUNK_Z_SIZE - 1;
+		chunkBlockZ = z - chunkPosZ * CHUNK_Z_SIZE;
+	}
+	else
+	{
+		chunkBlockZ = z % CHUNK_Z_SIZE;
+	}
+
+	return chunk(position)->block(chunkBlockX, y, chunkBlockZ);
 }
 
 void World::render3D()

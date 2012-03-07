@@ -1,4 +1,4 @@
-﻿#ifndef VECTOR_H
+#ifndef VECTOR_H
 #define VECTOR_H
 
 #include "PhysicSize.h"
@@ -101,7 +101,7 @@ public:
 	}
 
 	/*! Give the position of the block where vector is */
-	inline void block(int& bx, int& by, int& bz) const
+	inline void toBlock(int& bx, int& by, int& bz) const
 	{
 		bx = ifloor(x);
 		by = ifloor(y);

@@ -29,7 +29,7 @@ void GameWindow::initializeGL()
 
 	// Lighting
 	static GLfloat lightPosition[4] = { 0.0f, 100.0f, 0.0f, 1.0f };
-	static GLfloat lightAmbient[4] = { 0.15f, 0.15f, 0.15f, 0.5f };
+	static GLfloat lightAmbient[4] = { 0.2f, 0.2f, 0.2f, 0.5f };
 	static GLfloat lightDiffuse[4] = { 0.05f, 0.05f, 0.05f, 0.05f };
 	static GLfloat lightSpecular[4] = { 0.05f, 0.05f, 0.05f, 0.05f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);

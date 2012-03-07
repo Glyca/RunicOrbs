@@ -18,6 +18,11 @@ PhysicObject::~PhysicObject()
 
 }
 
+Vector PhysicObject::velocity() const
+{
+	return v_velocity;
+}
+
 void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 {
 	// Si en dessous de nous c'est du vide, alors on applqiue le poids
@@ -41,10 +46,11 @@ void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 	// v += a * dt
 	v_velocity += v_acceleration * f_elapsedTimeSec;
 
-	processCollisions(workingWorld);
+	v_tempVelocity = velocity();
+	processCollisions(workingWorld);// corrects v_tempVelocity
 
 	// x += v * dt
-	v_position += v_velocity * f_elapsedTimeSec;
+	v_position += v_tempVelocity * f_elapsedTimeSec;
 }
 
 void PhysicObject::applyForcev(Vector v_force)
@@ -61,38 +67,38 @@ void PhysicObject::applyFluidFrictionForce()
 {
 	// On applique l'accélération due aux frottements fluides
 	const preal f_h = 1e-3;
-	v_forces -= v_velocity * f_h;
+	v_forces -= velocity() * f_h;
 }
 
-bool PhysicObject::touchesFloor(World &workingWorld)
+bool PhysicObject::touchesFloor(World& workingWorld)
 {
 	return !workingWorld.block((Vector(v_position.x, (v_position.y - 1), v_position.z)))->isVoid();
 }
 
 void PhysicObject::processCollisions(World& workingWorld)
 {
-	const preal f_contour = 0.1;
+	const preal f_contour = 0.4;
 
-	if(v_velocity.x > 0 && !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid())
+	if(v_tempVelocity.x > 0.0 && !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid())
 	{
-		v_velocity.x = 0;
+		v_tempVelocity.x = 0.0;
 	}
-	else if(v_velocity.x < 0 && !workingWorld.block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid())
+	else if(v_tempVelocity.x < 0.0 && !workingWorld.block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid())
 	{
-		v_velocity.x = 0;
-	}
-
-	if(v_velocity.y < 0 && !workingWorld.block((Vector(v_position.x, v_position.y - f_contour, v_position.z)))->isVoid())
-	{
-		v_velocity.y = 0;
+		v_tempVelocity.x = 0.0;
 	}
 
-	if(v_velocity.z > 0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid())
+	if(v_tempVelocity.y < 0.0 && !workingWorld.block((Vector(v_position.x, v_position.y - f_contour, v_position.z)))->isVoid())
 	{
-		v_velocity.z = 0;
+		v_tempVelocity.y = 0.0;
 	}
-	else if(v_velocity.z < 0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid())
+
+	if(v_tempVelocity.z > 0.0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid())
 	{
-		v_velocity.z = 0;
+		v_tempVelocity.z = 0.0;
+	}
+	else if(v_tempVelocity.z < 0.0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid())
+	{
+		v_tempVelocity.z = 0.0;
 	}
 }

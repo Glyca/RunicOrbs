@@ -9,6 +9,8 @@ public:
 	Entity();
 	virtual ~Entity();
 
+	virtual Vector velocity() const;
+
 	/*! The direction the entity is looking at */
 	Vector direction();
 	inline float pitch() const {return f_pitchDegrees;}
@@ -37,7 +39,7 @@ public:
 	/*! Stop the Entity walking for a direction */
 	inline void stopWalking(WalkDirection direction) {m_walkDirection = (WalkDirection)(m_walkDirection & ~direction);}
 	/*! Stop the Entity walking */
-	inline void stopWalking() {m_walkDirection = WalkDirection_Stop;}
+	inline void stopWalking() {m_walkDirection = WalkDirection_Stop; v_walkVelocity.null();}
 	/*! Wether the Entity is walking or not */
 	inline bool isWalking() const {return !(m_walkDirection == WalkDirection_Stop);}
 
@@ -52,7 +54,7 @@ private:
 	float f_pitchDegrees, f_yawDegrees;
 
 	WalkDirection m_walkDirection;
-	Vector v_oldWalkVelocity;
+	Vector v_walkVelocity;
 
 	bool b_jumping;
 };

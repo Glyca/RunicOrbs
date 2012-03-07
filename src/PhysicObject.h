@@ -17,6 +17,8 @@ public:
 	PhysicObject(preal mass = f_defaultMass);
 	virtual ~PhysicObject();
 
+	virtual Vector velocity() const;
+
 	// Applique un vecteur force avec ces composantes en NEWTON
 	void applyForcev(Vector v_force);
 
@@ -29,12 +31,10 @@ public:
 	/*! Wether the object is lying on the floor or not */
 	bool touchesFloor(World& workingWorld);
 
-
-
 public: // Public temporairement
 
 	Vector v_position; // La position de l'objet
-	Vector v_velocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
+	Vector v_velocity, v_tempVelocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
 	Vector v_forces; // Somme des forces appliquées à l'objet
 
 protected: // protected

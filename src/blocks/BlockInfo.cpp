@@ -9,7 +9,7 @@ BlockInfo::BlockInfo(int value) : i_value(value)
 }
 
 BlockInfo* BlockInfo::voidBlock() {
-	BlockInfo* voidBlock = new BlockInfo();
+	BlockInfo* voidBlock = new BlockInfo(0);
 	return voidBlock;
 }
 

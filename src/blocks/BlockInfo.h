@@ -20,7 +20,7 @@ public:
 
 private:
 
-	unsigned short int i_value;
+	int i_value;
 };
 
 inline bool operator==(const BlockInfo& block1, const BlockInfo& block2)

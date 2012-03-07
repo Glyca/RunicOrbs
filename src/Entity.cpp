@@ -13,6 +13,11 @@ Entity::~Entity()
 
 }
 
+Vector Entity::velocity() const
+{
+	return (v_walkVelocity + PhysicObject::velocity());
+}
+
 Vector Entity::direction()
 {
 	Vector v_direction;
@@ -27,7 +32,7 @@ Vector Entity::direction()
 
 void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
 {
-	Vector v_walkVelocity;
+	v_walkVelocity.null(); // We reset the walk velocity
 
 	if(isWalking())
 	{
@@ -58,10 +63,8 @@ void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
 			rightVelocity.z = v_walkIncrement.x;
 			v_walkVelocity += rightVelocity;
 		}
+		v_walkVelocity.y = 0.0; // In all cases, walking don't provide any vertical movement.
 	}
-
-	v_velocity += (v_walkVelocity - v_oldWalkVelocity);
-	v_oldWalkVelocity = v_walkVelocity;
 
 	if(isJumping() && this->touchesFloor(workingWorld))
 	{
