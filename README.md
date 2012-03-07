@@ -14,6 +14,10 @@ Then download the source and open `CrafTuX.pro`, in QtCreator for example. You j
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
 
 #Changelog
+##v0.0.4 (not released yet)
+```
+
+```
 ##v0.0.3 (March 7 2012)
 ```
 (the biggest step forward for the moment)
