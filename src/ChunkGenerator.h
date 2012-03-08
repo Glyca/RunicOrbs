@@ -2,20 +2,24 @@
 #define CHUNKGENERATOR_H
 
 #include "Chunk.h"
+#include <QThread>
 
-class ChunkGenerator
+class ChunkGenerator : public QThread
 {
 public:
-	ChunkGenerator(Chunk* chunkToGenerate, int seed);
+	ChunkGenerator(const int seed);
+	ChunkGenerator(const ChunkGenerator&);
 
-	void generateChunk();
+	void run();
+
+	inline void setChunkToGenerate(Chunk* chunkToGenerate) {m_chunkToGenerate = chunkToGenerate;}
+
+	/*! Called in run() to generate the chunk in fact */
+	void generateChunk() const;
 
 private:
 	int i_seed;
 	Chunk* m_chunkToGenerate;
-
-	static double noise(double xin, double yin);
-	static double noise(double xin, double yin, double zin);
 };
 
 #endif // CHUNKGENERATOR_H

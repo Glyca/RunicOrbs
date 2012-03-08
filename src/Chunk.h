@@ -4,12 +4,12 @@
 #include <QtGlobal>
 #include <QObject>
 #include <QList>
+#include <QMutex>
 #include <QPair>
 #include <cmath>
 
 #include "blocks/BlockInfo.h"
 class ChunkDrawer;
-class ChunkGenerator;
 
 const int CHUNK_X_SIZE = 16;
 const int CHUNK_Y_SIZE = 64;
@@ -22,8 +22,6 @@ class Chunk : public QObject
 public:
 	explicit Chunk(QObject *parent, QPair<int, int> position);
 	~Chunk();
-
-	void generate(int seed);
 
 	/*! Access a block from a chunk
 		\warning The coordinates to pass are relative to the chunk, and thus must be inside !
@@ -39,7 +37,10 @@ public:
 		else
 		{
 			int ID = y + x * CHUNK_Y_SIZE + z * CHUNK_Y_SIZE * CHUNK_X_SIZE;
-			return &p_BlockInfos[ID];
+			m_mutex.lock();
+			BlockInfo* block = &p_BlockInfos[ID];
+			m_mutex.unlock();
+			return block;
 		}
 	}
 
@@ -59,10 +60,10 @@ signals:
 public slots:
 
 private:
+	QMutex m_mutex;
 	QPair<int, int> m_position; //! The postion of the chunk in chunk unit.
 	BlockInfo* p_BlockInfos; // pointeur vers les BlockInfo
 	ChunkDrawer* m_chunkDrawer;
-	ChunkGenerator* m_chunkGenerator;
 };
 
 #endif // CHUNK_H

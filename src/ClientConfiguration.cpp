@@ -8,7 +8,7 @@ ClientConfiguration::ClientConfiguration()
 	setDefaultFilename();
 }
 
-ClientConfiguration::ClientConfiguration(const QString filename) : s_filename(filename)
+ClientConfiguration::ClientConfiguration(const QString& filename) : s_filename(filename)
 {
 	defaultValues(); // Set the defaults
 }
@@ -26,7 +26,7 @@ void ClientConfiguration::defaultValues()
 	i_seed = 123456789;
 }
 
-void ClientConfiguration::setFilename(const QString filename)
+void ClientConfiguration::setFilename(const QString& filename)
 {
 	s_filename = filename;
 }
@@ -94,7 +94,7 @@ void ClientConfiguration::load()
 	}
 }
 
-void ClientConfiguration::save()
+void ClientConfiguration::save() const
 {
 	QDomDocument doc("xml");
 

@@ -23,7 +23,7 @@ Vector PhysicObject::velocity() const
 	return v_velocity;
 }
 
-void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
+void PhysicObject::processMove(const preal f_elapsedTimeSec, World& workingWorld)
 {
 	// Si en dessous de nous c'est du vide, alors on applqiue le poids
 	if(!this->touchesFloor(workingWorld)) {
@@ -53,7 +53,7 @@ void PhysicObject::processMove(preal f_elapsedTimeSec, World &workingWorld)
 	v_position += v_tempVelocity * f_elapsedTimeSec;
 }
 
-void PhysicObject::applyForcev(Vector v_force)
+void PhysicObject::applyForcev(const Vector& v_force)
 {
 	v_forces += v_force;
 }

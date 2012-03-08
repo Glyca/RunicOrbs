@@ -20,7 +20,7 @@ public:
 	virtual Vector velocity() const;
 
 	// Applique un vecteur force avec ces composantes en NEWTON
-	void applyForcev(Vector v_force);
+	void applyForcev(const Vector& v_force);
 
 	void applyWeightForce();
 	void applyFluidFrictionForce();
@@ -39,7 +39,7 @@ public: // Public temporairement
 
 protected: // protected
 	/*! Modifie toutes les conposantes des vecteurs et coordonnées de l'objet */
-	virtual void processMove(preal f_elapsedTimeSec, World& workingWorld);
+	virtual void processMove(const preal f_elapsedTimeSec, World& workingWorld);
 
 	void processCollisions(World& workingWorld);
 

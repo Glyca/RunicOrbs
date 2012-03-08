@@ -2,7 +2,7 @@
 #include <QDebug>
 #include <QtOpenGL>
 
-World::World(QObject *parent) : QObject(parent)
+World::World(const int seed, QObject *parent) : QObject(parent), m_chunkGenerator(ChunkGenerator(seed)), i_seed(seed)
 {
 	m_physicEngine = new PhysicEngine(this, this);
 	m_chunks = new QHash<ChunkPostition, Chunk*>();
@@ -19,7 +19,7 @@ World::~World()
 	delete m_physicEngine;
 }
 
-Chunk* World::chunk(ChunkPostition postion)
+Chunk* World::chunk(const ChunkPostition postion)
 {
 	if(m_chunks->contains(postion)) // If the chunk is already loaded
 	{
@@ -64,7 +64,8 @@ Chunk* World::loadChunk(ChunkPostition postion)
 	else // otherwise, we generate a new fresh one
 	{
 		Chunk* newChunk = new Chunk(this, postion);
-		newChunk->generate(i_seed);
+		m_chunkGenerator.setChunkToGenerate(newChunk);
+		m_chunkGenerator.run();
 		m_chunks->insert(postion, newChunk);
 		emit chunkLoaded(postion);
 		return newChunk;
@@ -113,9 +114,10 @@ BlockInfo* World::block(const Vector& position)
 
 void World::render3D()
 {
-	QHashIterator<QPair<int, int>, Chunk*> it(*m_chunks);
-	while (it.hasNext()) {
-		it.next();
+	QHash<ChunkPostition, Chunk*>::const_iterator it = m_chunks->constBegin();
+	QHash<ChunkPostition, Chunk*>::const_iterator endit = m_chunks->constEnd();
+	while (it != endit) {
 		it.value()->render3D();
+		++it;
 	}
 }

@@ -9,7 +9,7 @@ public:
 	/*! Create a default configuration */
 	ClientConfiguration();
 	/*! Load the configuration from a file */
-	ClientConfiguration(const QString filename);
+	ClientConfiguration(const QString& filename);
 
 	/*! Load the configuration from the configuration file */
 	void loadDefaultConfigFile();
@@ -17,13 +17,13 @@ public:
 	/*! Populate config with default values */
 	void defaultValues();
 
-	void setFilename(const QString filename);
+	void setFilename(const QString& filename);
 	void setDefaultFilename();
 
 	/*! Load the configuration from the disk */
 	void load();
 	/*! Save the configuration on the disk */
-	void save();
+	void save() const;
 
 	/* Accessors have willingly a get or set prefix to enphasize that it's a provider class */
 

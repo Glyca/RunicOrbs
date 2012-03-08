@@ -7,6 +7,7 @@
 
 #include "blocks/BlockInfo.h"
 #include "Chunk.h"
+#include "ChunkGenerator.h"
 #include "Entity.h"
 #include "PhysicEngine.h"
 #include "Vector.h"
@@ -17,13 +18,13 @@ class World : public QObject
 {
 	Q_OBJECT
 public:
-	explicit World(QObject *parent = 0);
+	explicit World(const int seed, QObject *parent = 0);
 	~World();
 
 	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
 
 	/*! Access to a chunk of the world */
-	Chunk* chunk(ChunkPostition postion);
+	Chunk* chunk(const ChunkPostition postion);
 	Chunk* chunk(const Vector& postion);
 
 	/*! Load a chunk in the workd into RAM */
@@ -48,6 +49,7 @@ private:
 	QHash<ChunkPostition, Chunk*> * m_chunks;
 	QList<Entity> m_entities;
 	PhysicEngine* m_physicEngine;
+	ChunkGenerator m_chunkGenerator;
 	int i_time;
 	int i_seed; //! Seed of the world
 };

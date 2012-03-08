@@ -32,7 +32,7 @@ SOURCES += main.cpp\
 	ChunkGenerator.cpp \
 	gui/OptionsDialog.cpp \
 	ClientConfiguration.cpp \
-    blocks/BlockInfo.cpp
+	blocks/BlockInfo.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -60,7 +60,7 @@ HEADERS  += \
 	ChunkGenerator.h \
 	gui/OptionsDialog.h \
 	ClientConfiguration.h \
-    blocks/BlockInfo.h
+	blocks/BlockInfo.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

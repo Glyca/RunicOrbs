@@ -7,7 +7,7 @@
  by Glyca
 */
 
-inline static double Noise(int x, int y)
+inline static double Noise(const int x, const int y)
 {
 	int n = ifloor(x) + ifloor(y) * 57;
 	n = (n << 13) ^ n;
@@ -15,7 +15,7 @@ inline static double Noise(int x, int y)
 	return 1.0 - ((double) nn / 1073741824.0);
 }
 
-static double SmoothNoise_1(double x, double y)
+inline static double SmoothNoise_1(const double x, const double y)
 {
 	double corners = ( Noise(x-1, y-1) + Noise(x+1, y-1) + Noise(x-1, y+1) + Noise(x+1, y+1) ) / 16.0;
 	double sides   = ( Noise(x-1, y  ) + Noise(x+1, y  ) + Noise(x  , y-1) + Noise(x  , y+1) ) /  8.0;
@@ -23,14 +23,14 @@ static double SmoothNoise_1(double x, double y)
 	return corners + sides + center;
 }
 
-static double Cosine_Interpolate(double a, double b, double x)
+inline static double Cosine_Interpolate(const double a, const double b, const double x)
 {
 	double ft = x * 3.1415927;
 	double f = (1 - cos(ft)) * 0.5;
 	return a * (1 - f) + b * f;
 }
 
-static double InterpolatedNoise_1(double x, double y)
+static double InterpolatedNoise_1(const double x, const double y)
 {
 	int int_X = ifloor(x);
 	double fractional_X = x - int_X;
@@ -55,7 +55,7 @@ static double PerlinNoise_2D(const double x, const double y)
 	const double persistence = 1.9;
 	const int octaves = 3; // Number of octaves
 	const int n = octaves - 1;
-	double total = 0;
+	double total = 0.0;
 
 	for(int i = 0; i < n; i++)
 	{
@@ -67,12 +67,22 @@ static double PerlinNoise_2D(const double x, const double y)
 	return total;
 }
 
-ChunkGenerator::ChunkGenerator(Chunk* chunkToGenerate, int seed) : i_seed(seed), m_chunkToGenerate(chunkToGenerate)
+ChunkGenerator::ChunkGenerator(const int seed) : i_seed(seed)
 {
 
 }
 
-void ChunkGenerator::generateChunk()
+ChunkGenerator::ChunkGenerator(const ChunkGenerator&) : QThread()
+{
+
+}
+
+void ChunkGenerator::run()
+{
+	generateChunk();
+}
+
+void ChunkGenerator::generateChunk() const
 {
 	for(int i = 0; i < CHUNK_X_SIZE; i++)
 	{
