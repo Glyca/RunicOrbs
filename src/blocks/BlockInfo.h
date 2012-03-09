@@ -32,8 +32,4 @@ inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 	return !(block1 == block2);
 }
 
-extern BlockInfo AIR;
-extern BlockInfo STONE;
-extern BlockInfo DIRT;
-
 #endif // BLOCKINFO_H

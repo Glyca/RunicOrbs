@@ -1,4 +1,5 @@
 #include "ChunkDrawer.h"
+#include "blocks/Blocks.h"
 #include "glextensions.h"
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
@@ -84,7 +85,7 @@ void ChunkDrawer::generateVBO()
 
 				int i_arrayOffset = i_thCubeDrawed * (VECTOR_SIZE * VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES);
 
-				if(*m_chunkToDraw->block(i, j, k) != AIR) // Really, we don't draw the air
+				if(*m_chunkToDraw->block(i, j, k) != Blocks::AIR) // Really, we don't draw the air
 				{
 					for(int face = 0; face < CUBE_FACES; face++)
 					{
@@ -106,13 +107,13 @@ void ChunkDrawer::generateVBO()
 
 							// Then set the 3 components of the color
 
-							if(*m_chunkToDraw->block(i, j, k) == STONE)
+							if(*m_chunkToDraw->block(i, j, k) == Blocks::STONE)
 							{
 								f_array[i_vertexOffset + 6] = 0.48828125f; // R
 								f_array[i_vertexOffset + 7] = 0.48828125f; // V
 								f_array[i_vertexOffset + 8] = 0.48828125f; // B
 							}
-							else if(*m_chunkToDraw->block(i, j, k) == DIRT)
+							else if(*m_chunkToDraw->block(i, j, k) == Blocks::DIRT)
 							{
 								f_array[i_vertexOffset + 6] = 0.5f; // R
 								f_array[i_vertexOffset + 7] = 0.28515625f; // V
