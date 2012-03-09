@@ -1,6 +1,6 @@
-#include "LocalServer.h"
+#include "LocalServerThread.h"
 
-LocalServer::LocalServer()
+LocalServerThread::LocalServerThread()
 {
 	//TODO : initialize corectly a world
 	m_world = new World(123, this);

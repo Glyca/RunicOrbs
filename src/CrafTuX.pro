@@ -17,12 +17,9 @@ SOURCES += main.cpp\
 	Entity.cpp \
 	Player.cpp \
 	Me.cpp \
-	LocalServer.cpp \
-	MultiplayerServer.cpp \
 	ServerConnector.cpp \
 	LocalServerConnector.cpp \
 	RemoteServerConnector.cpp \
-	Server.cpp \
 	gui/GameWindow.cpp \
 	gui/GLWidget.cpp \
 	gui/glextensions.cpp \
@@ -34,7 +31,11 @@ SOURCES += main.cpp\
 	ClientConfiguration.cpp \
 	blocks/BlockInfo.cpp \
     blocks/BlockDescriptor.cpp \
-    blocks/Blocks.cpp
+    blocks/Blocks.cpp \
+    server/ServerThread.cpp \
+    server/MultiplayerServerThread.cpp \
+    server/LocalServerThread.cpp \
+    server/MultiplayerServer.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -45,12 +46,9 @@ HEADERS  += \
 	Entity.h \
 	Player.h \
 	Me.h \
-	LocalServer.h \
-	MultiplayerServer.h \
 	ServerConnector.h \
 	LocalServerConnector.h \
 	RemoteServerConnector.h \
-	Server.h \
 	Vector.h \
 	version.h \
 	gui/GameWindow.h \
@@ -64,7 +62,11 @@ HEADERS  += \
 	ClientConfiguration.h \
 	blocks/BlockInfo.h \
     blocks/BlockDescriptor.h \
-    blocks/Blocks.h
+    blocks/Blocks.h \
+    server/MultiplayerServerThread.h \
+    server/ServerThread.h \
+    server/LocalServerThread.h \
+    server/MultiplayerServer.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

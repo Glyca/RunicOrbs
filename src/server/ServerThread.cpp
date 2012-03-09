@@ -1,8 +1,8 @@
-#include "Server.h"
+#include "ServerThread.h"
 #include "version.h"
 
-Server::Server(QObject *parent) :
-	QObject(parent)
+ServerThread::ServerThread(QThread *parent) :
+	QThread(parent)
 {
 	qDebug("Starting Craftux server version " CRAFTUX_VERSION " ...");
 }

@@ -1,7 +1,7 @@
 #ifndef LOCALSERVERCONNECTOR_H
 #define LOCALSERVERCONNECTOR_H
 
-#include "LocalServer.h"
+#include "server/LocalServerThread.h"
 #include "ServerConnector.h"
 
 class LocalServerConnector : public ServerConnector
@@ -19,7 +19,7 @@ public slots:
 	void onChunkLoaded(ChunkPostition position);
 
 private:
-	LocalServer m_server;
+	LocalServerThread m_server;
 };
 
 #endif // LOCALSERVERCONNECTOR_H
