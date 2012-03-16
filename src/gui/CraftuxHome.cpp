@@ -5,6 +5,7 @@
 #include "GameWindow.h"
 #include "LocalServerConnector.h"
 #include "ServerConnector.h"
+#include "ServerWidget.h"
 #include "ui_CraftuxHome.h"
 
 CraftuxHome::CraftuxHome(QWidget *parent) :
@@ -12,6 +13,7 @@ CraftuxHome::CraftuxHome(QWidget *parent) :
 {
 	ui->setupUi(this);
 	connect(ui->soloButton, SIGNAL(clicked()), this, SLOT(soloGameLaunch()));
+	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(openServerInterface()));
 	connect(ui->optionsButton, SIGNAL(clicked()), this, SLOT(openOptions()));
 	connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
 }
@@ -23,12 +25,9 @@ CraftuxHome::~CraftuxHome()
 
 void CraftuxHome::soloGameLaunch()
 {
-	ClientConfiguration* configuration = new ClientConfiguration();
-	configuration->loadDefaultConfigFile();
 	// Création et génération du monde
 	ServerConnector* connector = new LocalServerConnector();
-	connector->world().setSeed(configuration->getSeed());
-	GameWindow* gameWindow = new GameWindow(configuration, connector);
+	GameWindow* gameWindow = new GameWindow(connector);
 	this->close();
 	gameWindow->show();
 }
@@ -55,3 +54,9 @@ void CraftuxHome::optionsClosed()
 	m_optionsDialog = NULL;
 }
 
+void CraftuxHome::openServerInterface()
+{
+	ServerWidget* serverWidget = new ServerWidget();
+	this->close();
+	serverWidget->show();
+}

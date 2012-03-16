@@ -1,11 +1,15 @@
 #include "GameWindow.h"
 #include "version.h"
 
-GameWindow::GameWindow(ClientConfiguration* configuration, ServerConnector* connector)
-	: m_configuration(configuration), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor()), f_characterHeight(1.70f) // not 1.75 because eyes are a little bit under
+GameWindow::GameWindow(ServerConnector* connector)
+	: m_configuration(new ClientConfiguration()), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor()), f_characterHeight(1.70f) // not 1.75 because eyes are a little bit under
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
-	setFps(configuration->getFps());
+
+	m_configuration->loadDefaultConfigFile();
+	m_connector->world().setSeed(m_configuration->getSeed());
+	setFps(m_configuration->getFps());
+
 	setAutoFillBackground(false);
 
 	t_secondTimer = new QTimer(this);

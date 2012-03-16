@@ -12,7 +12,7 @@ class GameWindow : public GLWidget
 	Q_OBJECT
 
 public:
-	GameWindow(ClientConfiguration* configuration, ServerConnector* connector);
+	GameWindow(ServerConnector* connector);
 
 private:
 	void initializeGL();

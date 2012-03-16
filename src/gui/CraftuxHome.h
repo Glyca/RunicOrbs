@@ -16,10 +16,11 @@ public:
 	explicit CraftuxHome(QWidget *parent = 0);
 	~CraftuxHome();
 
-public slots:
+private slots:
 	void soloGameLaunch();
 	void openOptions();
 	void optionsClosed();
+	void openServerInterface();
 
 private:
 	Ui::CraftuxHome *ui;

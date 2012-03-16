@@ -2,8 +2,8 @@
 #define MULTIPLAYERTCPSERVER_H
 
 #include <QTcpServer>
-#include "MultiplayerServerThread.h"
 
+/*! The mulitplayer TCP server, aggregated in a MultiplayerServerThread. It creates a ClientThread for each client.*/
 class MultiplayerServer : public QTcpServer
 {
 	Q_OBJECT
@@ -15,9 +15,8 @@ signals:
 public slots:
 
 private:
-	void incomingConnection(int handle);
+	void incomingConnection(int socketDescriptor);
 
-	MultiplayerServerThread m_serverThread;
 };
 
 #endif // MULTIPLAYERTCPSERVER_H

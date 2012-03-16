@@ -35,7 +35,9 @@ SOURCES += main.cpp\
     server/ServerThread.cpp \
     server/MultiplayerServerThread.cpp \
     server/LocalServerThread.cpp \
-    server/MultiplayerServer.cpp
+    server/MultiplayerServer.cpp \
+    gui/ServerWidget.cpp \
+    server/ClientThread.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -66,11 +68,14 @@ HEADERS  += \
     server/MultiplayerServerThread.h \
     server/ServerThread.h \
     server/LocalServerThread.h \
-    server/MultiplayerServer.h
+    server/MultiplayerServer.h \
+    gui/ServerWidget.h \
+    server/ClientThread.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \
-	gui/OptionsDialog.ui
+	gui/OptionsDialog.ui \
+    gui/ServerWidget.ui
 
 DEFINES += GL_GLEXT_PROTOTYPES
 

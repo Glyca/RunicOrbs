@@ -15,7 +15,7 @@ inline static int ifloor(double x)
 }
 
 /*! \class Vector
-	\brief A representaion of a 3D vector that hold 3 doubles and is very convenient
+	\brief A representaion of a 3D vector that holds 3 doubles and is very convenient
   */
 class Vector
 {

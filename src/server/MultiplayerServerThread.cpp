@@ -1,6 +1,6 @@
 #include "MultiplayerServerThread.h"
 
-MultiplayerServerThread::MultiplayerServerThread()
+MultiplayerServerThread::MultiplayerServerThread() : m_tcpServer(new MultiplayerServer(this))
 {
 
 }
