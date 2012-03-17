@@ -2,6 +2,7 @@
 #define VECTOR_H
 
 #include "PhysicSize.h"
+#include "blocks/BlockInfo.h" // BlockPosition
 
 #include <QString>
 #include <QVariant>
@@ -106,6 +107,16 @@ public:
 		bx = ifloor(x);
 		by = ifloor(y);
 		bz = ifloor(z);
+	}
+
+	/*! Give the position of the block where vector is */
+	inline BlockPosition toBlock() const
+	{
+		BlockPosition blockPosition;
+		blockPosition.x = ifloor(x);
+		blockPosition.y = ifloor(y);
+		blockPosition.z = ifloor(z);
+		return blockPosition;
 	}
 
 	preal x, y, z;

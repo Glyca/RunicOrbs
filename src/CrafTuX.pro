@@ -32,12 +32,12 @@ SOURCES += main.cpp\
 	blocks/BlockInfo.cpp \
 	blocks/BlockDescriptor.cpp \
 	blocks/Blocks.cpp \
-	server/ServerThread.cpp \
 	server/MultiplayerServerThread.cpp \
-	server/LocalServerThread.cpp \
 	server/MultiplayerServer.cpp \
 	gui/ServerWidget.cpp \
-	server/ClientThread.cpp
+	server/ClientThread.cpp \
+	server/Server.cpp \
+	server/LocalServer.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -66,11 +66,11 @@ HEADERS  += \
 	blocks/BlockDescriptor.h \
 	blocks/Blocks.h \
 	server/MultiplayerServerThread.h \
-	server/ServerThread.h \
-	server/LocalServerThread.h \
 	server/MultiplayerServer.h \
 	gui/ServerWidget.h \
-	server/ClientThread.h
+	server/ClientThread.h \
+	server/Server.h \
+	server/LocalServer.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \
@@ -84,5 +84,4 @@ QMAKE_CXXFLAGS_RELEASE -= -g
 #QMAKE_CXXFLAGS += -save-temps -fverbose-asm
 #QMAKE_LFLAGS = -Wl,-O3 -Wl,-Map,craftux.map
 
-OTHER_FILES += \
-	../README.md
+OTHER_FILES += ../README.md

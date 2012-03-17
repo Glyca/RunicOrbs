@@ -2,13 +2,14 @@
 #define ME_H
 
 #include "Player.h"
+#include "blocks/BlockInfo.h" // BlockPosition
 
 class Me : public Player
 {
 public:
 	Me(World* world);
 
-	Vector pointedBlock();
+	BlockPosition pointedBlock();
 
 private:
 

@@ -32,4 +32,9 @@ inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 	return !(block1 == block2);
 }
 
+class BlockPosition {
+public:
+	int x, y, z;
+};
+
 #endif // BLOCKINFO_H

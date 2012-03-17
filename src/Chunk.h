@@ -50,6 +50,9 @@ public:
 		worldZ = m_position.second * CHUNK_Z_SIZE + chunkZ;
 	}
 
+	/*! This will force the chunk to be redrawed */
+	inline void makeDirty() {b_dirty = true;}
+
 	//! Render all blocks of the chunk
 	void render3D();
 
@@ -59,8 +62,9 @@ public slots:
 
 private:
 	QMutex m_mutex;
+	bool b_dirty; //! If we need to redraw the chunk
 	QPair<int, int> m_position; //! The postion of the chunk in chunk unit.
-	BlockInfo* p_BlockInfos; // pointeur vers les BlockInfo
+	BlockInfo* p_BlockInfos; //! A big array of all BlockInfo of the Chunk
 	ChunkDrawer* m_chunkDrawer;
 };
 

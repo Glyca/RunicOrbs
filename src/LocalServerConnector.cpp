@@ -4,9 +4,16 @@
 
 LocalServerConnector::LocalServerConnector()
 {
+	QThread* thread = new QThread(this);
+	m_server = new LocalServer(thread);
 	m_me = new Me(&world());
 	connect(&world(), SIGNAL(chunkLoaded(ChunkPostition)), this, SLOT(onChunkLoaded(ChunkPostition)));
 	qDebug() << "Initialized" << metaObject()->className();
+	thread->start();
+
+	// For this LocalServerConnector, we simply send the signals to the embedded server...
+	connect(this, SIGNAL(wantPickBlock(BlockPosition)), m_server, SLOT(pickBlock(BlockPosition)));
+	connect(this, SIGNAL(wantUseBlock(BlockPosition)), m_server, SLOT(useBlock(BlockPosition)));
 }
 
 void LocalServerConnector::onChunkLoaded(ChunkPostition position)

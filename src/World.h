@@ -24,15 +24,19 @@ public:
 	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
 
 	/*! Access to a chunk of the world */
-	Chunk* chunk(const ChunkPostition postion);
-	Chunk* chunk(const Vector& postion);
+	Chunk* chunk(const ChunkPostition& position);
+	/*! Access to a chunk of the world */
+	Chunk* chunk(const BlockPosition& position);
+	/*! Access to a chunk of the world */
+	Chunk* chunk(const Vector& position);
 
 	/*! Load a chunk in the workd into RAM */
-	Chunk* loadChunk(ChunkPostition postion);
+	Chunk* loadChunk(const ChunkPostition& position);
 	/*! Free the chunk from the RAM, it will not be rendered anymore */
 	void unloadChunk(Chunk* chunk);
-	void unloadChunk(ChunkPostition postion);
+	void unloadChunk(const ChunkPostition& position);
 
+	BlockInfo* block(const BlockPosition& position);
 	BlockInfo* block(const Vector& position);
 
 	inline void setSeed(const int seed) {i_seed = seed;}

@@ -8,9 +8,9 @@ Me::Me(World* world)
 	qDebug("Me created");
 }
 
-Vector Me::pointedBlock()
+BlockPosition Me::pointedBlock()
 {
-	Vector blockPosition;
+	BlockPosition blockPosition;
 	Vector direction = this->direction();
 	for(int d = 1; d < 50; d++)
 	{

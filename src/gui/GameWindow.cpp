@@ -23,7 +23,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 void GameWindow::initializeGL()
 {
 	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
-	qDebug() << "OpenGL driver :" << (char*)glGetString(GL_VENDOR) << "|" << (char*)glGetString(GL_RENDERER)<< "|" << (char*)glGetString(GL_VERSION);
+	qDebug() << "OpenGL driver :" << (const char*)glGetString(GL_VENDOR) << "|" << (const char*)glGetString(GL_RENDERER)<< "|" << (const char*)glGetString(GL_VERSION);
 
 	glClearColor(138.0f / 255.0f, 198.0f / 255.0f, 206.0f / 255.0f, 0.0f);
 	glClearDepth(1.0f);
@@ -132,8 +132,8 @@ void GameWindow::render3D()
 	glEnd();
 
 	glPushMatrix();
-	Vector pointedBlock = m_connector->me()->pointedBlock();
-	glTranslatef(pointedBlock.x + 1, pointedBlock.y, pointedBlock.z);
+	BlockPosition pointedBlock = m_connector->me()->pointedBlock();
+	glTranslatef(pointedBlock.x, pointedBlock.y, pointedBlock.z);
 	glBegin(GL_LINES);
 
 	glVertex3f(0.0f, 0.0f, 0.0f);
@@ -184,24 +184,19 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
 	if(b_playing)
 	{
-		if(keyEvent->key() == Qt::Key_Up)
-		{
+		if(keyEvent->key() == Qt::Key_Up) {
 			m_connector->me()->walk(Entity::WalkDirection_Forward);
 		}
-		if(keyEvent->key() == Qt::Key_Down)
-		{
+		if(keyEvent->key() == Qt::Key_Down) {
 			m_connector->me()->walk(Entity::WalkDirection_Backward);
 		}
-		if(keyEvent->key() == Qt::Key_Left)
-		{
+		if(keyEvent->key() == Qt::Key_Left) {
 			m_connector->me()->walk(Entity::WalkDirection_Left);
 		}
-		if(keyEvent->key() == Qt::Key_Right)
-		{
+		if(keyEvent->key() == Qt::Key_Right) {
 			m_connector->me()->walk(Entity::WalkDirection_Right);
 		}
-		if(keyEvent->key() == Qt::Key_0)
-		{
+		if(keyEvent->key() == Qt::Key_0) {
 			m_connector->me()->jump();
 		}
 	}
@@ -211,38 +206,25 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 
 void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
-	if(keyEvent->key() == Qt::Key_Escape)
-	{
-		if(b_playing)
-		{
-			pause();
-		}
-		else
-		{
-			resume();
-		}
+	if(keyEvent->key() == Qt::Key_Escape) {
+		b_playing ? pause() : resume();
 	}
 
 	if(b_playing)
 	{
-		if(keyEvent->key() == Qt::Key_Up)
-		{
+		if(keyEvent->key() == Qt::Key_Up) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
 		}
-		if(keyEvent->key() == Qt::Key_Down)
-		{
+		if(keyEvent->key() == Qt::Key_Down) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
 		}
-		if(keyEvent->key() == Qt::Key_Left)
-		{
+		if(keyEvent->key() == Qt::Key_Left) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Left);
 		}
-		if(keyEvent->key() == Qt::Key_Right)
-		{
+		if(keyEvent->key() == Qt::Key_Right) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Right);
 		}
-		if(keyEvent->key() == Qt::Key_0)
-		{
+		if(keyEvent->key() == Qt::Key_0) {
 			m_connector->me()->stopJumping();
 		}
 	}
@@ -295,9 +277,22 @@ void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 	GLWidget::mouseMoveEvent(mouseEvent);
 }
 
+void GameWindow::mousePressEvent(QMouseEvent* mouseEvent)
+{
+	if(b_playing)
+	{
+		if(mouseEvent->button() == Qt::LeftButton) {
+			emit m_connector->pickBlock(m_connector->me()->pointedBlock());
+		}
+		if(mouseEvent->button() == Qt::RightButton) {
+			emit m_connector->useBlock(m_connector->me()->pointedBlock());
+		}
+	}
+}
+
 void GameWindow::pause()
 {
-	this->setCursor(m_originalCursor);
+	setCursor(m_originalCursor);
 	setMouseTracking(false);
 	b_playing = false;
 }
@@ -307,7 +302,7 @@ void GameWindow::resume()
 	QCursor newCursor(this->cursor());
 	newCursor.setShape(Qt::BlankCursor);
 	newCursor.setPos(width() >> 1, height() >> 1);
-	this->setCursor(newCursor);
+	setCursor(newCursor);
 	setMouseTracking(true);
 	b_playing = true;
 }

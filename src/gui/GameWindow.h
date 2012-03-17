@@ -26,6 +26,7 @@ private:
 	void keyPressEvent(QKeyEvent* keyEvent);
 	void keyReleaseEvent(QKeyEvent* keyEvent);
 	void mouseMoveEvent(QMouseEvent* mouseEvent);
+	void mousePressEvent(QMouseEvent* mouseEvent);
 
 	ClientConfiguration* m_configuration;
 	ServerConnector* m_connector;

@@ -1,7 +1,7 @@
 #ifndef LOCALSERVERCONNECTOR_H
 #define LOCALSERVERCONNECTOR_H
 
-#include "server/LocalServerThread.h"
+#include "server/LocalServer.h"
 #include "ServerConnector.h"
 
 class LocalServerConnector : public ServerConnector
@@ -10,7 +10,7 @@ class LocalServerConnector : public ServerConnector
 public:
 	LocalServerConnector();
 
-	virtual World& world() { return m_server.world(); }
+	virtual World& world() { return m_server->world(); }
 
 signals:
 
@@ -19,7 +19,7 @@ public slots:
 	void onChunkLoaded(ChunkPostition position);
 
 private:
-	LocalServerThread m_server;
+	LocalServer* m_server;
 };
 
 #endif // LOCALSERVERCONNECTOR_H

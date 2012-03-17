@@ -19,7 +19,7 @@ World::~World()
 	delete m_physicEngine;
 }
 
-Chunk* World::chunk(const ChunkPostition position)
+Chunk* World::chunk(const ChunkPostition& position)
 {
 	if(m_chunks->contains(position)) // If the chunk is already loaded
 	{
@@ -29,6 +29,30 @@ Chunk* World::chunk(const ChunkPostition position)
 	{
 		return loadChunk(position);
 	}
+}
+
+Chunk* World::chunk(const BlockPosition& position)
+{
+	int x, z;
+	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
+	// but chunk -0;-0 is impossible, hence the -1
+	if(position.x < 0)
+	{
+		x = position.x / CHUNK_X_SIZE - 1;
+	}
+	else
+	{
+		x = position.x / CHUNK_X_SIZE;
+	}
+	if(position.z < 0)
+	{
+		z = position.z / CHUNK_Z_SIZE - 1;
+	}
+	else
+	{
+		z = position.z / CHUNK_Z_SIZE;
+	}
+	return chunk(ChunkPostition(x, z));
 }
 
 Chunk* World::chunk(const Vector& position)
@@ -55,7 +79,7 @@ Chunk* World::chunk(const Vector& position)
 	return chunk(ChunkPostition(x, z));
 }
 
-Chunk* World::loadChunk(ChunkPostition position)
+Chunk* World::loadChunk(const ChunkPostition& position)
 {
 	if(m_chunks->contains(position)) // safety : If the chunk is already loaded
 	{
@@ -77,39 +101,43 @@ void World::unloadChunk(Chunk* chunk)
 	unloadChunk(m_chunks->key(chunk));
 }
 
-void World::unloadChunk(ChunkPostition position)
+void World::unloadChunk(const ChunkPostition& position)
 {
 	delete m_chunks->value(position);
 	m_chunks->remove(position);
 }
 
-BlockInfo* World::block(const Vector& position)
+BlockInfo* World::block(const BlockPosition& bp)
 {
-	int x, y, z;
-	position.toBlock(x, y, z); // Get the block integer coordinates in the world
 	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk
 
-	if(x < 0)
+	if(bp.x < 0)
 	{
-		int chunkPosX = x / CHUNK_X_SIZE - 1;
-		chunkBlockX = x - chunkPosX * CHUNK_X_SIZE;
+		int chunkPosX = bp.x / CHUNK_X_SIZE - 1;
+		chunkBlockX = bp.x - chunkPosX * CHUNK_X_SIZE;
 	}
 	else // in positives we can use modulo
 	{
-		chunkBlockX = x % CHUNK_X_SIZE;
+		chunkBlockX = bp.x % CHUNK_X_SIZE;
 	}
 
-	if(z < 0)
+	if(bp.z < 0)
 	{
-		int chunkPosZ = z / CHUNK_Z_SIZE - 1;
-		chunkBlockZ = z - chunkPosZ * CHUNK_Z_SIZE;
+		int chunkPosZ = bp.z / CHUNK_Z_SIZE - 1;
+		chunkBlockZ = bp.z - chunkPosZ * CHUNK_Z_SIZE;
 	}
 	else
 	{
-		chunkBlockZ = z % CHUNK_Z_SIZE;
+		chunkBlockZ = bp.z % CHUNK_Z_SIZE;
 	}
 
-	return chunk(position)->block(chunkBlockX, y, chunkBlockZ);
+	return chunk(bp)->block(chunkBlockX, bp.y, chunkBlockZ);
+}
+
+BlockInfo* World::block(const Vector& position)
+{
+	BlockPosition bp = position.toBlock();// Get the block integer coordinates in the world
+	return this->block(bp);
 }
 
 void World::render3D()
