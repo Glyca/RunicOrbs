@@ -19,15 +19,15 @@ World::~World()
 	delete m_physicEngine;
 }
 
-Chunk* World::chunk(const ChunkPostition postion)
+Chunk* World::chunk(const ChunkPostition position)
 {
-	if(m_chunks->contains(postion)) // If the chunk is already loaded
+	if(m_chunks->contains(position)) // If the chunk is already loaded
 	{
-		return m_chunks->value(postion);
+		return m_chunks->value(position);
 	}
 	else // otherwise, we load it
 	{
-		return loadChunk(postion);
+		return loadChunk(position);
 	}
 }
 
@@ -55,19 +55,19 @@ Chunk* World::chunk(const Vector& position)
 	return chunk(ChunkPostition(x, z));
 }
 
-Chunk* World::loadChunk(ChunkPostition postion)
+Chunk* World::loadChunk(ChunkPostition position)
 {
-	if(m_chunks->contains(postion)) // safety : If the chunk is already loaded
+	if(m_chunks->contains(position)) // safety : If the chunk is already loaded
 	{
-		return m_chunks->value(postion);
+		return m_chunks->value(position);
 	}
 	else // otherwise, we generate a new fresh one
 	{
-		Chunk* newChunk = new Chunk(this, postion);
+		Chunk* newChunk = new Chunk(this, position);
 		m_chunkGenerator.setChunkToGenerate(newChunk);
 		m_chunkGenerator.run();
-		m_chunks->insert(postion, newChunk);
-		emit chunkLoaded(postion);
+		m_chunks->insert(position, newChunk);
+		emit chunkLoaded(position);
 		return newChunk;
 	}
 }
@@ -77,10 +77,10 @@ void World::unloadChunk(Chunk* chunk)
 	unloadChunk(m_chunks->key(chunk));
 }
 
-void World::unloadChunk(ChunkPostition postion)
+void World::unloadChunk(ChunkPostition position)
 {
-	delete m_chunks->value(postion);
-	m_chunks->remove(postion);
+	delete m_chunks->value(position);
+	m_chunks->remove(position);
 }
 
 BlockInfo* World::block(const Vector& position)

@@ -30,14 +30,14 @@ SOURCES += main.cpp\
 	gui/OptionsDialog.cpp \
 	ClientConfiguration.cpp \
 	blocks/BlockInfo.cpp \
-    blocks/BlockDescriptor.cpp \
-    blocks/Blocks.cpp \
-    server/ServerThread.cpp \
-    server/MultiplayerServerThread.cpp \
-    server/LocalServerThread.cpp \
-    server/MultiplayerServer.cpp \
-    gui/ServerWidget.cpp \
-    server/ClientThread.cpp
+	blocks/BlockDescriptor.cpp \
+	blocks/Blocks.cpp \
+	server/ServerThread.cpp \
+	server/MultiplayerServerThread.cpp \
+	server/LocalServerThread.cpp \
+	server/MultiplayerServer.cpp \
+	gui/ServerWidget.cpp \
+	server/ClientThread.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -63,21 +63,19 @@ HEADERS  += \
 	gui/OptionsDialog.h \
 	ClientConfiguration.h \
 	blocks/BlockInfo.h \
-    blocks/BlockDescriptor.h \
-    blocks/Blocks.h \
-    server/MultiplayerServerThread.h \
-    server/ServerThread.h \
-    server/LocalServerThread.h \
-    server/MultiplayerServer.h \
-    gui/ServerWidget.h \
-    server/ClientThread.h
+	blocks/BlockDescriptor.h \
+	blocks/Blocks.h \
+	server/MultiplayerServerThread.h \
+	server/ServerThread.h \
+	server/LocalServerThread.h \
+	server/MultiplayerServer.h \
+	gui/ServerWidget.h \
+	server/ClientThread.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \
 	gui/OptionsDialog.ui \
-    gui/ServerWidget.ui
-
-DEFINES += GL_GLEXT_PROTOTYPES
+	gui/ServerWidget.ui
 
 # Permet d'voir les traductions en UTF-8
 CODECFORTR = UTF-8

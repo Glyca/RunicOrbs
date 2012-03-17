@@ -18,7 +18,7 @@ Vector Entity::velocity() const
 	return (v_walkVelocity + PhysicObject::velocity());
 }
 
-Vector Entity::direction()
+Vector Entity::direction() const
 {
 	Vector v_direction;
 
@@ -30,13 +30,13 @@ Vector Entity::direction()
 	return v_direction;
 }
 
-void Entity::processMove(preal f_elapsedTimeSec, World& workingWorld)
+void Entity::processMove(const preal f_elapsedTimeSec, World& workingWorld)
 {
 	v_walkVelocity.null(); // We reset the walk velocity
 
 	if(isWalking())
 	{
-		const preal f_walkVelocityCoefficient = 1.0e2f;
+		const preal f_walkVelocityCoefficient = 2.0e2f;
 		Vector v_walkIncrement = direction() * f_walkVelocityCoefficient * f_elapsedTimeSec;
 
 		if(m_walkDirection & WalkDirection_Forward)

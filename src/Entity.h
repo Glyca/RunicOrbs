@@ -12,7 +12,7 @@ public:
 	virtual Vector velocity() const;
 
 	/*! The direction the entity is looking at */
-	Vector direction();
+	Vector direction() const;
 	inline float pitch() const {return f_pitchDegrees;}
 	inline void pitch(const float pitchDegrees)
 	{
@@ -48,7 +48,7 @@ public:
 	inline bool isJumping() const {return b_jumping;}
 
 protected:
-	void processMove(preal f_elapsedTimeSec, World& workingWorld);
+	void processMove(const preal f_elapsedTimeSec, World& workingWorld);
 
 private:
 	float f_pitchDegrees, f_yawDegrees;
