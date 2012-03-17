@@ -3,7 +3,7 @@
 #include "glextensions.h"
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
-#define BUFFER_OFFSET_INT(a) (BUFFER_OFFSET(a * sizeof(GLfloat)))
+#define BUFFER_OFFSET_FLOAT(a) (BUFFER_OFFSET(a * sizeof(GLfloat)))
 
 const int VECTOR_SIZE = 3; // Since we are in 3D
 const int VECTOR_PER_VERTEX = 3; // One for postion, one for normal, and one for color
@@ -11,44 +11,6 @@ const int VERTEX_PER_FACE = 4; // 4 vertex are needed to draw a face
 const int CUBE_FACES = 6;
 // How WILL BE stored our array in VRAM :
 // [ VNC VNC VNC VNC ] [ VNC VNC VNC VNC ] [ VNC VNC VNC VNC ]... (NUMBER_OF_CUBE_FACES=6 times per cube)
-//
-
-// The following array will absolutely not be as is in vram, it's just here for easy setup.
-GLfloat cubeVertexAndNormals[CUBE_FACES * 5 * VECTOR_SIZE] = {
-	// The origin of the cube is 0, it is drawed in the positives values
-	//	  v6----- v5
-	//	 /|      /|
-	// Oy------v0 |
-	// |  |     | |
-	// |  |Oz---|-|v4
-	// | /      |/
-	// 0-------Ox
-
-	//       V E R T E X        |  NORMAL (same for one face)
-	// Front face
-	0.0f,0.0f,0.0f, 1.0f,0.0f,0.0f, 1.0f,1.0f,0.0f, 0.0f,1.0f,0.0f,   0.0f ,0.0f ,-1.0f,   // 15
-	// Left face
-	0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f, 0.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,   -1.0f,0.0f ,0.0f,
-	// Bottom face
-	0.0f,0.0f,0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,1.0f, 1.0f,0.0f,0.0f,   0.0f ,-1.0f,0.0f,
-	// Right face
-	1.0f,0.0f,0.0f, 1.0f,0.0f,1.0f, 1.0f,1.0f,1.0f, 1.0f,1.0f,0.0f,   1.0f ,0.0f ,0.0f,
-	// Top face
-	1.0f,1.0f,0.0f, 0.0f,1.0f,0.0f, 0.0f,1.0f,1.0f, 1.0f,1.0f,1.0f,   0.0f ,1.0f ,0.0f,
-	// Back face
-	1.0f,1.0f,1.0f, 0.0f,1.0f,1.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,1.0f,   0.0f ,0.0f ,1.0f,
-};
-
-const int INDICES_TOTAL_SIZE = VERTEX_PER_FACE * CUBE_FACES;
-
-GLuint cubeIndices[INDICES_TOTAL_SIZE] = {
-	0,1,2,3,
-	4,5,6,7,
-	8,9,10,11,
-	12,13,14,15,
-	16,17,18,19,
-	20,21,22,23
-};
 
 ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw), i_arraySize(0), i_indiceArraySize(0)
 {
@@ -66,13 +28,11 @@ void ChunkDrawer::generateVBO()
 {
 	// Firstly we create a table with the max size (ie. all blacks may be drawn, so we allocate space for all)
 	// Each vertex has 3 vectors for position, 3 for normal and 3 for color. And each face has 4 vertex. And each cube has 6 faces.
-	GLfloat* f_array = new GLfloat[VECTOR_SIZE * VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
+	f_array = new GLfloat[VECTOR_SIZE * VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
 	i_arraySize = 0; // and we say there is 0 bytes inside for now
 
-	GLuint* i_indiceArray = new GLuint[INDICES_TOTAL_SIZE * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
+	i_indiceArray = new GLuint[VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
 	i_indiceArraySize = 0;
-
-	int i_thCubeDrawed = 0; // th cube drawed (0 now)
 
 	for(int k = 0; k < CHUNK_Z_SIZE; k++)
 	{
@@ -83,59 +43,35 @@ void ChunkDrawer::generateVBO()
 				int wi, wj, wk; // These are the coordinates in the world
 				m_chunkToDraw->mapToWorld(i, j, k, wi, wj, wk);
 
-				int i_arrayOffset = i_thCubeDrawed * (VECTOR_SIZE * VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES);
+				BlockInfo* block = m_chunkToDraw->block(i, j, k);
 
-				if(*m_chunkToDraw->block(i, j, k) != Blocks::AIR) // Really, we don't draw the air
-				{
-					for(int face = 0; face < CUBE_FACES; face++)
-					{
-						int i_faceOffset = i_arrayOffset + face * VECTOR_SIZE * VECTOR_PER_VERTEX * VERTEX_PER_FACE;
-
-						for(int v = 0; v < 4; v++) // A face has 4 vertex, for each of them, we will take the vertex postion, its normal and set a color
-						{
-							int i_vertexOffset = i_faceOffset + v * VECTOR_SIZE * VECTOR_PER_VERTEX;
-
-							// Translate postion of the vertex
-							f_array[i_vertexOffset + 0] = cubeVertexAndNormals[face * 15 + v * 3 + 0] + (GLfloat)wi;
-							f_array[i_vertexOffset + 1] = cubeVertexAndNormals[face * 15 + v * 3 + 1] + (GLfloat)wj;
-							f_array[i_vertexOffset + 2] = cubeVertexAndNormals[face * 15 + v * 3 + 2] + (GLfloat)wk;
-
-							// Then translate and add postion of the normals
-							f_array[i_vertexOffset + 3] = cubeVertexAndNormals[face * 15 + 4 * 3 + 0] + (GLfloat)wi;
-							f_array[i_vertexOffset + 4] = cubeVertexAndNormals[face * 15 + 4 * 3 + 1] + (GLfloat)wj;
-							f_array[i_vertexOffset + 5] = cubeVertexAndNormals[face * 15 + 4 * 3 + 2] + (GLfloat)wk;
-
-							// Then set the 3 components of the color
-
-							if(*m_chunkToDraw->block(i, j, k) == Blocks::STONE)
-							{
-								f_array[i_vertexOffset + 6] = 0.48828125f; // R
-								f_array[i_vertexOffset + 7] = 0.48828125f; // V
-								f_array[i_vertexOffset + 8] = 0.48828125f; // B
-							}
-							else if(*m_chunkToDraw->block(i, j, k) == Blocks::DIRT)
-							{
-								f_array[i_vertexOffset + 6] = 0.5f; // R
-								f_array[i_vertexOffset + 7] = 0.28515625f; // V
-								f_array[i_vertexOffset + 8] = 0.2265625f; // B
-							}
-							else
-							{
-								f_array[i_vertexOffset + 6] = 0.9f; // R
-								f_array[i_vertexOffset + 7] = 0.98515625f; // V
-								f_array[i_vertexOffset + 8] = 0.9265625f; // B
-							}
-						}
+				if(!block->isVoid()) // Really, we don't draw the air
+				{// Only render visible geometry
+					// Front face
+					if(m_chunkToDraw->block(i, j, k - 1)->isVoid()) {
+						drawFace(CubeFace_Front, block, wi, wj, wk);;
 					}
-					for(int n = 0; n < INDICES_TOTAL_SIZE; n++) // We basically translate the indices by INDICES_TOTAL_SIZE
-					{
-						i_indiceArray[i_thCubeDrawed * INDICES_TOTAL_SIZE + n] = cubeIndices[n] + i_thCubeDrawed * INDICES_TOTAL_SIZE;
+					// Left face
+					if(m_chunkToDraw->block(i - 1, j, k)->isVoid()) {
+						drawFace(CubeFace_Left, block, wi, wj, wk);
 					}
-					// We have drawed a cube :
-					i_arraySize += VECTOR_SIZE * VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES;
-					i_indiceArraySize += INDICES_TOTAL_SIZE;
-					i_thCubeDrawed++;
-				} // if(*m_chunkToDraw->block(i, j, k) != AIR)
+					// Bottom face
+					if(m_chunkToDraw->block(i, j - 1, k)->isVoid()) {
+						drawFace(CubeFace_Bottom, block, wi, wj, wk);
+					}
+					// Right face
+					if(m_chunkToDraw->block(i + 1, j, k)->isVoid()) {
+						drawFace(CubeFace_Right, block, wi, wj, wk);
+					}
+					// Top face
+					if(m_chunkToDraw->block(i, j + 1, k)->isVoid()) {
+						drawFace(CubeFace_Top, block, wi, wj, wk);
+					}
+					// Back face
+					if(m_chunkToDraw->block(i, j, k + 1)->isVoid()) {
+						drawFace(CubeFace_Back, block, wi, wj, wk);
+					}
+				}
 			} // j
 		} // i
 	} // k
@@ -187,4 +123,73 @@ void ChunkDrawer::render()
 	// Safely disbale buffers (for other compenents of the program)
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void ChunkDrawer::drawFace(const CubeFace face, BlockInfo* block, const int wx, const int wy, const int wz)
+{
+	static const GLfloat cubeVertexAndNormals[CUBE_FACES * 5 * VECTOR_SIZE] = {
+		// The origin of the cube is 0, it is drawed in the positives values
+		//	  v6----- v5
+		//	 /|      /|
+		// Oy------v0 |
+		// |  |     | |
+		// |  |Oz---|-|v4
+		// | /      |/
+		// 0-------Ox
+
+		//       V E R T E X                                            | NORMAL (same for one face)
+		// Front face
+		0.0f,0.0f,0.0f, 1.0f,0.0f,0.0f, 1.0f,1.0f,0.0f, 0.0f,1.0f,0.0f,   0.0f ,0.0f ,-1.0f,   // 15
+		// Left face
+		0.0f,0.0f,0.0f, 0.0f,1.0f,0.0f, 0.0f,1.0f,1.0f, 0.0f,0.0f,1.0f,   -1.0f,0.0f ,0.0f,
+		// Bottom face
+		0.0f,0.0f,0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,1.0f, 1.0f,0.0f,0.0f,   0.0f ,-1.0f,0.0f,
+		// Right face
+		1.0f,0.0f,0.0f, 1.0f,0.0f,1.0f, 1.0f,1.0f,1.0f, 1.0f,1.0f,0.0f,   1.0f ,0.0f ,0.0f,
+		// Top face
+		1.0f,1.0f,0.0f, 0.0f,1.0f,0.0f, 0.0f,1.0f,1.0f, 1.0f,1.0f,1.0f,   0.0f ,1.0f ,0.0f,
+		// Back face
+		1.0f,1.0f,1.0f, 0.0f,1.0f,1.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,1.0f,   0.0f ,0.0f ,1.0f,
+	};
+
+	// For the 4 vectors of the face
+	for(int v = 0; v < VERTEX_PER_FACE; v++)
+	{
+		// Vertex
+		f_array[i_arraySize + 0] = cubeVertexAndNormals[face + v*3 + 0] + wx;
+		f_array[i_arraySize + 1] = cubeVertexAndNormals[face + v*3 + 1] + wy;
+		f_array[i_arraySize + 2] = cubeVertexAndNormals[face + v*3 + 2] + wz;
+		i_arraySize += 3;
+
+		// Normal
+		f_array[i_arraySize + 0] = cubeVertexAndNormals[face + 12 + 0] + wx;
+		f_array[i_arraySize + 1] = cubeVertexAndNormals[face + 12 + 1] + wy;
+		f_array[i_arraySize + 2] = cubeVertexAndNormals[face + 12 + 2] + wz;
+		i_arraySize += 3;
+
+		// Color
+		if(*block == Blocks::STONE)
+		{
+			f_array[i_arraySize + 0] = 0.48828125f; // R
+			f_array[i_arraySize + 1] = 0.48828125f; // V
+			f_array[i_arraySize + 2] = 0.48828125f; // B
+		}
+		else if(*block == Blocks::DIRT)
+		{
+			f_array[i_arraySize + 0] = 0.5f; // R
+			f_array[i_arraySize + 1] = 0.28515625f; // V
+			f_array[i_arraySize + 2] = 0.2265625f; // B
+		}
+		else
+		{
+			f_array[i_arraySize + 0] = 0.9f; // R
+			f_array[i_arraySize + 1] = 0.98515625f; // V
+			f_array[i_arraySize + 2] = 0.9265625f; // B
+		}
+		i_arraySize += 3;
+
+		i_indiceArray[i_indiceArraySize] = i_indiceArraySize;
+		i_indiceArraySize++;
+
+	}
 }

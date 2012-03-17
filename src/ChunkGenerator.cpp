@@ -52,8 +52,8 @@ static double InterpolatedNoise_1(const double x, const double y)
 
 static double PerlinNoise_2D(const double x, const double y)
 {
-	const double persistence = 1.9;
-	const int octaves = 3; // Number of octaves
+	const double persistence = 0.1;
+	const int octaves = 2; // Number of octaves
 	const int n = octaves - 1;
 	double total = 0.0;
 
@@ -90,8 +90,8 @@ void ChunkGenerator::generateChunk() const
 		{
 			int wi, wj, wk; // Coordinates in the world
 			m_chunkToGenerate->mapToWorld(i, 0, k, wi, wj, wk);
-			double rockAltitude = (PerlinNoise_2D(wi*0.05, wk*0.05) + 1)*CHUNK_HEIGHT/4;
-			double dirtAltitude = (PerlinNoise_2D(-wi*0.05, -wk*0.05)/3);
+			double rockAltitude = (PerlinNoise_2D(wi*0.018, wk*0.018) + 1)*CHUNK_HEIGHT/4;
+			double dirtAltitude = (PerlinNoise_2D(-wi*0.018, -wk*0.018)/3);
 			for(int j = 0; j < rockAltitude; j++)
 			{
 				m_chunkToGenerate->block(i, j, k)->setId(1);

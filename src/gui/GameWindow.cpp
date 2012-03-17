@@ -32,10 +32,10 @@ void GameWindow::initializeGL()
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 
 	// Lighting
-	static GLfloat lightPosition[4] = { 0.0f, 100.0f, 0.0f, 1.0f };
-	static GLfloat lightAmbient[4] = { 0.22f, 0.22f, 0.22f, 0.5f };
-	static GLfloat lightDiffuse[4] = { 0.06f, 0.06f, 0.06f, 0.05f };
-	static GLfloat lightSpecular[4] = { 0.025f, 0.025f, 0.025f, 0.05f };
+	static GLfloat lightPosition[4] = { 0.0f, 256.0f, 0.0f, 1.0f };
+	static GLfloat lightAmbient[4] = { 0.20f, 0.20f, 0.20f, 0.5f };
+	static GLfloat lightDiffuse[4] = { 0.03f, 0.03f, 0.03f, 0.05f };
+	static GLfloat lightSpecular[4] = { 0.015f, 0.015f, 0.015f, 0.05f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
