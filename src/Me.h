@@ -6,7 +6,9 @@
 class Me : public Player
 {
 public:
-	Me();
+	Me(World* world);
+
+	Vector pointedBlock();
 
 private:
 

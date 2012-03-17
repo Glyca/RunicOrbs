@@ -4,8 +4,9 @@
 
 LocalServerConnector::LocalServerConnector()
 {
-	qDebug() << "Initialized" << metaObject()->className();
+	m_me = new Me(&world());
 	connect(&world(), SIGNAL(chunkLoaded(ChunkPostition)), this, SLOT(onChunkLoaded(ChunkPostition)));
+	qDebug() << "Initialized" << metaObject()->className();
 }
 
 void LocalServerConnector::onChunkLoaded(ChunkPostition position)

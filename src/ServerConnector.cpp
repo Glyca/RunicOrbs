@@ -2,9 +2,12 @@
 
 #include <QDebug>
 
-ServerConnector::ServerConnector(QObject *parent) :
-	QObject(parent)
+ServerConnector::ServerConnector(QObject *parent) : QObject(parent)
 {
-	m_me = new Me();
 	qDebug() << "Initialized" << metaObject()->className();
+}
+
+World& ServerConnector::world()
+{
+
 }

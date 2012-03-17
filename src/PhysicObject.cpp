@@ -3,7 +3,7 @@
 
 #include <QDebug>
 
-PhysicObject::PhysicObject(preal mass) : f_mass(mass)
+PhysicObject::PhysicObject(World* world, preal mass) : m_world(world), f_mass(mass)
 {
 	if(f_mass == 0.0f)
 	{

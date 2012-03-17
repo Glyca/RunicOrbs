@@ -131,6 +131,42 @@ void GameWindow::render3D()
 	glVertex3f(0.0f, 0.0f, 60.0f);
 	glEnd();
 
+	glPushMatrix();
+	Vector pointedBlock = m_connector->me()->pointedBlock();
+	glTranslatef(pointedBlock.x + 1, pointedBlock.y, pointedBlock.z);
+	glBegin(GL_LINES);
+
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 1.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+	glVertex3f(0.0f, 1.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 0.0f, 1.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 1.0f, 0.0f);
+
+	glEnd();
+	glPopMatrix();
+
 	// BLOCKS RENDER
 	m_connector->world().render3D();
 }

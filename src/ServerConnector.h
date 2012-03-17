@@ -12,15 +12,15 @@ class ServerConnector : public QObject
 public:
 	explicit ServerConnector(QObject *parent = 0);
 
-	virtual World& world() = 0;
+	virtual World& world();
 
 	inline Me* me() const {return m_me;}
-	
+
 signals:
-	
+
 public slots:
 
-private:
+protected:
 	Me* m_me;
 };
 

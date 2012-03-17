@@ -14,7 +14,7 @@ class PhysicObject : public QObject
 	Q_OBJECT
 	friend class PhysicEngine;
 public:
-	PhysicObject(preal mass = f_defaultMass);
+	PhysicObject(World* world, preal mass = f_defaultMass);
 	virtual ~PhysicObject();
 
 	virtual Vector velocity() const;
@@ -31,6 +31,8 @@ public:
 	/*! Wether the object is lying on the floor or not */
 	bool touchesFloor(World& workingWorld);
 
+	inline World* world() {return m_world;}
+
 public: // Public temporairement
 
 	Vector v_position; // La position de l'objet
@@ -42,6 +44,9 @@ protected: // protected
 	virtual void processMove(const preal f_elapsedTimeSec, World& workingWorld);
 
 	void processCollisions(World& workingWorld);
+	World* m_world;
+
+private:
 
 	preal f_mass; // La masse de l'objet en KG
 };
