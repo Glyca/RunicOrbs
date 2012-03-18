@@ -31,6 +31,7 @@ void GameWindow::initializeGL()
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LEQUAL);  // Fontion du test de profondeur
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+	glLineWidth(2.0f);
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 	glEnable(GL_TEXTURE_2D);
 
