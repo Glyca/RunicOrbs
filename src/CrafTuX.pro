@@ -6,7 +6,14 @@
 
 QT       += core gui opengl network xml
 
-TARGET = craftux
+DESTDIR = ../
+
+CONFIG(debug, debug|release) {
+	TARGET = craftuxd
+} else {
+	TARGET = craftux
+}
+
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -77,8 +84,11 @@ FORMS    += \
 	gui/OptionsDialog.ui \
 	gui/ServerWidget.ui
 
-# Permet d'voir les traductions en UTF-8
+# Permet d'avoir les traductions en UTF-8
+
 CODECFORTR = UTF-8
+TRANSLATIONS = ../lang/craftux_fr.ts
+
 # On dsactive les infos de dboguage pour le mode release, les crackers n'en ont pas besoin
 QMAKE_CXXFLAGS_RELEASE -= -g
 #QMAKE_CXXFLAGS += -save-temps -fverbose-asm

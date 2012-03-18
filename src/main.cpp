@@ -1,6 +1,9 @@
 ﻿#include <cstdio>
 #include <cstdlib>
+#include <QLibraryInfo>
+#include <QLocale>
 #include <QTextCodec>
+#include <QTranslator>
 #include <QtGui/QApplication>
 
 #include "gui/CraftuxHome.h"
@@ -32,6 +35,16 @@ int main(int argc, char *argv[])
 	qInstallMsgHandler(craftuxMessageOutput);
 
 	QApplication a(argc, argv);
+
+	QTranslator qtTranslator;
+	qtTranslator.load( "qt_" + QLocale::system().name(),
+					   QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
+	a.installTranslator(&qtTranslator);
+
+	QTranslator craftuxTranslator;
+	craftuxTranslator.load("craftux_" + QLocale::system().name(), a.applicationDirPath() + "/lang/");
+	a.installTranslator(&craftuxTranslator);
+
 	CraftuxHome w;
 	w.show();
 
