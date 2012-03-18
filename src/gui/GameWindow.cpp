@@ -25,16 +25,19 @@ void GameWindow::initializeGL()
 	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
 	qDebug() << "OpenGL driver :" << (const char*)glGetString(GL_VENDOR) << "|" << (const char*)glGetString(GL_RENDERER)<< "|" << (const char*)glGetString(GL_VERSION);
 
+	m_textureManager.loadTextures();
+
 	glClearColor(138.0f / 255.0f, 198.0f / 255.0f, 206.0f / 255.0f, 0.0f);
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LEQUAL);  // Fontion du test de profondeur
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
+	glEnable(GL_TEXTURE_2D);
 
 	// Lighting
 	static GLfloat lightPosition[4] = { 0.0f, 256.0f, 0.0f, 1.0f };
-	static GLfloat lightAmbient[4] = { 0.20f, 0.20f, 0.20f, 0.5f };
-	static GLfloat lightDiffuse[4] = { 0.03f, 0.03f, 0.03f, 0.05f };
+	static GLfloat lightAmbient[4] = { 0.10f, 0.90f, 0.90f, 0.9f };
+	static GLfloat lightDiffuse[4] = { 0.5f, 0.5f, 0.5f, 0.5f };
 	static GLfloat lightSpecular[4] = { 0.015f, 0.015f, 0.015f, 0.05f };
 	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
 	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
@@ -56,16 +59,17 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	glShadeModel(GL_SMOOTH); // re-enable
 	glEnable(GL_DEPTH_TEST); // re-enable
 	glEnable(GL_LIGHTING); // re-enable
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
 
 	setCamera();
 
+	m_textureManager.bindTexture();
 	render3D(); // 3D render
+	m_textureManager.unbindTexture();
 
-	glShadeModel(GL_FLAT); // disnable
+	glShadeModel(GL_FLAT); // disable
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 

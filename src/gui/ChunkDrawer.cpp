@@ -95,27 +95,34 @@ void ChunkDrawer::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_bufferIndices);
 	glVertexPointer(3, // Coordinates per vertex
 					GL_FLOAT, // Data type
-					9*sizeof(GLfloat), // Offset between each vertice
-					BUFFER_OFFSET(0)); // where is the first vertice
+					11*sizeof(GLfloat), // Offset between each vertice
+					BUFFER_OFFSET_FLOAT(0)); // where is the first vertice
 
 	glColorPointer(3, // Coordinates per color
 				   GL_FLOAT, // Data type
-				   9*sizeof(GLfloat), // Offset between each color
-				   BUFFER_OFFSET(6*sizeof(GLfloat))); // where is the first color */
+				   11*sizeof(GLfloat), // Offset between each color
+				   BUFFER_OFFSET_FLOAT(6)); // where is the first color
 
 	glNormalPointer(GL_FLOAT, // Data type
-					9*sizeof(GLfloat), // Offset between each normal
-					BUFFER_OFFSET(3*sizeof(GLfloat))); // where is the first normal
+					11*sizeof(GLfloat), // Offset between each normal
+					BUFFER_OFFSET_FLOAT(3)); // where is the first normal
+
+	glTexCoordPointer(2, // Coordinates per texture coordinate
+					  GL_FLOAT, // Data type
+					  11*sizeof(GLfloat), // Offset between each texture coordinate
+					  BUFFER_OFFSET_FLOAT(9)); // where is the first texture coordinate
 
 	// Activation d'utilisation des tableaux
 	glEnableClientState( GL_VERTEX_ARRAY );
 	glEnableClientState( GL_COLOR_ARRAY );
 	glEnableClientState( GL_NORMAL_ARRAY );
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
 	// Rendu de notre géométrie
 	glDrawElements(GL_QUADS, i_indiceArraySize, GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 
 	// Désactivation des tableaux
+	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
 	glDisableClientState( GL_NORMAL_ARRAY );
 	glDisableClientState( GL_COLOR_ARRAY );
 	glDisableClientState( GL_VERTEX_ARRAY );
@@ -167,29 +174,27 @@ void ChunkDrawer::drawFace(const CubeFace face, BlockInfo* block, const int wx, 
 		f_array[i_arraySize + 2] = cubeVertexAndNormals[face + 12 + 2] + wz;
 		i_arraySize += 3;
 
-		// Color
+		// Color (full white until lighting)
+		f_array[i_arraySize + 0] = 1.0f; // R
+		f_array[i_arraySize + 1] = 1.0f; // V
+		f_array[i_arraySize + 2] = 1.0f; // B
+		i_arraySize += 3;
+
+		// Texture
+		TexCoords* textureCoordinates;
 		if(*block == Blocks::STONE)
 		{
-			f_array[i_arraySize + 0] = 0.48828125f; // R
-			f_array[i_arraySize + 1] = 0.48828125f; // V
-			f_array[i_arraySize + 2] = 0.48828125f; // B
+			textureCoordinates = Blocks::STONE.getTexture();
 		}
 		else if(*block == Blocks::DIRT)
 		{
-			f_array[i_arraySize + 0] = 0.5f; // R
-			f_array[i_arraySize + 1] = 0.28515625f; // V
-			f_array[i_arraySize + 2] = 0.2265625f; // B
+			textureCoordinates = Blocks::DIRT.getTexture();
 		}
-		else
-		{
-			f_array[i_arraySize + 0] = 0.9f; // R
-			f_array[i_arraySize + 1] = 0.98515625f; // V
-			f_array[i_arraySize + 2] = 0.9265625f; // B
-		}
-		i_arraySize += 3;
+		f_array[i_arraySize + 0] = textureCoordinates[v].tx;
+		f_array[i_arraySize + 1] = textureCoordinates[v].ty;
+		i_arraySize += 2;
 
 		i_indiceArray[i_indiceArraySize] = i_indiceArraySize;
 		i_indiceArraySize++;
-
 	}
 }

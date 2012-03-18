@@ -5,6 +5,8 @@
 #include <QString>
 
 #include "BlockInfo.h"
+#include "Vector.h"
+#include "gui/TextureManager.h" // TextureCoordinates
 
 class BlockDescriptor
 {
@@ -14,6 +16,13 @@ public:
 		: i_id(id), s_name(name), b_breakable(breakable), m_color(color) {}
 
 	inline int id() const {return i_id;}
+
+	/*! Set the texture coordinates of the block */
+	inline void setTexture(const TexCoords& texture1, const TexCoords& texture2, const TexCoords& texture3, const TexCoords& texture4) {
+		m_texturePos[0] = texture1; m_texturePos[1] = texture2; m_texturePos[2] = texture3; m_texturePos[3] = texture4;
+	}
+
+	inline TexCoords* getTexture() {return m_texturePos;}
 
 private:
 	// General
@@ -25,6 +34,7 @@ private:
 
 	// Apparence
 	QColor m_color;
+	TexCoords m_texturePos[4];
 };
 
 

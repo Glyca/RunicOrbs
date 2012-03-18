@@ -16,7 +16,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 #Changelog
 ##v0.0.4 (not released yet)
 ```
-
+[ADD] Textures
 ```
 ##v0.0.3 (March 7 2012)
 ```

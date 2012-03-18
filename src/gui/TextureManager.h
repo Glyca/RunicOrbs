@@ -4,23 +4,29 @@
 #include <QString>
 #include <QtOpenGL>
 
-// Classe qui gère toutes les textures OpenGL
-// Classe singleton
-class CTextureManager
-{
+/*! Contains a couple of floats wich represent a texture position on a face */
+class TexCoords {
 public:
-    CTextureManager();
-    ~CTextureManager();
-
-    static class CTextureManager* c_TextureManager;
-    static CTextureManager* getTextureManager();
-
-    void free(); // Libère toutes les ressources allouées par le gestionnaire de texture et le détruit
-
-    GLuint loadTexture(const char* filename);
-
+	TexCoords(GLfloat x = 0.0f, GLfloat y = 0.0f) : tx(x), ty(y) {}
+	GLfloat tx, ty;
 };
 
-#define TextureManager (CTextureManager::getTextureManager())
+/*! Loads all textures and inforl the blocks what are their texture coordinates */
+class TextureManager
+{
+public:
+	TextureManager();
+	~TextureManager();
+
+	/*! Get a big txture containing all textures */
+	QImage getTextureAtlas();
+	GLuint loadTextures();
+	void bindTexture(); //! Bind THE texture
+	void unbindTexture(); //! Unbind any texture binded
+
+private:
+	GLuint gi_textureID;
+
+};
 
 #endif // TEXTUREMANAGER_H

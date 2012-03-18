@@ -6,6 +6,7 @@
 #include "ClientConfiguration.h"
 #include "GLWidget.h"
 #include "ServerConnector.h"
+#include "TextureManager.h"
 
 class GameWindow : public GLWidget
 {
@@ -30,6 +31,7 @@ private:
 
 	ClientConfiguration* m_configuration;
 	ServerConnector* m_connector;
+	TextureManager m_textureManager;
 
 	QTimer* t_secondTimer;
 	int i_FPS, i_framesRenderedThisSecond;

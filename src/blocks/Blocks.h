@@ -3,14 +3,15 @@
 
 #include "BlockDescriptor.h"
 
-/*! The Blocks namespace holds all informations about any blocks (such as resistance, breakability...) stored in BlockDescriptors */
-namespace Blocks
+/*! The Blocks class holds all informations about any blocks (such as resistance, breakability...) stored in BlockDescriptors */
+class Blocks
 {
+public:
 
-extern const BlockDescriptor AIR;
-extern const BlockDescriptor STONE;
-extern const BlockDescriptor DIRT;
+static BlockDescriptor AIR;
+static BlockDescriptor STONE;
+static BlockDescriptor DIRT;
 
-}
+};
 
 #endif // BLOCKS_H
