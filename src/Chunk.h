@@ -11,9 +11,9 @@
 #include "blocks/BlockInfo.h"
 class ChunkDrawer;
 
-const int CHUNK_X_SIZE = 32;
+const int CHUNK_X_SIZE = 24;
 const int CHUNK_Y_SIZE = 256;
-const int CHUNK_Z_SIZE = 32;
+const int CHUNK_Z_SIZE = 24;
 const int CHUNK_HEIGHT = CHUNK_Y_SIZE;
 
 class Chunk : public QObject

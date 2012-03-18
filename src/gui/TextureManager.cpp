@@ -1,12 +1,10 @@
 ﻿#include "TextureManager.h"
 #include "blocks/Blocks.h"
 #include <QtGlobal>
-#include <QDir>
-#include <QDir>
 
 TextureManager::TextureManager()
 {
-	qDebug("Gestionaire de textures construit");
+
 }
 
 TextureManager::~TextureManager()
@@ -42,7 +40,7 @@ QImage TextureManager::getTextureAtlas()
 			QPainter qp_assembler(&qim_atlas);
 			qp_assembler.drawImage(0, 0, qim_stoneImage, 0, 0, qim_stoneImage.width(), qim_stoneImage.height());
 			qp_assembler.drawImage(0, qim_stoneImage.height(), qim_dirtImage, 0, 0, qim_dirtImage.width(), qim_dirtImage.height());
-			//qp_assembler.end();
+			qp_assembler.end();
 
 			return qim_atlas;
 		}
