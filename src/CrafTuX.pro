@@ -44,7 +44,11 @@ SOURCES += main.cpp\
 	gui/ServerWidget.cpp \
 	server/ClientThread.cpp \
 	server/Server.cpp \
-	server/LocalServer.cpp
+	server/LocalServer.cpp \
+    server/events/Event.cpp \
+    server/events/PlayerEvent.cpp \
+    server/events/BlockPickEvent.cpp \
+    server/events/BlockUseEvent.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -78,7 +82,11 @@ HEADERS  += \
 	server/ClientThread.h \
 	server/Server.h \
 	server/LocalServer.h \
-    gui/OpenGL.h
+    gui/OpenGL.h \
+    server/events/Event.h \
+    server/events/PlayerEvent.h \
+    server/events/BlockPickEvent.h \
+    server/events/BlockUseEvent.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

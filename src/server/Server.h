@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include "events/Event.h"
 #include "World.h"
 
 class Server : public QObject
@@ -16,8 +17,7 @@ public:
 signals:
 
 public slots:
-	void pickBlock(const BlockPosition& blockPosition);
-	void useBlock(const BlockPosition& blockPosition);
+	void takeEvent(const Event* event);
 
 protected:
 	World* m_world;

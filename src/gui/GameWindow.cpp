@@ -283,10 +283,10 @@ void GameWindow::mousePressEvent(QMouseEvent* mouseEvent)
 	if(b_playing)
 	{
 		if(mouseEvent->button() == Qt::LeftButton) {
-			emit m_connector->pickBlock(m_connector->me()->pointedBlock());
+			m_connector->pickBlock();
 		}
 		if(mouseEvent->button() == Qt::RightButton) {
-			emit m_connector->useBlock(m_connector->me()->pointedBlock());
+			m_connector->useBlock();
 		}
 	}
 }

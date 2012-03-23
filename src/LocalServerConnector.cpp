@@ -11,9 +11,8 @@ LocalServerConnector::LocalServerConnector()
 	qDebug() << "Initialized" << metaObject()->className();
 	thread->start();
 
-	// For this LocalServerConnector, we simply send the signals to the embedded server...
-	connect(this, SIGNAL(wantPickBlock(BlockPosition)), m_server, SLOT(pickBlock(BlockPosition)));
-	connect(this, SIGNAL(wantUseBlock(BlockPosition)), m_server, SLOT(useBlock(BlockPosition)));
+	// For this LocalServerConnector, we simply send the events to the embedded server...
+	connect(this, SIGNAL(postEvent(const Event*)), m_server, SLOT(takeEvent(const Event*)));
 }
 
 void LocalServerConnector::onChunkLoaded(ChunkPostition position)

@@ -6,13 +6,7 @@ Server::Server(QObject *parent) : QObject(parent)
 	qDebug("Starting Craftux server version " CRAFTUX_VERSION " ...");
 }
 
-void Server::pickBlock(const BlockPosition& blockPosition)
+void Server::takeEvent(const Event* event)
 {
-	m_world->block(blockPosition)->setId(0);
-	m_world->chunk(blockPosition)->makeDirty();
-}
-
-void Server::useBlock(const BlockPosition& blockPosition)
-{
-
+	event->perform(*this);
 }

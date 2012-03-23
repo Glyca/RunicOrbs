@@ -3,6 +3,7 @@
 
 #include <QObject>
 
+#include "server/events/Event.h"
 #include "Me.h"
 #include "World.h"
 
@@ -16,12 +17,12 @@ public:
 
 	inline Me* me() const {return m_me;}
 
-	inline void pickBlock(const BlockPosition& blockPosition) {emit wantPickBlock(blockPosition);}
-	inline void useBlock(const BlockPosition& blockPosition) {emit wantUseBlock(blockPosition);}
+	void pickBlock();
+	void useBlock();
 
 signals:
-	void wantPickBlock(const BlockPosition& blockPosition);
-	void wantUseBlock(const BlockPosition& blockPosition);
+	/*! Send an event to the server. FIXME : The event is not destroyed for the moment */
+	void postEvent(const Event* event);
 
 public slots:
 
