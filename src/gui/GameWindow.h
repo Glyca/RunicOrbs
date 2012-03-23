@@ -10,8 +10,6 @@
 
 class GameWindow : public GLWidget
 {
-	Q_OBJECT
-
 public:
 	GameWindow(ServerConnector* connector);
 
@@ -33,17 +31,11 @@ private:
 	ServerConnector* m_connector;
 	TextureManager m_textureManager;
 
-	QTimer* t_secondTimer;
-	int i_FPS, i_framesRenderedThisSecond;
-
 	void pause();
 	void resume();
 
 	bool b_playing; //! If the game is running (not paused)
 	QCursor m_originalCursor;
-
-private slots:
-	void secondTimerTimeout();
 };
 
 #endif // GAMEWINDOW_H

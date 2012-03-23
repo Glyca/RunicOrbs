@@ -1,13 +1,18 @@
 ﻿#include "GLWidget.h"
 #include "glextensions.h"
 
-GLWidget::GLWidget(int framesPerSecond, QWidget *parent, char *name, QGLFormat format)
+GLWidget::GLWidget(const int framesPerSecond, QWidget *parent, const char *name, QGLFormat format)
 	: QGLWidget(format, parent), f_cameraAngle(70.0f), t_Timer(NULL), b_Fullscreen(false)
 {
 	setWindowTitle(QString::fromUtf8(name));
 	setFps(framesPerSecond);
 	makeCurrent(); // We have to make context current to resolve OpenGL functions (Fixes ISSUE 2)
 	getGLExtensionFunctions().resolve(context()); // resolve OpenGL >1.5 functions (Fix for ISSUE 1)
+
+	t_secondTimer = new QTimer(this);
+	t_secondTimer->setInterval(1000);
+	t_secondTimer->connect(t_secondTimer, SIGNAL(timeout()), this, SLOT(secondTimerTimeout()));
+	t_secondTimer->start();
 }
 
 void GLWidget::resizeGL(int width, int height)
@@ -24,12 +29,17 @@ void GLWidget::setFps(const int targetFps)
 		t_Timer = NULL;
 	else
 	{
-		int seconde = 1000; // 1 seconde = 1000 ms
-		int timerInterval = seconde / targetFps;
+		const int second = 1000; // 1 seconde = 1000 ms
+		int timerInterval = second / targetFps;
 		t_Timer = new QTimer(this);
 		connect(t_Timer, SIGNAL(timeout()), this, SLOT(timeOutSlot()));
-		t_Timer->start( timerInterval );
+		t_Timer->start(timerInterval);
 	}
+}
+
+int GLWidget::getCurrentFPS()
+{
+	return i_FPS;
 }
 
 void GLWidget::resizeGLreally()
@@ -63,22 +73,26 @@ void GLWidget::keyPressEvent(QKeyEvent *keyEvent)
 void GLWidget::timeOutSlot()
 {
 	update();
+	i_framesRenderedThisSecond++;
+}
+
+void GLWidget::secondTimerTimeout()
+{
+	i_FPS = i_framesRenderedThisSecond;
+	i_framesRenderedThisSecond = 0;
 }
 
 void GLWidget::toggleFullWindow()
 {
-	if(b_Fullscreen)
-	{
+	if(b_Fullscreen) {
 		showNormal();
 		b_Fullscreen = false;
 	}
-	else
-	{
+	else {
 		showFullScreen();
 		b_Fullscreen = true;
 	}
 }
-
 
 QGLFormat GLWidget::defaultFormat()
 {
@@ -87,4 +101,3 @@ QGLFormat GLWidget::defaultFormat()
 	format.setVersion(1, 5);
 	return format;
 }
-

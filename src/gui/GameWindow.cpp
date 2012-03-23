@@ -2,7 +2,7 @@
 #include "version.h"
 
 GameWindow::GameWindow(ServerConnector* connector)
-	: m_configuration(new ClientConfiguration()), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor())
+	: m_configuration(new ClientConfiguration()), m_connector(connector), b_playing(true), m_originalCursor(cursor())
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 
@@ -11,11 +11,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 	setFps(m_configuration->getFps());
 
 	setAutoFillBackground(false);
-
-	t_secondTimer = new QTimer(this);
-	t_secondTimer->setInterval(1000);
-	t_secondTimer->connect(t_secondTimer, SIGNAL(timeout()), this, SLOT(secondTimerTimeout()));
-	t_secondTimer->start();
+	setWindowTitle("CrafTuX");
 
 	resume();
 }
@@ -55,8 +51,6 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	Q_UNUSED(event);
 	m_connector->world().physicEngine()->processMoves();
 
-	setWindowTitle("CrafTuX | " + QVariant(i_FPS).toString() + tr(" FPS"));
-
 	glShadeModel(GL_SMOOTH); // re-enable
 	glEnable(GL_DEPTH_TEST); // re-enable
 	glEnable(GL_LIGHTING); // re-enable
@@ -78,8 +72,6 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	QPainter painter(this);
 	render2D(painter);
 	painter.end();
-
-	i_framesRenderedThisSecond++; // We rendered a frame !
 }
 
 void GameWindow::render2D(QPainter& painter)
@@ -93,7 +85,7 @@ void GameWindow::render2D(QPainter& painter)
 
 	if(b_playing)
 	{
-		QString text = "CrafTuX version " CRAFTUX_VERSION;
+		QString text = QString("CrafTuX version " CRAFTUX_VERSION " @ ") + QVariant(getCurrentFPS()).toString() + tr("FPS");
 
 		QRect rect = metrics.boundingRect(0, 0, width() - 2*border, int(height()*0.125), Qt::AlignCenter | Qt::TextWordWrap, text);
 		painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
@@ -306,10 +298,4 @@ void GameWindow::resume()
 	setCursor(newCursor);
 	setMouseTracking(true);
 	b_playing = true;
-}
-
-void GameWindow::secondTimerTimeout()
-{
-	i_FPS = i_framesRenderedThisSecond;
-	i_framesRenderedThisSecond = 0;
 }
