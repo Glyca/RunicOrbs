@@ -189,19 +189,19 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
 	if(b_playing)
 	{
-		if(keyEvent->key() == Qt::Key_Up) {
+		if(keyEvent->key() == Qt::Key_Z) {
 			m_connector->me()->walk(Entity::WalkDirection_Forward);
 		}
-		if(keyEvent->key() == Qt::Key_Down) {
+		if(keyEvent->key() == Qt::Key_S) {
 			m_connector->me()->walk(Entity::WalkDirection_Backward);
 		}
-		if(keyEvent->key() == Qt::Key_Left) {
+		if(keyEvent->key() == Qt::Key_Q) {
 			m_connector->me()->walk(Entity::WalkDirection_Left);
 		}
-		if(keyEvent->key() == Qt::Key_Right) {
+		if(keyEvent->key() == Qt::Key_D) {
 			m_connector->me()->walk(Entity::WalkDirection_Right);
 		}
-		if(keyEvent->key() == Qt::Key_0) {
+		if(keyEvent->key() == Qt::Key_Space) {
 			m_connector->me()->jump();
 		}
 	}
@@ -217,19 +217,19 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 
 	if(b_playing)
 	{
-		if(keyEvent->key() == Qt::Key_Up) {
+		if(keyEvent->key() == Qt::Key_Z) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
 		}
-		if(keyEvent->key() == Qt::Key_Down) {
+		if(keyEvent->key() == Qt::Key_S) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
 		}
-		if(keyEvent->key() == Qt::Key_Left) {
+		if(keyEvent->key() == Qt::Key_Q) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Left);
 		}
-		if(keyEvent->key() == Qt::Key_Right) {
+		if(keyEvent->key() == Qt::Key_D) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Right);
 		}
-		if(keyEvent->key() == Qt::Key_0) {
+		if(keyEvent->key() == Qt::Key_Space) {
 			m_connector->me()->stopJumping();
 		}
 	}
@@ -244,38 +244,34 @@ void GameWindow::mouseMoveEvent(QMouseEvent* mouseEvent)
 		const preal f_moveSpeed = 0.15f;
 
 		GLfloat f_delta;
-		int MouseX, MouseY;
+		int mouseX, mouseY;
 
-		MouseX = mouseEvent->x();
-		MouseY = mouseEvent->y();
+		mouseX = mouseEvent->x();
+		mouseY = mouseEvent->y();
 
-		int CenterX = width() / 2;
-		int CenterY = height() / 2;
+		int centerX = width() >> 1;
+		int centerY = height() >> 1;
 
-		if(MouseX < CenterX)
-		{
-			f_delta = GLfloat(CenterX - MouseX);
+		if(mouseX < centerX) {
+			f_delta = GLfloat(centerX - mouseX);
 			m_connector->me()->yaw(m_connector->me()->yaw() + f_moveSpeed * f_delta);
 		}
-		else if(MouseX > CenterX)
-		{
-			f_delta = GLfloat(MouseX - CenterX);
+		else if(mouseX > centerX) {
+			f_delta = GLfloat(mouseX - centerX);
 			m_connector->me()->yaw(m_connector->me()->yaw() - f_moveSpeed * f_delta);
 		}
 
-		if(MouseY < CenterY)
-		{
-			f_delta = GLfloat(CenterY - MouseY);
+		if(mouseY < centerY) {
+			f_delta = GLfloat(centerY - mouseY);
 			m_connector->me()->pitch(m_connector->me()->pitch() - f_moveSpeed * f_delta);
 		}
-		else if(MouseY > CenterY)
-		{
-			f_delta = GLfloat(MouseY - CenterY);
+		else if(mouseY > centerY) {
+			f_delta = GLfloat(mouseY - centerY);
 			m_connector->me()->pitch(m_connector->me()->pitch() + f_moveSpeed * f_delta);
 		}
 
 		QCursor newCursor(this->cursor());
-		newCursor.setPos(mapToGlobal(QPoint(CenterX, CenterY)));
+		newCursor.setPos(mapToGlobal(QPoint(centerX, centerY)));
 		this->setCursor(newCursor);
 	}
 
