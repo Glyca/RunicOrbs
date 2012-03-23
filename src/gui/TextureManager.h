@@ -2,7 +2,7 @@
 #define TEXTUREMANAGER_H
 
 #include <QString>
-#include <QtOpenGL>
+#include "OpenGL.h"
 
 /*! Contains a couple of floats wich represent a texture position on a face */
 class TexCoords {

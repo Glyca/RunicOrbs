@@ -77,7 +77,8 @@ HEADERS  += \
 	gui/ServerWidget.h \
 	server/ClientThread.h \
 	server/Server.h \
-	server/LocalServer.h
+	server/LocalServer.h \
+    gui/OpenGL.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

@@ -1,6 +1,5 @@
 #include "ChunkDrawer.h"
 #include "blocks/Blocks.h"
-#include "glextensions.h"
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
 #define BUFFER_OFFSET_FLOAT(a) (BUFFER_OFFSET(a * sizeof(GLfloat)))

@@ -1,9 +1,7 @@
 ﻿#ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QtOpenGL>
-#include <QGLWidget>
-#include <GL/glu.h> // necessary for all glu*() calls
+#include "OpenGL.h"
 
 class GLWidget : public QGLWidget
 {

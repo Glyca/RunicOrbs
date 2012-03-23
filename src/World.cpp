@@ -1,6 +1,5 @@
 #include "World.h"
 #include <QDebug>
-#include <QtOpenGL>
 
 World::World(const int seed, QObject *parent) : QObject(parent), m_chunkGenerator(ChunkGenerator(seed)), i_seed(seed)
 {
