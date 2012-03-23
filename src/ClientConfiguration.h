@@ -33,10 +33,14 @@ public:
 	int getSeed() const;
 	void setSeed(const int seed);
 
+	bool getSmoothShades() const;
+	void setSmoothShades(const bool smooth);
+
 private:
 	QString s_filename;
 	int i_fps;
 	int i_seed;
+	bool b_smoothShades;
 };
 
 #endif // CLIENTCONFIGURATION_H

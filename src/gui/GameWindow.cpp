@@ -30,6 +30,7 @@ void GameWindow::initializeGL()
 	glLineWidth(2.5f);
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 	glEnable(GL_TEXTURE_2D);
+	glShadeModel(GL_FLAT); // In all cases we start with flat
 
 	// Lighting
 	static GLfloat lightPosition[4] = { 0.0f, 256.0f, 0.0f, 1.0f };
@@ -51,7 +52,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	Q_UNUSED(event);
 	m_connector->world().physicEngine()->processMoves();
 
-	glShadeModel(GL_SMOOTH); // re-enable
+	if(m_configuration->getSmoothShades()) glShadeModel(GL_SMOOTH); // re-enable
 	glEnable(GL_DEPTH_TEST); // re-enable
 	glEnable(GL_LIGHTING); // re-enable
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,7 +65,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	render3D(); // 3D render
 	m_textureManager.unbindTexture();
 
-	glShadeModel(GL_FLAT); // disable
+	if(m_configuration->getSmoothShades()) glShadeModel(GL_FLAT); // disable
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_LIGHTING);
 

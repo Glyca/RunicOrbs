@@ -37,6 +37,7 @@ void OptionsDialog::load()
 	config.loadDefaultConfigFile();
 	ui->seedLineEdit->setText(QVariant(config.getSeed()).toString());
 	ui->FPSSpinBox->setValue(config.getFps());
+	ui->smoothShadesCheckBox->setChecked(config.getSmoothShades());
 }
 
 void OptionsDialog::save()
@@ -44,5 +45,6 @@ void OptionsDialog::save()
 	ClientConfiguration config;
 	config.setSeed(ui->seedLineEdit->text().toInt());
 	config.setFps(ui->FPSSpinBox->value());
+	config.setSmoothShades(ui->smoothShadesCheckBox->isChecked());
 	config.save();
 }

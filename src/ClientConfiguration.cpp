@@ -24,6 +24,7 @@ void ClientConfiguration::defaultValues()
 	// Here are the defaults value for the configuration :
 	i_fps = 60;
 	i_seed = 123456789;
+	b_smoothShades = true;
 }
 
 void ClientConfiguration::setFilename(const QString& filename)
@@ -84,6 +85,10 @@ void ClientConfiguration::load()
 						{
 							i_fps = graphicsChildNode.text().toInt();
 						}
+						if(graphicsChildNode.tagName() == "smoothShades") // Parse Shade model
+						{
+							b_smoothShades = QVariant(graphicsChildNode.text()).toBool();
+						}
 						graphicsChildNode = graphicsChildNode.nextSiblingElement();
 					}
 				}
@@ -119,9 +124,12 @@ void ClientConfiguration::save() const
 	fpsNode.appendChild( doc.createTextNode(QVariant(i_fps).toString()) );
 	graphicsNode.appendChild(fpsNode);
 
+	QDomElement shadeModel = doc.createElement("smoothShades");
+	shadeModel.appendChild( doc.createTextNode(QVariant(b_smoothShades).toString()) );
+	graphicsNode.appendChild(shadeModel);
+
 	rootNode.appendChild(graphicsNode);
 
-	QByteArray content = doc.toByteArray();
 	QFile file(s_filename);
 
 	if (!file.open(QIODevice::ReadWrite | QIODevice::Truncate))
@@ -130,7 +138,7 @@ void ClientConfiguration::save() const
 		return;
 	}
 
-	file.write(content);
+	file.write(doc.toByteArray());
 	file.close();
 }
 
@@ -152,4 +160,14 @@ int ClientConfiguration::getSeed() const
 void ClientConfiguration::setSeed(const int seed)
 {
 	i_seed = seed;
+}
+
+bool ClientConfiguration::getSmoothShades() const
+{
+	return b_smoothShades;
+}
+
+void ClientConfiguration::setSmoothShades(const bool smooth)
+{
+	b_smoothShades = smooth;
 }

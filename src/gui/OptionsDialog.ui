@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>OptionsDialog</class>
  <widget class="QDialog" name="OptionsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>300</height>
+   </rect>
+  </property>
   <property name="minimumSize">
    <size>
     <width>600</width>
@@ -145,6 +153,13 @@
              </widget>
             </item>
            </layout>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="smoothShadesCheckBox">
+            <property name="text">
+             <string>Smooth shades</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

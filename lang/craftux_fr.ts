@@ -43,17 +43,21 @@
 <context>
     <name>GameWindow</name>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="25"/>
+        <location filename="../src/gui/GameWindow.cpp" line="21"/>
         <source>Initialized OpenGL, version %d.%d</source>
         <translation>OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="54"/>
-        <source> FPS</source>
+        <location filename="../src/gui/GameWindow.cpp" line="88"/>
+        <source>FPS</source>
         <translation> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="106"/>
+        <source> FPS</source>
+        <translation type="obsolete"> IPS</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GameWindow.cpp" line="103"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>
@@ -65,86 +69,100 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>OptionsDialog</name>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="18"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="26"/>
         <source>Options for Craftux client</source>
         <translation>Options pour le client Craftux</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="50"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="58"/>
         <source>Game</source>
         <translation>Jeu</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="71"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="79"/>
         <source>Seed</source>
         <translation>Graine</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="106"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="114"/>
         <source>Graphics</source>
         <translation>Graphismes</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="127"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="135"/>
         <source>Target FPS</source>
         <translation>Cible d&apos;images par seconde (FPS)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="160"/>
+        <source>Smooth shades</source>
+        <translation>Formes douces</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="46"/>
+        <location filename="../src/ClientConfiguration.cpp" line="47"/>
         <source>No configuration file founded. Creating a new one!</source>
         <translation>Aucun fichier de configuration trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="51"/>
+        <location filename="../src/ClientConfiguration.cpp" line="52"/>
         <source>Can&apos;t parse client configuration file %1</source>
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="101"/>
+        <location filename="../src/ClientConfiguration.cpp" line="106"/>
         <source>This is the Craftux configuration file</source>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="108"/>
+        <location filename="../src/ClientConfiguration.cpp" line="113"/>
         <source>Settings for gameplay</source>
         <translation>Paramètres de jeu</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="116"/>
+        <location filename="../src/ClientConfiguration.cpp" line="121"/>
         <source>Configure graphics</source>
         <translation>Configuration des graphismes</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="129"/>
+        <location filename="../src/ClientConfiguration.cpp" line="137"/>
         <source>Error opening client configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="12"/>
+        <location filename="../src/main.cpp" line="15"/>
         <source>[Debug] %s
 </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/main.cpp" line="15"/>
-        <source>[Warning] %s
-</source>
-        <translation type="unfinished"></translation>
+        <translation>[Debug] %s
+</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="18"/>
-        <source>[Critical] %s
+        <source>[Warning] %s
 </source>
-        <translation type="unfinished"></translation>
+        <translation>[Avertissement] %s
+</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="21"/>
+        <source>[Critical] %s
+</source>
+        <translation>[Critique] %s
+</translation>
+    </message>
+    <message>
+        <location filename="../src/main.cpp" line="24"/>
         <source>[Fatal] %s
 </source>
-        <translation type="unfinished"></translation>
+        <translation>[Fatal] %s
+</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/TextureManager.cpp" line="18"/>
+        <source>Texture [%1] load failed!</source>
+        <translation>Le chargement de la texture [%1] a échoué !</translation>
     </message>
 </context>
 <context>
