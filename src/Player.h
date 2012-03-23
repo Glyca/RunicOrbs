@@ -7,6 +7,8 @@ class Player : public Entity
 {
 public:
 	Player();
+
+	Vector eyePosition();
 };
 
 #endif // PLAYER_H

@@ -42,8 +42,6 @@ private:
 	bool b_playing; //! If the game is running (not paused)
 	QCursor m_originalCursor;
 
-	float f_characterHeight;
-
 private slots:
 	void secondTimerTimeout();
 };

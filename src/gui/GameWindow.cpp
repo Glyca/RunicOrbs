@@ -2,7 +2,7 @@
 #include "version.h"
 
 GameWindow::GameWindow(ServerConnector* connector)
-	: m_configuration(new ClientConfiguration()), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor()), f_characterHeight(1.70f) // not 1.75 because eyes are a little bit under
+	: m_configuration(new ClientConfiguration()), m_connector(connector), i_FPS(0), i_framesRenderedThisSecond(0), b_playing(true), m_originalCursor(cursor())
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 
@@ -31,7 +31,7 @@ void GameWindow::initializeGL()
 	glClearDepth(1.0f);
 	glDepthFunc(GL_LEQUAL);  // Fontion du test de profondeur
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-	glLineWidth(2.0f);
+	glLineWidth(2.5f);
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 	glEnable(GL_TEXTURE_2D);
 
@@ -178,10 +178,10 @@ void GameWindow::render3D()
 
 void GameWindow::setCamera()
 {
-	Vector position = m_connector->me()->v_position;
+	Vector position = m_connector->me()->eyePosition();
 	Vector direction = m_connector->me()->direction();
-	gluLookAt(position.x, position.y + f_characterHeight, position.z,
-			  position.x + direction.x, position.y + direction.y + f_characterHeight, position.z + direction.z,
+	gluLookAt(position.x, position.y, position.z,
+			  position.x + direction.x, position.y + direction.y, position.z + direction.z,
 			  0.0, 1.0, 0.0);
 }
 

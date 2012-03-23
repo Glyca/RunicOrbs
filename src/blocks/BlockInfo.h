@@ -34,6 +34,7 @@ inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 
 class BlockPosition {
 public:
+	BlockPosition(int i = 0, int j = 0, int k = 0) : x(i), y(j), z(k) {}
 	int x, y, z;
 };
 
