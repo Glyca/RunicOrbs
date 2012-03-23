@@ -36,8 +36,8 @@ void Entity::processMove(const preal f_elapsedTimeSec, World& workingWorld)
 
 	if(isWalking())
 	{
-		const preal f_walkVelocityCoefficient = 2.0e2f;
-		Vector v_walkIncrement = direction() * f_walkVelocityCoefficient * f_elapsedTimeSec;
+		const preal f_walkVelocityCoefficient = 5.0f;
+		Vector v_walkIncrement = direction() * f_walkVelocityCoefficient;
 
 		if(m_walkDirection & WalkDirection_Forward)
 		{
@@ -68,8 +68,8 @@ void Entity::processMove(const preal f_elapsedTimeSec, World& workingWorld)
 
 	if(isJumping() && this->touchesFloor(workingWorld))
 	{
-		const preal f_jumpVerticalForce = 12000.0; // NEWTONS
-		applyForcev(Vector(0.0, f_jumpVerticalForce, 0.0));
+		const preal f_jumpVerticalForce = 350.0; // NEWTONS
+		applyForcev(Vector(0.0, f_jumpVerticalForce / f_elapsedTimeSec, 0.0)); // Jump force is thus not proportional to the delta of time, since it's a force
 	}
 
 	PhysicObject::processMove(f_elapsedTimeSec, workingWorld);

@@ -1,4 +1,4 @@
-﻿#ifndef PHYSICOBJECT_H
+#ifndef PHYSICOBJECT_H
 #define PHYSICOBJECT_H
 
 #include <QObject>
@@ -36,7 +36,7 @@ public:
 public: // Public temporairement
 
 	Vector v_position; // La position de l'objet
-	Vector v_velocity, v_tempVelocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
+	Vector v_velocity, v_totalVelocity, v_acceleration; // Le vecteur vitesse et le vecteur accélération
 	Vector v_forces; // Somme des forces appliquées à l'objet
 
 protected: // protected

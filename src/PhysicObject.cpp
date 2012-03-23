@@ -46,11 +46,11 @@ void PhysicObject::processMove(const preal f_elapsedTimeSec, World& workingWorld
 	// v += a * dt
 	v_velocity += v_acceleration * f_elapsedTimeSec;
 
-	v_tempVelocity = velocity();
-	processCollisions(workingWorld);// corrects v_tempVelocity
+	v_totalVelocity = velocity();
+	processCollisions(workingWorld);// corrects v_totalVelocity
 
 	// x += v * dt
-	v_position += v_tempVelocity * f_elapsedTimeSec;
+	v_position += v_totalVelocity * f_elapsedTimeSec;
 }
 
 void PhysicObject::applyForcev(const Vector& v_force)
@@ -72,33 +72,36 @@ void PhysicObject::applyFluidFrictionForce()
 
 bool PhysicObject::touchesFloor(World& workingWorld)
 {
-	return !workingWorld.block((Vector(v_position.x, (v_position.y - 1), v_position.z)))->isVoid();
+	return !workingWorld.block((Vector(v_position.x, (v_position.y - 0.9), v_position.z)))->isVoid();
 }
 
 void PhysicObject::processCollisions(World& workingWorld)
 {
 	const preal f_contour = 0.1;
 
-	if(v_tempVelocity.x > 0.0 && !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid())
-	{
-		v_tempVelocity.x = 0.0;
+	if(v_totalVelocity.x > 0.0
+			&& ( !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid()
+				 || !workingWorld.block((Vector(v_position.x + f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
+		v_totalVelocity.x = 0.0;
 	}
-	else if(v_tempVelocity.x < 0.0 && !workingWorld.block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid())
-	{
-		v_tempVelocity.x = 0.0;
-	}
-
-	if(v_tempVelocity.y < 0.0 && !workingWorld.block((Vector(v_position.x, v_position.y - f_contour, v_position.z)))->isVoid())
-	{
-		v_tempVelocity.y = 0.0;
+	else if( v_totalVelocity.x < 0.0
+			 && ( !workingWorld.block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid()
+				  || !workingWorld.block((Vector(v_position.x - f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
+		v_totalVelocity.x = 0.0;
 	}
 
-	if(v_tempVelocity.z > 0.0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid())
-	{
-		v_tempVelocity.z = 0.0;
+	if(v_totalVelocity.y < 0.0 && touchesFloor(workingWorld)) {
+		v_totalVelocity.y = 0.0;
 	}
-	else if(v_tempVelocity.z < 0.0 && !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid())
-	{
-		v_tempVelocity.z = 0.0;
+
+	if(v_totalVelocity.z > 0.0
+			&& ( !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid()
+				 || !workingWorld.block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z + f_contour)))->isVoid() ) ) {
+		v_totalVelocity.z = 0.0;
+	}
+	else if(v_totalVelocity.z < 0.0
+			&& ( !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid()
+				 || !workingWorld.block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z - f_contour)))->isVoid() ) ) {
+		v_totalVelocity.z = 0.0;
 	}
 }
