@@ -25,10 +25,10 @@ protected:
 	void resizeGLreally();
 	int i_winheight, i_winwidth;
 	float f_cameraAngle;
+	QTimer* t_secondTimer;
 
 private:
 	QTimer* t_Timer;
-	QTimer* t_secondTimer;
 	bool b_Fullscreen;
 	int i_FPS; //! The current framerate
 	int i_framesRenderedThisSecond; //! The number of frames that have already been rendered this second

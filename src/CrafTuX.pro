@@ -49,7 +49,9 @@ SOURCES += main.cpp\
     server/events/PlayerEvent.cpp \
     server/events/BlockPickEvent.cpp \
     server/events/BlockUseEvent.cpp \
-    server/events/MoveEvent.cpp
+    server/events/MoveEvent.cpp \
+    server/events/ChunkEvent.cpp \
+    server/events/ChunkConnectEvent.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -88,7 +90,9 @@ HEADERS  += \
     server/events/PlayerEvent.h \
     server/events/BlockPickEvent.h \
     server/events/BlockUseEvent.h \
-    server/events/MoveEvent.h
+    server/events/MoveEvent.h \
+    server/events/ChunkEvent.h \
+    server/events/ChunkConnectEvent.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

@@ -2,6 +2,7 @@
 #define SERVERCONNECTOR_H
 
 #include <QObject>
+#include <QList>
 
 #include "server/events/Event.h"
 #include "Me.h"
@@ -20,14 +21,19 @@ public:
 	void pickBlock();
 	void useBlock();
 
+	void setViewDistance(const int distance);
+
 signals:
 	/*! Send an event to the server. FIXME : The event is not destroyed for the moment */
 	void postEvent(const Event* event);
 
 public slots:
+	void loadAndPruneChunks();
 
 protected:
 	Me* m_me;
+	QList<ChunkPostition> m_loadedChunks;
+	int i_viewDistance;
 };
 
 #endif // SERVERCONNECTOR_H

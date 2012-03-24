@@ -33,6 +33,9 @@ public:
 	int getSeed() const;
 	void setSeed(const int seed);
 
+	int getViewDistance() const;
+	void setViewDistance(const int distance);
+
 	bool getSmoothShades() const;
 	void setSmoothShades(const bool smooth);
 
@@ -40,6 +43,7 @@ private:
 	QString s_filename;
 	int i_fps;
 	int i_seed;
+	int i_viewDistance;
 	bool b_smoothShades;
 };
 

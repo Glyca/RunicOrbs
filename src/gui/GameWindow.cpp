@@ -8,7 +8,11 @@ GameWindow::GameWindow(ServerConnector* connector)
 
 	m_configuration->loadDefaultConfigFile();
 	m_connector->world().setSeed(m_configuration->getSeed());
+	m_connector->setViewDistance(m_configuration->getViewDistance());
 	setFps(m_configuration->getFps());
+
+	// Every second, we load and prune the chunks
+	connect(t_secondTimer, SIGNAL(timeout()), m_connector, SLOT(loadAndPruneChunks()));
 
 	setAutoFillBackground(false);
 	setWindowTitle("CrafTuX");

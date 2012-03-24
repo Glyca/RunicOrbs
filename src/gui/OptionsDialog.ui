@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>OptionsDialog</class>
  <widget class="QDialog" name="OptionsDialog">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>600</width>
-    <height>300</height>
-   </rect>
-  </property>
   <property name="minimumSize">
    <size>
     <width>600</width>
@@ -59,7 +51,7 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
           <item>
-           <spacer name="gameVerticalSpacer">
+           <spacer name="gameTopVerticalSpacer">
             <property name="orientation">
              <enum>Qt::Vertical</enum>
             </property>
@@ -84,6 +76,19 @@
              <widget class="QLineEdit" name="seedLineEdit"/>
             </item>
            </layout>
+          </item>
+          <item>
+           <spacer name="gameBottomVerticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -131,6 +136,12 @@
            <layout class="QHBoxLayout" name="FPSHorizontalLayout">
             <item>
              <widget class="QLabel" name="FPSLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
               <property name="text">
                <string>Target FPS</string>
               </property>
@@ -138,17 +149,38 @@
             </item>
             <item>
              <widget class="QSpinBox" name="FPSSpinBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
               <property name="minimum">
                <number>1</number>
               </property>
               <property name="maximum">
                <number>500</number>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="viewDistanceHorizontalLayout">
+            <item>
+             <widget class="QLabel" name="viewDistanceLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>View distance</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="viewDistanceSpinBox">
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>30</number>
               </property>
              </widget>
             </item>

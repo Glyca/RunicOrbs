@@ -24,6 +24,7 @@ void ClientConfiguration::defaultValues()
 	// Here are the defaults value for the configuration :
 	i_fps = 60;
 	i_seed = 123456789;
+	i_viewDistance = 2;
 	b_smoothShades = true;
 }
 
@@ -71,7 +72,7 @@ void ClientConfiguration::load()
 					{
 						if(gameChildNode.tagName() == "seed") // Parse seed
 						{
-							i_seed = gameChildNode.text().toInt();
+							setSeed(gameChildNode.text().toInt());
 						}
 						gameChildNode = gameChildNode.nextSiblingElement();
 					}
@@ -83,11 +84,15 @@ void ClientConfiguration::load()
 					{
 						if(graphicsChildNode.tagName() == "fps") // Parse FPS
 						{
-							i_fps = graphicsChildNode.text().toInt();
+							setFps(graphicsChildNode.text().toInt());
+						}
+						if(graphicsChildNode.tagName() == "viewDistance") // Parse viewDistance
+						{
+							setViewDistance(graphicsChildNode.text().toInt());
 						}
 						if(graphicsChildNode.tagName() == "smoothShades") // Parse Shade model
 						{
-							b_smoothShades = QVariant(graphicsChildNode.text()).toBool();
+							setSmoothShades(QVariant(graphicsChildNode.text()).toBool());
 						}
 						graphicsChildNode = graphicsChildNode.nextSiblingElement();
 					}
@@ -113,7 +118,7 @@ void ClientConfiguration::save() const
 	gameNode.appendChild(doc.createComment(QObject::tr("Settings for gameplay")));
 
 	QDomElement seedNode = doc.createElement("seed");
-	seedNode.appendChild( doc.createTextNode(QVariant(i_seed).toString()) );
+	seedNode.appendChild( doc.createTextNode(QVariant(getSeed()).toString()) );
 	gameNode.appendChild(seedNode);
 
 	rootNode.appendChild(gameNode);
@@ -121,12 +126,16 @@ void ClientConfiguration::save() const
 	graphicsNode.appendChild(doc.createComment(QObject::tr("Configure graphics")));
 
 	QDomElement fpsNode = doc.createElement("fps");
-	fpsNode.appendChild( doc.createTextNode(QVariant(i_fps).toString()) );
+	fpsNode.appendChild( doc.createTextNode(QVariant(getFps()).toString()) );
 	graphicsNode.appendChild(fpsNode);
 
-	QDomElement shadeModel = doc.createElement("smoothShades");
-	shadeModel.appendChild( doc.createTextNode(QVariant(b_smoothShades).toString()) );
-	graphicsNode.appendChild(shadeModel);
+	QDomElement viewDistanceNode = doc.createElement("viewDistance");
+	viewDistanceNode.appendChild( doc.createTextNode(QVariant(getViewDistance()).toString()) );
+	graphicsNode.appendChild(viewDistanceNode);
+
+	QDomElement shadeModelNode = doc.createElement("smoothShades");
+	shadeModelNode.appendChild( doc.createTextNode(QVariant(getSmoothShades()).toString()) );
+	graphicsNode.appendChild(shadeModelNode);
 
 	rootNode.appendChild(graphicsNode);
 
@@ -160,6 +169,21 @@ int ClientConfiguration::getSeed() const
 void ClientConfiguration::setSeed(const int seed)
 {
 	i_seed = seed;
+}
+
+int ClientConfiguration::getViewDistance() const
+{
+	return i_viewDistance;
+}
+
+void ClientConfiguration::setViewDistance(const int distance)
+{
+	if(distance > 0) {
+		i_viewDistance = distance;
+	}
+	else {
+		i_viewDistance = 1;
+	}
 }
 
 bool ClientConfiguration::getSmoothShades() const

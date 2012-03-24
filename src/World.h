@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QHash>
-#include <QPair>
 
 #include "blocks/BlockInfo.h"
 #include "Chunk.h"
@@ -12,8 +11,6 @@
 #include "PhysicEngine.h"
 #include "server/Server.h"
 #include "Vector.h"
-
-typedef QPair<int, int> ChunkPostition;
 
 class World : public QObject
 {
