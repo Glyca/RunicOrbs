@@ -14,7 +14,6 @@
 
 class World : public QObject
 {
-	Q_OBJECT
 public:
 	explicit World(Server* server, const int seed, QObject *parent = 0);
 	~World();
@@ -48,10 +47,6 @@ public:
 	inline void setSeed(const int seed) {i_seed = seed;}
 
 	void render3D();
-
-signals:
-	/*! When a chunk has been loaded */
-	void chunkLoaded(ChunkPostition postion);
 
 public slots:
 

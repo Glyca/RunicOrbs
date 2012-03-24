@@ -29,7 +29,7 @@ Vector PhysicObject::velocity() const
 	return v_velocity;
 }
 
-void PhysicObject::processMove(const preal f_elapsedTimeSec, World& workingWorld)
+void PhysicObject::processMove(const preal f_elapsedTimeSec)
 {
 	// Si en dessous de nous c'est du vide, alors on applqiue le poids
 	if(!this->touchesFloor()) {
@@ -53,7 +53,7 @@ void PhysicObject::processMove(const preal f_elapsedTimeSec, World& workingWorld
 	v_velocity += v_acceleration * f_elapsedTimeSec;
 
 	v_totalVelocity = velocity();
-	processCollisions(workingWorld);// corrects v_totalVelocity
+	processCollisions();// corrects v_totalVelocity
 
 	// x += v * dt
 	v_position += v_totalVelocity * f_elapsedTimeSec;
@@ -90,18 +90,18 @@ bool PhysicObject::touchesFloor()
 	return !world()->block((Vector(v_position.x, (v_position.y - 0.05), v_position.z)))->isVoid();
 }
 
-void PhysicObject::processCollisions(World& workingWorld)
+void PhysicObject::processCollisions()
 {
 	const preal f_contour = 0.3;
 
 	if(v_totalVelocity.x > 0.0
-			&& ( !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid()
-				 || !workingWorld.block((Vector(v_position.x + f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
+			&& ( !world()->block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid()
+				 || !world()->block((Vector(v_position.x + f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
 		v_totalVelocity.x = 0.0;
 	}
 	else if( v_totalVelocity.x < 0.0
-			 && ( !workingWorld.block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid()
-				  || !workingWorld.block((Vector(v_position.x - f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
+			 && ( !world()->block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid()
+				  || !world()->block((Vector(v_position.x - f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
 		v_totalVelocity.x = 0.0;
 	}
 
@@ -110,13 +110,13 @@ void PhysicObject::processCollisions(World& workingWorld)
 	}
 
 	if(v_totalVelocity.z > 0.0
-			&& ( !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid()
-				 || !workingWorld.block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z + f_contour)))->isVoid() ) ) {
+			&& ( !world()->block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid()
+				 || !world()->block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z + f_contour)))->isVoid() ) ) {
 		v_totalVelocity.z = 0.0;
 	}
 	else if(v_totalVelocity.z < 0.0
-			&& ( !workingWorld.block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid()
-				 || !workingWorld.block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z - f_contour)))->isVoid() ) ) {
+			&& ( !world()->block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid()
+				 || !world()->block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z - f_contour)))->isVoid() ) ) {
 		v_totalVelocity.z = 0.0;
 	}
 }

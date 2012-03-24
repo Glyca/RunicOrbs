@@ -24,7 +24,7 @@ public:
 	inline void yaw(const float yawDegrees)
 	{
 		f_yawDegrees = yawDegrees;
-		if(f_yawDegrees < -360.0f) f_yawDegrees = 0.0f;
+		if(f_yawDegrees < 0.0f) f_yawDegrees = 0.0f;
 		if(f_yawDegrees > 360.0f) f_yawDegrees = 0.0f;
 	}
 
@@ -48,7 +48,7 @@ public:
 	inline bool isJumping() const {return b_jumping;}
 
 protected:
-	void processMove(const preal f_elapsedTimeSec, World& workingWorld);
+	void processMove(const preal f_elapsedTimeSec);
 
 private:
 	float f_pitchDegrees, f_yawDegrees;

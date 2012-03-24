@@ -30,7 +30,7 @@ Vector Entity::direction() const
 	return v_direction;
 }
 
-void Entity::processMove(const preal f_elapsedTimeSec, World& workingWorld)
+void Entity::processMove(const preal f_elapsedTimeSec)
 {
 	v_walkVelocity.null(); // We reset the walk velocity
 
@@ -72,6 +72,6 @@ void Entity::processMove(const preal f_elapsedTimeSec, World& workingWorld)
 		applyForcev(Vector(0.0, f_jumpVerticalForce / f_elapsedTimeSec, 0.0)); // Jump force is thus not proportional to the delta of time, since it's a force
 	}
 
-	PhysicObject::processMove(f_elapsedTimeSec, workingWorld);
+	PhysicObject::processMove(f_elapsedTimeSec);
 }
 

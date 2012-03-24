@@ -40,6 +40,13 @@ int Chunk::altitude(const int x, const int z)
 	return 0;
 }
 
+void Chunk::mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const
+{
+	worldX = m_position.first * CHUNK_X_SIZE + chunkX;
+	worldY = chunkY;
+	worldZ = m_position.second * CHUNK_Z_SIZE + chunkZ;
+}
+
 void Chunk::render3D()
 {
 	if(m_state == ChunkState_Active) {

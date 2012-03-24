@@ -72,7 +72,6 @@ Chunk* World::loadChunk(const ChunkPostition& position)
 		m_chunkGenerator.setChunkToGenerate(newChunk);
 		m_chunkGenerator.run();
 		m_chunks->insert(position, newChunk);
-		emit chunkLoaded(position);
 		return newChunk;
 	}
 }

@@ -19,7 +19,7 @@ void PhysicEngine::processMoves()
 {
 	foreach(PhysicObject* thePhysicObject, m_physicObjects)
 	{
-		thePhysicObject->processMove(m_elapsedTimer.elapsed() / 1000.0, *m_workingWorld);
+		thePhysicObject->processMove(m_elapsedTimer.elapsed() / 1000.0);
 	}
 
 	// On redémarre le timer

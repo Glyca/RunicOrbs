@@ -11,7 +11,6 @@ class World;
 
 class PhysicObject : public QObject
 {
-	Q_OBJECT
 	friend class PhysicEngine;
 public:
 	PhysicObject(World* world, int id = 0, preal mass = f_defaultMass);
@@ -46,9 +45,9 @@ public: // Public temporairement
 
 protected: // protected
 	/*! Modifie toutes les conposantes des vecteurs et coordonnées de l'objet */
-	virtual void processMove(const preal f_elapsedTimeSec, World& workingWorld);
+	virtual void processMove(const preal f_elapsedTimeSec);
 
-	void processCollisions(World& workingWorld);
+	void processCollisions();
 	World* m_world;
 
 private:

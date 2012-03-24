@@ -20,7 +20,6 @@ typedef QPair<int, int> ChunkPostition;
 
 class Chunk : public QObject
 {
-	Q_OBJECT
 public:
 	explicit Chunk(QObject *parent, ChunkPostition position);
 	~Chunk();
@@ -53,12 +52,7 @@ public:
 	}
 
 	/*! Convert coordinates relatives to the chunk into world coordinates */
-	inline void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const
-	{
-		worldX = m_position.first * CHUNK_X_SIZE + chunkX;
-		worldY = chunkY;
-		worldZ = m_position.second * CHUNK_Z_SIZE + chunkZ;
-	}
+	void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const;
 
 	/*! This will force the chunk to be redrawed */
 	inline void makeDirty() {b_dirty = true;}
