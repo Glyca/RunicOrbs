@@ -102,6 +102,10 @@ void GameWindow::render2D(QPainter& painter)
 
 		QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
 		painter.drawText(border, border, width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
+
+		const int RETICLE_RADIUS = 5; // Draw the reticule :
+		painter.drawLine((width() >> 1) - RETICLE_RADIUS, height() >> 1, (width() >> 1) + RETICLE_RADIUS, height() >> 1);
+		painter.drawLine(width() >> 1, (height() >> 1) - RETICLE_RADIUS, width() >> 1, (height() >> 1) + RETICLE_RADIUS);
 	}
 	else
 	{

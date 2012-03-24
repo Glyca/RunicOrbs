@@ -31,8 +31,6 @@ void ServerConnector::loadAndPruneChunks()
 		}
 	}
 
-	qDebug() << "i wanna" << wantedChunks;
-
 	// Let's see if we have to prune unwanted ones...
 	for (int i = 0; i < m_loadedChunks.size(); ++i) {
 		ChunkPostition processingChunk = m_loadedChunks.at(i);
