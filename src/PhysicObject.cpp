@@ -16,7 +16,7 @@ PhysicObject::PhysicObject(World* world, int id, preal mass) : m_world(world), f
 		f_mass = f_defaultMass;
 	}
 
-	v_position.y = 50;
+	v_position.y = 250;
 }
 
 PhysicObject::~PhysicObject()
