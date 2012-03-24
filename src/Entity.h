@@ -24,7 +24,7 @@ public:
 	inline void yaw(const float yawDegrees)
 	{
 		f_yawDegrees = yawDegrees;
-		if(f_yawDegrees < 0.0f) f_yawDegrees = 0.0f;
+		if(f_yawDegrees < 0.0f) f_yawDegrees = 360.0f;
 		if(f_yawDegrees > 360.0f) f_yawDegrees = 0.0f;
 	}
 
