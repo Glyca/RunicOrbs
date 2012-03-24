@@ -114,17 +114,23 @@ void ChunkGenerator::run()
 	{
 		for(int k = 0; k < CHUNK_Z_SIZE; k++)
 		{
-			int wi, wj, wk; // Coordinates in the world
-			m_chunkToGenerate->mapToWorld(i, 0, k, wi, wj, wk);
-			double rockAltitude = (PerlinNoise_2D(wi*0.017, wk*0.017) + 1)*CHUNK_HEIGHT/3;
-			double dirtAltitude = (PerlinNoise_2D(-wi*0.017, -wk*0.017)/3);
-			for(int j = 0; j < rockAltitude; j++)
+			for(int j = 0; j < CHUNK_HEIGHT; j++)
 			{
-				m_chunkToGenerate->block(i, j, k)->setId(1);
-			}
-			for(int j = rockAltitude; j < rockAltitude + dirtAltitude; j++)
-			{
-				m_chunkToGenerate->block(i, j, k)->setId(2);
+				int wi, wj, wk; // Coordinates in the world
+				m_chunkToGenerate->mapToWorld(i, j, k, wi, wj, wk);
+				double noised = (noise(wi*0.045, wj*0.12, wk*0.045) + 0.99);
+				if(noised > (j/(CHUNK_HEIGHT/6.5)))
+				{
+					if(noised > 0.8) {
+						m_chunkToGenerate->block(i, j, k)->setId(2);
+					}
+					else {
+						m_chunkToGenerate->block(i, j, k)->setId(1);
+					}
+				}
+				else {
+					m_chunkToGenerate->block(i, j, k)->setId(0);
+				}
 			}
 		}
 	}
