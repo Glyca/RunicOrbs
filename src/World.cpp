@@ -30,44 +30,34 @@ Chunk* World::chunk(const ChunkPostition& position)
 	}
 }
 
+Chunk* World::chunk(const int x, const int z)
+{
+	int cx, cz;
+	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
+	// but chunk -0;-0 is the same as 0;0, hence the -1 to have chunk -1;-1
+	if(x < 0) {
+		cx = x / CHUNK_X_SIZE - 1;
+	}
+	else {
+		cx = x / CHUNK_X_SIZE;
+	}
+	if(z < 0) {
+		cz = z / CHUNK_Z_SIZE - 1;
+	}
+	else {
+		cz = z / CHUNK_Z_SIZE;
+	}
+	return chunk(ChunkPostition(cx, cz));
+}
+
 Chunk* World::chunk(const BlockPosition& position)
 {
-	int x, z;
-	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
-	// but chunk -0;-0 is impossible, hence the -1
-	if(position.x < 0) {
-		x = position.x / CHUNK_X_SIZE - 1;
-	}
-	else {
-		x = position.x / CHUNK_X_SIZE;
-	}
-	if(position.z < 0) {
-		z = position.z / CHUNK_Z_SIZE - 1;
-	}
-	else {
-		z = position.z / CHUNK_Z_SIZE;
-	}
-	return chunk(ChunkPostition(x, z));
+	return chunk(position.x, position.z);
 }
 
 Chunk* World::chunk(const Vector& position)
 {
-	int x, z;
-	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
-	// but chunk -0;-0 is impossible, hence the -1
-	if(position.x < 0) {
-		x = position.x / CHUNK_X_SIZE - 1;
-	}
-	else {
-		x = position.x / CHUNK_X_SIZE;
-	}
-	if(position.z < 0) {
-		z = position.z / CHUNK_Z_SIZE - 1;
-	}
-	else {
-		z = position.z / CHUNK_Z_SIZE;
-	}
-	return chunk(ChunkPostition(x, z));
+	return chunk(position.x, position.z);
 }
 
 Chunk* World::loadChunk(const ChunkPostition& position)
@@ -125,6 +115,18 @@ BlockInfo* World::block(const Vector& position)
 {
 	BlockPosition bp = position.toBlock();// Get the block integer coordinates in the world
 	return this->block(bp);
+}
+
+int World::altitude(const int x, const int z)
+{
+	return chunk(x, z)->altitude(x, z);
+}
+
+BlockPosition World::highestBlock(const Vector& position)
+{
+	BlockPosition blockPosition = position.toBlock();
+	blockPosition.y = altitude(blockPosition.x, blockPosition.z);
+	return blockPosition;
 }
 
 void World::render3D()

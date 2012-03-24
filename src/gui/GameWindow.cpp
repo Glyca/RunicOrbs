@@ -93,8 +93,9 @@ void GameWindow::render2D(QPainter& painter)
 		if(b_debugView) {
 			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
 			text.append("\n" "Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
+			text.append("\nTouches floor = " + QVariant(m_connector->me()->touchesFloor()).toString());
 
-			QRect rect = metrics.boundingRect(0, 0, width() - 2*border, int(height()*0.125), Qt::AlignLeft | Qt::TextWordWrap, text);
+			QRect rect = metrics.boundingRect(border, border, width(), height(), Qt::AlignLeft | Qt::TextWordWrap, text);
 			painter.fillRect(QRect(0, 0, width(), rect.height() + border), QColor(0, 0, 0, 120));
 			painter.drawText(border, border, rect.width(), rect.height(), Qt::AlignLeft | Qt::TextWordWrap, text);
 		}

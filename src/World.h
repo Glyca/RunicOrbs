@@ -23,11 +23,13 @@ public:
 	inline Server* server() const {return m_server;}
 	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
 
-	/*! Access to a chunk of the world */
+	/*! Access to a chunk of the world from world relative coordinates */
+	Chunk* chunk(const int x, const int z);
+	/*! Access to a chunk of the world from a chunk position */
 	Chunk* chunk(const ChunkPostition& position);
-	/*! Access to a chunk of the world */
+	/*! Access to a chunk of the world from a block position */
 	Chunk* chunk(const BlockPosition& position);
-	/*! Access to a chunk of the world */
+	/*! Access to a chunk of the world from a vector position */
 	Chunk* chunk(const Vector& position);
 
 	/*! Load a chunk in the workd into RAM */
@@ -38,6 +40,10 @@ public:
 
 	BlockInfo* block(const BlockPosition& position);
 	BlockInfo* block(const Vector& position);
+
+	int altitude(const int x, const int z);
+	/*! Return the highest block coordinates for a given position */
+	BlockPosition highestBlock(const Vector& position);
 
 	inline void setSeed(const int seed) {i_seed = seed;}
 

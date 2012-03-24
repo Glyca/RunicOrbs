@@ -32,7 +32,7 @@ Vector PhysicObject::velocity() const
 void PhysicObject::processMove(const preal f_elapsedTimeSec, World& workingWorld)
 {
 	// Si en dessous de nous c'est du vide, alors on applqiue le poids
-	if(!this->touchesFloor(workingWorld)) {
+	if(!this->touchesFloor()) {
 		applyWeightForce();
 	}
 	else // Sinon on annule la vitesse verticale (collision)
@@ -57,6 +57,8 @@ void PhysicObject::processMove(const preal f_elapsedTimeSec, World& workingWorld
 
 	// x += v * dt
 	v_position += v_totalVelocity * f_elapsedTimeSec;
+
+	destuck();
 }
 
 void PhysicObject::applyForcev(const Vector& v_force)
@@ -76,14 +78,21 @@ void PhysicObject::applyFluidFrictionForce()
 	v_forces -= velocity() * f_h;
 }
 
-bool PhysicObject::touchesFloor(World& workingWorld)
+void PhysicObject::destuck()
 {
-	return !workingWorld.block((Vector(v_position.x, (v_position.y - 0.9), v_position.z)))->isVoid();
+	if(!world()->block(v_position)->isVoid()) { // If we are stuck in a non void block
+		v_position.y = world()->altitude(v_position.x, v_position.z) + 0.01;
+	}
+}
+
+bool PhysicObject::touchesFloor()
+{
+	return !world()->block((Vector(v_position.x, (v_position.y - 0.05), v_position.z)))->isVoid();
 }
 
 void PhysicObject::processCollisions(World& workingWorld)
 {
-	const preal f_contour = 0.1;
+	const preal f_contour = 0.3;
 
 	if(v_totalVelocity.x > 0.0
 			&& ( !workingWorld.block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid()
@@ -96,7 +105,7 @@ void PhysicObject::processCollisions(World& workingWorld)
 		v_totalVelocity.x = 0.0;
 	}
 
-	if(v_totalVelocity.y < 0.0 && touchesFloor(workingWorld)) {
+	if(v_totalVelocity.y < 0.0 && touchesFloor()) {
 		v_totalVelocity.y = 0.0;
 	}
 

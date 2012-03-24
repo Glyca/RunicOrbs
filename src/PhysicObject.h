@@ -27,11 +27,14 @@ public:
 	void applyWeightForce();
 	void applyFluidFrictionForce();
 
+	/*! Unstuck a PhysicObject in the floor (may be caused by low FPS */
+	void destuck();
+
 	inline preal mass() const {return f_mass;}
 	inline void setMass(const preal mass) {f_mass = mass;}
 
 	/*! Wether the object is lying on the floor or not */
-	bool touchesFloor(World& workingWorld);
+	bool touchesFloor();
 
 	inline World* world() {return m_world;}
 

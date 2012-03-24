@@ -35,6 +35,7 @@ public:
 	void idle(); //! Make the Chunk enter in an idle state (it will not be drawed)
 
 	inline ChunkPostition position() const {return m_position;}
+	int altitude(const int x, const int z);
 
 	/*! Access a block from a chunk
   \warning The coordinates to pass are relative to the chunk, and thus must be inside !
