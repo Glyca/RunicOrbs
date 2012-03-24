@@ -35,6 +35,7 @@ private:
 	void resume();
 
 	bool b_playing; //! If the game is running (not paused)
+	bool b_debugView; //! If debugging informations are shown
 	QCursor m_originalCursor;
 };
 

@@ -2,7 +2,7 @@
 #include "version.h"
 
 GameWindow::GameWindow(ServerConnector* connector)
-	: m_configuration(new ClientConfiguration()), m_connector(connector), b_playing(true), m_originalCursor(cursor())
+	: m_configuration(new ClientConfiguration()), m_connector(connector), b_playing(true), b_debugView(false), m_originalCursor(cursor())
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 
@@ -88,21 +88,19 @@ void GameWindow::render2D(QPainter& painter)
 	painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing);
 	painter.setPen(Qt::white);
 
-	if(b_playing)
-	{
+	if(b_playing) {
 		QString text = QString("CrafTuX version " CRAFTUX_VERSION " @ ") + QVariant(getCurrentFPS()).toString() + tr("FPS");
+		if(b_debugView) {
+			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
+			text.append("\n" "Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
 
-		QRect rect = metrics.boundingRect(0, 0, width() - 2*border, int(height()*0.125), Qt::AlignCenter | Qt::TextWordWrap, text);
-		painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
-		painter.fillRect(QRect(0, 0, width(), rect.height() + 2*border), QColor(0, 0, 0, 127));
-		painter.drawText((width() - rect.width())/2, border, rect.width(), rect.height(), Qt::AlignCenter | Qt::TextWordWrap, text);
-
-		QString postionText("Position : " + m_connector->me()->v_position);
-		painter.drawText(0, border, width() - border, rect.height(), Qt::AlignRight, postionText);
-
-		QString pitchheadingText("Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
-		painter.drawText(border, border, width() - border, rect.height(), Qt::AlignLeft, pitchheadingText);
-
+			QRect rect = metrics.boundingRect(0, 0, width() - 2*border, int(height()*0.125), Qt::AlignLeft | Qt::TextWordWrap, text);
+			painter.fillRect(QRect(0, 0, width(), rect.height() + border), QColor(0, 0, 0, 120));
+			painter.drawText(border, border, rect.width(), rect.height(), Qt::AlignLeft | Qt::TextWordWrap, text);
+		}
+		else {
+			painter.drawText(border, border, width(), height(), Qt::AlignLeft | Qt::TextWordWrap, text);
+		}
 		const int RETICLE_RADIUS = 5; // Draw the reticule :
 		painter.drawLine((width() >> 1) - RETICLE_RADIUS, height() >> 1, (width() >> 1) + RETICLE_RADIUS, height() >> 1);
 		painter.drawLine(width() >> 1, (height() >> 1) - RETICLE_RADIUS, width() >> 1, (height() >> 1) + RETICLE_RADIUS);
@@ -118,21 +116,17 @@ void GameWindow::render2D(QPainter& painter)
 
 void GameWindow::render3D()
 {
-	// Dessin de Ox ROUGE
-	glColor3f(1.0f, 0.0f, 0.0f);
 	glBegin(GL_LINES);
+	// Ox RED
+	glColor3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(60.0f, 0.0f, 0.0f);
-	glEnd();
-	// Oy VERT
+	// Oy GREEN
 	glColor3f(0.0f, 1.0f, 0.0f);
-	glBegin(GL_LINES);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 60.0f, 0.0f);
-	glEnd();
-	// Oz BLEU
+	// Oz BLUE
 	glColor3f(0.0f, 0.0f, 1.0f);
-	glBegin(GL_LINES);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 60.0f);
 	glEnd();
@@ -214,6 +208,10 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 {
 	if(keyEvent->key() == Qt::Key_Escape) {
 		b_playing ? pause() : resume();
+	}
+
+	if(keyEvent->key() == Qt::Key_F3) {
+		b_debugView = !b_debugView;
 	}
 
 	if(b_playing)
