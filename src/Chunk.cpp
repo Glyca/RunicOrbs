@@ -43,6 +43,18 @@ int Chunk::altitude(const int x, const int z)
 	return highest;
 }
 
+BlockInfo* Chunk::block(const int x, const int y, const int z)
+{
+	if(x < 0 || y < 0 || z < 0 || x >= CHUNK_X_SIZE || y >= CHUNK_Y_SIZE || z >= CHUNK_Z_SIZE) {
+		return BlockInfo::voidBlock();
+	}
+	else {
+		int ID = y + x * CHUNK_Y_SIZE + z * CHUNK_Y_SIZE * CHUNK_X_SIZE;
+		BlockInfo* block = &p_BlockInfos[ID];
+		return block;
+	}
+}
+
 void Chunk::mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const
 {
 	worldX = m_position.first * CHUNK_X_SIZE + chunkX;

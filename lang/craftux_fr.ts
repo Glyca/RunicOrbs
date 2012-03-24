@@ -3,6 +3,30 @@
 <TS version="2.0" language="fr_FR">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
+    <name>ConnectDialog</name>
+    <message>
+        <location filename="../src/gui/ConnectDialog.ui" line="18"/>
+        <location filename="../src/gui/ConnectDialog.ui" line="26"/>
+        <source>Connect to a server</source>
+        <translation>Se connecter à un serveur</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ConnectDialog.ui" line="35"/>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ConnectDialog.ui" line="45"/>
+        <source>Port</source>
+        <translation>Port</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ConnectDialog.ui" line="71"/>
+        <source>Last servers</source>
+        <translation>Derniers serveurs</translation>
+    </message>
+</context>
+<context>
     <name>CraftuxHome</name>
     <message>
         <location filename="../src/gui/CraftuxHome.ui" line="32"/>
@@ -30,12 +54,12 @@
         <translation>&amp;Héberger une partie</translation>
     </message>
     <message>
-        <location filename="../src/gui/CraftuxHome.ui" line="196"/>
+        <location filename="../src/gui/CraftuxHome.ui" line="216"/>
         <source>&amp;Options</source>
         <translation>&amp;Options</translation>
     </message>
     <message>
-        <location filename="../src/gui/CraftuxHome.ui" line="216"/>
+        <location filename="../src/gui/CraftuxHome.ui" line="236"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
@@ -43,21 +67,26 @@
 <context>
     <name>GameWindow</name>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="21"/>
+        <location filename="../src/gui/GameWindow.cpp" line="25"/>
         <source>Initialized OpenGL, version %d.%d</source>
         <translation>OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="89"/>
+        <location filename="../src/gui/GameWindow.cpp" line="92"/>
         <source>FPS</source>
         <translation> IPS</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GameWindow.cpp" line="94"/>
+        <source>Position : </source>
+        <translation>Position : </translation>
     </message>
     <message>
         <source> FPS</source>
         <translation type="obsolete"> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="104"/>
+        <location filename="../src/gui/GameWindow.cpp" line="113"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>

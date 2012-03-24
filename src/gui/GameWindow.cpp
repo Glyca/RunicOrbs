@@ -93,6 +93,7 @@ void GameWindow::render2D(QPainter& painter)
 		if(b_debugView) {
 			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
 			text.append("\n" "Pitch : " + QVariant(m_connector->me()->pitch()).toString() + " // Yaw : " + QVariant(m_connector->me()->yaw()).toString());
+			text.append("\n" "Block : " + m_connector->me()->pointedBlock() + " ID = " + QVariant(m_connector->world().block(m_connector->me()->pointedBlock())->id()).toString());
 			text.append("\nTouches floor = " + QVariant(m_connector->me()->touchesFloor()).toString());
 			text.append("\nIs stuck = " + QVariant(m_connector->me()->isStuck()).toString());
 

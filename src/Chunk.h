@@ -40,17 +40,7 @@ public:
 	/*! Access a block from a chunk
   \warning The coordinates to pass are relative to the chunk, and thus must be inside !
  */
-	inline BlockInfo* block(const int x, const int y, const int z)
-	{
-		if(x < 0 || y < 0 || z < 0 || x >= CHUNK_X_SIZE || y >= CHUNK_Y_SIZE || z >= CHUNK_Z_SIZE) {
-			return BlockInfo::voidBlock();
-		}
-		else {
-			int ID = y + x * CHUNK_Y_SIZE + z * CHUNK_Y_SIZE * CHUNK_X_SIZE;
-			BlockInfo* block = &p_BlockInfos[ID];
-			return block;
-		}
-	}
+	BlockInfo* block(const int x, const int y, const int z);
 
 	/*! Convert coordinates relatives to the chunk into world coordinates */
 	void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const;

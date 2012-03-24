@@ -20,6 +20,7 @@ private slots:
 	void soloGameLaunch();
 	void openOptions();
 	void optionsClosed();
+	void openConnectDialog();
 	void openServerInterface();
 
 private:

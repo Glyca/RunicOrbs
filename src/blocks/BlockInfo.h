@@ -1,6 +1,9 @@
 ﻿#ifndef BLOCKINFO_H
 #define BLOCKINFO_H
 
+#include <QString>
+#include <QVariant>
+
 const int DEFAULT_BLOCK_ID = 0;
 
 class BlockInfo
@@ -35,6 +38,9 @@ inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 class BlockPosition {
 public:
 	BlockPosition(int i = 0, int j = 0, int k = 0) : x(i), y(j), z(k) {}
+	inline operator QString() {
+		return QString("(" + QVariant(x).toString() + "; " + QVariant(y).toString() + "; " + QVariant(z).toString() + ")");
+	}
 	int x, y, z;
 };
 
