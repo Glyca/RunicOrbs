@@ -34,6 +34,8 @@ public:
 
 	/*! Wether the object is lying on the floor or not */
 	bool touchesFloor();
+	/*! Wether the object is stuck */
+	bool isStuck();
 
 	inline World* world() {return m_world;}
 

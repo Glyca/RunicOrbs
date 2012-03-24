@@ -29,15 +29,18 @@ void Chunk::idle()
 int Chunk::altitude(const int x, const int z)
 {
 	int highest = 0;
-	for(int y = 0; y < CHUNK_HEIGHT; ++y)
+	for(int y = 0; y < CHUNK_HEIGHT; y++)
 	{
 		if(!block(x, y, z)->isVoid()) {
 			highest = y;
-		} else if(highest != 0) { // If the last block was not void, but this is void, it means that we are on the top
-			return highest + 1; // +1 is the size of the cube
+		}
+		else { // void
+			if(highest != 0) { // If the last block was not void, but this is void, it means that we are on the top
+				return highest + 1; // +1 is the size of the cube
+			}
 		}
 	}
-	return 0;
+	return highest;
 }
 
 void Chunk::mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const

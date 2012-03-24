@@ -6,6 +6,7 @@
 #include <QList>
 #include <QMutex>
 #include <QPair>
+#include <QDebug>
 #include <cmath>
 
 #include "blocks/BlockInfo.h"

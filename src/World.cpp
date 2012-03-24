@@ -118,7 +118,25 @@ BlockInfo* World::block(const Vector& position)
 
 int World::altitude(const int x, const int z)
 {
-	return chunk(x, z)->altitude(x, z);
+	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk
+
+	if(x < 0) {
+		int chunkPosX = x / CHUNK_X_SIZE - 1;
+		chunkBlockX = x - chunkPosX * CHUNK_X_SIZE;
+	}
+	else { // in positives we can use modulo
+		chunkBlockX = x % CHUNK_X_SIZE;
+	}
+
+	if(z < 0) {
+		int chunkPosZ = z / CHUNK_Z_SIZE - 1;
+		chunkBlockZ = z - chunkPosZ * CHUNK_Z_SIZE;
+	}
+	else {
+		chunkBlockZ = z % CHUNK_Z_SIZE;
+	}
+
+	return chunk(x, z)->altitude(chunkBlockX, chunkBlockZ);
 }
 
 BlockPosition World::highestBlock(const Vector& position)

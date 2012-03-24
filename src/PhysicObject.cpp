@@ -40,6 +40,8 @@ void PhysicObject::processMove(const preal f_elapsedTimeSec)
 		v_velocity.y = 0.0;
 	}
 
+	destuck();
+
 	applyFluidFrictionForce();
 
 	// Calcul de l'accélération en fonction de la somme des forces appliquées que l'on supprime ensuite
@@ -57,8 +59,6 @@ void PhysicObject::processMove(const preal f_elapsedTimeSec)
 
 	// x += v * dt
 	v_position += v_totalVelocity * f_elapsedTimeSec;
-
-	destuck();
 }
 
 void PhysicObject::applyForcev(const Vector& v_force)
@@ -80,14 +80,22 @@ void PhysicObject::applyFluidFrictionForce()
 
 void PhysicObject::destuck()
 {
-	if(!world()->block(v_position)->isVoid()) { // If we are stuck in a non void block
-		v_position.y = world()->altitude(v_position.x, v_position.z) + 0.01;
+	if(isStuck()) { // If we are stuck in a non void block
+		v_position.y = (preal)world()->altitude(v_position.x, v_position.z) + 0.05;
+		v_velocity.null();
+		v_acceleration.null();
+		qDebug() << "destucked : set at" << v_position.y;
 	}
 }
 
 bool PhysicObject::touchesFloor()
 {
-	return !world()->block((Vector(v_position.x, (v_position.y - 0.05), v_position.z)))->isVoid();
+	return !world()->block((Vector(v_position.x, (v_position.y - 0.04), v_position.z)))->isVoid();
+}
+
+bool PhysicObject::isStuck()
+{
+	return v_position.y < (preal)world()->altitude(v_position.x, v_position.z);
 }
 
 void PhysicObject::processCollisions()
