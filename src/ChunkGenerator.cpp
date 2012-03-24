@@ -118,10 +118,10 @@ void ChunkGenerator::run()
 			{
 				int wi, wj, wk; // Coordinates in the world
 				m_chunkToGenerate->mapToWorld(i, j, k, wi, wj, wk);
-				double noised = (noise(wi*0.045, wj*0.12, wk*0.045) + 0.99);
-				if(noised > (j/(CHUNK_HEIGHT/6.5)))
+				double noised = (noise(wi*0.01, wj*0.01, wk*0.01));
+				if(noised > (j)/(CHUNK_HEIGHT/0.9))
 				{
-					if(noised > 0.8) {
+					if(noised > 0.5) {
 						m_chunkToGenerate->block(i, j, k)->setId(2);
 					}
 					else {
