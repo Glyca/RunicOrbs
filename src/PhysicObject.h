@@ -14,8 +14,10 @@ class PhysicObject : public QObject
 	Q_OBJECT
 	friend class PhysicEngine;
 public:
-	PhysicObject(World* world, preal mass = f_defaultMass);
+	PhysicObject(World* world, int id = 0, preal mass = f_defaultMass);
 	virtual ~PhysicObject();
+
+	inline int id() const {return i_id;}
 
 	virtual Vector velocity() const;
 
@@ -47,7 +49,7 @@ protected: // protected
 	World* m_world;
 
 private:
-
+	int i_id; //! The ID of the PhysicObject on this server
 	preal f_mass; // La masse de l'objet en KG
 };
 

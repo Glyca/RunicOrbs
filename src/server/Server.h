@@ -14,6 +14,9 @@ public:
 
 	World& world() { return *m_world; }
 
+	/*! Return a new "per-server unique" PhysicObject id */
+	inline int nextPhysicObjectId() {return ++i_nextPhysicObjectId;}
+
 signals:
 
 public slots:
@@ -21,6 +24,8 @@ public slots:
 
 protected:
 	World* m_world;
+private:
+	int i_nextPhysicObjectId;
 };
 
 #endif // SERVER_H

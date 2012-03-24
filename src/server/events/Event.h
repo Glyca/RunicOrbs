@@ -1,6 +1,8 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+const int MAX_EVENTID = 50000;
+
 #include <QByteArray>
 class Server;
 
@@ -9,6 +11,9 @@ class Event
 {
 public:
 	Event();
+
+	/*! Returns an unique ID per event type. This is a mean to recognize serialized events */
+	virtual int id() = 0;
 
 	/*! Do the event on the specified server */
 	virtual void perform(Server& server) const = 0;

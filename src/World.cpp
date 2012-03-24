@@ -1,7 +1,7 @@
 #include "World.h"
 #include <QDebug>
 
-World::World(const int seed, QObject *parent) : QObject(parent), m_chunkGenerator(ChunkGenerator(seed)), i_seed(seed)
+World::World(Server* server, const int seed, QObject *parent) : QObject(parent), m_server(server), m_chunkGenerator(ChunkGenerator(seed)), i_seed(seed)
 {
 	m_physicEngine = new PhysicEngine(this, this);
 	m_chunks = new QHash<ChunkPostition, Chunk*>();
@@ -35,20 +35,16 @@ Chunk* World::chunk(const BlockPosition& position)
 	int x, z;
 	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
 	// but chunk -0;-0 is impossible, hence the -1
-	if(position.x < 0)
-	{
+	if(position.x < 0) {
 		x = position.x / CHUNK_X_SIZE - 1;
 	}
-	else
-	{
+	else {
 		x = position.x / CHUNK_X_SIZE;
 	}
-	if(position.z < 0)
-	{
+	if(position.z < 0) {
 		z = position.z / CHUNK_Z_SIZE - 1;
 	}
-	else
-	{
+	else {
 		z = position.z / CHUNK_Z_SIZE;
 	}
 	return chunk(ChunkPostition(x, z));
@@ -59,20 +55,16 @@ Chunk* World::chunk(const Vector& position)
 	int x, z;
 	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
 	// but chunk -0;-0 is impossible, hence the -1
-	if(position.x < 0)
-	{
+	if(position.x < 0) {
 		x = position.x / CHUNK_X_SIZE - 1;
 	}
-	else
-	{
+	else {
 		x = position.x / CHUNK_X_SIZE;
 	}
-	if(position.z < 0)
-	{
+	if(position.z < 0) {
 		z = position.z / CHUNK_Z_SIZE - 1;
 	}
-	else
-	{
+	else {
 		z = position.z / CHUNK_Z_SIZE;
 	}
 	return chunk(ChunkPostition(x, z));
@@ -110,23 +102,19 @@ BlockInfo* World::block(const BlockPosition& bp)
 {
 	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk
 
-	if(bp.x < 0)
-	{
+	if(bp.x < 0) {
 		int chunkPosX = bp.x / CHUNK_X_SIZE - 1;
 		chunkBlockX = bp.x - chunkPosX * CHUNK_X_SIZE;
 	}
-	else // in positives we can use modulo
-	{
+	else { // in positives we can use modulo
 		chunkBlockX = bp.x % CHUNK_X_SIZE;
 	}
 
-	if(bp.z < 0)
-	{
+	if(bp.z < 0) {
 		int chunkPosZ = bp.z / CHUNK_Z_SIZE - 1;
 		chunkBlockZ = bp.z - chunkPosZ * CHUNK_Z_SIZE;
 	}
-	else
-	{
+	else {
 		chunkBlockZ = bp.z % CHUNK_Z_SIZE;
 	}
 

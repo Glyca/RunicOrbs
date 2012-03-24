@@ -1,7 +1,7 @@
 #include "Server.h"
 #include "version.h"
 
-Server::Server(QObject *parent) : QObject(parent)
+Server::Server(QObject *parent) : QObject(parent), i_nextPhysicObjectId(10)
 {
 	qDebug("Starting Craftux server version " CRAFTUX_VERSION " ...");
 }

@@ -48,7 +48,8 @@ SOURCES += main.cpp\
     server/events/Event.cpp \
     server/events/PlayerEvent.cpp \
     server/events/BlockPickEvent.cpp \
-    server/events/BlockUseEvent.cpp
+    server/events/BlockUseEvent.cpp \
+    server/events/MoveEvent.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -86,7 +87,8 @@ HEADERS  += \
     server/events/Event.h \
     server/events/PlayerEvent.h \
     server/events/BlockPickEvent.h \
-    server/events/BlockUseEvent.h
+    server/events/BlockUseEvent.h \
+    server/events/MoveEvent.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

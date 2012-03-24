@@ -3,10 +3,16 @@
 
 #include <QDebug>
 
-PhysicObject::PhysicObject(World* world, preal mass) : m_world(world), f_mass(mass)
+PhysicObject::PhysicObject(World* world, int id, preal mass) : m_world(world), f_mass(mass)
 {
-	if(f_mass == 0.0f)
-	{
+	if(id == 0) {
+		i_id = world->server()->nextPhysicObjectId();
+	}
+	else {
+		i_id = id;
+	}
+
+	if(f_mass == 0.0f) {
 		f_mass = f_defaultMass;
 	}
 

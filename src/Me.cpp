@@ -7,7 +7,7 @@ const float F_BLOCK_SEAK_STEP = 0.05f;
 /*! How far do we loook for a non-void cube */
 const float F_MAX_BLOCK_SEAK = 8.0f;
 
-Me::Me(World* world)
+Me::Me(World* world) : Player(1) // For the moment we take the id 1 for all Me, which is wrong in mulitplayer
 {
 	setMass(70.0f); // 70kg is good
 	m_world = world;

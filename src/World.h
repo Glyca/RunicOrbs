@@ -10,6 +10,7 @@
 #include "ChunkGenerator.h"
 #include "Entity.h"
 #include "PhysicEngine.h"
+#include "server/Server.h"
 #include "Vector.h"
 
 typedef QPair<int, int> ChunkPostition;
@@ -18,9 +19,11 @@ class World : public QObject
 {
 	Q_OBJECT
 public:
-	explicit World(const int seed, QObject *parent = 0);
+	explicit World(Server* server, const int seed, QObject *parent = 0);
 	~World();
 
+	/*! Return the server where the world is running */
+	inline Server* server() const {return m_server;}
 	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
 
 	/*! Access to a chunk of the world */
@@ -50,6 +53,7 @@ signals:
 public slots:
 
 private:
+	Server* m_server; //! The server where the world runs
 	QHash<ChunkPostition, Chunk*> * m_chunks;
 	QList<Entity> m_entities;
 	PhysicEngine* m_physicEngine;
