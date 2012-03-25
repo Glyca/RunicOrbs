@@ -39,6 +39,7 @@ void OptionsDialog::load()
 	ui->FPSSpinBox->setValue(config.getFps());
 	ui->viewDistanceSpinBox->setValue(config.getViewDistance());
 	ui->smoothShadesCheckBox->setChecked(config.getSmoothShades());
+	ui->textureFilteringComboBox->setCurrentIndex(config.getTextureFiltering());
 }
 
 void OptionsDialog::save()
@@ -48,5 +49,6 @@ void OptionsDialog::save()
 	config.setFps(ui->FPSSpinBox->value());
 	config.setViewDistance(ui->viewDistanceSpinBox->value());
 	config.setSmoothShades(ui->smoothShadesCheckBox->isChecked());
+	config.setTextureFiltering(ui->textureFilteringComboBox->currentIndex());
 	config.save();
 }

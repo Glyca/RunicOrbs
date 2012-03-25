@@ -39,12 +39,16 @@ public:
 	bool getSmoothShades() const;
 	void setSmoothShades(const bool smooth);
 
+	int getTextureFiltering() const;
+	void setTextureFiltering(const int filtering);
+
 private:
 	QString s_filename;
 	int i_fps;
 	int i_seed;
 	int i_viewDistance;
 	bool b_smoothShades;
+	int i_textureFiltering;
 };
 
 #endif // CLIENTCONFIGURATION_H

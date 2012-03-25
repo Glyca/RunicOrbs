@@ -9,6 +9,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 	m_configuration->loadDefaultConfigFile();
 	m_connector->world().setSeed(m_configuration->getSeed());
 	m_connector->setViewDistance(m_configuration->getViewDistance());
+	m_textureManager.setTextureFiltering((TextureManager::TextureFiltering)m_configuration->getTextureFiltering());
 	setFps(m_configuration->getFps());
 
 	// Every second, we load and prune the chunks

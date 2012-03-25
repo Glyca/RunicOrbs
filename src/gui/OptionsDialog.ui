@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>OptionsDialog</class>
  <widget class="QDialog" name="OptionsDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>300</height>
+   </rect>
+  </property>
   <property name="minimumSize">
    <size>
     <width>600</width>
@@ -182,6 +190,47 @@
               <property name="maximum">
                <number>30</number>
               </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="textureFilteringHorizontalLayout">
+            <item>
+             <widget class="QLabel" name="textureFilteringLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Texture filtering</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="textureFilteringComboBox">
+              <item>
+               <property name="text">
+                <string>None</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Bilinear</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Bilinear with mipmaps</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Trilinear with mipmaps</string>
+               </property>
+              </item>
              </widget>
             </item>
            </layout>

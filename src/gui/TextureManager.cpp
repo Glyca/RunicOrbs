@@ -2,7 +2,7 @@
 #include "blocks/Blocks.h"
 #include <QtGlobal>
 
-TextureManager::TextureManager()
+TextureManager::TextureManager() : m_textureFiltering(TextureFiltering_BilinearMipmaps)
 {
 
 }
@@ -10,6 +10,11 @@ TextureManager::TextureManager()
 TextureManager::~TextureManager()
 {
 
+}
+
+void TextureManager::setTextureFiltering(TextureFiltering filtering)
+{
+	m_textureFiltering = filtering;
 }
 
 QImage TextureManager::getTextureAtlas()
@@ -64,13 +69,34 @@ GLuint TextureManager::loadTextures()
 		glGenTextures(1, &gi_textureID);
 		// Bindons cet ID
 		glBindTexture(GL_TEXTURE_2D, gi_textureID);
-		// Filtrage lorsqu'on rétrécit la texture
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		// Filtrage lorsqu'on étire la texture
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		// Infos : http://gregs-blog.com/2008/01/17/opengl-texture-filter-parameters-explained/
 
-		gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, qim_Texture.width(), qim_Texture.height(), GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
+		switch(m_textureFiltering) {
+		// Infos : http://gregs-blog.com/2008/01/17/opengl-texture-filter-parameters-explained/
+		// http://www.opengl.org/discussion_boards/ubbthreads.php?ubb=showflat&Number=133117
+		case TextureFiltering_None:
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);// Filtrage lorsqu'on rétrécit la texture
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);// Filtrage lorsqu'on étire la texture
+			break;
+		case TextureFiltering_Bilinear:
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			break;
+		case TextureFiltering_BilinearMipmaps:
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			break;
+		case TextureFiltering_TrilinearMipmaps:
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			break;
+		}
+
+		if(m_textureFiltering >= TextureFiltering_BilinearMipmaps) {
+			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, qim_Texture.width(), qim_Texture.height(), GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
+		}
+		else {
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, qim_Texture.width(), qim_Texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
+		}
 
 		Blocks::STONE.setTexture(TexCoords(0, 0.5),
 								 TexCoords(1, 0.5),

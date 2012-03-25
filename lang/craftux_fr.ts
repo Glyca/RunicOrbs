@@ -98,37 +98,62 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>OptionsDialog</name>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="18"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="26"/>
         <source>Options for Craftux client</source>
         <translation>Options pour le client Craftux</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="50"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="58"/>
         <source>Game</source>
         <translation>Jeu</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="71"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="79"/>
         <source>Seed</source>
         <translation>Graine</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="119"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="127"/>
         <source>Graphics</source>
         <translation>Graphismes</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="146"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="154"/>
         <source>Target FPS</source>
         <translation>Images par seconde (FPS)</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="173"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="181"/>
         <source>View distance</source>
         <translation>Distance de vue</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="192"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="208"/>
+        <source>Texture filtering</source>
+        <translation>Filtrage des textures</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="216"/>
+        <source>None</source>
+        <translation>Aucun</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="221"/>
+        <source>Bilinear</source>
+        <translation>Bilinéaire</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="226"/>
+        <source>Bilinear with mipmaps</source>
+        <translation>Bilinéaire avec mipmaps</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="231"/>
+        <source>Trilinear with mipmaps</source>
+        <translation>Trilinéaire avec mipmaps</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="241"/>
         <source>Smooth shades</source>
         <translation>Formes douces</translation>
     </message>
@@ -136,32 +161,32 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="48"/>
+        <location filename="../src/ClientConfiguration.cpp" line="49"/>
         <source>No configuration file founded. Creating a new one!</source>
         <translation>Aucun fichier de configuration trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="53"/>
+        <location filename="../src/ClientConfiguration.cpp" line="54"/>
         <source>Can&apos;t parse client configuration file %1</source>
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="111"/>
+        <location filename="../src/ClientConfiguration.cpp" line="116"/>
         <source>This is the Craftux configuration file</source>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="118"/>
+        <location filename="../src/ClientConfiguration.cpp" line="123"/>
         <source>Settings for gameplay</source>
         <translation>Paramètres de jeu</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="126"/>
+        <location filename="../src/ClientConfiguration.cpp" line="131"/>
         <source>Configure graphics</source>
         <translation>Configuration des graphismes</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="146"/>
+        <location filename="../src/ClientConfiguration.cpp" line="155"/>
         <source>Error opening client configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration %1</translation>
     </message>
@@ -194,7 +219,7 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="18"/>
+        <location filename="../src/gui/TextureManager.cpp" line="23"/>
         <source>Texture [%1] load failed!</source>
         <translation>Le chargement de la texture [%1] a échoué !</translation>
     </message>

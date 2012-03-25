@@ -26,6 +26,7 @@ void ClientConfiguration::defaultValues()
 	i_seed = 123456789;
 	i_viewDistance = 2;
 	b_smoothShades = true;
+	i_textureFiltering = 2;
 }
 
 void ClientConfiguration::setFilename(const QString& filename)
@@ -94,6 +95,10 @@ void ClientConfiguration::load()
 						{
 							setSmoothShades(QVariant(graphicsChildNode.text()).toBool());
 						}
+						if(graphicsChildNode.tagName() == "textureFiltering") // Parse textureFiltering
+						{
+							setTextureFiltering(graphicsChildNode.text().toInt());
+						}
 						graphicsChildNode = graphicsChildNode.nextSiblingElement();
 					}
 				}
@@ -136,6 +141,10 @@ void ClientConfiguration::save() const
 	QDomElement shadeModelNode = doc.createElement("smoothShades");
 	shadeModelNode.appendChild( doc.createTextNode(QVariant(getSmoothShades()).toString()) );
 	graphicsNode.appendChild(shadeModelNode);
+
+	QDomElement textureFilteringNode = doc.createElement("textureFiltering");
+	textureFilteringNode.appendChild( doc.createTextNode(QVariant(getTextureFiltering()).toString()) );
+	graphicsNode.appendChild(textureFilteringNode);
 
 	rootNode.appendChild(graphicsNode);
 
@@ -195,3 +204,13 @@ void ClientConfiguration::setSmoothShades(const bool smooth)
 {
 	b_smoothShades = smooth;
 }
+
+int ClientConfiguration::getTextureFiltering() const
+{
+	return i_textureFiltering;
+}
+void ClientConfiguration::setTextureFiltering(const int filtering)
+{
+	i_textureFiltering = filtering;
+}
+
