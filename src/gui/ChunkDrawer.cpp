@@ -55,7 +55,7 @@ void ChunkDrawer::generateVBO()
 						drawFace(CubeFace_Left, block, wi, wj, wk);
 					}
 					// Bottom face
-					if(m_chunkToDraw->block(i, j - 1, k)->isVoid()) {
+					if(j != 0 && m_chunkToDraw->block(i, j - 1, k)->isVoid()) {
 						drawFace(CubeFace_Bottom, block, wi, wj, wk);
 					}
 					// Right face

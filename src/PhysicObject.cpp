@@ -81,7 +81,7 @@ void PhysicObject::applyFluidFrictionForce()
 void PhysicObject::destuck()
 {
 	if(isStuck()) { // If we are stuck in a non void block
-		v_position.y = (preal)world()->altitude(v_position.x, v_position.z) + 0.05;
+		v_position.y = (preal)world()->altitude(v_position.x, v_position.z) + 0.01;
 		v_velocity.null();
 		v_acceleration.null();
 		qDebug() << "destucked : set at" << v_position.y;
