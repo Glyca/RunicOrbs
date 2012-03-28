@@ -23,7 +23,7 @@ void OptionsDialog::onClick(QAbstractButton* button)
 		save();
 	}
 
-	if(ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults)
+    else if(ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults)
 	{
 		ClientConfiguration config; // Create a default config that will be saved in the default file.
 		config.save();
@@ -37,6 +37,12 @@ void OptionsDialog::load()
 	config.loadDefaultConfigFile();
 	ui->seedLineEdit->setText(QVariant(config.getSeed()).toString());
 	ui->FPSSpinBox->setValue(config.getFps());
+
+    ui->buttonUp->setText(config.getKeyVal(ClientConfiguration::UP));
+    ui->buttonLeft->setText(config.getKeyVal(ClientConfiguration::LEFT));
+    ui->buttonDown->setText(config.getKeyVal(ClientConfiguration::DOWN));
+    ui->buttonRight->setText(config.getKeyVal(ClientConfiguration::RIGHT));
+    ui->buttonJump->setText(config.getKeyVal(ClientConfiguration::JUMP));
 }
 
 void OptionsDialog::save()

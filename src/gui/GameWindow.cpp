@@ -189,19 +189,19 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
 	if(b_playing)
 	{
-		if(keyEvent->key() == Qt::Key_Up) {
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::UP)) {
 			m_connector->me()->walk(Entity::WalkDirection_Forward);
 		}
-		if(keyEvent->key() == Qt::Key_Down) {
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::DOWN)) {
 			m_connector->me()->walk(Entity::WalkDirection_Backward);
 		}
-		if(keyEvent->key() == Qt::Key_Left) {
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::LEFT)) {
 			m_connector->me()->walk(Entity::WalkDirection_Left);
 		}
-		if(keyEvent->key() == Qt::Key_Right) {
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::RIGHT)) {
 			m_connector->me()->walk(Entity::WalkDirection_Right);
 		}
-		if(keyEvent->key() == Qt::Key_0) {
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::JUMP)) {
 			m_connector->me()->jump();
 		}
 	}
@@ -217,21 +217,21 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 
 	if(b_playing)
 	{
-		if(keyEvent->key() == Qt::Key_Up) {
-			m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
-		}
-		if(keyEvent->key() == Qt::Key_Down) {
-			m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
-		}
-		if(keyEvent->key() == Qt::Key_Left) {
-			m_connector->me()->stopWalking(Entity::WalkDirection_Left);
-		}
-		if(keyEvent->key() == Qt::Key_Right) {
-			m_connector->me()->stopWalking(Entity::WalkDirection_Right);
-		}
-		if(keyEvent->key() == Qt::Key_0) {
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::UP)) {
+            m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
+        }
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::DOWN)) {
+            m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
+        }
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::LEFT)) {
+            m_connector->me()->stopWalking(Entity::WalkDirection_Left);
+        }
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::RIGHT)) {
+            m_connector->me()->stopWalking(Entity::WalkDirection_Right);
+        }
+        if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::JUMP)) {
 			m_connector->me()->stopJumping();
-		}
+        }
 	}
 
 	GLWidget::keyReleaseEvent(keyEvent);

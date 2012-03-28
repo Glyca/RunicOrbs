@@ -4,6 +4,7 @@
 
 ClientConfiguration::ClientConfiguration()
 {
+    initKeyMap();
 	defaultValues();
 	setDefaultFilename();
 }
@@ -11,6 +12,11 @@ ClientConfiguration::ClientConfiguration()
 ClientConfiguration::ClientConfiguration(const QString& filename) : s_filename(filename)
 {
 	defaultValues(); // Set the defaults
+}
+
+void ClientConfiguration::initKeyMap()
+{
+    i_keyMap=new int[NBVAL];
 }
 
 void ClientConfiguration::loadDefaultConfigFile()
@@ -24,6 +30,11 @@ void ClientConfiguration::defaultValues()
 	// Here are the defaults value for the configuration :
 	i_fps = 60;
 	i_seed = 123456789;
+    i_keyMap[UP] = 'z'-32;
+    i_keyMap[LEFT] = 'q'-32;
+    i_keyMap[DOWN] = 's'-32;
+    i_keyMap[RIGHT] = 'd'-32;
+    i_keyMap[JUMP] = 32;
 }
 
 void ClientConfiguration::setFilename(const QString& filename)
@@ -87,6 +98,38 @@ void ClientConfiguration::load()
 						graphicsChildNode = graphicsChildNode.nextSiblingElement();
 					}
 				}
+                else if(craftuxChildNode.tagName() == "keymap")
+                {
+                    QDomElement keyChildNode = craftuxChildNode.firstChildElement();
+                    while(!keyChildNode.isNull())
+                    {
+                        if(keyChildNode.tagName() == "move") // Parse FPS
+                        {
+                            QDomElement moveChildNode = craftuxChildNode.firstChildElement();
+                            while(!moveChildNode.isNull())
+                            {
+                                if(moveChildNode.tagName() == "up") // Parse seed
+                                {
+                                    i_keyMap[UP]=moveChildNode.text().toInt();
+                                }
+                                else if(moveChildNode.tagName() == "left") // Parse seed
+                                {
+                                    i_keyMap[LEFT]=moveChildNode.text().toInt();
+                                }
+                                else if(moveChildNode.tagName() == "down") // Parse seed
+                                {
+                                    i_keyMap[DOWN]=moveChildNode.text().toInt();
+                                }
+                                else if(moveChildNode.tagName() == "right") // Parse seed
+                                {
+                                    i_keyMap[RIGHT]=moveChildNode.text().toInt();
+                                }
+                                moveChildNode = moveChildNode.nextSiblingElement();
+                            }
+                        }
+                        keyChildNode = keyChildNode.nextSiblingElement();
+                    }
+                }
 				craftuxChildNode = craftuxChildNode.nextSiblingElement();
 			}
 		}
@@ -104,6 +147,7 @@ void ClientConfiguration::save() const
 	QDomElement rootNode = doc.createElement("craftux");
 	doc.appendChild(rootNode);
 
+    /*! Game Element*/
 	QDomElement gameNode = doc.createElement("game");
 	gameNode.appendChild(doc.createComment(QObject::tr("Settings for gameplay")));
 
@@ -112,6 +156,8 @@ void ClientConfiguration::save() const
 	gameNode.appendChild(seedNode);
 
 	rootNode.appendChild(gameNode);
+
+    /*! Graphic Element*/
 	QDomElement graphicsNode = doc.createElement("graphics");
 	graphicsNode.appendChild(doc.createComment(QObject::tr("Configure graphics")));
 
@@ -119,7 +165,34 @@ void ClientConfiguration::save() const
 	fpsNode.appendChild( doc.createTextNode(QVariant(i_fps).toString()) );
 	graphicsNode.appendChild(fpsNode);
 
-	rootNode.appendChild(graphicsNode);
+    rootNode.appendChild(graphicsNode);
+
+    /*! Key Element*/
+    QDomElement keyNode = doc.createElement("keymap");
+    keyNode.appendChild(doc.createComment(QObject::tr("Configure keymap")));
+
+    QDomElement moveNode = doc.createElement("move");
+    moveNode.appendChild(doc.createComment(QObject::tr("Configure movement key")));
+
+    QDomElement upNode = doc.createElement("up");
+    upNode.appendChild( doc.createTextNode(QVariant(i_keyMap[UP]).toString()) );
+    moveNode.appendChild(upNode);
+    QDomElement leftNode = doc.createElement("left");
+    leftNode.appendChild( doc.createTextNode(QVariant(i_keyMap[LEFT]).toString()) );
+    moveNode.appendChild(leftNode);
+    QDomElement downNode = doc.createElement("down");
+    downNode.appendChild( doc.createTextNode(QVariant(i_keyMap[DOWN]).toString()) );
+    moveNode.appendChild(downNode);
+    QDomElement rightNode = doc.createElement("right");
+    rightNode.appendChild( doc.createTextNode(QVariant(i_keyMap[RIGHT]).toString()) );
+    moveNode.appendChild(rightNode);
+    QDomElement jumpNode = doc.createElement("jump");
+    jumpNode.appendChild( doc.createTextNode(QVariant(i_keyMap[JUMP]).toString()) );
+    moveNode.appendChild(jumpNode);
+
+    keyNode.appendChild(moveNode);
+
+    rootNode.appendChild(keyNode);
 
 	QByteArray content = doc.toByteArray();
 	QFile file(s_filename);
@@ -134,6 +207,8 @@ void ClientConfiguration::save() const
 	file.close();
 }
 
+
+/*! Get and Set method*/
 int ClientConfiguration::getFps() const
 {
 	return i_fps;
@@ -152,4 +227,36 @@ int ClientConfiguration::getSeed() const
 void ClientConfiguration::setSeed(const int seed)
 {
 	i_seed = seed;
+}
+
+QString ClientConfiguration::getKeyVal(const Action action) const
+{
+    QString tmp="";
+    char preTmp;
+    int val=getKey(action);
+    if(val>=65 && val<=90)
+    {
+        preTmp=val;
+        tmp=preTmp;
+    }
+    else if(val==32)
+    {
+        return "Space";
+    }
+    else if(val>=16777264 && val<=16777298)
+    {
+        QString qStr = QString::number(val-16777263);
+        return "F"+qStr;
+    }
+    return tmp;
+}
+
+int ClientConfiguration::getKey(const Action action) const
+{
+    return i_keyMap[action];
+}
+
+void ClientConfiguration::setKey(const Action action, const int value)
+{
+    i_keyMap[action]=value;
 }

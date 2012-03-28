@@ -6,10 +6,22 @@
 class ClientConfiguration
 {
 public:
+    enum Action{
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        JUMP,
+        NBVAL
+    };
+
 	/*! Create a default configuration */
 	ClientConfiguration();
 	/*! Load the configuration from a file */
 	ClientConfiguration(const QString& filename);
+
+    /*! Create tab */
+    void initKeyMap();
 
 	/*! Load the configuration from the configuration file */
 	void loadDefaultConfigFile();
@@ -33,10 +45,15 @@ public:
 	int getSeed() const;
 	void setSeed(const int seed);
 
+    QString getKeyVal(const Action action) const;
+    int getKey(const Action action) const;
+    void setKey(const Action action, const int value);
+
 private:
 	QString s_filename;
 	int i_fps;
 	int i_seed;
+    int *i_keyMap;
 };
 
 #endif // CLIENTCONFIGURATION_H
