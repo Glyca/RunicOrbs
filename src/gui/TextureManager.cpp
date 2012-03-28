@@ -1,6 +1,7 @@
 ﻿#include "TextureManager.h"
 #include "blocks/Blocks.h"
 #include <QtGlobal>
+#include <GL/glu.h>
 
 TextureManager::TextureManager()
 {
