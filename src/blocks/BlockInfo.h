@@ -4,6 +4,8 @@
 #include <QString>
 #include <QVariant>
 
+#include "Blocks.h"
+
 const int DEFAULT_BLOCK_ID = 0;
 
 class BlockInfo
@@ -19,6 +21,8 @@ public:
 	void setId(const int value) { i_value = value; }
 
 	inline bool isVoid() { return (id() == 0); }
+
+	inline BlockDescriptor& descriptor() { return Blocks::byId(id()); }
 
 private:
 	unsigned int	i_value		: 12; // 4096 blocks possible.

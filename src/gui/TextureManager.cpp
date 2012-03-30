@@ -1,5 +1,6 @@
 ﻿#include "TextureManager.h"
 #include "blocks/Blocks.h"
+#include "blocks/BlockDescriptor.h"
 #include <QtGlobal>
 
 TextureManager::TextureManager() : m_textureFiltering(TextureFiltering_BilinearMipmaps)

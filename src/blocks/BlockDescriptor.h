@@ -4,16 +4,17 @@
 #include <QColor>
 #include <QString>
 
-#include "BlockInfo.h"
 #include "Vector.h"
 #include "gui/TextureManager.h" // TextureCoordinates
+
+class BlockInfo;
 
 class BlockDescriptor
 {
 public:
-	BlockDescriptor() : i_id(0), s_name("undefined"), b_breakable(true), m_color(QColor(255, 255, 255)) {}
-	BlockDescriptor(const int id, const QString& name, const bool breakable, const QColor& color)
-		: i_id(id), s_name(name), b_breakable(breakable), m_color(color) {}
+	BlockDescriptor() : i_id(0), s_name("undefined"), b_breakable(true) {}
+	BlockDescriptor(const int id, const char* name, const bool breakable)
+		: i_id(id), s_name(name), b_breakable(breakable) {}
 
 	inline int id() const {return i_id;}
 
@@ -27,13 +28,12 @@ public:
 private:
 	// General
 	int i_id;
-	QString s_name;
+	const char* s_name;
 
 	// Properties
 	bool b_breakable;
 
 	// Apparence
-	QColor m_color;
 	TexCoords m_texturePos[4];
 };
 

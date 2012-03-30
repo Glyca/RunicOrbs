@@ -1,8 +1,36 @@
 #include "Blocks.h"
+#include "BlockDescriptor.h"
 
 const bool B_BREAKABLE = true, B_UNBREAKABLE = false;
 
+BlockDescriptor Blocks::AIR(0, "air", B_UNBREAKABLE);
+BlockDescriptor Blocks::STONE(1, "stone", B_BREAKABLE);
+BlockDescriptor Blocks::DIRT(2, "dirt", B_BREAKABLE);
 
-BlockDescriptor Blocks::AIR(0, "air", B_UNBREAKABLE, QColor());
-BlockDescriptor Blocks::STONE(1, "stone", B_BREAKABLE, QColor(125, 125, 125));
-BlockDescriptor Blocks::DIRT(2, "dirt", B_BREAKABLE, QColor(128, 73, 58));
+Blocks::Blocks()
+{
+	// We put nulls for all block ids.
+	for(int i = 0; i < MAX_BLOCKID; ++i) {
+		m_blockDescriptors[i] = NULL;
+	}
+	// Then we fill the internal array
+	m_blockDescriptors[0] = &Blocks::AIR;
+	m_blockDescriptors[1] = &Blocks::STONE;
+	m_blockDescriptors[2] = &Blocks::DIRT;
+	qDebug() << QObject::tr("Blocks catalog created, having %1 blocks.").arg(MAX_BLOCKID);
+}
+
+BlockDescriptor& Blocks::byId(const int id)
+{
+	if(id < MAX_BLOCKID) {
+		if(instance().m_blockDescriptors[id] != NULL) {
+			return *instance().m_blockDescriptors[id];
+		}
+		else {
+			return *instance().m_blockDescriptors[0];
+		}
+	}
+	else {
+		return *instance().m_blockDescriptors[0];
+	}
+}
