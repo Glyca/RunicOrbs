@@ -8,6 +8,7 @@ namespace Ui {
 	class CraftuxHome;
 }
 
+/*! The main menu of Craftux */
 class CraftuxHome : public QWidget
 {
 	Q_OBJECT

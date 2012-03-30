@@ -9,6 +9,7 @@
 
 class BlockInfo;
 
+/*! Holds informations about a type of block such as texture, resistance, name... */
 class BlockDescriptor
 {
 public:

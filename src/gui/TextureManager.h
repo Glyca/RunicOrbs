@@ -11,7 +11,7 @@ public:
 	GLfloat tx, ty;
 };
 
-/*! Loads all textures and inforl the blocks what are their texture coordinates */
+/*! Loads all textures and inform the blocks what are their texture coordinates */
 class TextureManager
 {
 public:

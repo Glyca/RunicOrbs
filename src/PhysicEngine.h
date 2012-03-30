@@ -6,7 +6,7 @@
 #include <QElapsedTimer>
 #include "PhysicObject.h"
 
-// Singloton class
+/*! Holds PhysicObject s of a Word */
 class PhysicEngine : public QObject
 {
 	Q_OBJECT

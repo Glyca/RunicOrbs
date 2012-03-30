@@ -19,6 +19,7 @@ const int CHUNK_HEIGHT = CHUNK_Y_SIZE;
 
 typedef QPair<int, int> ChunkPostition;
 
+/*! A chunk of a World containing all BlockInfo */
 class Chunk : public QObject
 {
 public:
@@ -38,7 +39,7 @@ public:
 	int altitude(const int x, const int z);
 
 	/*! Access a block from a chunk
-  \warning The coordinates to pass are relative to the chunk, and thus must be inside !
+  \warning The coordinates to pass are relative to the chunk, and thus must be inside!
  */
 	BlockInfo* block(const int x, const int y, const int z);
 

@@ -9,6 +9,7 @@
 class PhysicEngine;
 class World;
 
+/*! An object on which physic can be applied in a PhysicEngine */
 class PhysicObject : public QObject
 {
 	friend class PhysicEngine;

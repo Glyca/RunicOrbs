@@ -3,6 +3,7 @@
 
 #include <QString>
 
+/*! Manage the configuration of the Craftux client */
 class ClientConfiguration
 {
 public:

@@ -5,7 +5,7 @@ class BlockDescriptor;
 
 const int MAX_BLOCKID = 3;
 
-/*! The Blocks class holds all informations about any blocks (such as resistance, breakability...) stored in BlockDescriptors */
+/*! The Blocks class holds all informations about any blocks (such as resistance, breakability...) stored in BlockDescriptor s */
 class Blocks
 {
 public:
