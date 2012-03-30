@@ -54,7 +54,8 @@ SOURCES += main.cpp\
 	server/events/MoveEvent.cpp \
 	server/events/ChunkEvent.cpp \
 	server/events/ChunkConnectEvent.cpp \
-	gui/ConnectDialog.cpp
+	gui/ConnectDialog.cpp \
+    Log.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -96,7 +97,8 @@ HEADERS  += \
 	server/events/MoveEvent.h \
 	server/events/ChunkEvent.h \
 	server/events/ChunkConnectEvent.h \
-	gui/ConnectDialog.h
+	gui/ConnectDialog.h \
+    Log.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \
