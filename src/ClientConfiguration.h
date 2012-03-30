@@ -20,6 +20,8 @@ public:
 	/*! Load the configuration from a file */
 	ClientConfiguration(const QString& filename);
 
+    //~ClientConfiguration();
+
     /*! Create tab */
     void initKeyMap();
 
@@ -28,6 +30,7 @@ public:
 
 	/*! Populate config with default values */
 	void defaultValues();
+    void reloadDefault();
 
 	void setFilename(const QString& filename);
 	void setDefaultFilename();

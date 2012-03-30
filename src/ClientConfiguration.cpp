@@ -5,8 +5,10 @@
 ClientConfiguration::ClientConfiguration()
 {
     initKeyMap();
-	defaultValues();
-	setDefaultFilename();
+    //defaultValues();
+    //reloadDefault();
+    setDefaultFilename();
+    loadDefaultConfigFile();
 }
 
 ClientConfiguration::ClientConfiguration(const QString& filename) : s_filename(filename)
@@ -17,6 +19,8 @@ ClientConfiguration::ClientConfiguration(const QString& filename) : s_filename(f
 void ClientConfiguration::initKeyMap()
 {
     i_keyMap=new int[NBVAL];
+    for(int i=0;i<=NBVAL;i++)
+        i_keyMap[i]=32;
 }
 
 void ClientConfiguration::loadDefaultConfigFile()
@@ -30,6 +34,25 @@ void ClientConfiguration::defaultValues()
 	// Here are the defaults value for the configuration :
 	i_fps = 60;
 	i_seed = 123456789;
+    /*
+    <up>90</up>
+   <left>81</left>
+   <down>83</down>
+   <right>68</right>
+   <jump>32</jump>
+   */
+    /*i_keyMap[UP] = 'z'-32;
+    i_keyMap[LEFT] = 'q'-32;
+    i_keyMap[DOWN] = 's'-32;
+    i_keyMap[RIGHT] = 'd'-32;
+    i_keyMap[JUMP] = 32;*/
+}
+
+void ClientConfiguration::reloadDefault()
+{
+    // Here are the defaults value for the configuration :
+    i_fps = 60;
+    i_seed = 123456789;
     i_keyMap[UP] = 'z'-32;
     i_keyMap[LEFT] = 'q'-32;
     i_keyMap[DOWN] = 's'-32;
@@ -103,24 +126,24 @@ void ClientConfiguration::load()
                     QDomElement keyChildNode = craftuxChildNode.firstChildElement();
                     while(!keyChildNode.isNull())
                     {
-                        if(keyChildNode.tagName() == "move") // Parse FPS
+                        if(keyChildNode.tagName() == "move") // Parse movment key
                         {
-                            QDomElement moveChildNode = craftuxChildNode.firstChildElement();
+                            QDomElement moveChildNode = keyChildNode.firstChildElement();
                             while(!moveChildNode.isNull())
                             {
-                                if(moveChildNode.tagName() == "up") // Parse seed
+                                if(moveChildNode.tagName() == "up")
                                 {
                                     i_keyMap[UP]=moveChildNode.text().toInt();
                                 }
-                                else if(moveChildNode.tagName() == "left") // Parse seed
+                                else if(moveChildNode.tagName() == "left")
                                 {
                                     i_keyMap[LEFT]=moveChildNode.text().toInt();
                                 }
-                                else if(moveChildNode.tagName() == "down") // Parse seed
+                                else if(moveChildNode.tagName() == "down")
                                 {
                                     i_keyMap[DOWN]=moveChildNode.text().toInt();
                                 }
-                                else if(moveChildNode.tagName() == "right") // Parse seed
+                                else if(moveChildNode.tagName() == "right")
                                 {
                                     i_keyMap[RIGHT]=moveChildNode.text().toInt();
                                 }
@@ -234,21 +257,28 @@ QString ClientConfiguration::getKeyVal(const Action action) const
     QString tmp="";
     char preTmp;
     int val=getKey(action);
-    if(val>=65 && val<=90)
+    if(val>=Qt::Key_A && val<=Qt::Key_Z)
     {
         preTmp=val;
         tmp=preTmp;
+        return tmp;
     }
-    else if(val==32)
-    {
+    else if(val==Qt::Key_Space)
         return "Space";
-    }
-    else if(val>=16777264 && val<=16777298)
+    else if(val>=Qt::Key_F1 && val<=Qt::Key_F35)
     {
         QString qStr = QString::number(val-16777263);
         return "F"+qStr;
     }
-    return tmp;
+    else if(val==Qt::Key_Control)
+        return "Control";
+    else if(val==Qt::Key_Shift)
+        return "Shift";
+    else if(val==Qt::Key_Alt)
+        return "Alt";
+    else
+        return "Problem in value";
+
 }
 
 int ClientConfiguration::getKey(const Action action) const
