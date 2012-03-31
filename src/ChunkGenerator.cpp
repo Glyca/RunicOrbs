@@ -110,6 +110,8 @@ ChunkGenerator::ChunkGenerator(const ChunkGenerator&) : QThread()
 
 void ChunkGenerator::run()
 {
+//#define USE_3D_NOISE // Enable 3d noise (very very experimental)
+#ifdef USE_3D_NOISE
 	for(int i = 0; i < CHUNK_X_SIZE; i++)
 	{
 		for(int k = 0; k < CHUNK_Z_SIZE; k++)
@@ -134,6 +136,26 @@ void ChunkGenerator::run()
 			}
 		}
 	}
+#else
+	for(int i = 0; i < CHUNK_X_SIZE; i++)
+	{
+		for(int k = 0; k < CHUNK_Z_SIZE; k++)
+		{
+			int wi, wj, wk; // Coordinates in the world
+			m_chunkToGenerate->mapToWorld(i, 0, k, wi, wj, wk);
+			double rockAltitude = (PerlinNoise_2D(wi*0.017, wk*0.017) + 1)*CHUNK_HEIGHT/3;
+			double dirtAltitude = (PerlinNoise_2D(-wi*0.017, -wk*0.017)/3);
+			for(int j = 0; j < rockAltitude; j++)
+			{
+				m_chunkToGenerate->block(i, j, k)->setId(1);
+			}
+			for(int j = rockAltitude; j < rockAltitude + dirtAltitude; j++)
+			{
+				m_chunkToGenerate->block(i, j, k)->setId(2);
+			}
+		}
+	}
+#endif
 }
 
 // 3D simplex noise
