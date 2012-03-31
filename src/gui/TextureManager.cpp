@@ -2,6 +2,7 @@
 #include "blocks/Blocks.h"
 #include "blocks/BlockDescriptor.h"
 #include <QtGlobal>
+#include <GL/glu.h>
 
 TextureManager::TextureManager() : m_textureFiltering(TextureFiltering_BilinearMipmaps)
 {
