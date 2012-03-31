@@ -6,7 +6,9 @@
 class Player : public Entity
 {
 public:
-	Player();
+	Player(int id = 0);
+
+	Vector eyePosition();
 };
 
 #endif // PLAYER_H

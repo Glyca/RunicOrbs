@@ -1,6 +1,6 @@
 #include "ChunkDrawer.h"
 #include "blocks/Blocks.h"
-#include "glextensions.h"
+#include "blocks/BlockDescriptor.h"
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
 #define BUFFER_OFFSET_FLOAT(a) (BUFFER_OFFSET(a * sizeof(GLfloat)))
@@ -56,7 +56,7 @@ void ChunkDrawer::generateVBO()
 						drawFace(CubeFace_Left, block, wi, wj, wk);
 					}
 					// Bottom face
-					if(m_chunkToDraw->block(i, j - 1, k)->isVoid()) {
+					if(j != 0 && m_chunkToDraw->block(i, j - 1, k)->isVoid()) {
 						drawFace(CubeFace_Bottom, block, wi, wj, wk);
 					}
 					// Right face
@@ -181,15 +181,7 @@ void ChunkDrawer::drawFace(const CubeFace face, BlockInfo* block, const int wx, 
 		i_arraySize += 3;
 
 		// Texture
-		TexCoords* textureCoordinates;
-		if(*block == Blocks::STONE)
-		{
-			textureCoordinates = Blocks::STONE.getTexture();
-		}
-		else if(*block == Blocks::DIRT)
-		{
-			textureCoordinates = Blocks::DIRT.getTexture();
-		}
+		TexCoords* textureCoordinates = block->descriptor().getTexture();
 		f_array[i_arraySize + 0] = textureCoordinates[v].tx;
 		f_array[i_arraySize + 1] = textureCoordinates[v].ty;
 		i_arraySize += 2;

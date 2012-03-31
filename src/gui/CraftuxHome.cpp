@@ -2,6 +2,7 @@
 #include <QGLWidget>
 
 #include "CraftuxHome.h"
+#include "ConnectDialog.h"
 #include "GameWindow.h"
 #include "LocalServerConnector.h"
 #include "ServerConnector.h"
@@ -13,6 +14,7 @@ CraftuxHome::CraftuxHome(QWidget *parent) :
 {
 	ui->setupUi(this);
 	connect(ui->soloButton, SIGNAL(clicked()), this, SLOT(soloGameLaunch()));
+	connect(ui->multiButton, SIGNAL(clicked()), this, SLOT(openConnectDialog()));
 	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(openServerInterface()));
 	connect(ui->optionsButton, SIGNAL(clicked()), this, SLOT(openOptions()));
 	connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -52,6 +54,13 @@ void CraftuxHome::optionsClosed()
 {
 	b_optionDialogOpened = false;
 	m_optionsDialog = NULL;
+}
+
+void CraftuxHome::openConnectDialog()
+{
+	ConnectDialog* connectDialog = new ConnectDialog();
+	this->close();
+	connectDialog->show();
 }
 
 void CraftuxHome::openServerInterface()

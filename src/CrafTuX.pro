@@ -14,6 +14,8 @@ CONFIG(debug, debug|release) {
 	TARGET = craftux
 }
 
+CONFIG += thread
+
 TEMPLATE = app
 
 SOURCES += main.cpp\
@@ -44,7 +46,16 @@ SOURCES += main.cpp\
 	gui/ServerWidget.cpp \
 	server/ClientThread.cpp \
 	server/Server.cpp \
-	server/LocalServer.cpp
+	server/LocalServer.cpp \
+	server/events/Event.cpp \
+	server/events/PlayerEvent.cpp \
+	server/events/BlockPickEvent.cpp \
+	server/events/BlockUseEvent.cpp \
+	server/events/MoveEvent.cpp \
+	server/events/ChunkEvent.cpp \
+	server/events/ChunkConnectEvent.cpp \
+	gui/ConnectDialog.cpp \
+    Log.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -77,12 +88,23 @@ HEADERS  += \
 	gui/ServerWidget.h \
 	server/ClientThread.h \
 	server/Server.h \
-	server/LocalServer.h
+	server/LocalServer.h \
+	gui/OpenGL.h \
+	server/events/Event.h \
+	server/events/PlayerEvent.h \
+	server/events/BlockPickEvent.h \
+	server/events/BlockUseEvent.h \
+	server/events/MoveEvent.h \
+	server/events/ChunkEvent.h \
+	server/events/ChunkConnectEvent.h \
+	gui/ConnectDialog.h \
+    Log.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \
 	gui/OptionsDialog.ui \
-	gui/ServerWidget.ui
+	gui/ServerWidget.ui \
+	gui/ConnectDialog.ui
 
 # Permet d'avoir les traductions en UTF-8
 

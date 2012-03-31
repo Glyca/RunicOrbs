@@ -1,9 +1,8 @@
 #ifndef CHUNKDRAWER_H
 #define CHUNKDRAWER_H
 
-#include <QtOpenGL>
-
 #include "Chunk.h"
+#include "OpenGL.h"
 
 class ChunkDrawer
 {

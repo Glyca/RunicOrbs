@@ -8,15 +8,15 @@
 #include <QMessageBox>
 
 namespace Ui {
-	class OptionsDialog;
+    class OptionsDialog;
 }
 
 class OptionsDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit OptionsDialog(QWidget *parent = 0);
+    explicit OptionsDialog(QWidget *parent = 0);
     ~OptionsDialog();
     enum Action{
         UP,
@@ -29,14 +29,14 @@ public:
     void keyPressEvent(QKeyEvent* keyEvent);
 
 public slots:
-	void onClick(QAbstractButton*);
+    void onClick(QAbstractButton*);
     void changeKey(int);
 
 private:
-	void load();
-	void save();
+    void load();
+    void save();
     void checkKey();
-	Ui::OptionsDialog *ui;
+    Ui::OptionsDialog *ui;
     int reallocationKey;
     bool reallocation;
     bool doubleKey; /*! If there is two meaning for one key */

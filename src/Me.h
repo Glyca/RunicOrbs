@@ -10,6 +10,7 @@ public:
 	Me(World* world);
 
 	BlockPosition pointedBlock();
+	BlockPosition pointedFreeBlock();
 
 private:
 

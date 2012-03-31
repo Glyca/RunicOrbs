@@ -17,6 +17,9 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 ##v0.0.4 (not released yet)
 ```
 [ADD] Textures
+[ADD] Only visible faces are rendered
+[ADD] Block destruction
+[ADD] Block placment
 ```
 ##v0.0.3 (March 7 2012)
 ```

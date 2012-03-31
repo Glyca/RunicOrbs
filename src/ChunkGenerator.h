@@ -10,16 +10,15 @@ public:
 	ChunkGenerator(const int seed);
 	ChunkGenerator(const ChunkGenerator&);
 
+	/*! Called to generate the chunk in fact */
 	void run();
 
 	inline void setChunkToGenerate(Chunk* chunkToGenerate) {m_chunkToGenerate = chunkToGenerate;}
 
-	/*! Called in run() to generate the chunk in fact */
-	void generateChunk() const;
-
 private:
 	int i_seed;
 	Chunk* m_chunkToGenerate;
+	static double noise(const double xin, const double yin, const double zin);
 };
 
 #endif // CHUNKGENERATOR_H

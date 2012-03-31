@@ -2,7 +2,9 @@
 #define SERVERCONNECTOR_H
 
 #include <QObject>
+#include <QList>
 
+#include "server/events/Event.h"
 #include "Me.h"
 #include "World.h"
 
@@ -16,17 +18,22 @@ public:
 
 	inline Me* me() const {return m_me;}
 
-	inline void pickBlock(const BlockPosition& blockPosition) {emit wantPickBlock(blockPosition);}
-	inline void useBlock(const BlockPosition& blockPosition) {emit wantUseBlock(blockPosition);}
+	void pickBlock();
+	void useBlock();
+
+	void setViewDistance(const int distance);
 
 signals:
-	void wantPickBlock(const BlockPosition& blockPosition);
-	void wantUseBlock(const BlockPosition& blockPosition);
+	/*! Send an event to the server. FIXME : The event is not destroyed for the moment */
+	void postEvent(const Event* event);
 
 public slots:
+	void loadAndPruneChunks();
 
 protected:
 	Me* m_me;
+	QList<ChunkPostition> m_loadedChunks;
+	int i_viewDistance;
 };
 
 #endif // SERVERCONNECTOR_H

@@ -4,7 +4,7 @@
 #include <QtGlobal>
 #include <QDebug>
 
-Entity::Entity() : PhysicObject(world()), f_pitchDegrees(180.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
+Entity::Entity(int id) : PhysicObject(world(), id), f_pitchDegrees(180.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
 {
 }
 
@@ -30,14 +30,14 @@ Vector Entity::direction() const
 	return v_direction;
 }
 
-void Entity::processMove(const preal f_elapsedTimeSec, World& workingWorld)
+void Entity::processMove(const preal f_elapsedTimeSec)
 {
 	v_walkVelocity.null(); // We reset the walk velocity
 
 	if(isWalking())
 	{
-		const preal f_walkVelocityCoefficient = 2.0e2f;
-		Vector v_walkIncrement = direction() * f_walkVelocityCoefficient * f_elapsedTimeSec;
+		const preal f_walkVelocityCoefficient = 5.0f;
+		Vector v_walkIncrement = direction() * f_walkVelocityCoefficient;
 
 		if(m_walkDirection & WalkDirection_Forward)
 		{
@@ -66,12 +66,12 @@ void Entity::processMove(const preal f_elapsedTimeSec, World& workingWorld)
 		v_walkVelocity.y = 0.0; // In all cases, walking don't provide any vertical movement.
 	}
 
-	if(isJumping() && this->touchesFloor(workingWorld))
+	if(isJumping() && this->touchesFloor())
 	{
-		const preal f_jumpVerticalForce = 12000.0; // NEWTONS
-		applyForcev(Vector(0.0, f_jumpVerticalForce, 0.0));
+		const preal f_jumpVerticalForce = 350.0; // NEWTONS
+		applyForcev(Vector(0.0, f_jumpVerticalForce / f_elapsedTimeSec, 0.0)); // Jump force is thus not proportional to the delta of time, since it's a force
 	}
 
-	PhysicObject::processMove(f_elapsedTimeSec, workingWorld);
+	PhysicObject::processMove(f_elapsedTimeSec);
 }
 

@@ -1,8 +1,14 @@
 ﻿#ifndef BLOCKINFO_H
 #define BLOCKINFO_H
 
+#include <QString>
+#include <QVariant>
+
+#include "Blocks.h"
+
 const int DEFAULT_BLOCK_ID = 0;
 
+/*! A block of a Chunk with its current id, lighting... */
 class BlockInfo
 {
 public:
@@ -17,9 +23,11 @@ public:
 
 	inline bool isVoid() { return (id() == 0); }
 
+	inline BlockDescriptor& descriptor() { return Blocks::byId(id()); }
+
 private:
 	unsigned int	i_value		: 12; // 4096 blocks possible.
-	bool			b_powered	: 1;
+	bool			b_powered	: 1; //! Whether the block is under electrically powered or not
 };
 
 inline bool operator==(const BlockInfo& block1, const BlockInfo& block2)
@@ -32,8 +40,13 @@ inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 	return !(block1 == block2);
 }
 
+/*! 3 integers representating a block position in the world */
 class BlockPosition {
 public:
+	BlockPosition(int i = 0, int j = 0, int k = 0) : x(i), y(j), z(k) {}
+	inline operator QString() {
+		return QString("(" + QVariant(x).toString() + "; " + QVariant(y).toString() + "; " + QVariant(z).toString() + ")");
+	}
 	int x, y, z;
 };
 

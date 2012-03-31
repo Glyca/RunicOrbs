@@ -38,13 +38,13 @@
    <item>
     <widget class="QTabWidget" name="tabOption">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
-       <string>Game Option</string>
+       <string>Game</string>
       </attribute>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -109,12 +109,10 @@
         </item>
        </layout>
       </widget>
-      <zorder>groupBox</zorder>
-      <zorder></zorder>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Graphical</string>
+       <string>Graphics</string>
       </attribute>
       <widget class="QWidget" name="horizontalLayoutWidget">
        <property name="geometry">
@@ -129,13 +127,19 @@
         <item>
          <widget class="QGroupBox" name="graphicsGroupBox">
           <property name="title">
-           <string>FPS</string>
+           <string>Performance</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
            <item>
             <layout class="QHBoxLayout" name="FPSHorizontalLayout">
              <item>
               <widget class="QLabel" name="FPSLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>Target FPS</string>
                </property>
@@ -160,7 +164,123 @@
             </layout>
            </item>
            <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="label_9">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>View distance</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="viewDistanceSpinBox"/>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QLabel" name="label_11">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Smooth shades</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="smoothShadesCheckBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="graphicsGroupBox_2">
+          <property name="title">
+           <string>Texture</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <layout class="QHBoxLayout" name="FPSHorizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="FPSLabel_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Texture filtering</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="textureFilteringComboBox">
+               <item>
+                <property name="text">
+                 <string>None</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Bilinear</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Bilinear with mipmaps</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Trilinear with mipmaps</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -289,8 +409,6 @@
          </item>
         </layout>
        </widget>
-       <zorder>gridLayoutWidget</zorder>
-       <zorder>gridLayoutWidget</zorder>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_4">

@@ -10,7 +10,7 @@ PhysicEngine::PhysicEngine(World* world, QObject *parent) : QObject(parent), m_w
 
 PhysicObject* PhysicEngine::createPhysicObject(preal mass)
 {
-	PhysicObject* po = new PhysicObject(m_workingWorld, mass);
+	PhysicObject* po = new PhysicObject(m_workingWorld, 0, mass);
 	this->attach(po);
 	return po;
 }
@@ -19,7 +19,7 @@ void PhysicEngine::processMoves()
 {
 	foreach(PhysicObject* thePhysicObject, m_physicObjects)
 	{
-		thePhysicObject->processMove(m_elapsedTimer.elapsed() / 1000.0, *m_workingWorld);
+		thePhysicObject->processMove(m_elapsedTimer.elapsed() / 1000.0);
 	}
 
 	// On redémarre le timer

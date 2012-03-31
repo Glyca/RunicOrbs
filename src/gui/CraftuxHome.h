@@ -8,6 +8,7 @@ namespace Ui {
 	class CraftuxHome;
 }
 
+/*! The main menu of Craftux */
 class CraftuxHome : public QWidget
 {
 	Q_OBJECT
@@ -20,6 +21,7 @@ private slots:
 	void soloGameLaunch();
 	void openOptions();
 	void optionsClosed();
+	void openConnectDialog();
 	void openServerInterface();
 
 private:
