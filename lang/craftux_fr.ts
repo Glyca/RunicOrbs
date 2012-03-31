@@ -67,17 +67,17 @@
 <context>
     <name>GameWindow</name>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="25"/>
+        <location filename="../src/gui/GameWindow.cpp" line="26"/>
         <source>Initialized OpenGL, version %d.%d</source>
         <translation>OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="92"/>
+        <location filename="../src/gui/GameWindow.cpp" line="93"/>
         <source>FPS</source>
         <translation> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="94"/>
+        <location filename="../src/gui/GameWindow.cpp" line="95"/>
         <source>Position : </source>
         <translation>Position : </translation>
     </message>
@@ -86,7 +86,7 @@
         <translation type="obsolete"> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="113"/>
+        <location filename="../src/gui/GameWindow.cpp" line="114"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>
@@ -98,62 +98,128 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>OptionsDialog</name>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="26"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="18"/>
         <source>Options for Craftux client</source>
         <translation>Options pour le client Craftux</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="58"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="37"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="54"/>
         <source>Game</source>
         <translation>Jeu</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="79"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="62"/>
         <source>Seed</source>
         <translation>Graine</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="127"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="107"/>
         <source>Graphics</source>
         <translation>Graphismes</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="154"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="122"/>
+        <source>Performance</source>
+        <translation>Performance</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="136"/>
         <source>Target FPS</source>
         <translation>Images par seconde (FPS)</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="181"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="169"/>
         <source>View distance</source>
         <translation>Distance de vue</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="208"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="227"/>
+        <source>Texture</source>
+        <translation>Texture</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="241"/>
         <source>Texture filtering</source>
         <translation>Filtrage des textures</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="216"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="249"/>
         <source>None</source>
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="221"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="254"/>
         <source>Bilinear</source>
         <translation>Bilinéaire</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="226"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="259"/>
         <source>Bilinear with mipmaps</source>
         <translation>Bilinéaire avec mipmaps</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="231"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="264"/>
         <source>Trilinear with mipmaps</source>
         <translation>Trilinéaire avec mipmaps</translation>
     </message>
     <message>
-        <location filename="../src/gui/OptionsDialog.ui" line="241"/>
+        <location filename="../src/gui/OptionsDialog.ui" line="292"/>
+        <source>Key mapping</source>
+        <translation>Mappage des touches</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="307"/>
+        <source>Moving</source>
+        <translation>Déplacement</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="327"/>
+        <source>Forward</source>
+        <translation>Avant</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="341"/>
+        <source>Backwards</source>
+        <translation>Arrière</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="397"/>
+        <source>Global</source>
+        <translation>Global</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="426"/>
+        <source>Music</source>
+        <translation>Musique</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="455"/>
+        <source>Effects</source>
+        <translation>Effets</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="334"/>
+        <source>Left</source>
+        <translation>Gauche</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="348"/>
+        <source>Right</source>
+        <translation>Droite</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="358"/>
+        <source>Jump</source>
+        <translation>Sauter</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="372"/>
+        <source>Sound</source>
+        <translation>Son</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/OptionsDialog.ui" line="189"/>
         <source>Smooth shades</source>
         <translation>Formes douces</translation>
     </message>
@@ -161,32 +227,42 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="49"/>
+        <location filename="../src/ClientConfiguration.cpp" line="83"/>
         <source>No configuration file founded. Creating a new one!</source>
         <translation>Aucun fichier de configuration trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="54"/>
+        <location filename="../src/ClientConfiguration.cpp" line="88"/>
         <source>Can&apos;t parse client configuration file %1</source>
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="116"/>
+        <location filename="../src/ClientConfiguration.cpp" line="182"/>
         <source>This is the Craftux configuration file</source>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="123"/>
+        <location filename="../src/ClientConfiguration.cpp" line="190"/>
         <source>Settings for gameplay</source>
         <translation>Paramètres de jeu</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="131"/>
+        <location filename="../src/ClientConfiguration.cpp" line="200"/>
         <source>Configure graphics</source>
         <translation>Configuration des graphismes</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="155"/>
+        <location filename="../src/ClientConfiguration.cpp" line="210"/>
+        <source>Configure keymap</source>
+        <translation>Mappage des touches</translation>
+    </message>
+    <message>
+        <location filename="../src/ClientConfiguration.cpp" line="213"/>
+        <source>Configure movement key</source>
+        <translation>Mappage des touches du déplacement</translation>
+    </message>
+    <message>
+        <location filename="../src/ClientConfiguration.cpp" line="252"/>
         <source>Error opening client configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration %1</translation>
     </message>
@@ -219,9 +295,14 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="23"/>
+        <location filename="../src/gui/TextureManager.cpp" line="25"/>
         <source>Texture [%1] load failed!</source>
         <translation>Le chargement de la texture [%1] a échoué !</translation>
+    </message>
+    <message>
+        <location filename="../src/blocks/Blocks.cpp" line="20"/>
+        <source>Blocks catalog created, having %1 blocks.</source>
+        <translation>Catalogue des blocs créé, il contient %1 blocs.</translation>
     </message>
 </context>
 <context>
