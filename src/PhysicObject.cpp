@@ -1,4 +1,5 @@
 #include "PhysicObject.h"
+#include "server/Server.h"
 #include "World.h"
 
 #include <QDebug>

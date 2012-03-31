@@ -1,12 +1,13 @@
 #ifndef WALKEVENT_H
 #define WALKEVENT_H
 
-#include "Event.h"
+#include "ClientEvent.h"
+#include "ServerEvent.h"
 #include "Entity.h"
 
 const int EVENTID_WALK = 3;
 
-class MoveEvent : public Event
+class MoveEvent : public ClientEvent, ServerEvent
 {
 public:
 	MoveEvent(const Entity::WalkDirection direction, Entity* entity);

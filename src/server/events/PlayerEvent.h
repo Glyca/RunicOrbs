@@ -1,11 +1,11 @@
 #ifndef PLAYEREVENT_H
 #define PLAYEREVENT_H
 
-#include "Event.h"
+#include "ServerEvent.h"
 #include "Player.h"
 
 /*! An abstract class for an event which concerns a player */
-class PlayerEvent : public Event
+class PlayerEvent : public ServerEvent
 {
 public:
 	PlayerEvent(Player* player);

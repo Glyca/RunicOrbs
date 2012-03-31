@@ -27,6 +27,9 @@ public:
 
 	void setTextureFiltering(TextureFiltering filtering);
 
+	/*! Get the texture of the block of id id */
+	QImage getTextureOfBlockId(const int id);
+
 	/*! Get a big txture containing all textures */
 	QImage getTextureAtlas();
 	GLuint loadTextures();

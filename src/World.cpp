@@ -18,6 +18,11 @@ World::~World()
 	delete m_physicEngine;
 }
 
+const PhysicObject* World::po(const int id) const
+{
+	return m_physicEngine->po(id);
+}
+
 Chunk* World::chunk(const ChunkPostition& position)
 {
 	if(m_chunks->contains(position)) // If the chunk is already loaded

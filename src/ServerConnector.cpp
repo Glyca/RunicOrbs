@@ -1,6 +1,7 @@
 #include "server/events/ChunkConnectEvent.h"
 #include "server/events/BlockPickEvent.h"
 #include "server/events/BlockUseEvent.h"
+#include "server/events/SlotSelectEvent.h"
 #include "ServerConnector.h"
 
 #include <QDebug>
@@ -14,6 +15,11 @@ World& ServerConnector::world()
 {
 	Q_ASSERT(1!=1);
 	return *(World*)0x123456789; // TODO WARNING : we can't access a world from a ServerConnector, only with its children.
+}
+
+void ServerConnector::takeEvent(const ClientEvent* event)
+{
+
 }
 
 void ServerConnector::loadAndPruneChunks()
@@ -67,6 +73,20 @@ void ServerConnector::pickBlock()
 void ServerConnector::useBlock()
 {
 	BlockUseEvent* event = new BlockUseEvent(me()->pointedFreeBlock(), me());
+	emit postEvent(event);
+}
+
+void ServerConnector::selectSlot(const int selectedSlot)
+{
+	// Check that the slot id we demand is valid
+	int newSelectedSlot = selectedSlot;
+	if(newSelectedSlot < 0) {
+		newSelectedSlot = INVENTORY_SIZE - 1;
+	}
+	if(newSelectedSlot >= INVENTORY_SIZE) {
+		newSelectedSlot = 0;
+	}
+	SlotSelectEvent* event = new SlotSelectEvent(newSelectedSlot, me());
 	emit postEvent(event);
 }
 

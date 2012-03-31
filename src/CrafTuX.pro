@@ -55,7 +55,12 @@ SOURCES += main.cpp\
 	server/events/ChunkEvent.cpp \
 	server/events/ChunkConnectEvent.cpp \
 	gui/ConnectDialog.cpp \
-    Log.cpp
+    Log.cpp \
+    InventorySlot.cpp \
+    server/events/SlotSelectEvent.cpp \
+    server/events/ServerEvent.cpp \
+    server/events/ClientEvent.cpp \
+    server/events/InventorySetEvent.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -98,7 +103,12 @@ HEADERS  += \
 	server/events/ChunkEvent.h \
 	server/events/ChunkConnectEvent.h \
 	gui/ConnectDialog.h \
-    Log.h
+    Log.h \
+    InventorySlot.h \
+    server/events/SlotSelectEvent.h \
+    server/events/ServerEvent.h \
+    server/events/ClientEvent.h \
+    server/events/InventorySetEvent.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

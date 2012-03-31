@@ -7,8 +7,12 @@ BlockUseEvent::BlockUseEvent(const BlockPosition& position, Player* player) : Pl
 
 void BlockUseEvent::perform(Server& server) const
 {
-	server.world().block(m_blockPosition)->setId(1);
-	server.world().chunk(m_blockPosition)->makeDirty();
+	int blockId = m_player->inventorySlot(m_player->selectedSlot()).id();
+	// If the player has a block of this id in stock
+	if(m_player->takeOne(blockId)) {
+		server.world().block(m_blockPosition)->setId(blockId);
+		server.world().chunk(m_blockPosition)->makeDirty();
+	}
 }
 
 QByteArray BlockUseEvent::serialize() const

@@ -19,6 +19,22 @@ void TextureManager::setTextureFiltering(TextureFiltering filtering)
 	m_textureFiltering = filtering;
 }
 
+QImage TextureManager::getTextureOfBlockId(const int id)
+{
+	const char* name = Blocks::byId(id).name();
+	const char* TEXTURE_PATH = "/gfx/textures/";
+	QString errorString = QObject::tr("Texture [%1] load failed!");
+	// open texture
+	QString textureFilename(qApp->applicationDirPath() + TEXTURE_PATH + name + ".png");
+	QImage qim_texture(textureFilename);
+	if(qim_texture.isNull()) {
+		qCritical() << errorString.arg(textureFilename);
+	}
+	else {
+		return QImage(textureFilename);
+	}
+}
+
 QImage TextureManager::getTextureAtlas()
 {
 	const char* TEXTURE_PATH = "/gfx/textures/";

@@ -9,8 +9,9 @@
 #include "ChunkGenerator.h"
 #include "Entity.h"
 #include "PhysicEngine.h"
-#include "server/Server.h"
 #include "Vector.h"
+
+class Server; // avoid circular inclusions
 
 class World : public QObject
 {
@@ -20,7 +21,10 @@ public:
 
 	/*! Return the server where the world is running */
 	inline Server* server() const {return m_server;}
+	/*! Return the PhysicEngine of the world */
 	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
+	/*! Return a reference to an entity */
+	const PhysicObject* po(const int id) const;
 
 	/*! Access to a chunk of the world from world relative coordinates */
 	Chunk* chunk(const int x, const int z);
@@ -53,7 +57,6 @@ public slots:
 private:
 	Server* m_server; //! The server where the world runs
 	QHash<ChunkPostition, Chunk*> * m_chunks;
-	QList<Entity> m_entities;
 	PhysicEngine* m_physicEngine;
 	ChunkGenerator m_chunkGenerator;
 	int i_time;

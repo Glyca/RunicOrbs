@@ -7,6 +7,7 @@ BlockPickEvent::BlockPickEvent(const BlockPosition& position, Player* player) : 
 
 void BlockPickEvent::perform(Server& server) const
 {
+	m_player->giveOne(server.world().block(m_blockPosition)->id());
 	server.world().block(m_blockPosition)->setId(0);
 	server.world().chunk(m_blockPosition)->makeDirty();
 }

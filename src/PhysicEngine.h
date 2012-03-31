@@ -19,12 +19,14 @@ public:
 
 	void processMoves();
 
+	/*! Return a reference to an entity */
+	const PhysicObject* po(const int id) const;
+
 signals:
 
 public slots:
 
 private:
-
 	QElapsedTimer m_elapsedTimer;
 	QList<PhysicObject*> m_physicObjects;
 	World* m_workingWorld;

@@ -25,3 +25,13 @@ void PhysicEngine::processMoves()
 	// On redémarre le timer
 	m_elapsedTimer.restart();
 }
+
+const PhysicObject* PhysicEngine::po(const int id) const
+{
+	for(int i = 0; i < m_physicObjects.size(); ++i) {
+		if(m_physicObjects.value(i)->id() == id) {
+			return m_physicObjects.value(i);
+		}
+	}
+	return NULL;
+}

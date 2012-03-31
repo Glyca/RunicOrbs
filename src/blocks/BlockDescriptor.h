@@ -18,6 +18,7 @@ public:
 		: i_id(id), s_name(name), b_breakable(breakable) {}
 
 	inline int id() const {return i_id;}
+	inline const char* name() {return s_name;}
 
 	/*! Set the texture coordinates of the block */
 	inline void setTexture(const TexCoords& texture1, const TexCoords& texture2, const TexCoords& texture3, const TexCoords& texture4) {

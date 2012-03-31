@@ -10,8 +10,10 @@ LocalServerConnector::LocalServerConnector()
 	qDebug() << "Initialized" << metaObject()->className();
 	thread->start();
 
-	// For this LocalServerConnector, we simply send the events to the embedded server...
-	connect(this, SIGNAL(postEvent(const Event*)), m_server, SLOT(takeEvent(const Event*)));
+	// For this LocalServerConnector, we simply send the events of the client to the embedded server...
+	connect(this, SIGNAL(postEvent(const ServerEvent*)), m_server, SLOT(takeEvent(const ServerEvent*)));
+	// For this LocalServerConnector, we simply send the events of the embedded server to the client...
+	connect(m_server, SIGNAL(postEvent(const ClientEvent*)), this, SLOT(takeEvent(const ClientEvent*)));
 }
 
 

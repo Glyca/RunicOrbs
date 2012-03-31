@@ -2,10 +2,10 @@
 #define CHUNKEVENT_H
 
 #include "Chunk.h"
-#include "Event.h"
+#include "ServerEvent.h"
 
 /*! An abstract class for an event of chunk */
-class ChunkEvent : public Event
+class ChunkEvent : public ServerEvent
 {
 public:
 	ChunkEvent(const ChunkPostition& position);
