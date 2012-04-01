@@ -30,7 +30,7 @@
    <item>
     <widget class="QTabWidget" name="tabOption">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="gameTab">
       <attribute name="title">
@@ -192,12 +192,30 @@
              </item>
              <item>
               <widget class="QCheckBox" name="smoothShadesCheckBox">
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <item>
+              <widget class="QLabel" name="antialiasingLabel">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
+               <property name="text">
+                <string>Antialiasing</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="antialiasingCheckBox">
                <property name="layoutDirection">
                 <enum>Qt::RightToLeft</enum>
                </property>

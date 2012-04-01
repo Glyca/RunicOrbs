@@ -7,68 +7,73 @@
 class ClientConfiguration
 {
 public:
-    enum Action{
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT,
-        JUMP,
-        NBVAL
-    };
+	enum Action{
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT,
+		JUMP,
+		NBVAL
+	};
 
-    /*! Create a default configuration */
-    ClientConfiguration();
-    /*! Load the configuration from a file */
-    ClientConfiguration(const QString& filename);
+	/*! Create a default configuration */
+	ClientConfiguration();
+	/*! Load the configuration from a file */
+	ClientConfiguration(const QString& filename);
 
-    //~ClientConfiguration();
+	//~ClientConfiguration();
 
-    /*! Create tab */
-    void initKeyMap();
+	/*! Create tab */
+	void initKeyMap();
 
-    /*! Load the configuration from the configuration file */
-    void loadDefaultConfigFile();
+	/*! Load the configuration from the configuration file */
+	void loadDefaultConfigFile();
 
-    /*! Populate config with default values */
-    void defaultValues();
-    void reloadDefault();
+	/*! Populate config with default values */
+	void defaultValues();
+	void reloadDefault();
 
-    void setFilename(const QString& filename);
-    void setDefaultFilename();
+	void setFilename(const QString& filename);
+	void setDefaultFilename();
 
-    /*! Load the configuration from the disk */
-    void load();
-    /*! Save the configuration on the disk */
-    void save() const;
+	/*! Load the configuration from the disk */
+	void load();
+	/*! Save the configuration on the disk */
+	void save() const;
 
-    /* Accessors have willingly a get or set prefix to enphasize that it's a provider class */
+	/* Accessors have willingly a get or set prefix to enphasize that it's a provider class */
 
-    int getFps() const;
-    void setFps(const int fps);
+	int getFps() const;
+	void setFps(const int fps);
 
-    int getSeed() const;
-    void setSeed(const int seed);
+	int getSeed() const;
+	void setSeed(const int seed);
 
-    QString getKeyVal(const Action action) const;
-    int getKey(const Action action) const;
-    void setKey(const Action action, const int value);
-    int getViewDistance() const;
-    void setViewDistance(const int distance);
+	QString getKeyVal(const Action action) const;
+	int getKey(const Action action) const;
+	void setKey(const Action action, const int value);
 
-    bool getSmoothShades() const;
-    void setSmoothShades(const bool smooth);
+	int getViewDistance() const;
+	void setViewDistance(const int distance);
 
-    int getTextureFiltering() const;
-    void setTextureFiltering(const int filtering);
+	bool getSmoothShades() const;
+	void setSmoothShades(const bool smooth);
+
+	bool getAntialiasing() const;
+	void setAntialiasing(const bool enabled);
+
+	int getTextureFiltering() const;
+	void setTextureFiltering(const int filtering);
 
 private:
-    QString s_filename;
-    int i_fps;
-    int i_seed;
-    int *i_keyMap;
-    int i_viewDistance;
-    bool b_smoothShades;
-    int i_textureFiltering;
+	QString s_filename;
+	int i_fps;
+	int i_seed;
+	int *i_keyMap;
+	int i_viewDistance;
+	bool b_smoothShades;
+	bool b_antialiasing;
+	int i_textureFiltering;
 };
 
 #endif // CLIENTCONFIGURATION_H

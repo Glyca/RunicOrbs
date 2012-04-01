@@ -36,7 +36,7 @@ void GameWindow::initializeGL()
 	glDepthFunc(GL_LEQUAL);  // Fontion du test de profondeur
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 	glLineWidth(2.5f);
-	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
+	if(m_configuration->getAntialiasing()) glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 	glEnable(GL_TEXTURE_2D);
 	glShadeModel(GL_FLAT); // In all cases we start with flat
 }
@@ -73,7 +73,7 @@ void GameWindow::render2D(QPainter& painter)
 
 	QFontMetrics metrics = QFontMetrics(font());
 	int border = qMax(4, metrics.leading());
-	painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing);
+	if(m_configuration->getAntialiasing()) painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing);
 	painter.setPen(Qt::white);
 
 	if(b_playing) {
@@ -171,7 +171,7 @@ void GameWindow::drawInventoryPixmap()
 	const int SQUARE_BORDER = 2;
 	m_inventoryPixmap.fill(Qt::transparent); // Erase all
 	QPainter painter(&m_inventoryPixmap);
-	painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing);
+	if(m_configuration->getAntialiasing()) painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing);
 	// To customize color and weight
 	QPen pen;
 	QFont font(painter.font());
