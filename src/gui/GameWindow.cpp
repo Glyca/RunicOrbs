@@ -186,9 +186,13 @@ void GameWindow::drawInventoryPixmap()
 	const int SQUARE_BORDER = 2;
 	m_inventoryPixmap.fill(Qt::transparent); // Erase all
 	QPainter painter(&m_inventoryPixmap);
-	painter.setRenderHints(QPainter::Antialiasing);
+	painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing);
 	// To customize color and weight
 	QPen pen;
+	QFont font(painter.font());
+	font.setWeight(QFont::DemiBold);
+	font.setPixelSize(18);
+	painter.setFont(font);
 
 	for(unsigned int i = 0; i < INVENTORY_SIZE; ++i)
 	{
@@ -200,11 +204,18 @@ void GameWindow::drawInventoryPixmap()
 		if(m_connector->me()->inventorySlot(i).id() != 0) {
 			// Draw the image of the block
 			painter.drawImage(slotRect, m_textureManager.getTextureOfBlockId(m_connector->me()->inventorySlot(i).id()));
-			// Adjust the rectangle (add borders) and draw the amount we have
-			slotRect.adjust(-4, -4, -4, -4);
+			// Adjust the rectangle (add borders) and draw the amount we have in the slot
+			QRect slotAmountLabelRect(slotRect);
+			slotAmountLabelRect.adjust(-4, -4, -4, -4);
+			pen.setColor(Qt::black);
+			painter.setPen(pen);
+			// 1 : draw a shadow
+			painter.drawText(slotAmountLabelRect, Qt::AlignBottom | Qt::AlignRight, QString::number(m_connector->me()->inventorySlot(i).amount()));
+			slotAmountLabelRect.adjust(-1, -1, -1, -1);
 			pen.setColor(Qt::white);
 			painter.setPen(pen);
-			painter.drawText(slotRect, Qt::AlignBottom | Qt::AlignRight, QString::number(m_connector->me()->inventorySlot(i).amount()));
+			// 2 : then the real text
+			painter.drawText(slotAmountLabelRect, Qt::AlignBottom | Qt::AlignRight, QString::number(m_connector->me()->inventorySlot(i).amount()));
 		}
 		// If this is the selected slot
 		if(m_connector->me()->selectedSlot() == i) {

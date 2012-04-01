@@ -8,7 +8,7 @@
 #include "ServerConnector.h"
 #include "TextureManager.h"
 
-const int INVENTORY_SQUARE_SIZE = 48; //! The size of an item slot of the inventory
+const int INVENTORY_SQUARE_SIZE = 58; //! The size of an item slot of the inventory
 
 class GameWindow : public GLWidget
 {
