@@ -8,6 +8,8 @@
 *.so
 craftux
 craftuxd
+moc_*.cpp
+ui_*.h
 
 # Packages #
 ############
