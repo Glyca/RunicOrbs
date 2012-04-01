@@ -15,8 +15,12 @@ public:
 
 	/*! Try to remove an item of this slot */
 	bool removeOne();
+	/*! Try to remove an item of the specified id to this slot */
+	bool removeOne(const int id);
 	/*! Try to add an item to this slot */
 	bool addOne();
+	/*! Try to add an item of the specified id to this slot */
+	bool addOne(const int id);
 
 private:
 	int i_id; //! The item id
