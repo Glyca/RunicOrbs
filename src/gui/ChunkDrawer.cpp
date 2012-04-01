@@ -95,27 +95,16 @@ void ChunkDrawer::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_bufferIndices);
 	glVertexPointer(3, // Coordinates per vertex
 					GL_FLOAT, // Data type
-					11*sizeof(GLfloat), // Offset between each vertice
+					5*sizeof(GLfloat), // Offset between each vertice
 					BUFFER_OFFSET_FLOAT(0)); // where is the first vertice
-
-	glColorPointer(3, // Coordinates per color
-				   GL_FLOAT, // Data type
-				   11*sizeof(GLfloat), // Offset between each color
-				   BUFFER_OFFSET_FLOAT(6)); // where is the first color
-
-	glNormalPointer(GL_FLOAT, // Data type
-					11*sizeof(GLfloat), // Offset between each normal
-					BUFFER_OFFSET_FLOAT(3)); // where is the first normal
 
 	glTexCoordPointer(2, // Coordinates per texture coordinate
 					  GL_FLOAT, // Data type
-					  11*sizeof(GLfloat), // Offset between each texture coordinate
-					  BUFFER_OFFSET_FLOAT(9)); // where is the first texture coordinate
+					  5*sizeof(GLfloat), // Offset between each texture coordinate
+					  BUFFER_OFFSET_FLOAT(3)); // where is the first texture coordinate
 
 	// Activation d'utilisation des tableaux
 	glEnableClientState( GL_VERTEX_ARRAY );
-	glEnableClientState( GL_COLOR_ARRAY );
-	glEnableClientState( GL_NORMAL_ARRAY );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
 	// Rendu de notre géométrie
@@ -123,8 +112,6 @@ void ChunkDrawer::render()
 
 	// Désactivation des tableaux
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-	glDisableClientState( GL_NORMAL_ARRAY );
-	glDisableClientState( GL_COLOR_ARRAY );
 	glDisableClientState( GL_VERTEX_ARRAY );
 
 	// Safely disbale buffers (for other compenents of the program)
@@ -166,18 +153,6 @@ void ChunkDrawer::drawFace(const CubeFace face, BlockInfo* block, const int wx, 
 		f_array[i_arraySize + 0] = cubeVertexAndNormals[face + v*3 + 0] + wx;
 		f_array[i_arraySize + 1] = cubeVertexAndNormals[face + v*3 + 1] + wy;
 		f_array[i_arraySize + 2] = cubeVertexAndNormals[face + v*3 + 2] + wz;
-		i_arraySize += 3;
-
-		// Normal
-		f_array[i_arraySize + 0] = cubeVertexAndNormals[face + 12 + 0] + wx;
-		f_array[i_arraySize + 1] = cubeVertexAndNormals[face + 12 + 1] + wy;
-		f_array[i_arraySize + 2] = cubeVertexAndNormals[face + 12 + 2] + wz;
-		i_arraySize += 3;
-
-		// Color (full white until lighting)
-		f_array[i_arraySize + 0] = 1.0f; // R
-		f_array[i_arraySize + 1] = 1.0f; // V
-		f_array[i_arraySize + 2] = 1.0f; // B
 		i_arraySize += 3;
 
 		// Texture

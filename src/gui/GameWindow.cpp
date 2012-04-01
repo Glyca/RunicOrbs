@@ -39,20 +39,6 @@ void GameWindow::initializeGL()
 	glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 	glEnable(GL_TEXTURE_2D);
 	glShadeModel(GL_FLAT); // In all cases we start with flat
-
-	// Lighting
-	static GLfloat lightPosition[4] = { 0.0f, 256.0f, 0.0f, 1.0f };
-	static GLfloat lightAmbient[4] = { 0.50f, 0.50f, 0.50f, 0.9f };
-	static GLfloat lightDiffuse[4] = { 0.5f, 0.5f, 0.5f, 0.5f };
-	static GLfloat lightSpecular[4] = { 0.015f, 0.015f, 0.015f, 0.05f };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightPosition);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, lightSpecular);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glColorMaterial(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE);
-	glEnable(GL_COLOR_MATERIAL); // To mix light and colors
 }
 
 void GameWindow::paintEvent(QPaintEvent *event)
@@ -62,7 +48,6 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 	if(m_configuration->getSmoothShades()) glShadeModel(GL_SMOOTH); // re-enable
 	glEnable(GL_DEPTH_TEST); // re-enable
-	glEnable(GL_LIGHTING); // re-enable
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glLoadIdentity();
@@ -75,7 +60,6 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 	if(m_configuration->getSmoothShades()) glShadeModel(GL_FLAT); // disable
 	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_LIGHTING);
 
 	// 2D render and flush
 	QPainter painter(this);
@@ -177,6 +161,7 @@ void GameWindow::render3D()
 	glPopMatrix();
 
 	// BLOCKS RENDER
+	glColor3ub(255, 255, 255); // Full white for the blocks
 	m_connector->world().render3D();
 }
 
