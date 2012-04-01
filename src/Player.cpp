@@ -34,7 +34,7 @@ InventorySlot& Player::inventorySlot(const unsigned int slotNumber)
 bool Player::giveOne(const int id)
 {
 	// Let's find a slot of this id to put the block
-	for(int s = 0; s < INVENTORY_SIZE; ++s)
+	for(unsigned int s = 0; s < INVENTORY_SIZE; ++s)
 	{
 		// If we added the block to the slot successfully
 		if(inventorySlot(s).addOne(id)) {

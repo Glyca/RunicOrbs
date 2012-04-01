@@ -29,9 +29,10 @@ QImage TextureManager::getTextureOfBlockId(const int id)
 	QImage qim_texture(textureFilename);
 	if(qim_texture.isNull()) {
 		qCritical() << errorString.arg(textureFilename);
+		return QImage(); // Will never be reached
 	}
 	else {
-		return QImage(textureFilename);
+		return qim_texture;
 	}
 }
 

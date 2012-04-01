@@ -83,7 +83,7 @@ void ServerConnector::selectSlot(const int selectedSlot)
 	if(newSelectedSlot < 0) {
 		newSelectedSlot = INVENTORY_SIZE - 1;
 	}
-	if(newSelectedSlot >= INVENTORY_SIZE) {
+	if(newSelectedSlot >= (int)INVENTORY_SIZE) {
 		newSelectedSlot = 0;
 	}
 	SlotSelectEvent* event = new SlotSelectEvent(newSelectedSlot, me());

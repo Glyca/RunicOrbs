@@ -15,7 +15,7 @@ public:
 	Vector eyePosition();
 
 	/*! The slot number that is selected */
-	inline int selectedSlot() const {return i_selectedSlot;}
+	inline unsigned int selectedSlot() const {return i_selectedSlot;}
 	/*! Modify selected inventory slot of the player */
 	void setSelectedSlot(const unsigned int slotNumber);
 
@@ -27,7 +27,7 @@ public:
 	bool takeOne(const int id);
 
 private:
-	int i_selectedSlot; //! Which slot of his inventory the player have selected
+	unsigned int i_selectedSlot; //! Which slot of his inventory the player have selected
 	InventorySlot m_inventorySlots[INVENTORY_SIZE]; //! The inventory of the player
 };
 
