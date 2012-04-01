@@ -14,12 +14,27 @@ Then download the source and open `CrafTuX.pro`, in QtCreator for example. You j
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
 
 #Changelog
-##v0.0.4 (not released yet)
+##v0.0.4 (April 1 2012)
 ```
+[ADD] Configurable view distance
+[ADD] French translation
 [ADD] Textures
-[ADD] Only visible faces are rendered
+[ADD] Configurable texture filtering
+[ADD] Reticule for better picking
+[ADD] A beginning of event system (client to server and vice versa)
 [ADD] Block destruction
 [ADD] Block placment
+[ADD] Smooth shading and antialiasing are now configurable
+[ADD] Only visible faces are rendered (huge speed increase)
+[ADD] Basic inventory system of 8 slots
+[ADD] Started creation of server join/host guis
+[FIX] Decreased chunk size a little bit (will be increased later)
+[FIX] Camera is now at eye level and not at feet level
+[FIX] Default key map is better for french
+[FIX] Jump and walking are not FPS dependant anymore
+[FIX] You are not stuck when you fall at low FPS thanks to destucking
+[FIX] Removed useless lighting system until a real implementation
+[BUG] At the boundary between negative chunks, there is some ghost blocks (unbreakeable, breaks physic...)
 ```
 ##v0.0.3 (March 7 2012)
 ```
