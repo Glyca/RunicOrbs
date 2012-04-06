@@ -10,6 +10,7 @@ craftux
 craftuxd
 moc_*.cpp
 ui_*.h
+*build*/
 
 # Packages #
 ############
@@ -40,6 +41,10 @@ ui_*.h
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# Doxygen generated files #
+###########################
+doc/doxygen/*
 
 # QtCreator generated files #
 #############################

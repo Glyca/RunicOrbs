@@ -55,12 +55,12 @@ SOURCES += main.cpp\
 	server/events/ChunkEvent.cpp \
 	server/events/ChunkConnectEvent.cpp \
 	gui/ConnectDialog.cpp \
-    Log.cpp \
-    InventorySlot.cpp \
-    server/events/SlotSelectEvent.cpp \
-    server/events/ServerEvent.cpp \
-    server/events/ClientEvent.cpp \
-    server/events/InventorySetEvent.cpp
+	Log.cpp \
+	InventorySlot.cpp \
+	server/events/SlotSelectEvent.cpp \
+	server/events/ServerEvent.cpp \
+	server/events/ClientEvent.cpp \
+	server/events/InventorySetEvent.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -103,12 +103,12 @@ HEADERS  += \
 	server/events/ChunkEvent.h \
 	server/events/ChunkConnectEvent.h \
 	gui/ConnectDialog.h \
-    Log.h \
-    InventorySlot.h \
-    server/events/SlotSelectEvent.h \
-    server/events/ServerEvent.h \
-    server/events/ClientEvent.h \
-    server/events/InventorySetEvent.h
+	Log.h \
+	InventorySlot.h \
+	server/events/SlotSelectEvent.h \
+	server/events/ServerEvent.h \
+	server/events/ClientEvent.h \
+	server/events/InventorySetEvent.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \
@@ -116,14 +116,21 @@ FORMS    += \
 	gui/ServerWidget.ui \
 	gui/ConnectDialog.ui
 
-# Permet d'avoir les traductions en UTF-8
+OTHER_FILES += ../README.md
 
-CODECFORTR = UTF-8
+# Add translations here (in the UTF-8 format)
 TRANSLATIONS = ../lang/craftux_fr.ts
 
-# On dsactive les infos de dboguage pour le mode release, les crackers n'en ont pas besoin
-QMAKE_CXXFLAGS_RELEASE -= -g
-#QMAKE_CXXFLAGS += -save-temps -fverbose-asm
-#QMAKE_LFLAGS = -Wl,-O3 -Wl,-Map,craftux.map
+CODECFORTR = UTF-8
 
-OTHER_FILES += ../README.md
+QMAKE_CXXFLAGS_RELEASE -= -g -O2
+QMAKE_LFLAGS_RELEASE -= -Wl,-O1
+QMAKE_CXXFLAGS_RELEASE += -O3
+QMAKE_LFLAGS_RELEASE += -Wl,-O3
+
+# Enable this if you compile for yourself (will tune code for your cpu)
+#QMAKE_CXXFLAGS += -march=native -mtune=native
+
+# Enable to check size of functions and ASM
+#QMAKE_CXXFLAGS += -save-temps -fverbose-asm
+#QMAKE_LFLAGS = -Wl,-Map,craftux.map
