@@ -14,8 +14,13 @@ Then download the source and open `CrafTuX.pro`, in QtCreator for example. You j
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
 
 #Changelog
+##v0.0.5 (not released yet)
+```
+
+```
 ##v0.0.4 (April 1 2012)
 ```
+(not an April fool!)
 [ADD] Configurable view distance
 [ADD] French translation
 [ADD] Textures
