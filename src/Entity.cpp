@@ -1,7 +1,6 @@
 #include "Entity.h"
+#include "FastMath.h"
 
-#include <cmath>
-#include <QtGlobal>
 #include <QDebug>
 
 Entity::Entity(int id) : PhysicObject(world(), id), f_pitchDegrees(180.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
@@ -22,10 +21,12 @@ Vector Entity::direction() const
 {
 	Vector v_direction;
 
-	float r = cos(pitch() * M_PI/180.0f);
-	v_direction.y = sin(pitch() * M_PI/180.0f);
-	v_direction.z = r * cos(yaw() * M_PI/180.0f);
-	v_direction.x = r * sin(yaw() * M_PI/180.0f);
+	const static float M_PI_OVER_180 = M_PI/180.0f;
+
+	float r = FastMath::cos10f(pitch() * M_PI_OVER_180);
+	v_direction.y = FastMath::sin10f(pitch() * M_PI_OVER_180);
+	v_direction.z = r * FastMath::cos10f(yaw() * M_PI_OVER_180);
+	v_direction.x = r * FastMath::sin10f(yaw() * M_PI_OVER_180);
 
 	return v_direction;
 }

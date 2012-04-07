@@ -108,7 +108,8 @@ HEADERS  += \
 	server/events/SlotSelectEvent.h \
 	server/events/ServerEvent.h \
 	server/events/ClientEvent.h \
-	server/events/InventorySetEvent.h
+	server/events/InventorySetEvent.h \
+	FastMath.h
 
 FORMS    += \
 	gui/CraftuxHome.ui \

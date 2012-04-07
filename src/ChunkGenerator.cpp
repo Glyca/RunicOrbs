@@ -1,5 +1,6 @@
 #include "ChunkGenerator.h"
 #include "Vector.h" // ifloor
+#include "FastMath.h"
 
 // adapted from : http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
 
@@ -53,7 +54,7 @@ inline static double SmoothNoise_1(const double x, const double y)
 inline static double Cosine_Interpolate(const double a, const double b, const double x)
 {
 	double ft = x * 3.1415927;
-	double f = (1 - cos(ft)) * 0.5;
+	double f = (1 - FastMath::cos10d(ft)) * 0.5;
 	return a * (1 - f) + b * f;
 }
 
