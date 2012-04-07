@@ -2,7 +2,8 @@
 #include "blocks/Blocks.h"
 #include "blocks/BlockDescriptor.h"
 #include <QtGlobal>
-#include <GL/glu.h>
+
+const char* TEXTURE_PATH = "/gfx/textures/";
 
 TextureManager::TextureManager() : m_textureFiltering(TextureFiltering_BilinearMipmaps)
 {
@@ -21,14 +22,12 @@ void TextureManager::setTextureFiltering(TextureFiltering filtering)
 
 QImage TextureManager::getTextureOfBlockId(const int id)
 {
-	const char* name = Blocks::byId(id).name();
-	const char* TEXTURE_PATH = "/gfx/textures/";
 	QString errorString = QObject::tr("Texture [%1] load failed!");
 	// open texture
-	QString textureFilename(qApp->applicationDirPath() + TEXTURE_PATH + name + ".png");
+	QString textureFilename(qApp->applicationDirPath() + TEXTURE_PATH + Blocks::byId(id).name() + ".png");
 	QImage qim_texture(textureFilename);
 	if(qim_texture.isNull()) {
-		qCritical() << errorString.arg(textureFilename);
+		qCritical() << errorString.arg(textureFilename).toStdString().c_str();
 		return QImage(); // Will never be reached
 	}
 	else {
@@ -38,38 +37,58 @@ QImage TextureManager::getTextureOfBlockId(const int id)
 
 QImage TextureManager::getTextureAtlas()
 {
-	const char* TEXTURE_PATH = "/gfx/textures/";
 	QString errorString = QObject::tr("Texture [%1] load failed!");
+	QString loadedString = QObject::tr("Successfully loaded \"%1\" texture [%2]");
 
-	// open stone texture
-	QString stoneFilename(qApp->applicationDirPath() + TEXTURE_PATH + "stone.png");
-	QImage qim_stoneImage(stoneFilename);
-	if(qim_stoneImage.isNull())
-	{
-		qDebug() << errorString.arg(stoneFilename);
-	}
-	else
-	{
-		// open dirt texture
-		QString dirtFilename(qApp->applicationDirPath() + TEXTURE_PATH + "dirt.png");
-		QImage qim_dirtImage(dirtFilename);
+	QMap<int, QImage> qmap_textureImages;
+	int atlasWidth = 0;
+	int atlasHeight = 0;
 
-		if(qim_dirtImage.isNull())
-		{
-			qDebug() << errorString.arg(dirtFilename);
+	// Step 1 : Load all our textures and get the size of the final atlas
+	// Textures are stacked on the height
+	for(int blockID = 1; blockID < MAX_BLOCKID; blockID++)
+	{
+		QString textureFilename(qApp->applicationDirPath() + TEXTURE_PATH + Blocks::byId(blockID).name() + ".png");
+		QImage qim_texture(textureFilename);
+		if(qim_texture.isNull()) {
+			qDebug() << errorString.arg(textureFilename).toStdString().c_str();
 		}
-		else
-		{
-			QImage qim_atlas(qim_stoneImage.width(), qim_stoneImage.height() + qim_dirtImage.height(), QImage::Format_ARGB32);
-			QPainter qp_assembler(&qim_atlas);
-			qp_assembler.drawImage(0, 0, qim_stoneImage, 0, 0, qim_stoneImage.width(), qim_stoneImage.height());
-			qp_assembler.drawImage(0, qim_stoneImage.height(), qim_dirtImage, 0, 0, qim_dirtImage.width(), qim_dirtImage.height());
-			qp_assembler.end();
-
-			return qim_atlas;
+		else {
+			qmap_textureImages.insert(blockID, qim_texture);
+			qDebug() << loadedString.arg(Blocks::byId(blockID).name(), textureFilename).toStdString().c_str();
+			// The atlas width is the greater width of all textures
+			if(qim_texture.width() > atlasWidth) {
+				atlasWidth = qim_texture.width();
+			}
+			// Since textures are stacked on the height
+			atlasHeight += qim_texture.height();
 		}
 	}
-	return QImage();
+
+	// Step 2 : Draw the texture atlas, and set texture coordinates of BlockDescriptor properly
+	QImage qim_atlas(atlasWidth, atlasHeight, QImage::Format_ARGB32);
+	qim_atlas.fill(Qt::transparent);
+	QPainter qp_assembler(&qim_atlas);
+	int currentHeight = 0;
+
+	QMapIterator<int, QImage> it(qmap_textureImages);
+	while (it.hasNext()) {
+		it.next();
+		qp_assembler.drawImage(0, currentHeight, it.value());
+		Blocks::byId(it.key()).setTexture(TexCoords(0,
+													GLfloat(currentHeight) / GLfloat(atlasHeight)),
+										  TexCoords(GLfloat(it.value().width()) / GLfloat(atlasWidth),
+													GLfloat(currentHeight) / GLfloat(atlasHeight)),
+										  TexCoords(GLfloat(it.value().width()) / GLfloat(atlasWidth),
+													GLfloat(currentHeight + it.value().height()) / GLfloat(atlasHeight)),
+										  TexCoords(0,
+													GLfloat(currentHeight + it.value().height()) / GLfloat(atlasHeight)));
+		currentHeight += it.value().height();
+	}
+
+	qp_assembler.end();
+	qim_atlas = qim_atlas.mirrored(false, true); // Flip the texture atlas vertically since OpenGL invert it later.
+	return qim_atlas;
 }
 
 GLuint TextureManager::loadTextures()
@@ -117,14 +136,6 @@ GLuint TextureManager::loadTextures()
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, qim_Texture.width(), qim_Texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
 		}
 
-		Blocks::STONE.setTexture(TexCoords(0, 0.5),
-								 TexCoords(1, 0.5),
-								 TexCoords(1, 1),
-								 TexCoords(0, 1));
-		Blocks::DIRT.setTexture(TexCoords(0, 0),
-								TexCoords(1, 0),
-								TexCoords(1, 0.5),
-								TexCoords(0, 0.5));
 		qDebug("Textures loaded!");
 
 		return gi_textureID;

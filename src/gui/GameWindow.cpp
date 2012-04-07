@@ -26,8 +26,9 @@ GameWindow::GameWindow(ServerConnector* connector)
 
 void GameWindow::initializeGL()
 {
+	GLint maxTextureSize; glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
 	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
-	qDebug() << "OpenGL driver :" << (const char*)glGetString(GL_VENDOR) << "|" << (const char*)glGetString(GL_RENDERER)<< "|" << (const char*)glGetString(GL_VERSION);
+	qDebug() << "OpenGL driver :" << (const char*)glGetString(GL_VENDOR) << "|" << (const char*)glGetString(GL_RENDERER)<< "|" << (const char*)glGetString(GL_VERSION) << "| GL_MAX_TEXTURE_SIZE =" << maxTextureSize;
 
 	m_textureManager.loadTextures();
 
