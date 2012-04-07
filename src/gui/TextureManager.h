@@ -33,8 +33,8 @@ public:
 	/*! Get a big txture containing all textures */
 	QImage getTextureAtlas();
 	GLuint loadTextures();
-	void bindTexture(); //! Bind THE texture
-	void unbindTexture(); //! Unbind any texture binded
+	void bindTexture(); //!< Bind THE texture
+	void unbindTexture(); //!< Unbind any texture binded
 
 private:
 	GLuint gi_textureID;

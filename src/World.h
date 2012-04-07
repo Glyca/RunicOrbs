@@ -55,12 +55,12 @@ public:
 public slots:
 
 private:
-	Server* m_server; //! The server where the world runs
+	Server* m_server; //!< The server where the world runs
 	QHash<ChunkPostition, Chunk*> * m_chunks;
 	PhysicEngine* m_physicEngine;
 	ChunkGenerator m_chunkGenerator;
 	int i_time;
-	int i_seed; //! Seed of the world
+	int i_seed; //!< Seed of the world
 };
 
 #endif // WORLD_H

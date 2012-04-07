@@ -27,8 +27,8 @@ public:
 	bool takeOne(const int id);
 
 private:
-	unsigned int i_selectedSlot; //! Which slot of his inventory the player have selected
-	InventorySlot m_inventorySlots[INVENTORY_SIZE]; //! The inventory of the player
+	unsigned int i_selectedSlot; //!< Which slot of his inventory the player have selected
+	InventorySlot m_inventorySlots[INVENTORY_SIZE]; //!< The inventory of the player
 };
 
 #endif // PLAYER_H

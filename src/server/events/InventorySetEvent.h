@@ -17,9 +17,9 @@ public:
 	virtual QByteArray serialize() const;
 
 protected:
-	int i_inventorySlot; //! Which slot do we set
-	int i_id; //! Which id
-	int i_amount; //! How many
+	int i_inventorySlot; //!< Which slot do we set
+	int i_id; //!< Which id
+	int i_amount; //!< How many
 };
 
 #endif // INVENTORYSETEVENT_H

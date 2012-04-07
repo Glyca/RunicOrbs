@@ -8,7 +8,7 @@
 #include "ServerConnector.h"
 #include "TextureManager.h"
 
-const int INVENTORY_SQUARE_SIZE = 58; //! The size of an item slot of the inventory
+const int INVENTORY_SQUARE_SIZE = 58; //!< The size of an item slot of the inventory
 
 class GameWindow : public GLWidget
 {
@@ -38,13 +38,13 @@ private:
 	void pause();
 	void resume();
 
-	bool b_playing; //! If the game is running (not paused)
-	bool b_debugView; //! If debugging informations are shown
+	bool b_playing; //!< If the game is running (not paused)
+	bool b_debugView; //!< If debugging informations are shown
 	QCursor m_originalCursor;
-	QPixmap m_inventoryPixmap; //! The inventory is redrawed only when selected item or contents are modified
+	QPixmap m_inventoryPixmap; //!< The inventory is redrawed only when selected item or contents are modified
 
 private slots:
-	void drawInventoryPixmap(); //! Draw the inventory to the pixmap m_inventoryPixmap
+	void drawInventoryPixmap(); //!< Draw the inventory to the pixmap m_inventoryPixmap
 };
 
 #endif // GAMEWINDOW_H

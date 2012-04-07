@@ -54,8 +54,8 @@ protected: // protected
 	World* m_world;
 
 private:
-	int i_id; //! The ID of the PhysicObject on this server
-	preal f_mass; // La masse de l'objet en KG
+	int i_id; //!< The ID of the PhysicObject on this server
+	preal f_mass; //!< The mass of the object in kg
 };
 
 #endif // PHYSICOBJECT_H

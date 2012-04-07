@@ -32,8 +32,8 @@ public:
 		ChunkState_Void
 	};
 
-	void activate(); //! Activate the chunk (it will be drawed)
-	void idle(); //! Make the Chunk enter in an idle state (it will not be drawed)
+	void activate(); //!< Activate the chunk (it will be drawed)
+	void idle(); //!< Make the Chunk enter in an idle state (it will not be drawed)
 
 	inline ChunkPostition position() const {return m_position;}
 	int altitude(const int x, const int z);
@@ -58,9 +58,9 @@ public slots:
 
 private:
 	ChunkState m_state;
-	bool b_dirty; //! If we need to redraw the chunk
-	ChunkPostition m_position; //! The postion of the chunk in chunk unit.
-	BlockInfo* p_BlockInfos; //! A big array of all BlockInfo of the Chunk
+	bool b_dirty; //!< If we need to redraw the chunk
+	ChunkPostition m_position; //!< The postion of the chunk in chunk unit.
+	BlockInfo* p_BlockInfos; //!< A big array of all BlockInfo of the Chunk
 	ChunkDrawer* m_chunkDrawer;
 };
 

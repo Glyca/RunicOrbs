@@ -27,7 +27,7 @@ public:
 
 private:
 	unsigned int	i_value		: 12; // 4096 blocks possible.
-	bool			b_powered	: 1; //! Whether the block is under electrically powered or not
+	bool			b_powered	: 1; //!< Whether the block is under electrically powered or not
 };
 
 inline bool operator==(const BlockInfo& block1, const BlockInfo& block2)

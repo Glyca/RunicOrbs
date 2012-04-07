@@ -27,7 +27,7 @@ private:
 		return log;
 	}
 
-	std::list<std::ostream> m_ostreams; //! All ostreams we have to print on
+	std::list<std::ostream> m_ostreams; //!< All ostreams we have to print on
 };
 
 #endif // LOG_H

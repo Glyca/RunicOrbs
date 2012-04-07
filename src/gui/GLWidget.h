@@ -30,8 +30,8 @@ protected:
 private:
 	QTimer* t_Timer;
 	bool b_Fullscreen;
-	int i_FPS; //! The current framerate
-	int i_framesRenderedThisSecond; //! The number of frames that have already been rendered this second
+	int i_FPS; //!< The current framerate
+	int i_framesRenderedThisSecond; //!< The number of frames that have already been rendered this second
 };
 
 #endif // GLWIDGET_H

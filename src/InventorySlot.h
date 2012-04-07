@@ -23,8 +23,8 @@ public:
 	bool addOne(const int id);
 
 private:
-	int i_id; //! The item id
-	int i_amount; //! The quantity
+	int i_id; //!< The item id
+	int i_amount; //!< The quantity
 };
 
 #endif // INVENTORYSLOT_H
