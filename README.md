@@ -1,24 +1,22 @@
-#Introduction
+##Introduction
 CrafTuX is a test project using OpenGL and Qt4. You are in a 3D world with randomly generated cubes, and you can fall thanks to the physic engine.
 
-#Download
-##Linux 64 bits
+###Wiki
+Craftux has a [Wiki](https://github.com/Glycaa/CrafTuX/wiki), check it for further information.
+
+##Downloads for Linux 64 bits
 If you are on Linux, and 64 bits, there is a build for you at the [download section](https://github.com/Glycaa/CrafTuX/downloads).
 You must have Qt librairies installed, since they are not provided in the zip.
 
-#Building
-In order to compile CraftTuX, you must have Qt and OpenGL development librairies installed. An easy way to do this is to download the [QtSDK](http://qt.nokia.com/downloads/).
-Then download the source and open `CrafTuX.pro`, in QtCreator for example. You just have to click on compile :)
-
-#Contributing
+##Contributing
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
 
-#Changelog
-##v0.0.5 (not released yet)
+##Changelog
+###v0.0.5 (not released yet)
 ```
 
 ```
-##v0.0.4 (April 1 2012)
+###v0.0.4 (April 1 2012)
 ```
 (not an April fool!)
 [ADD] Configurable view distance
@@ -41,7 +39,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [FIX] Removed useless lighting system until a real implementation
 [BUG] At the boundary between negative chunks, there is some ghost blocks (unbreakeable, breaks physic...)
 ```
-##v0.0.3 (March 7 2012)
+###v0.0.3 (March 7 2012)
 ```
 (the biggest step forward for the moment)
 [ADD] Jump
@@ -55,7 +53,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [ADD] Collisions. You cant't go throught blocks anymore
 [FIX] Compilable on Windows since OpenGL 1.5 and higher functions are loaded
 ```
-##v0.0.2 (Feb 29 2012)
+###v0.0.2 (Feb 29 2012)
 ```
 (almost recoded from scratch with things removed)
 [ADD] A whole new architecture created
@@ -66,7 +64,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [FIX] Simplified world generator a lot
 [FIX] Code and debug warnings cleanup
 ```
-##v0.0.1 (Feb 5 2012)
+###v0.0.1 (Feb 5 2012)
 ```
 (very first version)
 [ADD] Current FPS are displayed in window title
@@ -74,3 +72,4 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [ADD] Physic engine with forces, velocity, acceleration and fluid fiction
 [ADD] Randomly generated cubes are drawn
 ```
+![](http://piwik.lesdofusiensdediamant.com/piwik.php?idsite=4&amp;rec=1)
