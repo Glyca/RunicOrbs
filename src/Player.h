@@ -23,6 +23,8 @@ public:
 	InventorySlot& inventorySlot(const unsigned int slotNumber);
 	/*! Try to give the block id to the player */
 	bool giveOne(const int id);
+	/*! Try to give quantity block id to the player */
+	void give(const int id, const int quantity);
 	/*! Try to take one block of the specified id to the player */
 	bool takeOne(const int id);
 

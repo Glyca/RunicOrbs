@@ -13,12 +13,14 @@ class BlockInfo;
 class BlockDescriptor
 {
 public:
-	BlockDescriptor() : i_id(0), s_name("undefined"), b_breakable(true) {}
-	BlockDescriptor(const int id, const char* name, const bool breakable)
-		: i_id(id), s_name(name), b_breakable(breakable) {}
+	BlockDescriptor(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true, const bool isCube = true)
+		: i_id(id), s_name(name), b_breakable(breakable), b_canPassThrough(canPassThrough), b_isCube(isCube) {}
 
 	inline int id() const {return i_id;}
 	inline const char* name() {return s_name;}
+	inline bool isBreakable() const {return b_breakable;}
+	inline bool canPassThrough() const {return b_canPassThrough;}
+	inline bool isCube() const {return b_isCube;}
 
 	/*! Set the texture coordinates of the block */
 	inline void setTexture(const TexCoords& texture1, const TexCoords& texture2, const TexCoords& texture3, const TexCoords& texture4) {
@@ -34,8 +36,10 @@ private:
 
 	// Properties
 	bool b_breakable;
+	bool b_canPassThrough;
 
 	// Apparence
+	bool b_isCube;
 	TexCoords m_texturePos[4];
 };
 

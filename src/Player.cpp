@@ -45,6 +45,18 @@ bool Player::giveOne(const int id)
 	return false;
 }
 
+void Player::give(const int id, const int quantity)
+{
+	for(int i = 0; i < quantity; ++i) {
+		if(giveOne(id)) {
+			continue;
+		}
+		else {
+			break;
+		}
+	}
+}
+
 bool Player::takeOne(const int id)
 {
 	// If the slot is already of the type id

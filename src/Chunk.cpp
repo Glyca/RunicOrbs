@@ -1,4 +1,5 @@
 #include "Chunk.h"
+#include "blocks/BlockDescriptor.h"
 #include "gui/ChunkDrawer.h"
 
 Chunk::Chunk(QObject *parent, ChunkPostition position) : QObject(parent), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
@@ -31,7 +32,7 @@ int Chunk::altitude(const int x, const int z)
 	int highest = 0;
 	for(int y = 0; y < CHUNK_HEIGHT; y++)
 	{
-		if(!block(x, y, z)->isVoid()) {
+		if(!block(x, y, z)->descriptor().canPassThrough()) {
 			highest = y;
 		}
 		else { // void

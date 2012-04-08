@@ -48,27 +48,27 @@ void ChunkDrawer::generateVBO()
 				if(!block->isVoid()) // Really, we don't draw the air
 				{// Only render visible geometry
 					// Front face
-					if(m_chunkToDraw->block(i, j, k - 1)->isVoid()) {
-						drawFace(CubeFace_Front, block, wi, wj, wk);;
+					if(!m_chunkToDraw->block(i, j, k - 1)->descriptor().isCube() || *block == Blocks::TORCH) {
+						drawFace(CubeFace_Front, block, wi, wj, wk);
 					}
 					// Left face
-					if(m_chunkToDraw->block(i - 1, j, k)->isVoid()) {
+					if(!m_chunkToDraw->block(i - 1, j, k)->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Left, block, wi, wj, wk);
 					}
 					// Bottom face
-					if(j != 0 && m_chunkToDraw->block(i, j - 1, k)->isVoid()) {
+					if(j != 0 && (!m_chunkToDraw->block(i, j - 1, k)->descriptor().isCube() || *block == Blocks::TORCH)) {
 						drawFace(CubeFace_Bottom, block, wi, wj, wk);
 					}
 					// Right face
-					if(m_chunkToDraw->block(i + 1, j, k)->isVoid()) {
+					if(!m_chunkToDraw->block(i + 1, j, k)->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Right, block, wi, wj, wk);
 					}
 					// Top face
-					if(m_chunkToDraw->block(i, j + 1, k)->isVoid()) {
+					if(!m_chunkToDraw->block(i, j + 1, k)->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Top, block, wi, wj, wk);
 					}
 					// Back face
-					if(m_chunkToDraw->block(i, j, k + 1)->isVoid()) {
+					if(!m_chunkToDraw->block(i, j, k + 1)->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Back, block, wi, wj, wk);
 					}
 				}
@@ -150,9 +150,17 @@ void ChunkDrawer::drawFace(const CubeFace face, BlockInfo* block, const int wx, 
 	for(int v = 0; v < VERTEX_PER_FACE; v++)
 	{
 		// Vertex
-		f_array[i_arraySize + 0] = cubeVertexAndNormals[face + v*3 + 0] + wx;
-		f_array[i_arraySize + 1] = cubeVertexAndNormals[face + v*3 + 1] + wy;
-		f_array[i_arraySize + 2] = cubeVertexAndNormals[face + v*3 + 2] + wz;
+		if(*block == Blocks::TORCH) { // Draw a torch
+			f_array[i_arraySize + 0] = cubeVertexAndNormals[face + v*3 + 0]/5.0f + 0.40f + wx;
+			f_array[i_arraySize + 1] = cubeVertexAndNormals[face + v*3 + 1]/1.1f + wy;
+			f_array[i_arraySize + 2] = cubeVertexAndNormals[face + v*3 + 2]/5.0f + 0.40f + wz;
+		}
+		else { // Simply draw a cube
+			f_array[i_arraySize + 0] = cubeVertexAndNormals[face + v*3 + 0] + wx;
+			f_array[i_arraySize + 1] = cubeVertexAndNormals[face + v*3 + 1] + wy;
+			f_array[i_arraySize + 2] = cubeVertexAndNormals[face + v*3 + 2] + wz;
+		}
+
 		i_arraySize += 3;
 
 		// Texture

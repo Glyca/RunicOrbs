@@ -1,4 +1,5 @@
 #include "GameWindow.h"
+#include "blocks/BlockDescriptor.h"
 #include "version.h"
 
 GameWindow::GameWindow(ServerConnector* connector)
@@ -11,16 +12,16 @@ GameWindow::GameWindow(ServerConnector* connector)
 	m_connector->setViewDistance(m_configuration->getViewDistance());
 	m_textureManager.setTextureFiltering((TextureManager::TextureFiltering)m_configuration->getTextureFiltering());
 	setFps(m_configuration->getFps());
+	setAutoFillBackground(false);
+	setWindowTitle("CrafTuX");
+	// Give us 10 torches to survive
+	m_connector->me()->give(Blocks::TORCH.id(), 10);
+	drawInventoryPixmap();
 
 	// Every second, we load and prune the chunks
 	connect(t_secondTimer, SIGNAL(timeout()), m_connector, SLOT(loadAndPruneChunks()));
 	// Be notified when the inventory changes in order to redraw it
 	connect(m_connector, SIGNAL(refreshInventory()), this, SLOT(drawInventoryPixmap()));
-
-	setAutoFillBackground(false);
-	setWindowTitle("CrafTuX");
-	drawInventoryPixmap();
-
 	resume();
 }
 
@@ -344,7 +345,7 @@ void GameWindow::mousePressEvent(QMouseEvent* mouseEvent)
 void GameWindow::wheelEvent(QWheelEvent* wheelEvent)
 {
 	int step = wheelEvent->delta() / 120;
-	m_connector->selectSlot(m_connector->me()->selectedSlot() + step); // The check of the id validity is done in this function, so we don't care of it here
+	m_connector->selectSlot(m_connector->me()->selectedSlot() - step); // The check of the id validity is done in this function, so we don't care of it here
 	wheelEvent->accept();
 	drawInventoryPixmap();
 }

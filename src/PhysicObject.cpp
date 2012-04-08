@@ -1,4 +1,5 @@
 #include "PhysicObject.h"
+#include "blocks/BlockDescriptor.h"
 #include "server/Server.h"
 #include "World.h"
 
@@ -91,7 +92,7 @@ void PhysicObject::destuck()
 
 bool PhysicObject::touchesFloor()
 {
-	return !world()->block((Vector(v_position.x, (v_position.y - 0.04), v_position.z)))->isVoid();
+	return !world()->block((Vector(v_position.x, (v_position.y - 0.04), v_position.z)))->descriptor().canPassThrough();
 }
 
 bool PhysicObject::isStuck()
@@ -104,13 +105,13 @@ void PhysicObject::processCollisions()
 	const preal f_contour = 0.3;
 
 	if(v_totalVelocity.x > 0.0
-			&& ( !world()->block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->isVoid()
-				 || !world()->block((Vector(v_position.x + f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
+			&& ( !world()->block((Vector(v_position.x + f_contour, v_position.y, v_position.z)))->descriptor().canPassThrough()
+				 || !world()->block((Vector(v_position.x + f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->descriptor().canPassThrough() ) ) {
 		v_totalVelocity.x = 0.0;
 	}
 	else if( v_totalVelocity.x < 0.0
-			 && ( !world()->block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->isVoid()
-				  || !world()->block((Vector(v_position.x - f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->isVoid() ) ) {
+			 && ( !world()->block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->descriptor().canPassThrough()
+				  || !world()->block((Vector(v_position.x - f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->descriptor().canPassThrough() ) ) {
 		v_totalVelocity.x = 0.0;
 	}
 
@@ -119,13 +120,13 @@ void PhysicObject::processCollisions()
 	}
 
 	if(v_totalVelocity.z > 0.0
-			&& ( !world()->block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->isVoid()
-				 || !world()->block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z + f_contour)))->isVoid() ) ) {
+			&& ( !world()->block((Vector(v_position.x, v_position.y, v_position.z + f_contour)))->descriptor().canPassThrough()
+				 || !world()->block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z + f_contour)))->descriptor().canPassThrough() ) ) {
 		v_totalVelocity.z = 0.0;
 	}
 	else if(v_totalVelocity.z < 0.0
-			&& ( !world()->block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->isVoid()
-				 || !world()->block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z - f_contour)))->isVoid() ) ) {
+			&& ( !world()->block((Vector(v_position.x, v_position.y, v_position.z - f_contour)))->descriptor().canPassThrough()
+				 || !world()->block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z - f_contour)))->descriptor().canPassThrough() ) ) {
 		v_totalVelocity.z = 0.0;
 	}
 }
