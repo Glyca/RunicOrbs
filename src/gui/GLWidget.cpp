@@ -13,6 +13,10 @@ GLWidget::GLWidget(const int framesPerSecond, QWidget *parent, const char *name,
 	t_secondTimer->setInterval(1000);
 	t_secondTimer->connect(t_secondTimer, SIGNAL(timeout()), this, SLOT(secondTimerTimeout()));
 	t_secondTimer->start();
+
+	// Center the window on the screen
+	QDesktopWidget* desktop = QApplication::desktop();
+	move( (desktop->width() - width()) / 2 , (desktop->height() - height()) / 2 - 50 );
 }
 
 void GLWidget::resizeGL(int width, int height)

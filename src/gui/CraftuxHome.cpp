@@ -18,6 +18,9 @@ CraftuxHome::CraftuxHome(QWidget *parent) :
 	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(openServerInterface()));
 	connect(ui->optionsButton, SIGNAL(clicked()), this, SLOT(openOptions()));
 	connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
+	// Center the window on the screen
+	QDesktopWidget* desktop = QApplication::desktop();
+	move( (desktop->width() - width()) / 2 , (desktop->height() - height()) / 2 - 50 );
 }
 
 CraftuxHome::~CraftuxHome()
