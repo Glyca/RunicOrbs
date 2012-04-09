@@ -3,10 +3,11 @@
 
 #include <QWidget>
 
-#include "ClientConfiguration.h"
 #include "GLWidget.h"
-#include "ServerConnector.h"
 #include "TextureManager.h"
+
+class ClientConfiguration;
+class ServerConnector;
 
 const int INVENTORY_SQUARE_SIZE = 58; //!< The size of an item slot of the inventory
 

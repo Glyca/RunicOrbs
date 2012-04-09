@@ -2,7 +2,8 @@
 #define CRAFTUXHOME_H
 
 #include <QWidget>
-#include "OptionsDialog.h"
+
+class OptionsDialog;
 
 namespace Ui {
 	class CraftuxHome;

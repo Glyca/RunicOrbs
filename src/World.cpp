@@ -1,4 +1,7 @@
 #include "World.h"
+#include "PhysicObject.h"
+#include "PhysicEngine.h"
+
 #include <QDebug>
 
 World::World(Server* server, const int seed, QObject *parent) : QObject(parent), m_server(server), m_chunkGenerator(ChunkGenerator(seed)), i_seed(seed)

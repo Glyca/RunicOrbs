@@ -1,5 +1,8 @@
 #include "GameWindow.h"
 #include "blocks/BlockDescriptor.h"
+#include "ClientConfiguration.h"
+#include "PhysicEngine.h"
+#include "ServerConnector.h"
 #include "version.h"
 
 GameWindow::GameWindow(ServerConnector* connector)

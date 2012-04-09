@@ -1,8 +1,10 @@
 #ifndef CHUNKDRAWER_H
 #define CHUNKDRAWER_H
 
-#include "Chunk.h"
 #include "OpenGL.h"
+
+class BlockInfo;
+class Chunk;
 
 class ChunkDrawer
 {

@@ -1,8 +1,9 @@
 #ifndef CHUNKGENERATOR_H
 #define CHUNKGENERATOR_H
 
-#include "Chunk.h"
 #include <QThread>
+
+class Chunk;
 
 class ChunkGenerator : public QThread
 {

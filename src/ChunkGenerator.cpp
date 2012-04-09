@@ -1,6 +1,7 @@
 #include "ChunkGenerator.h"
-#include "Vector.h" // ifloor
+#include "Chunk.h"
 #include "FastMath.h"
+#include "Vector.h" // ifloor
 
 // adapted from : http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
 

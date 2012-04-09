@@ -1,15 +1,11 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include <QtGlobal>
 #include <QObject>
 #include <QList>
-#include <QMutex>
 #include <QPair>
-#include <QDebug>
-#include <cmath>
 
-#include "blocks/BlockInfo.h"
+class BlockInfo;
 class ChunkDrawer;
 
 const int CHUNK_X_SIZE = 24;

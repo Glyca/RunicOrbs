@@ -4,14 +4,15 @@
 #include <QObject>
 #include <QHash>
 
-#include "blocks/BlockInfo.h"
 #include "Chunk.h"
 #include "ChunkGenerator.h"
-#include "Entity.h"
-#include "PhysicEngine.h"
-#include "Vector.h"
 
+class BlockInfo;
+class BlockPosition;
+class PhysicEngine;
+class PhysicObject;
 class Server; // avoid circular inclusions
+class Vector;
 
 class World : public QObject
 {

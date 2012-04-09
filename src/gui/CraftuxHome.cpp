@@ -5,6 +5,7 @@
 #include "ConnectDialog.h"
 #include "GameWindow.h"
 #include "LocalServerConnector.h"
+#include "OptionsDialog.h"
 #include "ServerConnector.h"
 #include "ServerWidget.h"
 #include "ui_CraftuxHome.h"
