@@ -24,22 +24,22 @@ void ServerConnector::takeEvent(const ClientEvent* event)
 
 void ServerConnector::loadAndPruneChunks()
 {
-	ChunkPostition currentPosition = world().chunk(me()->v_position)->position();
-	QList<ChunkPostition> wantedChunks; // The chunks we still want to be active
+	ChunkPosition currentPosition = world().chunkPosition(me()->v_position.x, me()->v_position.z);
+	QList<ChunkPosition> wantedChunks; // The chunks we still want to be active
 
 	// Create a list of the wanted chunks
 	for(int x = - i_viewDistance; x < i_viewDistance+1; ++x)
 	{
 		for(int z = - i_viewDistance; z < i_viewDistance+1; ++z)
 		{
-			ChunkPostition position = ChunkPostition(currentPosition.first + x, currentPosition.second + z);
+			ChunkPosition position = ChunkPosition(currentPosition.first + x, currentPosition.second + z);
 			wantedChunks.push_back(position);
 		}
 	}
 
 	// Let's see if we have to prune unwanted ones...
 	for (int i = 0; i < m_loadedChunks.size(); ++i) {
-		ChunkPostition processingChunk = m_loadedChunks.at(i);
+		ChunkPosition processingChunk = m_loadedChunks.at(i);
 
 		// If the chunk is wanted
 		if(wantedChunks.contains(processingChunk)) {
@@ -57,7 +57,7 @@ void ServerConnector::loadAndPruneChunks()
 
 	// Now we load the chunks that were not in the loaded chunks
 	for (int i = 0; i < wantedChunks.size(); ++i) {
-		ChunkPostition processingChunk = wantedChunks.at(i);
+		ChunkPosition processingChunk = wantedChunks.at(i);
 		ChunkConnectEvent* event = new ChunkConnectEvent(processingChunk, ChunkConnectEvent::ChunkConnection_Connect);
 		emit postEvent(event);
 		m_loadedChunks.push_back(processingChunk);

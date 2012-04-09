@@ -4,12 +4,12 @@
 World::World(Server* server, const int seed, QObject *parent) : QObject(parent), m_server(server), m_chunkGenerator(ChunkGenerator(seed)), i_seed(seed)
 {
 	m_physicEngine = new PhysicEngine(this, this);
-	m_chunks = new QHash<ChunkPostition, Chunk*>();
+	m_chunks = new QHash<ChunkPosition, Chunk*>();
 }
 
 World::~World()
 {
-	QHashIterator<ChunkPostition, Chunk*> it(*m_chunks);
+	QHashIterator<ChunkPosition, Chunk*> it(*m_chunks);
 	while (it.hasNext()) {
 		it.next();
 		delete it.value(); // Delete each chunks of the world
@@ -23,19 +23,30 @@ const PhysicObject* World::po(const int id) const
 	return m_physicEngine->po(id);
 }
 
-Chunk* World::chunk(const ChunkPostition& position)
+Chunk* World::chunk(const ChunkPosition& position)
 {
-	if(m_chunks->contains(position)) // If the chunk is already loaded
+	if(isChunkLoaded(position)) // If the chunk is already loaded
 	{
 		return m_chunks->value(position);
 	}
 	else // otherwise, we load it
 	{
-		return loadChunk(position);
+		static Chunk voidChunk(this, ChunkPosition(999999,999999));
+		return &voidChunk;
 	}
 }
 
-Chunk* World::chunk(const int x, const int z)
+Chunk* World::chunk(const BlockPosition& position)
+{
+	return chunk(chunkPosition(position.x, position.z));
+}
+
+Chunk* World::chunk(const Vector& position)
+{
+	return chunk(chunkPosition(position.x, position.z));
+}
+
+ChunkPosition World::chunkPosition(const int x, const int z)
 {
 	int cx, cz;
 	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
@@ -52,24 +63,24 @@ Chunk* World::chunk(const int x, const int z)
 	else {
 		cz = z / CHUNK_Z_SIZE;
 	}
-	return chunk(ChunkPostition(cx, cz));
+	return ChunkPosition(cx, cz);
 }
 
-Chunk* World::chunk(const BlockPosition& position)
+ChunkPosition World::chunkPosition(const BlockPosition& position)
 {
-	return chunk(position.x, position.z);
+	return chunkPosition(position.x, position.z);
 }
 
-Chunk* World::chunk(const Vector& position)
+bool World::isChunkLoaded(const ChunkPosition& position)
 {
-	return chunk(position.x, position.z);
+	return m_chunks->contains(position);
 }
 
-Chunk* World::loadChunk(const ChunkPostition& position)
+void World::loadChunk(const ChunkPosition& position)
 {
-	if(m_chunks->contains(position)) // safety : If the chunk is already loaded
+	if(isChunkLoaded(position)) // safety : If the chunk is already loaded
 	{
-		return m_chunks->value(position);
+		return;
 	}
 	else // otherwise, we generate a new fresh one
 	{
@@ -77,7 +88,7 @@ Chunk* World::loadChunk(const ChunkPostition& position)
 		m_chunkGenerator.setChunkToGenerate(newChunk);
 		m_chunkGenerator.run();
 		m_chunks->insert(position, newChunk);
-		return newChunk;
+		newChunk->activate();
 	}
 }
 
@@ -86,7 +97,7 @@ void World::unloadChunk(Chunk* chunk)
 	unloadChunk(m_chunks->key(chunk));
 }
 
-void World::unloadChunk(const ChunkPostition& position)
+void World::unloadChunk(const ChunkPosition& position)
 {
 	delete m_chunks->value(position);
 	m_chunks->remove(position);
@@ -111,8 +122,13 @@ BlockInfo* World::block(const BlockPosition& bp)
 	else {
 		chunkBlockZ = bp.z % CHUNK_Z_SIZE;
 	}
-
-	return chunk(bp)->block(chunkBlockX, bp.y, chunkBlockZ);
+	ChunkPosition chunkPos = chunkPosition(bp);
+	if(isChunkLoaded(chunkPos)) {
+		return chunk(chunkPos)->block(chunkBlockX, bp.y, chunkBlockZ);
+	}
+	else {
+		return BlockInfo::voidBlock();
+	}
 }
 
 BlockInfo* World::block(const Vector& position)
@@ -141,7 +157,7 @@ int World::altitude(const int x, const int z)
 		chunkBlockZ = z % CHUNK_Z_SIZE;
 	}
 
-	return chunk(x, z)->altitude(chunkBlockX, chunkBlockZ);
+	return chunk(chunkPosition(x, z))->altitude(chunkBlockX, chunkBlockZ);
 }
 
 BlockPosition World::highestBlock(const Vector& position)
@@ -153,8 +169,8 @@ BlockPosition World::highestBlock(const Vector& position)
 
 void World::render3D()
 {
-	QHash<ChunkPostition, Chunk*>::const_iterator it = m_chunks->constBegin();
-	QHash<ChunkPostition, Chunk*>::const_iterator endit = m_chunks->constEnd();
+	QHash<ChunkPosition, Chunk*>::const_iterator it = m_chunks->constBegin();
+	QHash<ChunkPosition, Chunk*>::const_iterator endit = m_chunks->constEnd();
 	while (it != endit) {
 		it.value()->render3D();
 		++it;

@@ -1,7 +1,7 @@
 #include "ChunkConnectEvent.h"
 #include "server/Server.h"
 
-ChunkConnectEvent::ChunkConnectEvent(const ChunkPostition& position, ChunkConnection connectionType) : ChunkEvent(position), m_connectionType(connectionType)
+ChunkConnectEvent::ChunkConnectEvent(const ChunkPosition& position, ChunkConnection connectionType) : ChunkEvent(position), m_connectionType(connectionType)
 {
 }
 
@@ -9,7 +9,7 @@ ChunkConnectEvent::ChunkConnectEvent(const ChunkPostition& position, ChunkConnec
 void ChunkConnectEvent::perform(Server& server) const
 {
 	if(m_connectionType == ChunkConnection_Connect) {
-		server.world().chunk(m_chunkPosition)->activate();
+		server.world().loadChunk(m_chunkPosition);
 	}
 	else if(m_connectionType == ChunkConnection_Disconnect) {
 		server.world().chunk(m_chunkPosition)->idle();

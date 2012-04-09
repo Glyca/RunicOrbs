@@ -17,13 +17,13 @@ const int CHUNK_Y_SIZE = 256;
 const int CHUNK_Z_SIZE = 24;
 const int CHUNK_HEIGHT = CHUNK_Y_SIZE;
 
-typedef QPair<int, int> ChunkPostition;
+typedef QPair<int, int> ChunkPosition;
 
 /*! A chunk of a World containing all BlockInfo */
 class Chunk : public QObject
 {
 public:
-	explicit Chunk(QObject *parent, ChunkPostition position);
+	explicit Chunk(QObject *parent, ChunkPosition position);
 	~Chunk();
 
 	enum ChunkState {
@@ -35,7 +35,7 @@ public:
 	void activate(); //!< Activate the chunk (it will be drawed)
 	void idle(); //!< Make the Chunk enter in an idle state (it will not be drawed)
 
-	inline ChunkPostition position() const {return m_position;}
+	inline ChunkPosition position() const {return m_position;}
 	int altitude(const int x, const int z);
 
 	/*! Access a block from a chunk
@@ -59,7 +59,7 @@ public slots:
 private:
 	ChunkState m_state;
 	bool b_dirty; //!< If we need to redraw the chunk
-	ChunkPostition m_position; //!< The postion of the chunk in chunk unit.
+	ChunkPosition m_position; //!< The postion of the chunk in chunk unit.
 	BlockInfo* p_BlockInfos; //!< A big array of all BlockInfo of the Chunk
 	ChunkDrawer* m_chunkDrawer;
 };

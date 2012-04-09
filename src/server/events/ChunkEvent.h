@@ -8,10 +8,10 @@
 class ChunkEvent : public ServerEvent
 {
 public:
-	ChunkEvent(const ChunkPostition& position);
+	ChunkEvent(const ChunkPosition& position);
 
 protected:
-	ChunkPostition m_chunkPosition;
+	ChunkPosition m_chunkPosition;
 };
 
 #endif // CHUNKEVENT_H

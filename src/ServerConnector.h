@@ -45,7 +45,7 @@ public slots:
 
 protected:
 	Me* m_me;
-	QList<ChunkPostition> m_loadedChunks; //!< The chunks we loaded
+	QList<ChunkPosition> m_loadedChunks; //!< The chunks we loaded
 	int i_viewDistance;
 };
 

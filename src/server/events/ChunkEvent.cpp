@@ -1,5 +1,5 @@
 #include "ChunkEvent.h"
 
-ChunkEvent::ChunkEvent(const ChunkPostition& position) : m_chunkPosition(position)
+ChunkEvent::ChunkEvent(const ChunkPosition& position) : m_chunkPosition(position)
 {
 }

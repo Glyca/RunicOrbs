@@ -2,7 +2,7 @@
 #include "blocks/BlockDescriptor.h"
 #include "gui/ChunkDrawer.h"
 
-Chunk::Chunk(QObject *parent, ChunkPostition position) : QObject(parent), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
+Chunk::Chunk(QObject *parent, ChunkPosition position) : QObject(parent), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
 {
 	int size = CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE;
 	p_BlockInfos = new BlockInfo[size];

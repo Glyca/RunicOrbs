@@ -26,20 +26,26 @@ public:
 	/*! Return a reference to an entity */
 	const PhysicObject* po(const int id) const;
 
-	/*! Access to a chunk of the world from world relative coordinates */
-	Chunk* chunk(const int x, const int z);
 	/*! Access to a chunk of the world from a chunk position */
-	Chunk* chunk(const ChunkPostition& position);
+	Chunk* chunk(const ChunkPosition& position);
 	/*! Access to a chunk of the world from a block position */
 	Chunk* chunk(const BlockPosition& position);
 	/*! Access to a chunk of the world from a vector position */
 	Chunk* chunk(const Vector& position);
 
+	/*! Access to a ChunkPosition of the world from world relative coordinates */
+	ChunkPosition chunkPosition(const int x, const int z);
+	/*! Access to a ChunkPosition of the world from a block position */
+	ChunkPosition chunkPosition(const BlockPosition& position);
+
+	/*! Return true if the Chunk is loaded, false otherwise */
+	bool isChunkLoaded(const ChunkPosition& position);
+
 	/*! Load a chunk in the workd into RAM */
-	Chunk* loadChunk(const ChunkPostition& position);
+	void loadChunk(const ChunkPosition& position);
 	/*! Free the chunk from the RAM, it will not be rendered anymore */
 	void unloadChunk(Chunk* chunk);
-	void unloadChunk(const ChunkPostition& position);
+	void unloadChunk(const ChunkPosition& position);
 
 	BlockInfo* block(const BlockPosition& position);
 	BlockInfo* block(const Vector& position);
@@ -56,7 +62,7 @@ public slots:
 
 private:
 	Server* m_server; //!< The server where the world runs
-	QHash<ChunkPostition, Chunk*> * m_chunks;
+	QHash<ChunkPosition, Chunk*> * m_chunks;
 	PhysicEngine* m_physicEngine;
 	ChunkGenerator m_chunkGenerator;
 	int i_time;

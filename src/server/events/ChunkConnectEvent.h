@@ -14,7 +14,7 @@ public:
 		ChunkConnection_Disconnect
 	};
 
-	ChunkConnectEvent(const ChunkPostition& position, ChunkConnection connectionType);
+	ChunkConnectEvent(const ChunkPosition& position, ChunkConnection connectionType);
 
 	inline virtual int id() {return EVENTID_CHUNKCONNECT;}
 
