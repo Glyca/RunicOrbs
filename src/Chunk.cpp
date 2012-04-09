@@ -19,6 +19,7 @@ void Chunk::activate()
 	m_chunkDrawer = new ChunkDrawer(this);
 	b_dirty = true; // we must redraw the chunk
 	m_state = ChunkState_Active;
+
 }
 
 void Chunk::idle()
@@ -56,6 +57,11 @@ BlockInfo* Chunk::block(const int x, const int y, const int z)
 	}
 }
 
+World* Chunk::world()
+{
+	return reinterpret_cast<World*>(parent());
+}
+
 void Chunk::mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const
 {
 	worldX = m_position.first * CHUNK_X_SIZE + chunkX;
@@ -70,7 +76,6 @@ void Chunk::render3D()
 			m_chunkDrawer->generateVBO();
 			b_dirty = false;
 		}
-
 		m_chunkDrawer->render(); // Incredibly fast !
 	}
 }

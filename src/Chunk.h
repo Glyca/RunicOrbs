@@ -7,6 +7,7 @@
 
 class BlockInfo;
 class ChunkDrawer;
+class World;
 
 const int CHUNK_X_SIZE = 24;
 const int CHUNK_Y_SIZE = 256;
@@ -38,6 +39,9 @@ public:
   \warning The coordinates to pass are relative to the chunk, and thus must be inside!
  */
 	BlockInfo* block(const int x, const int y, const int z);
+
+	/*! Give the world the chunk belongs to */
+	World* world();
 
 	/*! Convert coordinates relatives to the chunk into world coordinates */
 	void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const;

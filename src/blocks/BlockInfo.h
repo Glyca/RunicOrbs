@@ -23,11 +23,15 @@ public:
 
 	inline bool isVoid() { return (id() == 0); }
 
+	inline int lightLevel() const {return i_lightLevel;}
+
 	inline BlockDescriptor& descriptor() { return Blocks::byId(id()); }
 
 private:
 	unsigned int	i_value		: 12; // 4096 blocks possible.
+	unsigned int	i_lightLevel: 4;
 	bool			b_powered	: 1; //!< Whether the block is under electrically powered or not
+	int				i_unused	: 15;
 };
 
 inline bool operator==(const BlockInfo& block1, const BlockInfo& block2)

@@ -2,6 +2,7 @@
 #include "blocks/Blocks.h"
 #include "blocks/BlockDescriptor.h"
 #include "Chunk.h"
+#include "World.h"
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
 #define BUFFER_OFFSET_FLOAT(a) (BUFFER_OFFSET(a * sizeof(GLfloat)))
@@ -29,7 +30,7 @@ void ChunkDrawer::generateVBO()
 {
 	// Firstly we create a table with the max size (ie. all blacks may be drawn, so we allocate space for all)
 	// Each vertex has 3 vectors for position, 3 for normal and 3 for color. And each face has 4 vertex. And each cube has 6 faces.
-	f_array = new GLfloat[VECTOR_SIZE * VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
+	f_array = new GLfloat[8 * VERTEX_PER_FACE * CUBE_FACES * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
 	i_arraySize = 0; // and we say there is 0 bytes inside for now
 
 	i_indiceArray = new GLuint[VECTOR_PER_VERTEX * VERTEX_PER_FACE * CUBE_FACES * CHUNK_X_SIZE * CHUNK_Y_SIZE * CHUNK_Z_SIZE];
@@ -49,27 +50,27 @@ void ChunkDrawer::generateVBO()
 				if(!block->isVoid()) // Really, we don't draw the air
 				{// Only render visible geometry
 					// Front face
-					if(!m_chunkToDraw->block(i, j, k - 1)->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world()->block(BlockPosition(i, j, k - 1))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Front, block, wi, wj, wk);
 					}
 					// Left face
-					if(!m_chunkToDraw->block(i - 1, j, k)->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world()->block(BlockPosition(i - 1, j, k))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Left, block, wi, wj, wk);
 					}
 					// Bottom face
-					if(j != 0 && (!m_chunkToDraw->block(i, j - 1, k)->descriptor().isCube() || *block == Blocks::TORCH)) {
+					if(j != 0 && (!m_chunkToDraw->world()->block(BlockPosition(i, j - 1, k))->descriptor().isCube() || *block == Blocks::TORCH)) {
 						drawFace(CubeFace_Bottom, block, wi, wj, wk);
 					}
 					// Right face
-					if(!m_chunkToDraw->block(i + 1, j, k)->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world()->block(BlockPosition(i + 1, j, k))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Right, block, wi, wj, wk);
 					}
 					// Top face
-					if(!m_chunkToDraw->block(i, j + 1, k)->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world()->block(BlockPosition(i, j + 1, k))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Top, block, wi, wj, wk);
 					}
 					// Back face
-					if(!m_chunkToDraw->block(i, j, k + 1)->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world()->block(BlockPosition(i, j, k + 1))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Back, block, wi, wj, wk);
 					}
 				}
@@ -96,16 +97,23 @@ void ChunkDrawer::render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_bufferIndices);
 	glVertexPointer(3, // Coordinates per vertex
 					GL_FLOAT, // Data type
-					5*sizeof(GLfloat), // Offset between each vertice
+					8*sizeof(GLfloat), // Offset between each vertice
 					BUFFER_OFFSET_FLOAT(0)); // where is the first vertice
+
+
+	glColorPointer(3, // Coordinates per color
+				   GL_FLOAT, // Data type
+				   8*sizeof(GLfloat), // Offset between each color
+				   BUFFER_OFFSET_FLOAT(3)); // where is the first color
 
 	glTexCoordPointer(2, // Coordinates per texture coordinate
 					  GL_FLOAT, // Data type
-					  5*sizeof(GLfloat), // Offset between each texture coordinate
-					  BUFFER_OFFSET_FLOAT(3)); // where is the first texture coordinate
+					  8*sizeof(GLfloat), // Offset between each texture coordinate
+					  BUFFER_OFFSET_FLOAT(6)); // where is the first texture coordinate
 
 	// Activation d'utilisation des tableaux
 	glEnableClientState( GL_VERTEX_ARRAY );
+	glEnableClientState( GL_COLOR_ARRAY );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
 
 	// Rendu de notre géométrie
@@ -113,6 +121,7 @@ void ChunkDrawer::render()
 
 	// Désactivation des tableaux
 	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+	glDisableClientState( GL_COLOR_ARRAY );
 	glDisableClientState( GL_VERTEX_ARRAY );
 
 	// Safely disbale buffers (for other compenents of the program)
@@ -161,7 +170,33 @@ void ChunkDrawer::drawFace(const CubeFace face, BlockInfo* block, const int wx, 
 			f_array[i_arraySize + 1] = cubeVertexAndNormals[face + v*3 + 1] + wy;
 			f_array[i_arraySize + 2] = cubeVertexAndNormals[face + v*3 + 2] + wz;
 		}
+		i_arraySize += 3;
 
+		// Color (full white until lighting)
+		f_array[i_arraySize + 0] = 1.0f; // R
+		f_array[i_arraySize + 1] = 1.0f; // V
+		f_array[i_arraySize + 2] = 1.0f; // B
+		int lightLevel = 0;
+		switch(face) {
+		case CubeFace_Front:
+
+			break;
+		case CubeFace_Left:
+
+			break;
+		case CubeFace_Bottom:
+
+			break;
+		case CubeFace_Right:
+
+			break;
+		case CubeFace_Top:
+
+			break;
+		case CubeFace_Back:
+
+			break;
+		}
 		i_arraySize += 3;
 
 		// Texture
