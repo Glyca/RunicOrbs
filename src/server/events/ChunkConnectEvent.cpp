@@ -10,6 +10,7 @@ void ChunkConnectEvent::perform(Server& server) const
 {
 	if(m_connectionType == ChunkConnection_Connect) {
 		server.world().loadChunk(m_chunkPosition);
+		server.world().chunk(m_chunkPosition)->activate();
 	}
 	else if(m_connectionType == ChunkConnection_Disconnect) {
 		server.world().chunk(m_chunkPosition)->idle();

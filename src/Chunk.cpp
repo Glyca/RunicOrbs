@@ -10,22 +10,26 @@ Chunk::Chunk(QObject *parent, ChunkPosition position) : QObject(parent), m_state
 
 Chunk::~Chunk()
 {
-	delete m_chunkDrawer;
+	idle();
 	delete[] p_BlockInfos;
 }
 
 void Chunk::activate()
 {
-	m_chunkDrawer = new ChunkDrawer(this);
-	b_dirty = true; // we must redraw the chunk
-	m_state = ChunkState_Active;
+	if(m_state != ChunkState_Active) {
+		m_chunkDrawer = new ChunkDrawer(this);
+		b_dirty = true; // we must redraw the chunk
+		m_state = ChunkState_Active;
+	}
 
 }
 
 void Chunk::idle()
 {
-	delete m_chunkDrawer;
-	m_state = ChunkState_Idle;
+	if(m_state != ChunkState_Idle) {
+		delete m_chunkDrawer;
+		m_state = ChunkState_Idle;
+	}
 }
 
 int Chunk::altitude(const int x, const int z)
