@@ -2,7 +2,6 @@
 #define BLOCKINFO_H
 
 #include <QString>
-#include <QVariant>
 
 #include "Blocks.h"
 
@@ -48,8 +47,8 @@ inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 class BlockPosition {
 public:
 	BlockPosition(int i = 0, int j = 0, int k = 0) : x(i), y(j), z(k) {}
-	inline operator QString() {
-		return QString("(" + QVariant(x).toString() + "; " + QVariant(y).toString() + "; " + QVariant(z).toString() + ")");
+	inline operator QString() const {
+		return QString("(" + QString::number(x) + "; " + QString::number(y) + "; " + QString::number(z) + ")");
 	}
 	int x, y, z;
 };

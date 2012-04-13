@@ -52,6 +52,7 @@ int Chunk::altitude(const int x, const int z)
 BlockInfo* Chunk::block(const int x, const int y, const int z)
 {
 	if(x < 0 || y < 0 || z < 0 || x >= CHUNK_X_SIZE || y >= CHUNK_Y_SIZE || z >= CHUNK_Z_SIZE) {
+		qDebug("void");
 		return BlockInfo::voidBlock();
 	}
 	else {

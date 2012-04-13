@@ -108,24 +108,23 @@ void World::unloadChunk(const ChunkPosition& position)
 
 BlockInfo* World::block(const BlockPosition& bp)
 {
+	ChunkPosition chunkPos = chunkPosition(bp);
 	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk
 
 	if(bp.x < 0) {
-		int chunkPosX = bp.x / CHUNK_X_SIZE - 1;
-		chunkBlockX = bp.x - chunkPosX * CHUNK_X_SIZE;
+		chunkBlockX = bp.x - chunkPos.first * CHUNK_X_SIZE;
 	}
 	else { // in positives we can use modulo
 		chunkBlockX = bp.x % CHUNK_X_SIZE;
 	}
 
 	if(bp.z < 0) {
-		int chunkPosZ = bp.z / CHUNK_Z_SIZE - 1;
-		chunkBlockZ = bp.z - chunkPosZ * CHUNK_Z_SIZE;
+		chunkBlockZ = bp.z - chunkPos.second * CHUNK_Z_SIZE;
 	}
 	else {
 		chunkBlockZ = bp.z % CHUNK_Z_SIZE;
 	}
-	ChunkPosition chunkPos = chunkPosition(bp);
+
 	if(isChunkLoaded(chunkPos)) {
 		return chunk(chunkPos)->block(chunkBlockX, bp.y, chunkBlockZ);
 	}
@@ -142,25 +141,24 @@ BlockInfo* World::block(const Vector& position)
 
 int World::altitude(const int x, const int z)
 {
+	ChunkPosition chunkPos = chunkPosition(x, z);
 	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk
 
 	if(x < 0) {
-		int chunkPosX = x / CHUNK_X_SIZE - 1;
-		chunkBlockX = x - chunkPosX * CHUNK_X_SIZE;
+		chunkBlockX = x - chunkPos.first * CHUNK_X_SIZE;
 	}
 	else { // in positives we can use modulo
 		chunkBlockX = x % CHUNK_X_SIZE;
 	}
 
 	if(z < 0) {
-		int chunkPosZ = z / CHUNK_Z_SIZE - 1;
-		chunkBlockZ = z - chunkPosZ * CHUNK_Z_SIZE;
+		chunkBlockZ = z - chunkPos.second * CHUNK_Z_SIZE;
 	}
 	else {
+
 		chunkBlockZ = z % CHUNK_Z_SIZE;
 	}
-
-	return chunk(chunkPosition(x, z))->altitude(chunkBlockX, chunkBlockZ);
+	return chunk(chunkPos)->altitude(chunkBlockX, chunkBlockZ);
 }
 
 BlockPosition World::highestBlock(const Vector& position)

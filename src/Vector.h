@@ -5,7 +5,6 @@
 #include "blocks/BlockInfo.h" // BlockPosition
 
 #include <QString>
-#include <QVariant>
 
 #include <cmath> // sqrt
 
@@ -96,17 +95,9 @@ public:
 
 	// Useful
 
-	inline operator QString()
+	inline operator QString() const
 	{
-		return QString("(" + QVariant(x).toString() + "; " + QVariant(y).toString() + "; " + QVariant(z).toString() + ")");
-	}
-
-	/*! Give the position of the block where vector is */
-	inline void toBlock(int& bx, int& by, int& bz) const
-	{
-		bx = ifloor(x);
-		by = ifloor(y);
-		bz = ifloor(z);
+		return QString("(" + QString::number(x) + "; " + QString::number(y) + "; " + QString::number(z) + ")");
 	}
 
 	/*! Give the position of the block where vector is */
