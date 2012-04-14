@@ -1,5 +1,6 @@
 ﻿#include <cstdio>
 #include <cstdlib>
+#include <ctime>
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTextCodec>
@@ -28,6 +29,9 @@ void craftuxMessageOutput(QtMsgType type, const char* msg)
 
 int main(int argc, char *argv[])
 {
+	// initialize random seed
+	srand(time(NULL));
+
 	// On prend nos précautions pour les traductions
 	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));

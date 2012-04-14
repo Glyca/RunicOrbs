@@ -17,8 +17,6 @@ PhysicObject::PhysicObject(World* world, int id, preal mass) : m_world(world), f
 	if(f_mass == 0.0f) {
 		f_mass = f_defaultMass;
 	}
-
-	v_position.y = 250;
 }
 
 PhysicObject::~PhysicObject()

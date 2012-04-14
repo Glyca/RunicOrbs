@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "Me.h"
 #include "World.h"
 
@@ -11,6 +12,13 @@ Me::Me(World* world) : Player(1) // For the moment we take the id 1 for all Me, 
 {
 	setMass(70.0f); // 70kg is good
 	m_world = world;
+
+	int spawnX = rand() % (5 * CHUNK_X_SIZE) + 1;
+	int spawnZ = rand() % (5 * CHUNK_Z_SIZE) + 1;
+
+	int altitude = m_world->altitude(spawnX, spawnZ);
+	v_position = Vector(spawnX, altitude + 20, spawnZ);
+
 	qDebug("Me created");
 }
 
