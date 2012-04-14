@@ -44,11 +44,6 @@ Chunk* World::chunk(const BlockPosition& position)
 	return chunk(chunkPosition(position.x, position.z));
 }
 
-Chunk* World::chunk(const Vector& position)
-{
-	return chunk(chunkPosition(position.x, position.z));
-}
-
 ChunkPosition World::chunkPosition(const int x, const int z)
 {
 	int cx, cz;
@@ -110,7 +105,6 @@ BlockInfo* World::block(const BlockPosition& bp)
 {
 	ChunkPosition chunkPos = chunkPosition(bp);
 	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk
-
 	if(bp.x < 0) {
 		chunkBlockX = bp.x - chunkPos.first * CHUNK_X_SIZE;
 	}

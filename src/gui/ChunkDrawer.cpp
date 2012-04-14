@@ -50,27 +50,27 @@ void ChunkDrawer::generateVBO()
 				if(!block->isVoid()) // Really, we don't draw the air
 				{// Only render visible geometry
 					// Front face
-					if(!m_chunkToDraw->world()->block(BlockPosition(i, j, k - 1))->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world().block(BlockPosition(wi, wj, wk - 1))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Front, block, wi, wj, wk);
 					}
 					// Left face
-					if(!m_chunkToDraw->world()->block(BlockPosition(i - 1, j, k))->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world().block(BlockPosition(wi - 1, wj, wk))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Left, block, wi, wj, wk);
 					}
 					// Bottom face
-					if(j != 0 && (!m_chunkToDraw->world()->block(BlockPosition(i, j - 1, k))->descriptor().isCube() || *block == Blocks::TORCH)) {
+					if(j != 0 && (!m_chunkToDraw->world().block(BlockPosition(wi, wj - 1, wk))->descriptor().isCube() || *block == Blocks::TORCH)) {
 						drawFace(CubeFace_Bottom, block, wi, wj, wk);
 					}
 					// Right face
-					if(!m_chunkToDraw->world()->block(BlockPosition(i + 1, j, k))->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world().block(BlockPosition(wi + 1, wj, wk))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Right, block, wi, wj, wk);
 					}
 					// Top face
-					if(!m_chunkToDraw->world()->block(BlockPosition(i, j + 1, k))->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world().block(BlockPosition(wi, wj + 1, wk))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Top, block, wi, wj, wk);
 					}
 					// Back face
-					if(!m_chunkToDraw->world()->block(BlockPosition(i, j, k + 1))->descriptor().isCube() || *block == Blocks::TORCH) {
+					if(!m_chunkToDraw->world().block(BlockPosition(wi, wj, wk + 1))->descriptor().isCube() || *block == Blocks::TORCH) {
 						drawFace(CubeFace_Back, block, wi, wj, wk);
 					}
 				}

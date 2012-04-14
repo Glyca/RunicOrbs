@@ -1,13 +1,8 @@
 #ifndef BLOCKDESCRIPTOR_H
 #define BLOCKDESCRIPTOR_H
 
-#include <QColor>
-#include <QString>
-
-#include "Vector.h"
+#include "BlockInfo.h"
 #include "gui/TextureManager.h" // TextureCoordinates
-
-class BlockInfo;
 
 /*! Holds informations about a type of block such as texture, resistance, name... */
 class BlockDescriptor

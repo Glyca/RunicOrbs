@@ -31,8 +31,6 @@ public:
 	Chunk* chunk(const ChunkPosition& position);
 	/*! Access to a chunk of the world from a block position */
 	Chunk* chunk(const BlockPosition& position);
-	/*! Access to a chunk of the world from a vector position */
-	Chunk* chunk(const Vector& position);
 
 	/*! Access to a ChunkPosition of the world from world relative coordinates */
 	ChunkPosition chunkPosition(const int x, const int z);

@@ -1,7 +1,7 @@
 #include "BlockInfo.h"
 
 BlockInfo* BlockInfo::voidBlock() {
-	BlockInfo* voidBlock = new BlockInfo(0);
-	return voidBlock;
+	static BlockInfo voidBlock(0);
+	return &voidBlock;
 }
 

@@ -41,13 +41,15 @@ public:
 	BlockInfo* block(const int x, const int y, const int z);
 
 	/*! Give the world the chunk belongs to */
-	World* world();
+	inline World& world() const {return *reinterpret_cast<World*>(parent());}
 
 	/*! Convert coordinates relatives to the chunk into world coordinates */
 	void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const;
 
 	/*! This will force the chunk to be redrawed */
 	inline void makeDirty() {b_dirty = true;}
+
+	void makeSurroundingChunksDirty() const;
 
 	//! Render all blocks of the chunk
 	void render3D();
