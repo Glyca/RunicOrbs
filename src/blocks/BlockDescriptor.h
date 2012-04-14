@@ -4,18 +4,21 @@
 #include "BlockInfo.h"
 #include "gui/TextureManager.h" // TextureCoordinates
 
+class OpenGLBuffer;
+class World;
+
 /*! Holds informations about a type of block such as texture, resistance, name... */
 class BlockDescriptor
 {
 public:
-	BlockDescriptor(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true, const bool isCube = true)
-		: i_id(id), s_name(name), b_breakable(breakable), b_canPassThrough(canPassThrough), b_isCube(isCube) {}
+	BlockDescriptor(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true)
+		: i_id(id), s_name(name), b_breakable(breakable), b_canPassThrough(canPassThrough) {}
 
 	inline int id() const {return i_id;}
-	inline const char* name() {return s_name;}
+	inline const char* name() const {return s_name;}
 	inline bool isBreakable() const {return b_breakable;}
 	inline bool canPassThrough() const {return b_canPassThrough;}
-	inline bool isCube() const {return b_isCube;}
+	inline virtual bool isCube() const {return false;} //!< Whether the block is a cube or not
 
 	/*! Set the texture coordinates of the block */
 	inline void setTexture(const TexCoords& texture1, const TexCoords& texture2, const TexCoords& texture3, const TexCoords& texture4) {
@@ -24,7 +27,10 @@ public:
 
 	inline TexCoords* getTexture() {return m_texturePos;}
 
-private:
+	/*! Draw block geometry at position using blockInfo, in the targetBuffer */
+	inline virtual void render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, const BlockPosition& position, const World& workingWorld) const {/* draw nothing */}
+
+protected:
 	// General
 	int i_id;
 	const char* s_name;
@@ -34,26 +40,7 @@ private:
 	bool b_canPassThrough;
 
 	// Apparence
-	bool b_isCube;
 	TexCoords m_texturePos[4];
 };
-
-
-inline bool operator==(const BlockDescriptor& blockDescriptor, const BlockInfo& blockInfo) {
-	return (blockInfo.id() == blockDescriptor.id());
-}
-
-inline bool operator==(const BlockInfo& blockInfo, const BlockDescriptor& blockDescriptor) {
-	return (blockInfo.id() == blockDescriptor.id());
-}
-
-inline bool operator!=(const BlockDescriptor& blockDescriptor, const BlockInfo& blockInfo) {
-	return !(blockDescriptor == blockInfo);
-}
-
-inline bool operator!=(const BlockInfo& blockInfo, const BlockDescriptor& blockDescriptor) {
-	return !(blockDescriptor == blockInfo);
-}
-
 
 #endif // BLOCKDESCRIPTOR_H

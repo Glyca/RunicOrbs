@@ -1,5 +1,4 @@
 #include "GameWindow.h"
-#include "blocks/BlockDescriptor.h"
 #include "ClientConfiguration.h"
 #include "PhysicEngine.h"
 #include "ServerConnector.h"
@@ -18,7 +17,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 	setAutoFillBackground(false);
 	setWindowTitle("CrafTuX");
 	// Give us 10 torches to survive
-	m_connector->me()->give(Blocks::TORCH.id(), 10);
+	m_connector->me()->give(4, 10);
 	drawInventoryPixmap();
 
 	// Every second, we load and prune the chunks

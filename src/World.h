@@ -28,17 +28,17 @@ public:
 	const PhysicObject* po(const int id) const;
 
 	/*! Access to a chunk of the world from a chunk position */
-	Chunk* chunk(const ChunkPosition& position);
+	Chunk* chunk(const ChunkPosition& position) const;
 	/*! Access to a chunk of the world from a block position */
-	Chunk* chunk(const BlockPosition& position);
+	Chunk* chunk(const BlockPosition& position) const;
 
 	/*! Access to a ChunkPosition of the world from world relative coordinates */
-	ChunkPosition chunkPosition(const int x, const int z);
+	ChunkPosition chunkPosition(const int x, const int z) const;
 	/*! Access to a ChunkPosition of the world from a block position */
-	ChunkPosition chunkPosition(const BlockPosition& position);
+	ChunkPosition chunkPosition(const BlockPosition& position) const;
 
 	/*! Return true if the Chunk is loaded, false otherwise */
-	bool isChunkLoaded(const ChunkPosition& position);
+	bool isChunkLoaded(const ChunkPosition& position) const;
 
 	/*! Load a chunk in the workd into RAM */
 	void loadChunk(const ChunkPosition& position);
@@ -46,7 +46,7 @@ public:
 	void unloadChunk(Chunk* chunk);
 	void unloadChunk(const ChunkPosition& position);
 
-	BlockInfo* block(const BlockPosition& position);
+	BlockInfo* block(const BlockPosition& position) const;
 	BlockInfo* block(const Vector& position);
 
 	int altitude(const int x, const int z);
@@ -62,9 +62,10 @@ public slots:
 private:
 	Server* m_server; //!< The server where the world runs
 	QHash<ChunkPosition, Chunk*> * m_chunks;
+	Chunk* m_voidChunk; //!< The void chunk is given when you try to access a too far chunk
 	PhysicEngine* m_physicEngine;
 	ChunkGenerator m_chunkGenerator;
-	int i_time;
+	int i_time; //!< The current time of the word
 	int i_seed; //!< Seed of the world
 };
 

@@ -155,6 +155,8 @@ void ChunkGenerator::run()
 			{
 				m_chunkToGenerate->block(i, j, k)->setId(2);
 			}
+			// Full light on the top void block :
+			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude, k)->setLightLevel(15);
 		}
 	}
 #endif

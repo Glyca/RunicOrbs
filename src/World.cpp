@@ -8,6 +8,7 @@ World::World(Server* server, const int seed, QObject *parent) : QObject(parent),
 {
 	m_physicEngine = new PhysicEngine(this, this);
 	m_chunks = new QHash<ChunkPosition, Chunk*>();
+	m_voidChunk = new Chunk(this, ChunkPosition(999999,999999));
 }
 
 World::~World()
@@ -18,6 +19,7 @@ World::~World()
 		delete it.value(); // Delete each chunks of the world
 	}
 	delete m_chunks;
+	delete m_voidChunk;
 	delete m_physicEngine;
 }
 
@@ -26,7 +28,7 @@ const PhysicObject* World::po(const int id) const
 	return m_physicEngine->po(id);
 }
 
-Chunk* World::chunk(const ChunkPosition& position)
+Chunk* World::chunk(const ChunkPosition& position) const
 {
 	if(isChunkLoaded(position)) // If the chunk is already loaded
 	{
@@ -34,17 +36,16 @@ Chunk* World::chunk(const ChunkPosition& position)
 	}
 	else // otherwise, we load it
 	{
-		static Chunk voidChunk(this, ChunkPosition(999999,999999));
-		return &voidChunk;
+		return m_voidChunk;
 	}
 }
 
-Chunk* World::chunk(const BlockPosition& position)
+Chunk* World::chunk(const BlockPosition& position) const
 {
 	return chunk(chunkPosition(position.x, position.z));
 }
 
-ChunkPosition World::chunkPosition(const int x, const int z)
+ChunkPosition World::chunkPosition(const int x, const int z) const
 {
 	int cx, cz;
 	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
@@ -64,12 +65,12 @@ ChunkPosition World::chunkPosition(const int x, const int z)
 	return ChunkPosition(cx, cz);
 }
 
-ChunkPosition World::chunkPosition(const BlockPosition& position)
+ChunkPosition World::chunkPosition(const BlockPosition& position) const
 {
 	return chunkPosition(position.x, position.z);
 }
 
-bool World::isChunkLoaded(const ChunkPosition& position)
+bool World::isChunkLoaded(const ChunkPosition& position) const
 {
 	return m_chunks->contains(position);
 }
@@ -101,7 +102,7 @@ void World::unloadChunk(const ChunkPosition& position)
 	m_chunks->remove(position);
 }
 
-BlockInfo* World::block(const BlockPosition& bp)
+BlockInfo* World::block(const BlockPosition& bp) const
 {
 	ChunkPosition chunkPos = chunkPosition(bp);
 	int chunkBlockX, chunkBlockZ; // the coordinates of the block relative to the chunk

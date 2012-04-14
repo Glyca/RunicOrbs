@@ -1,15 +1,16 @@
 #include "Blocks.h"
 #include "BlockDescriptor.h"
+#include "CubeBlock.h"
+#include "TorchBlock.h"
 
 const bool B_BREAKABLE = true, B_UNBREAKABLE = false;
 const bool B_CANPASSTROUGH = true, B_CANNOTPASSTROUGH = false;
-const bool B_ISCUBE = true, B_ISNOTCUBE = false;
 
-BlockDescriptor Blocks::AIR(0, "air", B_UNBREAKABLE, B_CANPASSTROUGH, B_ISNOTCUBE);
-BlockDescriptor Blocks::STONE(1, "stone", B_BREAKABLE, B_CANNOTPASSTROUGH, B_ISCUBE);
-BlockDescriptor Blocks::DIRT(2, "dirt", B_BREAKABLE, B_CANNOTPASSTROUGH, B_ISCUBE);
-BlockDescriptor Blocks::GRASS(3, "grass", B_BREAKABLE, B_CANNOTPASSTROUGH, B_ISCUBE);
-BlockDescriptor Blocks::TORCH(4, "torch", B_BREAKABLE, B_CANPASSTROUGH, B_ISNOTCUBE);
+BlockDescriptor Blocks::AIR(0, "air", B_UNBREAKABLE, B_CANPASSTROUGH);
+CubeBlock Blocks::STONE(1, "stone", B_BREAKABLE, B_CANNOTPASSTROUGH);
+CubeBlock Blocks::DIRT(2, "dirt", B_BREAKABLE, B_CANNOTPASSTROUGH);
+CubeBlock Blocks::GRASS(3, "grass", B_BREAKABLE, B_CANNOTPASSTROUGH);
+TorchBlock Blocks::TORCH(4, "torch", B_BREAKABLE, B_CANPASSTROUGH);
 
 Blocks::Blocks()
 {

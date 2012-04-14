@@ -2,6 +2,8 @@
 #define BLOCKS_H
 
 class BlockDescriptor;
+class CubeBlock;
+class TorchBlock;
 
 const int MAX_BLOCKID = 5;
 
@@ -12,10 +14,10 @@ public:
 	Blocks();
 
 	static BlockDescriptor AIR;
-	static BlockDescriptor STONE;
-	static BlockDescriptor DIRT;
-	static BlockDescriptor GRASS;
-	static BlockDescriptor TORCH;
+	static CubeBlock STONE;
+	static CubeBlock DIRT;
+	static CubeBlock GRASS;
+	static TorchBlock TORCH;
 
 	/*! Give the BlockDescriptor of the given block ID */
 	static BlockDescriptor& byId(const int id);

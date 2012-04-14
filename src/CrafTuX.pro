@@ -37,7 +37,6 @@ SOURCES += main.cpp\
 	ChunkGenerator.cpp \
 	ClientConfiguration.cpp \
 	blocks/BlockInfo.cpp \
-	blocks/BlockDescriptor.cpp \
 	blocks/Blocks.cpp \
 	server/MultiplayerServerThread.cpp \
 	server/MultiplayerServer.cpp \
@@ -60,7 +59,11 @@ SOURCES += main.cpp\
 	gui/ui/ConnectDialog.cpp \
 	gui/ui/CraftuxHome.cpp \
 	gui/ui/OptionsDialog.cpp \
-	gui/ui/ServerWidget.cpp
+	gui/ui/ServerWidget.cpp \
+    blocks/CubeBlock.cpp \
+    gui/OpenGLBuffer.cpp \
+    blocks/TorchBlock.cpp \
+    gui/OpenGLVertice.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -109,7 +112,11 @@ HEADERS  += \
 	gui/ui/ConnectDialog.h \
 	gui/ui/CraftuxHome.h \
 	gui/ui/OptionsDialog.h \
-	gui/ui/ServerWidget.h
+	gui/ui/ServerWidget.h \
+    blocks/CubeBlock.h \
+    gui/OpenGLBuffer.h \
+    blocks/TorchBlock.h \
+    gui/OpenGLVertice.h
 
 FORMS    += \
 	gui/ui/ConnectDialog.ui \
