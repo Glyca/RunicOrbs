@@ -1,6 +1,6 @@
 #include "OptionsDialog.h"
 #include "ui_OptionsDialog.h"
-#include "../ClientConfiguration.h"
+#include "ClientConfiguration.h"
 #include <QDebug>
 
 OptionsDialog::OptionsDialog(QWidget *parent) :

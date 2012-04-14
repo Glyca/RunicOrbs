@@ -1,6 +1,6 @@
 #include "ConnectDialog.h"
 #include "ui_ConnectDialog.h"
-#include "GameWindow.h"
+#include "gui/GameWindow.h"
 #include "RemoteServerConnector.h"
 
 ConnectDialog::ConnectDialog(QWidget *parent) :

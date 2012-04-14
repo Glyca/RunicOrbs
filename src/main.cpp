@@ -6,7 +6,7 @@
 #include <QTranslator>
 #include <QtGui/QApplication>
 
-#include "gui/CraftuxHome.h"
+#include "gui/ui/CraftuxHome.h"
 
 void craftuxMessageOutput(QtMsgType type, const char* msg)
 {

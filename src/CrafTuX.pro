@@ -32,18 +32,15 @@ SOURCES += main.cpp\
 	gui/GameWindow.cpp \
 	gui/GLWidget.cpp \
 	gui/glextensions.cpp \
-	gui/CraftuxHome.cpp \
 	gui/TextureManager.cpp \
 	gui/ChunkDrawer.cpp \
 	ChunkGenerator.cpp \
-	gui/OptionsDialog.cpp \
 	ClientConfiguration.cpp \
 	blocks/BlockInfo.cpp \
 	blocks/BlockDescriptor.cpp \
 	blocks/Blocks.cpp \
 	server/MultiplayerServerThread.cpp \
 	server/MultiplayerServer.cpp \
-	gui/ServerWidget.cpp \
 	server/ClientThread.cpp \
 	server/Server.cpp \
 	server/LocalServer.cpp \
@@ -54,13 +51,16 @@ SOURCES += main.cpp\
 	server/events/MoveEvent.cpp \
 	server/events/ChunkEvent.cpp \
 	server/events/ChunkConnectEvent.cpp \
-	gui/ConnectDialog.cpp \
 	Log.cpp \
 	InventorySlot.cpp \
 	server/events/SlotSelectEvent.cpp \
 	server/events/ServerEvent.cpp \
 	server/events/ClientEvent.cpp \
-	server/events/InventorySetEvent.cpp
+	server/events/InventorySetEvent.cpp \
+	gui/ui/ConnectDialog.cpp \
+	gui/ui/CraftuxHome.cpp \
+	gui/ui/OptionsDialog.cpp \
+	gui/ui/ServerWidget.cpp
 
 HEADERS  += \
 	PhysicObject.h \
@@ -79,18 +79,15 @@ HEADERS  += \
 	gui/GameWindow.h \
 	gui/GLWidget.h \
 	gui/glextensions.h \
-	gui/CraftuxHome.h \
 	gui/TextureManager.h \
 	gui/ChunkDrawer.h \
 	ChunkGenerator.h \
-	gui/OptionsDialog.h \
 	ClientConfiguration.h \
 	blocks/BlockInfo.h \
 	blocks/BlockDescriptor.h \
 	blocks/Blocks.h \
 	server/MultiplayerServerThread.h \
 	server/MultiplayerServer.h \
-	gui/ServerWidget.h \
 	server/ClientThread.h \
 	server/Server.h \
 	server/LocalServer.h \
@@ -102,20 +99,23 @@ HEADERS  += \
 	server/events/MoveEvent.h \
 	server/events/ChunkEvent.h \
 	server/events/ChunkConnectEvent.h \
-	gui/ConnectDialog.h \
 	Log.h \
 	InventorySlot.h \
 	server/events/SlotSelectEvent.h \
 	server/events/ServerEvent.h \
 	server/events/ClientEvent.h \
 	server/events/InventorySetEvent.h \
-	FastMath.h
+	FastMath.h \
+	gui/ui/ConnectDialog.h \
+	gui/ui/CraftuxHome.h \
+	gui/ui/OptionsDialog.h \
+	gui/ui/ServerWidget.h
 
 FORMS    += \
-	gui/CraftuxHome.ui \
-	gui/OptionsDialog.ui \
-	gui/ServerWidget.ui \
-	gui/ConnectDialog.ui
+	gui/ui/ConnectDialog.ui \
+	gui/ui/CraftuxHome.ui \
+	gui/ui/OptionsDialog.ui \
+	gui/ui/ServerWidget.ui
 
 OTHER_FILES += ../README.md
 
@@ -127,7 +127,7 @@ CODECFORTR = UTF-8
 QMAKE_CXXFLAGS_RELEASE -= -g -O2
 QMAKE_LFLAGS_RELEASE -= -Wl,-O1
 QMAKE_CXXFLAGS_RELEASE += -O3
-QMAKE_LFLAGS_RELEASE += -Wl,-O3
+QMAKE_LFLAGS_RELEASE += -Wl,-O3 -O3
 
 # Enable this if you compile for yourself (will tune code for your cpu)
 #QMAKE_CXXFLAGS += -march=native -mtune=native

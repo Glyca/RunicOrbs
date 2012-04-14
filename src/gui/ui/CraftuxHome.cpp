@@ -3,7 +3,7 @@
 
 #include "CraftuxHome.h"
 #include "ConnectDialog.h"
-#include "GameWindow.h"
+#include "gui/GameWindow.h"
 #include "LocalServerConnector.h"
 #include "OptionsDialog.h"
 #include "ServerConnector.h"
