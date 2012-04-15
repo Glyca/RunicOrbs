@@ -1,4 +1,5 @@
 #include "GameWindow.h"
+#include "blocks/TorchBlock.h"
 #include "ClientConfiguration.h"
 #include "PhysicEngine.h"
 #include "ServerConnector.h"
@@ -17,7 +18,8 @@ GameWindow::GameWindow(ServerConnector* connector)
 	setAutoFillBackground(false);
 	setWindowTitle("CrafTuX");
 	// Give us 10 torches to survive
-	m_connector->me()->give(4, 10);
+	m_connector->me()->give(Blocks::TORCH.id(), 10);
+	m_textureManager.loadItemImages();
 	drawInventoryPixmap();
 
 	// Every second, we load and prune the chunks
@@ -201,7 +203,7 @@ void GameWindow::drawInventoryPixmap()
 					   INVENTORY_SQUARE_SIZE - 2 * SQUARE_BORDER);
 		if(m_connector->me()->inventorySlot(i).id() != 0) {
 			// Draw the image of the block
-			painter.drawImage(slotRect, m_textureManager.getTextureOfBlockId(m_connector->me()->inventorySlot(i).id()));
+			painter.drawImage(slotRect, Blocks::byId(m_connector->me()->inventorySlot(i).id()).itemImage());
 			// Adjust the rectangle (add borders) and draw the amount we have in the slot
 			QRect slotAmountLabelRect(slotRect);
 			slotAmountLabelRect.adjust(-4, -4, -4, -4);

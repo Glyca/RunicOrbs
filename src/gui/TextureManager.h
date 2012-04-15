@@ -27,14 +27,16 @@ public:
 
 	void setTextureFiltering(TextureFiltering filtering);
 
-	/*! Get the texture of the block of id id */
-	QImage getTextureOfBlockId(const int id);
-
 	/*! Get a big txture containing all textures */
 	QImage getTextureAtlas();
+
 	GLuint loadTextures();
+
 	void bindTexture(); //!< Bind THE texture
 	void unbindTexture(); //!< Unbind any texture binded
+
+	/*! Load items illustrations for the inventory */
+	void loadItemImages();
 
 private:
 	GLuint gi_textureID;

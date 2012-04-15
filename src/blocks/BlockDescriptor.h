@@ -27,6 +27,9 @@ public:
 
 	inline TexCoords* getTexture() {return m_texturePos;}
 
+	inline void setItemImage(const QImage& image) {qim_item = image;}
+	inline QImage& itemImage() {return qim_item;}
+
 	/*! Draw block geometry at position using blockInfo, in the targetBuffer */
 	inline virtual void render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, const BlockPosition& position, const World& workingWorld) const {/* draw nothing */}
 
@@ -41,6 +44,7 @@ protected:
 
 	// Apparence
 	TexCoords m_texturePos[4];
+	QImage qim_item;
 };
 
 #endif // BLOCKDESCRIPTOR_H
