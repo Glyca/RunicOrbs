@@ -5,7 +5,7 @@
 
 const int OPENGLVERTICE_SIZE = 8; //!< How many floats do we have in each vertice
 
-/*! A vertice that can be put in a OpenGLBuffer */
+/*! A vertice that can be put in a OpenGLBuffer (32 bytes) */
 struct OpenGLVertice
 {
 	OpenGLVertice(GLfloat vx = 0.0f, GLfloat vy = 0.0f, GLfloat vz = 0.0f, GLfloat r = 0.0f, GLfloat g = 0.0f, GLfloat b = 0.0f, GLfloat tx = 0.0f, GLfloat ty = 0.0f)

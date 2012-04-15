@@ -94,28 +94,12 @@ void OpenGLBuffer::clear()
 void OpenGLBuffer::fill()
 {
 	int numberOfVertex = m_vertex.size();
-	GLfloat* vertexBuffer = new GLfloat[OPENGLVERTICE_SIZE * numberOfVertex];
 	GLuint* indicesBuffer = new GLuint[numberOfVertex];
 
-	for(int i = 0; i < numberOfVertex; ++i) {
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 0] = m_vertex[i].vx;
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 1] = m_vertex[i].vy;
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 2] = m_vertex[i].vz;
-
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 3] = m_vertex[i].r;
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 4] = m_vertex[i].g;
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 5] = m_vertex[i].g;
-
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 6] = m_vertex[i].tx;
-		vertexBuffer[i * OPENGLVERTICE_SIZE + 7] = m_vertex[i].ty;
-
-		indicesBuffer[i] = i;
-	}
+	for(int i = 0; i < numberOfVertex; ++i)	indicesBuffer[i] = i;
 
 	glBindBuffer(GL_ARRAY_BUFFER, i_vertexBufferId);
-	glBufferData(GL_ARRAY_BUFFER, numberOfVertex * OPENGLVERTICE_SIZE * sizeof(GLfloat), vertexBuffer, GL_STATIC_DRAW); // Send data
-	// We finished to upload our vertex buffer, so we can delete the temp array
-	delete[] vertexBuffer;
+	glBufferData(GL_ARRAY_BUFFER, numberOfVertex * OPENGLVERTICE_SIZE * sizeof(GLfloat), &m_vertex[0], GL_STATIC_DRAW); // Send data
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_indicesBufferId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numberOfVertex * sizeof(GLuint), indicesBuffer, GL_STATIC_DRAW); // Send data
