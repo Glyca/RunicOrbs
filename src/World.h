@@ -53,6 +53,7 @@ public:
 	/*! Return the highest block coordinates for a given position */
 	BlockPosition highestBlock(const Vector& position);
 
+	inline int seed() const {return i_seed;}
 	inline void setSeed(const int seed) {i_seed = seed;}
 
 	void render3D();

@@ -97,8 +97,9 @@ void GameWindow::render2D(QPainter& painter)
 			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
 			text.append("\n" "Pitch : " + QString::number(m_connector->me()->pitch()) + " // Yaw : " + QString::number(m_connector->me()->yaw()));
 			text.append("\n" "Block : " + m_connector->me()->pointedBlock() + " ID = " + QString::number(m_connector->world().block(m_connector->me()->pointedBlock())->id()));
-			text.append("\nTouches floor = " + QString::number(m_connector->me()->touchesFloor()));
-			text.append("\nIs stuck = " + QString::number(m_connector->me()->isStuck()));
+			text.append("\n\nWorld seed = " + QString::number(m_connector->world().seed()));
+			text.append("\nTouches floor = " + (m_connector->me()->touchesFloor() ? QString("true") : QString("false")));
+			text.append("\nIs stuck = " + (m_connector->me()->isStuck() ? QString("true") : QString("false")));
 
 			QRect rect = metrics.boundingRect(border, border, width(), height(), Qt::AlignLeft | Qt::TextWordWrap, text);
 			painter.fillRect(QRect(0, 0, width(), rect.height() + border), QColor(0, 0, 0, 120));
