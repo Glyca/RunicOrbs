@@ -122,7 +122,7 @@ GLuint TextureManager::loadTextures()
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, qim_Texture.width(), qim_Texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
 		}
 
-		qDebug(QObject::tr("Textures loaded!").toAscii());
+		qDebug() << QObject::tr("Textures loaded!").toStdString().c_str();
 
 		return gi_textureID;
 	}

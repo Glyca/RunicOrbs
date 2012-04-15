@@ -29,6 +29,12 @@ GameWindow::GameWindow(ServerConnector* connector)
 	resume();
 }
 
+GameWindow::~GameWindow()
+{
+	delete m_configuration;
+	m_connector->deleteLater();
+}
+
 void GameWindow::initializeGL()
 {
 	GLint maxTextureSize; glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);

@@ -29,14 +29,12 @@ SOURCES += main.cpp\
 	ServerConnector.cpp \
 	LocalServerConnector.cpp \
 	RemoteServerConnector.cpp \
-	gui/GameWindow.cpp \
-	gui/GLWidget.cpp \
-	gui/glextensions.cpp \
-	gui/TextureManager.cpp \
-	gui/ChunkDrawer.cpp \
 	ChunkGenerator.cpp \
 	ClientConfiguration.cpp \
+	Log.cpp \
+	InventorySlot.cpp \
 	blocks/BlockInfo.cpp \
+	blocks/BlockDescriptor.cpp \
 	blocks/Blocks.cpp \
 	server/MultiplayerServerThread.cpp \
 	server/MultiplayerServer.cpp \
@@ -50,20 +48,23 @@ SOURCES += main.cpp\
 	server/events/MoveEvent.cpp \
 	server/events/ChunkEvent.cpp \
 	server/events/ChunkConnectEvent.cpp \
-	Log.cpp \
-	InventorySlot.cpp \
 	server/events/SlotSelectEvent.cpp \
 	server/events/ServerEvent.cpp \
 	server/events/ClientEvent.cpp \
 	server/events/InventorySetEvent.cpp \
+	gui/GameWindow.cpp \
+	gui/GLWidget.cpp \
+	gui/glextensions.cpp \
+	gui/TextureManager.cpp \
+	gui/ChunkDrawer.cpp \
+	gui/OpenGLBuffer.cpp \
+	gui/OpenGLVertice.cpp \
 	gui/ui/ConnectDialog.cpp \
 	gui/ui/CraftuxHome.cpp \
 	gui/ui/OptionsDialog.cpp \
 	gui/ui/ServerWidget.cpp \
-    blocks/CubeBlock.cpp \
-    gui/OpenGLBuffer.cpp \
-    blocks/TorchBlock.cpp \
-    gui/OpenGLVertice.cpp
+	blocks/CubeBlock.cpp \
+	blocks/TorchBlock.cpp \
 
 HEADERS  += \
 	PhysicObject.h \
@@ -79,13 +80,11 @@ HEADERS  += \
 	RemoteServerConnector.h \
 	Vector.h \
 	version.h \
-	gui/GameWindow.h \
-	gui/GLWidget.h \
-	gui/glextensions.h \
-	gui/TextureManager.h \
-	gui/ChunkDrawer.h \
 	ChunkGenerator.h \
 	ClientConfiguration.h \
+	Log.h \
+	FastMath.h \
+	InventorySlot.h \
 	blocks/BlockInfo.h \
 	blocks/BlockDescriptor.h \
 	blocks/Blocks.h \
@@ -94,7 +93,6 @@ HEADERS  += \
 	server/ClientThread.h \
 	server/Server.h \
 	server/LocalServer.h \
-	gui/OpenGL.h \
 	server/events/Event.h \
 	server/events/PlayerEvent.h \
 	server/events/BlockPickEvent.h \
@@ -102,21 +100,24 @@ HEADERS  += \
 	server/events/MoveEvent.h \
 	server/events/ChunkEvent.h \
 	server/events/ChunkConnectEvent.h \
-	Log.h \
-	InventorySlot.h \
 	server/events/SlotSelectEvent.h \
 	server/events/ServerEvent.h \
 	server/events/ClientEvent.h \
 	server/events/InventorySetEvent.h \
-	FastMath.h \
+	gui/OpenGL.h \
+	gui/GameWindow.h \
+	gui/GLWidget.h \
+	gui/glextensions.h \
+	gui/TextureManager.h \
+	gui/ChunkDrawer.h \
 	gui/ui/ConnectDialog.h \
 	gui/ui/CraftuxHome.h \
 	gui/ui/OptionsDialog.h \
 	gui/ui/ServerWidget.h \
-    blocks/CubeBlock.h \
-    gui/OpenGLBuffer.h \
-    blocks/TorchBlock.h \
-    gui/OpenGLVertice.h
+	gui/OpenGLBuffer.h \
+	gui/OpenGLVertice.h \
+	blocks/CubeBlock.h \
+	blocks/TorchBlock.h
 
 FORMS    += \
 	gui/ui/ConnectDialog.ui \

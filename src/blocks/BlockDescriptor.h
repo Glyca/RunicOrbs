@@ -31,7 +31,7 @@ public:
 	inline QImage& itemImage() {return qim_item;}
 
 	/*! Draw block geometry at position using blockInfo, in the targetBuffer */
-	inline virtual void render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, const BlockPosition& position, const World& workingWorld) const {/* draw nothing */}
+	virtual void render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, const BlockPosition& position, const World& workingWorld) const;
 
 protected:
 	// General

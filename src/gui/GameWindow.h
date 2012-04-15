@@ -1,21 +1,20 @@
 #ifndef GAMEWINDOW_H
 #define GAMEWINDOW_H
 
-#include <QWidget>
-
 #include "GLWidget.h"
 #include "TextureManager.h"
 
 class ClientConfiguration;
 class ServerConnector;
 
-const int INVENTORY_SQUARE_SIZE = 58; //!< The size of an item slot of the inventory
+const int INVENTORY_SQUARE_SIZE = 60; //!< The size of an item slot of the inventory
 
 class GameWindow : public GLWidget
 {
 	Q_OBJECT
 public:
 	GameWindow(ServerConnector* connector);
+	~GameWindow();
 
 private:
 	void initializeGL();
