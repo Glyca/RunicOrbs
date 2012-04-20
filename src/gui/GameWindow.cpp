@@ -51,7 +51,6 @@ void GameWindow::initializeGL()
 		glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
 		glEnable(GL_LINE_SMOOTH); // Dessine de belles lignes
 		glEnable(GL_POLYGON_SMOOTH);
-		glEnable(GL_MULTISAMPLE);
 	}
 	else {
 		glHint(GL_LINE_SMOOTH_HINT, GL_FASTEST);
