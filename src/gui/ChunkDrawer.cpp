@@ -32,17 +32,38 @@ void ChunkDrawer::generateVBO()
 	m_oglBuffer->clear();
 
 	World& workingWorld = m_chunkToDraw->world();
+	int zi, zj, zk; // These are the coordinates of the zero (0;0;0) block of the chunk (in chunk relative coordinates of course)
+	m_chunkToDraw->mapToWorld(0, 0, 0, zi, zj, zk);
+	BlockSet blockSet;
 
-	for(int k = 0; k < CHUNK_Z_SIZE; k++)
+	for(int k = 0; k < CHUNK_Z_SIZE; k++) // z
 	{
-		for(int i = 0; i < CHUNK_X_SIZE; i++)
+		for(int i = 0; i < CHUNK_X_SIZE; i++) // x
 		{
-			for(int j = 0; j < CHUNK_HEIGHT; j++)
+			for(int j = 0; j < CHUNK_HEIGHT; j++) // y, altitude
 			{
-				int wi, wj, wk; // These are the coordinates in the world
-				m_chunkToDraw->mapToWorld(i, j, k, wi, wj, wk);
-				BlockInfo* block = m_chunkToDraw->block(i, j, k);
-				block->descriptor().render(*m_oglBuffer, *block, BlockPosition(wi, wj, wk), workingWorld);
+				blockSet.block = m_chunkToDraw->block(i, j, k);
+
+				blockSet.frontBlock = workingWorld.block(BlockPosition(zi + i, zj + j, zk + k - 1));
+				blockSet.leftBlock = workingWorld.block(BlockPosition(zi + i - 1, zj + j, zk + k));
+				blockSet.rightBlock = workingWorld.block(BlockPosition(zi + i + 1, zj + j, zk + k));
+				blockSet.backBlock = workingWorld.block(BlockPosition(zi + i, zj + j, zk + k + 1));
+
+				blockSet.topBlock = workingWorld.block(BlockPosition(zi + i, zj + j + 1, zk + k));
+
+				blockSet.topFrontBlock = workingWorld.block(BlockPosition(zi + i, zj + j + 1, zk + k - 1));
+				blockSet.topLeftBlock = workingWorld.block(BlockPosition(zi + i - 1, zj + j + 1, zk + k));
+				blockSet.topRightBlock = workingWorld.block(BlockPosition(zi + i + 1, zj + j + 1, zk + k));
+				blockSet.topBackBlock = workingWorld.block(BlockPosition(zi + i, zj + j + 1, zk + k + 1));
+
+				blockSet.topFrontLeftBlock = workingWorld.block(BlockPosition(zi + i - 1, zj + j + 1, zk + k - 1));
+				blockSet.topFrontRightBlock = workingWorld.block(BlockPosition(zi + i + 1, zj + j + 1, zk + k - 1));
+				blockSet.topBackLeftBlock = workingWorld.block(BlockPosition(zi + i - 1, zj + j + 1, zk + k + 1));
+				blockSet.topBackRightBlock = workingWorld.block(BlockPosition(zi + i + 1, zj + j + 1, zk + k + 1));
+
+				blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
+
+				blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 			} // j
 		} // i
 	} // k

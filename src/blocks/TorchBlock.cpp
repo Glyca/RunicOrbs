@@ -2,7 +2,7 @@
 #include "gui/OpenGLBuffer.h"
 #include "gui/OpenGLVertice.h"
 
-void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, const BlockPosition& bp, const World& workingWorld) const
+void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& bp, const World& workingWorld) const
 {
 	const GLfloat TOP_LIGHT = 1.0f;
 	const GLfloat SIDE_LIGHT_NORMAL = 0.85f;
@@ -17,7 +17,7 @@ void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, 
 
 	// Front face
 	{
-		TexCoords* texCoords = blockInfo.descriptor().getTexture();
+		TexCoords* texCoords = blockSet.block->descriptor().getTexture();
 
 		OpenGLVertice v1(bp.x + XMIN, bp.y + YMIN, bp.z + ZMIN); // 0.0f,0.0f,0.0f,
 		v1.setColors(SIDE_LIGHT_NORMAL);
@@ -39,7 +39,7 @@ void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, 
 	}
 	// Left face
 	{
-		TexCoords* texCoords = blockInfo.descriptor().getTexture();
+		TexCoords* texCoords = blockSet.block->descriptor().getTexture();
 
 		OpenGLVertice v1(bp.x + XMIN, bp.y + YMIN, bp.z + ZMAX); // 0.0f,0.0f,1.0f,
 		v1.setColors(SIDE_LIGHT_NORMAL);
@@ -61,7 +61,7 @@ void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, 
 	}
 	// Bottom face
 	{
-		TexCoords* texCoords = blockInfo.descriptor().getTexture();
+		TexCoords* texCoords = blockSet.block->descriptor().getTexture();
 
 		OpenGLVertice v1(bp.x + XMIN, bp.y + YMIN, bp.z + ZMAX); // 0.0f,0.0f,1.0f,
 		v1.setColors(BOTTOM_COLOR);
@@ -83,7 +83,7 @@ void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, 
 	}
 	// Right face
 	{
-		TexCoords* texCoords = blockInfo.descriptor().getTexture();
+		TexCoords* texCoords = blockSet.block->descriptor().getTexture();
 
 		OpenGLVertice v1(bp.x + XMAX, bp.y + YMIN, bp.z + ZMIN); // 1.0f,0.0f,0.0f,
 		v1.setColors(SIDE_LIGHT_NORMAL);
@@ -105,7 +105,7 @@ void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, 
 	}
 	// Top face
 	{
-		TexCoords* texCoords = blockInfo.descriptor().getTexture();
+		TexCoords* texCoords = blockSet.block->descriptor().getTexture();
 
 		OpenGLVertice v1(bp.x + XMIN, bp.y + YMAX, bp.z + ZMIN); // 0.0f,1.0f,0.0f,
 		v1.setColors(TOP_LIGHT);
@@ -127,7 +127,7 @@ void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, 
 	}
 	// Back face
 	{
-		TexCoords* texCoords = blockInfo.descriptor().getTexture();
+		TexCoords* texCoords = blockSet.block->descriptor().getTexture();
 
 		OpenGLVertice v1(bp.x + XMAX, bp.y + YMIN, bp.z + ZMAX); // 1.0f,0.0f,1.0f,
 		v1.setColors(SIDE_LIGHT_NORMAL);

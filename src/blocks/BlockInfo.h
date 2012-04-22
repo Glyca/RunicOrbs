@@ -53,4 +53,30 @@ inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 	return !(block1 == block2);
 }
 
+/*! Contains the BlockInfo of a block, its BlockPosition and many pointers to surrounding blocks.
+It is used in block drawing to avoid the fetch of all surrounding blocks for each block.
+Instead there is just some swaps between these BlockInfo pointers and fetchs of only non-already-fetched blocks. */
+struct BlockSet
+{
+	BlockInfo* block;
+	BlockPosition* position;
+
+	BlockInfo* frontBlock;
+	BlockInfo* leftBlock;
+	BlockInfo* bottomBlock;
+	BlockInfo* rightBlock;
+	BlockInfo* topBlock;
+	BlockInfo* backBlock;
+
+	BlockInfo* topFrontBlock;
+	BlockInfo* topLeftBlock;
+	BlockInfo* topRightBlock;
+	BlockInfo* topBackBlock;
+
+	BlockInfo* topFrontLeftBlock;
+	BlockInfo* topFrontRightBlock;
+	BlockInfo* topBackLeftBlock;
+	BlockInfo* topBackRightBlock;
+};
+
 #endif // BLOCKINFO_H

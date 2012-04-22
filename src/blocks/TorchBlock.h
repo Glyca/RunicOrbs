@@ -14,7 +14,7 @@ public:
 		b_canPassThrough = canPassThrough;
 	}
 
-	virtual void render(OpenGLBuffer& targetBuffer, const BlockInfo& blockInfo, const BlockPosition& position, const World& workingWorld) const;
+	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& position, const World& workingWorld) const;
 };
 
 #endif // TORCHBLOCK_H
