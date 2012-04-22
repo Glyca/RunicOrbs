@@ -1,6 +1,5 @@
 #include "OptionsDialog.h"
 #include "ui_OptionsDialog.h"
-#include "ClientConfiguration.h"
 #include <QDebug>
 
 OptionsDialog::OptionsDialog(QWidget *parent) :
@@ -8,14 +7,14 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 	ui(new Ui::OptionsDialog)
 {
 	ui->setupUi(this);
+
+	configureMap();
+
 	load();
 
 	doubleKey=false;
 
 	connect(ui->buttonBox, SIGNAL(clicked(QAbstractButton*)), this, SLOT(onClick(QAbstractButton*)));
-
-	/*! IMPOSSIBRUon ne peut pas passer des parametres dans un slot */
-	//connect(ui->buttonUp, SIGNAL(clicked()),this,SLOT(changeKey(UP)));
 
 	/*! Une tentative de solution */
 	QSignalMapper* signalMapper = new QSignalMapper(this) ;
@@ -48,35 +47,43 @@ void OptionsDialog::onClick(QAbstractButton* button)
 
 	else if(ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults)
 	{
-		ClientConfiguration config; // Create a default config that will be saved in the default file.
 		config.reloadDefault();
-		config.save();
-		load(); // Reload the window
-		checkKey();
+		refresh();
 	}
 }
 
-void OptionsDialog::load()
+void OptionsDialog::refresh()
 {
-	ClientConfiguration config;
-	config.loadDefaultConfigFile();
+	resetAllColor();
 	ui->seedLineEdit->setText(QVariant(config.getSeed()).toString());
 	ui->FPSSpinBox->setValue(config.getFps());
-	ui->buttonUp->setText(config.getKeyVal(ClientConfiguration::UP));
+
+	QMapIterator<Action,QPushButton*> i(ActionToButtonMap);
+	 while (i.hasNext()) {
+		 i.next();
+		 ActionToButtonMap[(Action)i.key()]->setText(config.getKeyVal((ClientConfiguration::Action)i.key()));
+	 }
+	/*ui->buttonUp->setText(config.getKeyVal(ClientConfiguration::UP));
 	ui->buttonLeft->setText(config.getKeyVal(ClientConfiguration::LEFT));
 	ui->buttonDown->setText(config.getKeyVal(ClientConfiguration::DOWN));
 	ui->buttonRight->setText(config.getKeyVal(ClientConfiguration::RIGHT));
-	ui->buttonJump->setText(config.getKeyVal(ClientConfiguration::JUMP));
+	ui->buttonJump->setText(config.getKeyVal(ClientConfiguration::JUMP));*/
 	checkKey();
+
 	ui->viewDistanceSpinBox->setValue(config.getViewDistance());
 	ui->smoothShadesCheckBox->setChecked(config.getSmoothShades());
 	ui->antialiasingCheckBox->setChecked(config.getAntialiasing());
 	ui->textureFilteringComboBox->setCurrentIndex(config.getTextureFiltering());
 }
 
+void OptionsDialog::load()
+{
+	config.loadDefaultConfigFile();
+	refresh();
+}
+
 void OptionsDialog::save()
 {
-	ClientConfiguration config;
 	config.setSeed(ui->seedLineEdit->text().toInt());
 	config.setFps(ui->FPSSpinBox->value());
 	//config.setKey(ClientConfiguration::DOWN,32);
@@ -93,74 +100,36 @@ void OptionsDialog::changeKey(int action)
 	{
 		reallocation=true;
 		reallocationKey=action;
-		switch((Action)action)
-		{
-		case UP:
-			ui->buttonUp->setStyleSheet("background-color:#20acd6;");
-			break;
-		case DOWN:
-			ui->buttonDown->setStyleSheet("background-color:#20acd6;");
-			break;
-		case LEFT:
-			ui->buttonLeft->setStyleSheet("background-color:#20acd6;");
-			break;
-		case RIGHT:
-			ui->buttonRight->setStyleSheet("background-color:#20acd6;");
-			break;
-		case JUMP:
-			ui->buttonJump->setStyleSheet("background-color:#20acd6;");
-			break;
-		}
+		setButtonColor(BLUE,(Action)action);
 	}
 }
 
 void OptionsDialog::keyPressEvent(QKeyEvent *event)
 {
-	ClientConfiguration config;
 	if(reallocation)
 	{
 		reallocation=false;
-		config.setKey((ClientConfiguration::Action)reallocationKey,event->key());
-		switch((Action)reallocationKey)
-		{
-		case UP:
-			ui->buttonUp->setText(config.getKeyVal(ClientConfiguration::UP));
-			break;
-		case DOWN:
-			ui->buttonDown->setText(config.getKeyVal(ClientConfiguration::DOWN));
-			break;
-		case LEFT:
-			ui->buttonLeft->setText(config.getKeyVal(ClientConfiguration::LEFT));
-			break;
-		case RIGHT:
-			ui->buttonRight->setText(config.getKeyVal(ClientConfiguration::RIGHT));
-			break;
-		case JUMP:
-			ui->buttonJump->setText(config.getKeyVal(ClientConfiguration::JUMP));
-			break;
-		}
+
+		if(event->key()==Qt::Key_Space)
+			config.setKey((ClientConfiguration::Action)reallocationKey,Qt::Key_Space);
+		else
+			config.setKey((ClientConfiguration::Action)reallocationKey,event->key());
+		//ActionToButtonMap[(Action)reallocationKey]->setText(config.getKeyVal((ClientConfiguration::Action)reallocationKey));
+		refresh();
 	}
 	checkKey();
-	if(!doubleKey)
+	/*if(!doubleKey)
 	{
-		config.save();
-		load(); // Reload the window
-	}
+		refresh();
+	}*/
 
 }
 
 void OptionsDialog::checkKey()
 {
-	ClientConfiguration config;
-	config.loadDefaultConfigFile();
 	doubleKey=false;
 	QPushButton *okButton=ui->buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setEnabled(true);
-	ui->buttonUp->setStyleSheet("background-color:auto;");
-	ui->buttonDown->setStyleSheet("background-color:auto;");
-	ui->buttonLeft->setStyleSheet("background-color:auto;");
-	ui->buttonRight->setStyleSheet("background-color:auto;");
-	ui->buttonJump->setStyleSheet("background-color:auto;");
 
 	for(int i=0;i<ClientConfiguration::NBVAL;i++)
 	{
@@ -171,43 +140,44 @@ void OptionsDialog::checkKey()
 			{
 				doubleKey=true;
 				okButton->setEnabled(false);
-				switch((ClientConfiguration::Action)i)
-				{
-				case UP:
-					ui->buttonUp->setStyleSheet("background-color:#ba0000;");
-					break;
-				case DOWN:
-					ui->buttonDown->setStyleSheet("background-color:#ba0000;");
-					break;
-				case LEFT:
-					ui->buttonLeft->setStyleSheet("background-color:#ba0000;");
-					break;
-				case RIGHT:
-					ui->buttonRight->setStyleSheet("background-color:#ba0000;");
-					break;
-				case JUMP:
-					ui->buttonJump->setStyleSheet("background-color:#ba0000;");
-					break;
-				}
-				switch((ClientConfiguration::Action)j)
-				{
-				case UP:
-					ui->buttonUp->setStyleSheet("background-color:#ba0000;");
-					break;
-				case DOWN:
-					ui->buttonDown->setStyleSheet("background-color:#ba0000;");
-					break;
-				case LEFT:
-					ui->buttonLeft->setStyleSheet("background-color:#ba0000;");
-					break;
-				case RIGHT:
-					ui->buttonRight->setStyleSheet("background-color:#ba0000;");
-					break;
-				case JUMP:
-					ui->buttonJump->setStyleSheet("background-color:#ba0000;");
-					break;
-				}
+				setButtonColor(RED,(Action)i);
+				setButtonColor(RED,(Action)j);
 			}
 		}
 	}
+}
+
+void OptionsDialog::setButtonColor(Color color, Action action)
+{
+	switch(color)
+	{
+	case RED:
+		ActionToButtonMap[action]->setStyleSheet("background-color:#ba0000;");
+		break;
+	case BLUE:
+		ActionToButtonMap[action]->setStyleSheet("background-color:#20acd6;");
+		break;
+	case DEFAULT:
+		ActionToButtonMap[action]->setStyleSheet("background-color:auto;");
+		break;
+
+	}
+}
+
+void OptionsDialog::resetAllColor()
+{
+	QMapIterator<Action,QPushButton*> i(ActionToButtonMap);
+	 while (i.hasNext()) {
+		 i.next();
+		 setButtonColor(DEFAULT,(Action)i.key());
+	 }
+}
+
+void OptionsDialog::configureMap()
+{
+	ActionToButtonMap[UP]=ui->buttonUp;
+	ActionToButtonMap[DOWN]=ui->buttonDown;
+	ActionToButtonMap[LEFT]=ui->buttonLeft;
+	ActionToButtonMap[RIGHT]=ui->buttonRight;
+	ActionToButtonMap[JUMP]=ui->buttonJump;
 }

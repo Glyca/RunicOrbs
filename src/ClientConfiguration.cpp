@@ -167,6 +167,10 @@ void ClientConfiguration::load()
 								{
 									i_keyMap[RIGHT]=moveChildNode.text().toInt();
 								}
+								else if(moveChildNode.tagName() == "jump")
+								{
+									i_keyMap[JUMP]=moveChildNode.text().toInt();
+								}
 								moveChildNode = moveChildNode.nextSiblingElement();
 							}
 						}
