@@ -61,7 +61,7 @@ void OptionsDialog::refresh()
 	QMapIterator<Action,QPushButton*> i(ActionToButtonMap);
 	 while (i.hasNext()) {
 		 i.next();
-		 ActionToButtonMap[(Action)i.key()]->setText(config.getKeyVal((ClientConfiguration::Action)i.key()));
+		 ActionToButtonMap[(Action)i.key()]->setText(config.getKeyVal((Action)i.key()));
 	 }
 	/*ui->buttonUp->setText(config.getKeyVal(ClientConfiguration::UP));
 	ui->buttonLeft->setText(config.getKeyVal(ClientConfiguration::LEFT));
@@ -111,9 +111,9 @@ void OptionsDialog::keyPressEvent(QKeyEvent *event)
 		reallocation=false;
 
 		if(event->key()==Qt::Key_Space)
-			config.setKey((ClientConfiguration::Action)reallocationKey,Qt::Key_Space);
+			config.setKey((Action)reallocationKey,Qt::Key_Space);
 		else
-			config.setKey((ClientConfiguration::Action)reallocationKey,event->key());
+			config.setKey((Action)reallocationKey,event->key());
 		//ActionToButtonMap[(Action)reallocationKey]->setText(config.getKeyVal((ClientConfiguration::Action)reallocationKey));
 		refresh();
 	}
@@ -131,12 +131,12 @@ void OptionsDialog::checkKey()
 	QPushButton *okButton=ui->buttonBox->button(QDialogButtonBox::Ok);
 	okButton->setEnabled(true);
 
-	for(int i=0;i<ClientConfiguration::NBVAL;i++)
+	for(int i = 0; i < NBVAL; i++)
 	{
-		int comp = config.getKey((ClientConfiguration::Action)i);
-		for(int j=0;j<ClientConfiguration::NBVAL;j++)
+		int comp = config.getKey((Action)i);
+		for(int j = 0; j < NBVAL; j++)
 		{
-			if(comp == config.getKey((ClientConfiguration::Action)j) && i!=j)
+			if(comp == config.getKey((Action)j) && i!=j)
 			{
 				doubleKey=true;
 				okButton->setEnabled(false);

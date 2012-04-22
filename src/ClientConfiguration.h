@@ -3,19 +3,19 @@
 
 #include <QString>
 
+enum Action {
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	JUMP,
+	NBVAL
+};
+
 /*! Manage the configuration of the Craftux client */
 class ClientConfiguration
 {
 public:
-	enum Action{
-		UP,
-		DOWN,
-		LEFT,
-		RIGHT,
-		JUMP,
-		NBVAL
-	};
-
 	/*! Create a default configuration */
 	ClientConfiguration();
 	/*! Load the configuration from a file */

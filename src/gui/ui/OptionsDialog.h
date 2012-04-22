@@ -20,14 +20,6 @@ class OptionsDialog : public QDialog
 public:
 	explicit OptionsDialog(QWidget *parent = 0);
 	~OptionsDialog();
-	enum Action{
-		UP,
-		DOWN,
-		LEFT,
-		RIGHT,
-		JUMP,
-		NBVAL
-	};
 
 	void keyPressEvent(QKeyEvent* keyEvent);
 

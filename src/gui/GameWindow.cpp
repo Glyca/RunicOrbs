@@ -253,19 +253,19 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
 	if(b_playing)
 	{
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::UP)) {
+		if(keyEvent->key() == m_configuration->getKey(UP)) {
 			m_connector->me()->walk(Entity::WalkDirection_Forward);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::DOWN)) {
+		if(keyEvent->key() == m_configuration->getKey(DOWN)) {
 			m_connector->me()->walk(Entity::WalkDirection_Backward);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::LEFT)) {
+		if(keyEvent->key() == m_configuration->getKey(LEFT)) {
 			m_connector->me()->walk(Entity::WalkDirection_Left);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::RIGHT)) {
+		if(keyEvent->key() == m_configuration->getKey(RIGHT)) {
 			m_connector->me()->walk(Entity::WalkDirection_Right);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::JUMP)) {
+		if(keyEvent->key() == m_configuration->getKey(JUMP)) {
 			m_connector->me()->jump();
 		}
 	}
@@ -285,19 +285,19 @@ void GameWindow::keyReleaseEvent(QKeyEvent* keyEvent)
 
 	if(b_playing)
 	{
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::UP)) {
+		if(keyEvent->key() == m_configuration->getKey(UP)) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Forward);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::DOWN)) {
+		if(keyEvent->key() == m_configuration->getKey(DOWN)) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Backward);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::LEFT)) {
+		if(keyEvent->key() == m_configuration->getKey(LEFT)) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Left);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::RIGHT)) {
+		if(keyEvent->key() == m_configuration->getKey(RIGHT)) {
 			m_connector->me()->stopWalking(Entity::WalkDirection_Right);
 		}
-		if(keyEvent->key() == m_configuration->getKey(ClientConfiguration::JUMP)) {
+		if(keyEvent->key() == m_configuration->getKey(JUMP)) {
 			m_connector->me()->stopJumping();
 		}
 	}
