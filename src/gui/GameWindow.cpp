@@ -1,6 +1,7 @@
 #include "GameWindow.h"
 #include "blocks/TorchBlock.h"
 #include "ClientConfiguration.h"
+#include "OpenGLBuffer.h"
 #include "PhysicEngine.h"
 #include "ServerConnector.h"
 #include "version.h"
@@ -17,10 +18,15 @@ GameWindow::GameWindow(ServerConnector* connector)
 	setFps(m_configuration->getFps());
 	setAutoFillBackground(false);
 	setWindowTitle("CrafTuX");
+
 	// Give us 10 torches to survive
 	m_connector->me()->give(Blocks::TORCH.id(), 10);
+
 	m_textureManager.loadItemImages();
 	drawInventoryPixmap();
+
+	m_masterOglLinesBuffer = new OpenGLBuffer(GL_LINES);
+	m_masterOglLinesBuffer->genBuffer(); // create the buffer
 
 	// Every second, we load and prune the chunks
 	connect(t_secondTimer, SIGNAL(timeout()), m_connector, SLOT(loadAndPruneChunks()));
@@ -31,6 +37,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 
 GameWindow::~GameWindow()
 {
+	delete m_masterOglLinesBuffer;
 	delete m_configuration;
 	m_connector->deleteLater();
 }
@@ -130,60 +137,52 @@ void GameWindow::render2D(QPainter& painter)
 
 void GameWindow::render3D()
 {
-	glBegin(GL_LINES);
-	// Ox RED
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(60.0f, 0.0f, 0.0f);
-	// Oy GREEN
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 60.0f, 0.0f);
-	// Oz BLUE
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 60.0f);
-	glEnd();
-
-	glPushMatrix();
-	BlockPosition pointedBlock = m_connector->me()->pointedBlock();
-	glTranslatef(pointedBlock.x, pointedBlock.y, pointedBlock.z);
-	glBegin(GL_LINES);
-
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 0.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 1.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-	glVertex3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 1.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 1.0f, 0.0f);
-
-	glEnd();
-	glPopMatrix();
-
 	// BLOCKS RENDER
-	glColor3ub(255, 255, 255); // Full white for the blocks
 	m_connector->world().render3D();
+
+	m_masterOglLinesBuffer->clear(); // empty the line buffer
+
+	// Ox RED
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f),
+										OpenGLVertice(100.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f));
+	// Oy GREEN
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f),
+										OpenGLVertice(0.0f, 100.0f, 0.0f, 0.0f, 1.0f, 0.0f));
+	// Oz BLUE
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(0.0f, 0.0f, 100.0f, 0.0f, 0.0f, 1.0f));
+
+	BlockPosition pointedBlock = m_connector->me()->pointedBlock();
+
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f + pointedBlock.x, 0.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(1.0f + pointedBlock.x, 0.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f + pointedBlock.x, 0.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(0.0f + pointedBlock.x, 1.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f + pointedBlock.x, 0.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(0.0f + pointedBlock.x, 0.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(1.0f + pointedBlock.x, 1.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(0.0f + pointedBlock.x, 1.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(1.0f + pointedBlock.x, 1.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(1.0f + pointedBlock.x, 0.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(1.0f + pointedBlock.x, 1.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(1.0f + pointedBlock.x, 1.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f + pointedBlock.x, 1.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(0.0f + pointedBlock.x, 1.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f + pointedBlock.x, 1.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(1.0f + pointedBlock.x, 1.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(0.0f + pointedBlock.x, 1.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(0.0f + pointedBlock.x, 0.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(1.0f + pointedBlock.x, 0.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(0.0f + pointedBlock.x, 0.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(1.0f + pointedBlock.x, 0.0f + pointedBlock.y, 1.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(1.0f + pointedBlock.x, 0.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+	m_masterOglLinesBuffer->addVertices(OpenGLVertice(1.0f + pointedBlock.x, 0.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f),
+										OpenGLVertice(1.0f + pointedBlock.x, 1.0f + pointedBlock.y, 0.0f + pointedBlock.z, 0.0f, 0.0f, 1.0f));
+
+	m_masterOglLinesBuffer->render();
 }
 
 void GameWindow::drawInventoryPixmap()

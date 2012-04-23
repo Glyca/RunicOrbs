@@ -3,7 +3,7 @@
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
 #define BUFFER_OFFSET_FLOAT(a) (BUFFER_OFFSET(a * sizeof(GLfloat)))
 
-OpenGLBuffer::OpenGLBuffer() : b_allocated(false), b_dirty(true), i_vertexBufferId(0), i_indicesBufferId(0)
+OpenGLBuffer::OpenGLBuffer(GLenum primitiveType) : m_primitiveType(primitiveType), b_allocated(false), b_dirty(true), i_vertexBufferId(0), i_indicesBufferId(0)
 {
 }
 
@@ -34,6 +34,11 @@ void OpenGLBuffer::addVertice(const OpenGLVertice& vertice)
 {
 	m_vertex.push_back(vertice);
 	b_dirty = true;
+}
+
+void OpenGLBuffer::addVertices(const OpenGLVertice& v1, const OpenGLVertice& v2)
+{
+	addVertice(v1); addVertice(v2);
 }
 
 void OpenGLBuffer::addVertices(const OpenGLVertice& v1, const OpenGLVertice& v2, const OpenGLVertice& v3, const OpenGLVertice& v4)
@@ -73,7 +78,7 @@ void OpenGLBuffer::render()
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		// Render !
-		glDrawElements(GL_QUADS, m_vertex.size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		glDrawElements(m_primitiveType, m_vertex.size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
@@ -100,9 +105,11 @@ void OpenGLBuffer::fill()
 
 	glBindBuffer(GL_ARRAY_BUFFER, i_vertexBufferId);
 	glBufferData(GL_ARRAY_BUFFER, numberOfVertex * OPENGLVERTICE_SIZE * sizeof(GLfloat), &m_vertex[0], GL_STATIC_DRAW); // Send data
+	glBindBuffer(GL_ARRAY_BUFFER, 0); // Safely disbale buffer
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_indicesBufferId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, numberOfVertex * sizeof(GLuint), indicesBuffer, GL_STATIC_DRAW); // Send data
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Safely disbale buffer
 	// We finished to upload our indices buffer, so we can delete the temp array
 	delete[] indicesBuffer;
 

@@ -8,7 +8,7 @@
 
 ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw)
 {
-	m_oglBuffer = new OpenGLBuffer();
+	m_oglBuffer = new OpenGLBuffer(GL_QUADS);
 	m_oglBuffer->genBuffer();
 }
 

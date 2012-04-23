@@ -5,6 +5,7 @@
 #include "TextureManager.h"
 
 class ClientConfiguration;
+class OpenGLBuffer;
 class ServerConnector;
 
 const int INVENTORY_SQUARE_SIZE = 60; //!< The size of an item slot of the inventory
@@ -42,6 +43,8 @@ private:
 	bool b_debugView; //!< If debugging informations are shown
 	QCursor m_originalCursor;
 	QPixmap m_inventoryPixmap; //!< The inventory is redrawed only when selected item or contents are modified
+
+	OpenGLBuffer* m_masterOglLinesBuffer; //!< A small buffer that contains lines
 
 private slots:
 	void drawInventoryPixmap(); //!< Draw the inventory to the pixmap m_inventoryPixmap
