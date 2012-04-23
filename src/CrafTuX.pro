@@ -6,12 +6,20 @@
 
 QT       += core gui opengl network xml
 
-DESTDIR = ../
-
 CONFIG(debug, debug|release) {
-	TARGET = craftuxd
+	DESTDIR = ../build/debug/
+	RCC_DIR = ../build/debug/rcc/
+	UI_DIR = ../build/debug/ui/
+	MOC_DIR = ../build/debug/moc/
+	OBJECTS_DIR = ../build/debug/obj/
+	TARGET = ../../craftuxd
 } else {
-	TARGET = craftux
+	DESTDIR = ../build/release/
+	RCC_DIR = ../build/release/rcc/
+	UI_DIR = ../build/release/ui/
+	MOC_DIR = ../build/release/moc/
+	OBJECTS_DIR = ../build/release/obj/
+	TARGET = ../../craftux
 }
 
 CONFIG += thread

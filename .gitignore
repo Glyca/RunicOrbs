@@ -10,7 +10,7 @@ craftux
 craftuxd
 moc_*.cpp
 ui_*.h
-*build*/
+build/*
 
 # Packages #
 ############
