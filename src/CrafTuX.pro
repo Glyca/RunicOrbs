@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui opengl network xml
+QT       += core gui opengl network xml webkit
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../build/debug/
