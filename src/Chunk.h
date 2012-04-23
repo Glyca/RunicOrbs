@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QReadWriteLock>
 #include <QPair>
 
 class BlockInfo;
@@ -19,18 +20,19 @@ typedef QPair<int, int> ChunkPosition;
 /*! A chunk of a World containing all BlockInfo */
 class Chunk : public QObject
 {
+	Q_OBJECT
 public:
 	explicit Chunk(QObject *parent, ChunkPosition position);
 	~Chunk();
+
+	/*! This returns the mutex of the Chunk. Be sure to unlock it when needed!! */
+	inline QReadWriteLock& rwLock() {return m_rwLock;}
 
 	enum ChunkState {
 		ChunkState_Active,
 		ChunkState_Idle,
 		ChunkState_Void
 	};
-
-	void activate(); //!< Activate the chunk (it will be drawed)
-	void idle(); //!< Make the Chunk enter in an idle state (it will not be drawed)
 
 	inline ChunkPosition position() const {return m_position;}
 	int altitude(const int x, const int z);
@@ -47,7 +49,7 @@ public:
 	void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const;
 
 	/*! This will force the chunk to be redrawed */
-	inline void makeDirty() {b_dirty = true;}
+	void makeDirty();
 
 	void makeSurroundingChunksDirty() const;
 
@@ -57,8 +59,11 @@ public:
 signals:
 
 public slots:
+	void activate(); //!< Activate the chunk (it will be drawed)
+	void idle(); //!< Make the Chunk enter in an idle state (it will not be drawed)
 
 private:
+	QReadWriteLock m_rwLock;
 	ChunkState m_state;
 	bool b_dirty; //!< If we need to redraw the chunk
 	ChunkPosition m_position; //!< The postion of the chunk in chunk unit.

@@ -12,13 +12,11 @@ class Chunk;
 class ChunkGenerator : public QThread
 {
 public:
-	ChunkGenerator(const int seed);
+	ChunkGenerator(Chunk* chunkToGenerate, const int seed);
 	ChunkGenerator(const ChunkGenerator&);
 
 	/*! Called to generate the chunk in fact */
 	void run();
-
-	inline void setChunkToGenerate(Chunk* chunkToGenerate) {m_chunkToGenerate = chunkToGenerate;}
 
 private:
 	/*! Dot product */

@@ -1,10 +1,11 @@
 #include "World.h"
+#include "ChunkGenerator.h"
 #include "PhysicObject.h"
 #include "PhysicEngine.h"
 
 #include <QDebug>
 
-World::World(Server* server, const int seed, QObject *parent) : QObject(parent), m_server(server), m_chunkGenerator(ChunkGenerator(seed)), i_seed(seed)
+World::World(Server* server, const int seed, QObject *parent) : QObject(parent), m_server(server), i_seed(seed)
 {
 	m_physicEngine = new PhysicEngine(this, this);
 	m_chunks = new QHash<ChunkPosition, Chunk*>();
@@ -34,7 +35,7 @@ Chunk* World::chunk(const ChunkPosition& position) const
 	{
 		return m_chunks->value(position);
 	}
-	else // otherwise, we load it
+	else // otherwise, we return a void chunk (and we DONT load it)
 	{
 		return m_voidChunk;
 	}
@@ -84,10 +85,14 @@ void World::loadChunk(const ChunkPosition& position)
 	else // otherwise, we generate a new fresh one
 	{
 		Chunk* newChunk = new Chunk(this, position);
-		m_chunkGenerator.setChunkToGenerate(newChunk);
-		m_chunkGenerator.run();
+		ChunkGenerator* chunkGenerator = new ChunkGenerator(newChunk, i_seed);
+		// The generation thread will activate the chunk when finished
+		connect(chunkGenerator, SIGNAL(finished()), newChunk, SLOT(activate()));
+		// The generation thread will auto-destroy itself when finished
+		connect(chunkGenerator, SIGNAL(finished()), chunkGenerator, SLOT(deleteLater()));
+		// Start the generation of the chunk
+		chunkGenerator->start();
 		m_chunks->insert(position, newChunk);
-		newChunk->activate();
 	}
 }
 

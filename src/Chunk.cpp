@@ -17,6 +17,7 @@ Chunk::~Chunk()
 
 void Chunk::activate()
 {
+	QWriteLocker locker(&m_rwLock);
 	if(m_state != ChunkState_Active) {
 		m_chunkDrawer = new ChunkDrawer(this);
 		b_dirty = true; // we must redraw the chunk
@@ -27,6 +28,7 @@ void Chunk::activate()
 
 void Chunk::idle()
 {
+	QWriteLocker locker(&m_rwLock);
 	if(m_state != ChunkState_Idle) {
 		delete m_chunkDrawer;
 		m_state = ChunkState_Idle;
@@ -35,6 +37,7 @@ void Chunk::idle()
 
 int Chunk::altitude(const int x, const int z)
 {
+	QReadLocker locker(&m_rwLock);
 	int highest = 0;
 	for(int y = 0; y < CHUNK_HEIGHT; y++)
 	{
@@ -67,6 +70,12 @@ void Chunk::mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int
 	worldX = m_position.first * CHUNK_X_SIZE + chunkX;
 	worldY = chunkY;
 	worldZ = m_position.second * CHUNK_Z_SIZE + chunkZ;
+}
+
+void Chunk::makeDirty()
+{
+	QWriteLocker locker(&m_rwLock);
+	b_dirty = true;
 }
 
 void Chunk::makeSurroundingChunksDirty() const

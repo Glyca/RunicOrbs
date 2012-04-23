@@ -5,7 +5,6 @@
 #include <QHash>
 
 #include "Chunk.h"
-#include "ChunkGenerator.h"
 
 class BlockInfo;
 class BlockPosition;
@@ -65,7 +64,6 @@ private:
 	QHash<ChunkPosition, Chunk*> * m_chunks;
 	Chunk* m_voidChunk; //!< The void chunk is given when you try to access a too far chunk
 	PhysicEngine* m_physicEngine;
-	ChunkGenerator m_chunkGenerator;
 	int i_time; //!< The current time of the word
 	int i_seed; //!< Seed of the world
 };

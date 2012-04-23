@@ -1,5 +1,7 @@
 #include "LocalServerConnector.h"
 
+#include <QThread>
+
 LocalServerConnector::LocalServerConnector()
 {
 	QThread* thread = new QThread(this);

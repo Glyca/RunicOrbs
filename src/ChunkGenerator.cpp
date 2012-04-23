@@ -29,7 +29,7 @@ static int* perm = NULL;
  by Glyca
 */
 
-ChunkGenerator::ChunkGenerator(const int seed) : QThread(), i_seed(seed)
+ChunkGenerator::ChunkGenerator(Chunk* chunkToGenerate, const int seed) : QThread(), i_seed(seed), m_chunkToGenerate(chunkToGenerate)
 {
 	if(perm == NULL) {
 		// To remove the need for index wrapping, double the permutation table length
@@ -81,6 +81,9 @@ void ChunkGenerator::run()
 			m_chunkToGenerate->mapToWorld(i, 0, k, wi, wj, wk);
 			double rockAltitude = (perlinNoise2d(wi*0.017, wk*0.017) + 1)*CHUNK_HEIGHT/3;
 			double dirtAltitude = (perlinNoise2d(-wi*0.017, -wk*0.017)/3);
+
+			m_chunkToGenerate->rwLock().lockForWrite();
+
 			for(int j = 0; j < rockAltitude; j++)
 			{
 				m_chunkToGenerate->block(i, j, k)->setId(1);
@@ -91,6 +94,8 @@ void ChunkGenerator::run()
 			}
 			// Full light on the top void block :
 			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude, k)->setLightLevel(15);
+
+			m_chunkToGenerate->rwLock().unlock();
 		}
 	}
 #endif

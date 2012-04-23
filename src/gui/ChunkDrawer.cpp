@@ -21,6 +21,8 @@ void ChunkDrawer::generateVBO()
 {
 	m_oglBuffer->clear();
 
+	QReadLocker(&m_chunkToDraw->rwLock());
+
 	World& workingWorld = m_chunkToDraw->world();
 	int zi, zj, zk; // These are the coordinates of the zero (0;0;0) block of the chunk (in chunk relative coordinates of course)
 	m_chunkToDraw->mapToWorld(0, 0, 0, zi, zj, zk);
