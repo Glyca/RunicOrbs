@@ -1,14 +1,17 @@
-##Introduction
-The Runic Orbs is a project using OpenGL and Qt4.
-[Official website](http://www.runicorbs.net)
-[Official forums](http://www.runicorbs.net/forums)
+#Welcome to the world of The Runic Orbs!
+**The Runic Orbs** is a funny sandbox indie adventure game using C++, OpenGL and Qt4. It was originally created by [Glyca](https://github.com/Glyca/RunicOrbs).  
+* **[Official website](http://www.runicorbs.net)**
+* [Let's talk about it on the forums](http://www.runicorbs.net/forums)
+* [Look at the wiki](https://github.com/Glyca/RunicOrbs/wiki)
+* [View or create an issue](https://github.com/Glyca/RunicOrbs/issues)
+* [You think it deserves a donation?](http://www.runicorbs.net/donate/)
 
 ##Downloads
-The [download section](https://github.com/Glycaa/CrafTuX/downloads).
-You must have Qt librairies installed (or in DLL), since they are not provided in the zip.
+Check for builds at the [download section](https://github.com/Glyca/RunicOrbs/downloads).
+You must have Qt libraries installed (or in DLLs next to the executable for Windows), since they are not provided in the zip.
 
 ##Contributing
-Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
+Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions on the [forum](http://www.runicorbs.net/forums)!
 
 ##Changelog
 ###v0.0.5 (not released yet)
@@ -25,8 +28,8 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [ADD] Reticule for better picking
 [ADD] A beginning of event system (client to server and vice versa)
 [ADD] Block destruction
-[ADD] Block placment
-[ADD] Smooth shading and antialiasing are now configurable
+[ADD] Block placement
+[ADD] Smooth shading and anti-aliasing are now configurable
 [ADD] Only visible faces are rendered (huge speed increase)
 [ADD] Basic inventory system of 8 slots
 [ADD] Started creation of server join/host guis
@@ -36,7 +39,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [FIX] Jump and walking are not FPS dependant anymore
 [FIX] You are not stuck when you fall at low FPS thanks to destucking
 [FIX] Removed useless lighting system until a real implementation
-[BUG] At the boundary between negative chunks, there is some ghost blocks (unbreakeable, breaks physic...)
+[BUG] At the boundary between negative chunks, there is some ghost blocks (unbreakable, breaks physic...)
 ```
 ###v0.0.3 (March 7 2012)
 ```
@@ -49,7 +52,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [ADD] The game can be paused and resumed properly
 [ADD] Game have a persistent, customizable configuration for FPS (and almost the seed)
 [ADD] Lighting. Shapes are more visible
-[ADD] Collisions. You cant't go throught blocks anymore
+[ADD] Collisions. You can't go through blocks anymore
 [FIX] Compilable on Windows since OpenGL 1.5 and higher functions are loaded
 ```
 ###v0.0.2 (Feb 29 2012)
