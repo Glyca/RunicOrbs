@@ -1,5 +1,6 @@
 #include "PhysicObject.h"
 #include "blocks/BlockDescriptor.h"
+#include "Log.h"
 #include "server/Server.h"
 #include "World.h"
 
@@ -84,7 +85,7 @@ void PhysicObject::destuck()
 		v_position.y = (preal)world()->altitude(v_position.x, v_position.z) + 0.01;
 		v_velocity.null();
 		v_acceleration.null();
-		qDebug() << "destucked : set at" << v_position.y;
+		ldebug(Channel_Physic, "destucked : set at " + QString::number(v_position.y));
 	}
 }
 

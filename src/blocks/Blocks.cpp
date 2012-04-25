@@ -1,6 +1,7 @@
 #include "Blocks.h"
 #include "BlockDescriptor.h"
 #include "CubeBlock.h"
+#include "Log.h"
 #include "TorchBlock.h"
 
 const bool B_BREAKABLE = true, B_UNBREAKABLE = false;
@@ -24,7 +25,7 @@ Blocks::Blocks()
 	m_blockDescriptors[2] = &Blocks::DIRT;
 	m_blockDescriptors[3] = &Blocks::GRASS;
 	m_blockDescriptors[4] = &Blocks::TORCH;
-	qDebug() << QObject::tr("Blocks catalog created, having %1 blocks.").arg(MAX_BLOCKID).toStdString().c_str();
+	linfo(Channel_Blocks, QObject::tr("Blocks catalog created, having %1 blocks.").arg(MAX_BLOCKID));
 }
 
 BlockDescriptor& Blocks::byId(const int id)

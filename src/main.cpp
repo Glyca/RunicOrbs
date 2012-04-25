@@ -1,6 +1,5 @@
-﻿#include <cstdio>
-#include <cstdlib>
-#include <ctime>
+﻿#include <ctime>
+#include <iostream> // std::cout
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTextCodec>
@@ -8,24 +7,7 @@
 #include <QtGui/QApplication>
 
 #include "gui/ui/Home.h"
-
-void craftuxMessageOutput(QtMsgType type, const char* msg)
-{
-	switch (type) {
-	case QtDebugMsg:
-		fprintf(stderr, QObject::tr("[Debug] %s\n").toAscii(), msg);
-		break;
-	case QtWarningMsg:
-		fprintf(stderr, QObject::tr("[Warning] %s\n").toAscii(), msg);
-		break;
-	case QtCriticalMsg:
-		fprintf(stderr, QObject::tr("[Critical] %s\n").toAscii(), msg);
-		break;
-	case QtFatalMsg:
-		fprintf(stderr, QObject::tr("[Fatal] %s\n").toAscii(), msg);
-		abort();
-	}
-}
+#include "Log.h"
 
 int main(int argc, char *argv[])
 {
@@ -36,8 +18,7 @@ int main(int argc, char *argv[])
 	QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
 	QTextCodec::setCodecForTr(QTextCodec::codecForName("UTF-8"));
 
-	qInstallMsgHandler(craftuxMessageOutput);
-
+	Log::plugOutputStream(&std::cout); // Make the log be put in std::cout
 	QApplication a(argc, argv);
 
 	QTranslator qtTranslator;
@@ -51,6 +32,5 @@ int main(int argc, char *argv[])
 
 	Home w;
 	w.show();
-
 	return a.exec();
 }

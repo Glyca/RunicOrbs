@@ -1,6 +1,7 @@
 #include "GameWindow.h"
 #include "blocks/TorchBlock.h"
 #include "ClientConfiguration.h"
+#include "Log.h"
 #include "OpenGLBuffer.h"
 #include "PhysicEngine.h"
 #include "ServerConnector.h"
@@ -45,8 +46,8 @@ GameWindow::~GameWindow()
 void GameWindow::initializeGL()
 {
 	GLint maxTextureSize; glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
-	qDebug(tr("Initialized OpenGL, version %d.%d").toAscii(), format().majorVersion(), format().minorVersion());
-	qDebug() << "OpenGL driver :" << (const char*)glGetString(GL_VENDOR) << "|" << (const char*)glGetString(GL_RENDERER)<< "|" << (const char*)glGetString(GL_VERSION) << "| GL_MAX_TEXTURE_SIZE =" << maxTextureSize;
+	linfo(Channel_OpenGL, tr("Initialized OpenGL, version %1.%2").arg(format().majorVersion()).arg(format().minorVersion()));
+	linfo(Channel_OpenGL, tr("OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4").arg((const char*)glGetString(GL_VENDOR)).arg((const char*)glGetString(GL_RENDERER)).arg((const char*)glGetString(GL_VERSION)).arg(maxTextureSize));
 
 	m_textureManager.loadTextures();
 

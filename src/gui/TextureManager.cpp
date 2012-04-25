@@ -1,6 +1,7 @@
 ﻿#include "TextureManager.h"
 #include "blocks/Blocks.h"
 #include "blocks/BlockDescriptor.h"
+#include "Log.h"
 #include <QtGlobal>
 
 const char* TEXTURE_PATH = "/gfx/textures/";
@@ -37,11 +38,11 @@ QImage TextureManager::getTextureAtlas()
 		QString textureFilename(qApp->applicationDirPath() + TEXTURE_PATH + Blocks::byId(blockID).name() + ".png");
 		QImage qim_texture(textureFilename);
 		if(qim_texture.isNull()) {
-			qDebug() << errorString.arg(textureFilename, Blocks::byId(blockID).name()).toStdString().c_str();
+			lwarning(Channel_Textures, errorString.arg(textureFilename, Blocks::byId(blockID).name()));
 		}
 		else {
 			qmap_textureImages.insert(blockID, qim_texture);
-			qDebug() << loadedString.arg(Blocks::byId(blockID).name(), textureFilename).toStdString().c_str();
+			ldebug(Channel_Textures, loadedString.arg(Blocks::byId(blockID).name(), textureFilename));
 			// The atlas width is the greater width of all textures
 			if(qim_texture.width() > atlasWidth) {
 				atlasWidth = qim_texture.width();
@@ -122,7 +123,7 @@ GLuint TextureManager::loadTextures()
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, qim_Texture.width(), qim_Texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
 		}
 
-		qDebug() << QObject::tr("Textures loaded!").toStdString().c_str();
+		linfo(Channel_Textures, QObject::tr("Textures loaded!"));
 
 		return gi_textureID;
 	}
@@ -148,11 +149,11 @@ void TextureManager::loadItemImages()
 		QString itemImageFilename(qApp->applicationDirPath() + ITEMS_IMAGES_PATH + Blocks::byId(blockID).name() + ".png");
 		QImage qim_itemImage(itemImageFilename);
 		if(qim_itemImage.isNull()) {
-			qDebug() << errorString.arg(itemImageFilename, Blocks::byId(blockID).name()).toStdString().c_str();
+			lwarning(Channel_Textures, errorString.arg(itemImageFilename, Blocks::byId(blockID).name()));
 		}
 		else {
 			Blocks::byId(blockID).setItemImage(qim_itemImage);
-			qDebug() << loadedString.arg(Blocks::byId(blockID).name(), itemImageFilename).toStdString().c_str();
+			ldebug(Channel_Textures, loadedString.arg(Blocks::byId(blockID).name(), itemImageFilename));
 		}
 	}
 }
