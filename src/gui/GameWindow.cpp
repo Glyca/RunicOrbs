@@ -18,7 +18,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 	m_textureManager.setTextureFiltering((TextureManager::TextureFiltering)m_configuration->getTextureFiltering());
 	setFps(m_configuration->getFps());
 	setAutoFillBackground(false);
-	setWindowTitle("CrafTuX");
+	setWindowTitle("The Runic Orbs");
 
 	// Give us 10 torches to survive
 	m_connector->me()->give(Blocks::TORCH.id(), 10);
@@ -105,7 +105,7 @@ void GameWindow::render2D(QPainter& painter)
 	painter.setPen(Qt::white);
 
 	if(b_playing) {
-		QString text = QString("CrafTuX version " TRO_VERSION " @ ") + QString::number(getCurrentFPS()) + tr("FPS");
+		QString text = QString("The Runic Orbs version " TRO_VERSION " @ ") + QString::number(getCurrentFPS()) + tr("FPS");
 		if(b_debugView) {
 			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
 			text.append("\n" "Pitch : " + QString::number(m_connector->me()->pitch()) + " // Yaw : " + QString::number(m_connector->me()->yaw()));

@@ -29,55 +29,57 @@
 <context>
     <name>CraftuxHome</name>
     <message>
-        <location filename="../src/gui/ui/CraftuxHome.ui" line="32"/>
         <source>Welcome to CrafTuX</source>
-        <translation>Bienvenue à CrafTuX</translation>
+        <translation type="obsolete">Bienvenue à CrafTuX</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/CraftuxHome.ui" line="82"/>
         <source>Hey, welcome to CrafTuX!</source>
-        <translation>Hey, bienvenue à CrafTuX !</translation>
+        <translation type="obsolete">Hey, bienvenue à CrafTuX !</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/CraftuxHome.ui" line="92"/>
         <source>Play &amp;solo</source>
-        <translation>Partie &amp;solo</translation>
+        <translation type="obsolete">Partie &amp;solo</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/CraftuxHome.ui" line="99"/>
         <source>Join a &amp;multiplayer game</source>
-        <translation>Rejoindre une partie &amp;multijoueur</translation>
+        <translation type="obsolete">Rejoindre une partie &amp;multijoueur</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/CraftuxHome.ui" line="138"/>
         <source>&amp;Host a game</source>
-        <translation>&amp;Héberger une partie</translation>
+        <translation type="obsolete">&amp;Héberger une partie</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/CraftuxHome.ui" line="216"/>
         <source>&amp;Options</source>
-        <translation>&amp;Options</translation>
+        <translation type="obsolete">&amp;Options</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/CraftuxHome.ui" line="236"/>
         <source>&amp;Quit</source>
-        <translation>&amp;Quitter</translation>
+        <translation type="obsolete">&amp;Quitter</translation>
     </message>
 </context>
 <context>
     <name>GameWindow</name>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="35"/>
         <source>Initialized OpenGL, version %d.%d</source>
-        <translation>OpenGL initialisé en version %d.%d</translation>
+        <translation type="obsolete">OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="95"/>
+        <location filename="../src/gui/GameWindow.cpp" line="49"/>
+        <source>Initialized OpenGL, version %1.%2</source>
+        <translation>OpenGL initialisé en version %1.%2</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GameWindow.cpp" line="50"/>
+        <source>OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</source>
+        <translation>Pilote OpenGL : %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GameWindow.cpp" line="108"/>
         <source>FPS</source>
         <translation> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="97"/>
+        <location filename="../src/gui/GameWindow.cpp" line="110"/>
         <source>Position : </source>
         <translation>Position : </translation>
     </message>
@@ -86,13 +88,61 @@
         <translation type="obsolete"> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="118"/>
+        <location filename="../src/gui/GameWindow.cpp" line="132"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>
         <translation>Le jeu est en pause
 
 Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</translation>
+    </message>
+</context>
+<context>
+    <name>Home</name>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="26"/>
+        <source>Welcome to The Runic Orbs</source>
+        <translation>Bienvenue à The Runic Orbs</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="41"/>
+        <source>The Runic Orbs</source>
+        <translation>The Runic Orbs</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="61"/>
+        <source>http://www.runicorbs.net/</source>
+        <translation>http://www.runicorbs.net/</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="80"/>
+        <source>Play &amp;solo</source>
+        <translation>Partie &amp;solo</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="87"/>
+        <source>Join a &amp;multiplayer game</source>
+        <translation>Rejoindre une partie &amp;multijoueur</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="94"/>
+        <source>&amp;Host a game</source>
+        <translation>&amp;Héberger une partie</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="101"/>
+        <source>&amp;Options</source>
+        <translation>&amp;Options</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="289"/>
+        <source>&amp;Quit</source>
+        <translation>&amp;Quitter</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.cpp" line="23"/>
+        <source>version %1</source>
+        <translation>version %1</translation>
     </message>
 </context>
 <context>
@@ -242,61 +292,57 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="187"/>
+        <location filename="../src/ClientConfiguration.cpp" line="191"/>
         <source>This is the Craftux configuration file</source>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="195"/>
+        <location filename="../src/ClientConfiguration.cpp" line="199"/>
         <source>Settings for gameplay</source>
         <translation>Paramètres de jeu</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="205"/>
+        <location filename="../src/ClientConfiguration.cpp" line="209"/>
         <source>Configure graphics</source>
         <translation>Configuration des graphismes</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="215"/>
+        <location filename="../src/ClientConfiguration.cpp" line="219"/>
         <source>Configure keymap</source>
         <translation>Mappage des touches</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="218"/>
+        <location filename="../src/ClientConfiguration.cpp" line="222"/>
         <source>Configure movement key</source>
         <translation>Mappage des touches du déplacement</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="261"/>
+        <location filename="../src/ClientConfiguration.cpp" line="265"/>
         <source>Error opening client configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="16"/>
         <source>[Debug] %s
 </source>
-        <translation>[Debug] %s
+        <translation type="obsolete">[Debug] %s
 </translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="19"/>
         <source>[Warning] %s
 </source>
-        <translation>[Avertissement] %s
+        <translation type="obsolete">[Avertissement] %s
 </translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="22"/>
         <source>[Critical] %s
 </source>
-        <translation>[Critique] %s
+        <translation type="obsolete">[Critique] %s
 </translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="25"/>
         <source>[Fatal] %s
 </source>
-        <translation>[Fatal] %s
+        <translation type="obsolete">[Fatal] %s
 </translation>
     </message>
     <message>
@@ -304,32 +350,32 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation type="obsolete">Le chargement de la texture [%1] a échoué !</translation>
     </message>
     <message>
-        <location filename="../src/blocks/Blocks.cpp" line="27"/>
+        <location filename="../src/blocks/Blocks.cpp" line="28"/>
         <source>Blocks catalog created, having %1 blocks.</source>
         <translation>Catalogue des blocs créé, il contient %1 blocs.</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="26"/>
+        <location filename="../src/gui/TextureManager.cpp" line="27"/>
         <source>Texture loading [%1] for &quot;%2&quot; failed!</source>
         <translation>Le chargement de la texture [%1] du bloc &quot;%2&quot; a échoué !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="27"/>
+        <location filename="../src/gui/TextureManager.cpp" line="28"/>
         <source>Successfully loaded &quot;%1&quot; texture [%2].</source>
         <translation>Chargé la texture [%2] du bloc &quot;%1&quot; !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="125"/>
+        <location filename="../src/gui/TextureManager.cpp" line="126"/>
         <source>Textures loaded!</source>
         <translation>Textures chargées !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="143"/>
+        <location filename="../src/gui/TextureManager.cpp" line="144"/>
         <source>Item image loading [%1] for &quot;%2&quot; failed!</source>
         <translation>Le chargement de l&apos;image [%1] du bloc &quot;%2&quot; a échoué !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="144"/>
+        <location filename="../src/gui/TextureManager.cpp" line="145"/>
         <source>Successfully loaded &quot;%1&quot; item image [%2].</source>
         <translation>Chargé l&apos;image [%2] du bloc &quot;%1&quot; !</translation>
     </message>
