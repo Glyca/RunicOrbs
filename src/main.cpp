@@ -7,7 +7,7 @@
 #include <QTranslator>
 #include <QtGui/QApplication>
 
-#include "gui/ui/CraftuxHome.h"
+#include "gui/ui/Home.h"
 
 void craftuxMessageOutput(QtMsgType type, const char* msg)
 {
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	craftuxTranslator.load("craftux_" + QLocale::system().name(), a.applicationDirPath() + "/lang/");
 	a.installTranslator(&craftuxTranslator);
 
-	CraftuxHome w;
+	Home w;
 	w.show();
 
 	return a.exec();

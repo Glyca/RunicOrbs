@@ -1,7 +1,7 @@
 ﻿#include <QtGui>
 #include <QGLWidget>
 
-#include "CraftuxHome.h"
+#include "Home.h"
 #include "ConnectDialog.h"
 #include "gui/GameWindow.h"
 #include "LocalServerConnector.h"
@@ -9,10 +9,10 @@
 #include "ServerConnector.h"
 #include "ServerWidget.h"
 #include "version.h"
-#include "ui_CraftuxHome.h"
+#include "ui_Home.h"
 
-CraftuxHome::CraftuxHome(QWidget *parent) :
-	QWidget(parent), ui(new Ui::CraftuxHome), b_optionDialogOpened(false), m_optionsDialog(NULL)
+Home::Home(QWidget *parent) :
+	QWidget(parent), ui(new Ui::Home), b_optionDialogOpened(false), m_optionsDialog(NULL)
 {
 	ui->setupUi(this);
 	connect(ui->soloButton, SIGNAL(clicked()), this, SLOT(soloGameLaunch()));
@@ -20,18 +20,18 @@ CraftuxHome::CraftuxHome(QWidget *parent) :
 	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(openServerInterface()));
 	connect(ui->optionsButton, SIGNAL(clicked()), this, SLOT(openOptions()));
 	connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
-	ui->versionLabel->setText(tr("version %1").arg(CRAFTUX_VERSION));
+	ui->versionLabel->setText(tr("version %1").arg(TRO_VERSION));
 	// Center the window on the screen
 	QDesktopWidget* desktop = QApplication::desktop();
 	move( (desktop->width() - width()) / 2 , (desktop->height() - height()) / 2 - 50 );
 }
 
-CraftuxHome::~CraftuxHome()
+Home::~Home()
 {
 	delete ui;
 }
 
-void CraftuxHome::soloGameLaunch()
+void Home::soloGameLaunch()
 {
 	// Création et génération du monde
 	ServerConnector* connector = new LocalServerConnector();
@@ -40,7 +40,7 @@ void CraftuxHome::soloGameLaunch()
 	gameWindow->show();
 }
 
-void CraftuxHome::openOptions()
+void Home::openOptions()
 {
 	if(b_optionDialogOpened)
 	{
@@ -56,20 +56,20 @@ void CraftuxHome::openOptions()
 	}
 }
 
-void CraftuxHome::optionsClosed()
+void Home::optionsClosed()
 {
 	b_optionDialogOpened = false;
 	m_optionsDialog = NULL;
 }
 
-void CraftuxHome::openConnectDialog()
+void Home::openConnectDialog()
 {
 	ConnectDialog* connectDialog = new ConnectDialog();
 	this->close();
 	connectDialog->show();
 }
 
-void CraftuxHome::openServerInterface()
+void Home::openServerInterface()
 {
 	ServerWidget* serverWidget = new ServerWidget();
 	this->close();

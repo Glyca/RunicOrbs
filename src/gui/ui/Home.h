@@ -6,17 +6,17 @@
 class OptionsDialog;
 
 namespace Ui {
-	class CraftuxHome;
+	class Home;
 }
 
 /*! The main menu of Craftux */
-class CraftuxHome : public QWidget
+class Home : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit CraftuxHome(QWidget *parent = 0);
-	~CraftuxHome();
+	explicit Home(QWidget *parent = 0);
+	~Home();
 
 private slots:
 	void soloGameLaunch();
@@ -26,7 +26,7 @@ private slots:
 	void openServerInterface();
 
 private:
-	Ui::CraftuxHome *ui;
+	Ui::Home *ui;
 	bool b_optionDialogOpened;
 	OptionsDialog* m_optionsDialog;
 };

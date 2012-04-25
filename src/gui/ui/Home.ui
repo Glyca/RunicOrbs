@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CraftuxHome</class>
- <widget class="QWidget" name="CraftuxHome">
+ <class>Home</class>
+ <widget class="QWidget" name="Home">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Welcome to CrafTuX</string>
+   <string>Welcome to The Runic Orbs</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -38,7 +38,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Craftux</string>
+        <string>The Runic Orbs</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -58,7 +58,7 @@
         <widget class="QWebView" name="newsWebView">
          <property name="url">
           <url>
-           <string>https://github.com/Glycaa/CrafTuX#changelog</string>
+           <string>http://www.runicorbs.net/</string>
           </url>
          </property>
          <property name="zoomFactor">

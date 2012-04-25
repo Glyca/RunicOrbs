@@ -104,7 +104,7 @@ void GameWindow::render2D(QPainter& painter)
 	painter.setPen(Qt::white);
 
 	if(b_playing) {
-		QString text = QString("CrafTuX version " CRAFTUX_VERSION " @ ") + QString::number(getCurrentFPS()) + tr("FPS");
+		QString text = QString("CrafTuX version " TRO_VERSION " @ ") + QString::number(getCurrentFPS()) + tr("FPS");
 		if(b_debugView) {
 			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
 			text.append("\n" "Pitch : " + QString::number(m_connector->me()->pitch()) + " // Yaw : " + QString::number(m_connector->me()->yaw()));

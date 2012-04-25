@@ -1,12 +1,11 @@
 ##Introduction
-CrafTuX is a test project using OpenGL and Qt4. You are in a 3D world with randomly generated cubes, and you can fall thanks to the physic engine.
+The Runic Orbs is a project using OpenGL and Qt4.
+[Official website](http://www.runicorbs.net)
+[Official forums](http://www.runicorbs.net/forums)
 
-###Wiki
-Craftux has a [Wiki](https://github.com/Glycaa/CrafTuX/wiki), check it for further information.
-
-##Downloads for Linux 64 bits
-If you are on Linux, and 64 bits, there is a build for you at the [download section](https://github.com/Glycaa/CrafTuX/downloads).
-You must have Qt librairies installed, since they are not provided in the zip.
+##Downloads
+The [download section](https://github.com/Glycaa/CrafTuX/downloads).
+You must have Qt librairies installed (or in DLL), since they are not provided in the zip.
 
 ##Contributing
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions!
@@ -72,4 +71,3 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 [ADD] Physic engine with forces, velocity, acceleration and fluid fiction
 [ADD] Randomly generated cubes are drawn
 ```
-![](http://piwik.lesdofusiensdediamant.com/piwik.php?idsite=4&amp;rec=1)
