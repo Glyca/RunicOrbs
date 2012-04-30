@@ -1,8 +1,8 @@
 ﻿#include "TextureManager.h"
 #include "blocks/Blocks.h"
 #include "blocks/BlockDescriptor.h"
+#include "blocks/TorchBlock.h"
 #include "Log.h"
-#include <QtGlobal>
 
 const char* TEXTURE_PATH = "/gfx/textures/";
 const char* ITEMS_IMAGES_PATH = "/gfx/items/";

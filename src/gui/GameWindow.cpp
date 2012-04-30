@@ -23,6 +23,9 @@ GameWindow::GameWindow(ServerConnector* connector)
 	// Give us 10 torches to survive
 	m_connector->me()->give(Blocks::TORCH.id(), 10);
 
+	// Load all models of blocks
+	for(int blockId = 0; blockId < MAX_BLOCKID; ++blockId)
+		Blocks::byId(blockId).loadModel(qApp->applicationDirPath() + "/gfx/textures/");
 	m_textureManager.loadItemImages();
 	drawInventoryPixmap();
 

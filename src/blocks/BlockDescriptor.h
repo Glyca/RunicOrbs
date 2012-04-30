@@ -12,7 +12,7 @@ class BlockDescriptor
 {
 public:
 	BlockDescriptor(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true)
-		: i_id(id), s_name(name), b_breakable(breakable), b_canPassThrough(canPassThrough) {}
+		: i_id(id), s_name(name), b_breakable(breakable), b_canPassThrough(canPassThrough), m_model(NULL) {}
 
 	inline int id() const {return i_id;}
 	inline const char* name() const {return s_name;}
@@ -30,6 +30,9 @@ public:
 	inline void setItemImage(const QImage& image) {qim_item = image;}
 	inline QImage& itemImage() {return qim_item;}
 
+	/*! Load the 3d model of the block from a file in modelFolder */
+	virtual void loadModel(const QString& modelFolder);
+
 	/*! Draw block geometry at position using blockInfo, in the targetBuffer */
 	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& position, const World& workingWorld) const;
 
@@ -42,7 +45,8 @@ protected:
 	bool b_breakable;
 	bool b_canPassThrough;
 
-	// Apparence
+	// Appearance
+	OpenGLBuffer* m_model; //!< The 3D model of the block (when not NULL)
 	TexCoords m_texturePos[4];
 	QImage qim_item;
 };
