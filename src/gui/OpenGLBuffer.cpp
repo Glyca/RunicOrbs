@@ -3,6 +3,7 @@
 
 #define BUFFER_OFFSET(a) ((char*)NULL + (a))
 #define BUFFER_OFFSET_FLOAT(a) (BUFFER_OFFSET(a * sizeof(GLfloat)))
+#define BUFFER_OFFSET_UINT(a) (BUFFER_OFFSET(a * sizeof(GLuint)))
 
 /*! 3 floats used to describe vectors or textures coordinates in the .obj loader */
 struct ThreeGLfloats {
@@ -11,14 +12,16 @@ struct ThreeGLfloats {
 
 /*! A face described with "f" in .obj file */
 struct ReadedFace {
+	int numberOfVertex;
 	GLuint geometry1, normal1, texture1;
 	GLuint geometry2, normal2, texture2;
 	GLuint geometry3, normal3, texture3; // only if we have 3 vertex or more
 	GLuint geometry4, normal4, texture4; // only if we have 4 vertex
 };
 
-OpenGLBuffer::OpenGLBuffer(GLenum primitiveType) : m_primitiveType(primitiveType), b_allocated(false), b_dirty(true), i_vertexBufferId(0), i_indicesBufferId(0)
+OpenGLBuffer::OpenGLBuffer(GLenum primitiveType) : b_allocated(false), b_dirty(true), i_vertexBufferId(0), i_indicesBufferId(0)
 {
+	beginPrimitiveGroup(primitiveType, true);
 }
 
 OpenGLBuffer::OpenGLBuffer(const QString& filename)
@@ -31,7 +34,6 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 	}
 
 	QTextStream in(&file);
-	int numberOfVertexPerFace = 0; // Determine whether we draw lines, triangles or quads
 	std::vector<ThreeGLfloats> vertexGeometry;
 	std::vector<ThreeGLfloats> vertexTexture;
 	std::vector<ThreeGLfloats> vertexNormal;
@@ -61,7 +63,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			ThreeGLfloats vertex;
 			lineIn >> vertex.x;
 			lineIn >> vertex.y;
-			// Don't care of the z component for textures
+			// Don't care of the z component for textures²
 			vertexTexture.push_back(vertex);
 		}
 		else if(identifier == "vn") // Parse vertex normal
@@ -78,26 +80,11 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			// for example if we had the line "f 2/1 1/2 5/3" we now have 4 strings, "f" included
 			faceStrings.pop_front(); // Take rid of the "f"
 
-			if(numberOfVertexPerFace == 0) // if == 0, this is the first face we meet, so we decide the type of our VBO
-			{
-				numberOfVertexPerFace = faceStrings.size();
-
-				/*switch(numberOfVertexPerFace) {
-				case 2:
-					m_primitiveType = GL_LINES;
-					break;
-				case 3:
-					m_primitiveType = GL_TRIANGLES;
-					break;
-				case 4:*/
-					m_primitiveType = GL_QUADS;
-					/*break;
-				}*/
-			}
-
 			// Alright, read this line and put it in the structure
 			ReadedFace readedFace;
 			QStringList vertexComponents;
+
+			readedFace.numberOfVertex = faceStrings.size();
 
 			vertexComponents = faceStrings.at(0).split('/', QString::KeepEmptyParts);
 			readedFace.geometry1 = vertexComponents.at(0).toUInt();
@@ -113,7 +100,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 				readedFace.normal2 = vertexComponents.at(2).toUInt();
 			}
 
-			if(faceStrings.size() >= 3) {
+			if(readedFace.numberOfVertex >= 3) {
 				vertexComponents = faceStrings.at(2).split('/', QString::KeepEmptyParts);
 				readedFace.geometry3 = vertexComponents.at(0).toUInt();
 				readedFace.texture3 = vertexComponents.at(1).toUInt();
@@ -122,16 +109,8 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 				}
 
 				// If it is a quad
-				if(faceStrings.size() == 4) {
+				if(readedFace.numberOfVertex == 4) {
 					vertexComponents = faceStrings.at(3).split('/', QString::KeepEmptyParts);
-					readedFace.geometry4 = vertexComponents.at(0).toUInt();
-					readedFace.texture4 = vertexComponents.at(1).toUInt();
-					if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
-						readedFace.normal4 = vertexComponents.at(2).toUInt();
-					}
-				}
-				else // Transform the triangle into a quad
-				{
 					readedFace.geometry4 = vertexComponents.at(0).toUInt();
 					readedFace.texture4 = vertexComponents.at(1).toUInt();
 					if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
@@ -145,6 +124,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		}
 	}
 
+
 	file.close(); // Finish him!
 
 	// Fill our buffer (in ram)
@@ -152,59 +132,73 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 	for(int i = 0; i < numberOfFaces; ++i) // For all our faces
 	{
 		OpenGLVertice vertice;
+		ReadedFace& currentFace = readedFaces.at(i);
 
-		vertice.vx = vertexGeometry.at(readedFaces.at(i).geometry1 - 1).x;
-		vertice.vy = vertexGeometry.at(readedFaces.at(i).geometry1 - 1).y;
-		vertice.vz = vertexGeometry.at(readedFaces.at(i).geometry1 - 1).z;
+		switch(currentFace.numberOfVertex)
+		{ // Check how many vertex we have in this face
+		case 2:
+			beginPrimitiveGroup(GL_LINES);
+			break;
+		case 3:
+			beginPrimitiveGroup(GL_TRIANGLES);
+			break;
+		case 4:
+			beginPrimitiveGroup(GL_QUADS);
+			break;
+		}
 
-		vertice.tx = vertexTexture.at(readedFaces.at(i).texture1 - 1).x;
-		vertice.ty = vertexTexture.at(readedFaces.at(i).texture1 - 1).y;
+		vertice.vx = vertexGeometry.at(currentFace.geometry1 - 1).x;
+		vertice.vy = vertexGeometry.at(currentFace.geometry1 - 1).y;
+		vertice.vz = vertexGeometry.at(currentFace.geometry1 - 1).z;
+
+		vertice.tx = vertexTexture.at(currentFace.texture1 - 1).x;
+		vertice.ty = vertexTexture.at(currentFace.texture1 - 1).y;
 		/*
-		vertice.nx = vertexNormal.at(readedFaces.at(i).normal1 - 1).x;
-		vertice.ny = vertexNormal.at(readedFaces.at(i).normal1 - 1).y;
-		vertice.nz = vertexNormal.at(readedFaces.at(i).normal1 - 1).z;*/
+		vertice.nx = vertexNormal.at(currentFace.normal1 - 1).x;
+		vertice.ny = vertexNormal.at(currentFace.normal1 - 1).y;
+		vertice.nz = vertexNormal.at(currentFace.normal1 - 1).z;*/
 
 		addVertice(vertice);
 
-		vertice.vx = vertexGeometry.at(readedFaces.at(i).geometry2 - 1).x;
-		vertice.vy = vertexGeometry.at(readedFaces.at(i).geometry2 - 1).y;
-		vertice.vz = vertexGeometry.at(readedFaces.at(i).geometry2 - 1).z;
+		vertice.vx = vertexGeometry.at(currentFace.geometry2 - 1).x;
+		vertice.vy = vertexGeometry.at(currentFace.geometry2 - 1).y;
+		vertice.vz = vertexGeometry.at(currentFace.geometry2 - 1).z;
 
-		vertice.tx = vertexTexture.at(readedFaces.at(i).texture2 - 1).x;
-		vertice.ty = vertexTexture.at(readedFaces.at(i).texture2 - 1).y;
+		vertice.tx = vertexTexture.at(currentFace.texture2 - 1).x;
+		vertice.ty = vertexTexture.at(currentFace.texture2 - 1).y;
 		/*
-		vertice.nx = vertexNormal.at(readedFaces.at(i).normal2 - 1).x;
-		vertice.ny = vertexNormal.at(readedFaces.at(i).normal2 - 1).y;
-		vertice.nz = vertexNormal.at(readedFaces.at(i).normal2 - 1).z;*/
+		vertice.nx = vertexNormal.at(currentFace.normal2 - 1).x;
+		vertice.ny = vertexNormal.at(currentFace.normal2 - 1).y;
+		vertice.nz = vertexNormal.at(currentFace.normal2 - 1).z;*/
 
 		addVertice(vertice);
 
-		if(numberOfVertexPerFace >= 3) {
+		if(currentFace.numberOfVertex >= 3) {
 
-			vertice.vx = vertexGeometry.at(readedFaces.at(i).geometry3 - 1).x;
-			vertice.vy = vertexGeometry.at(readedFaces.at(i).geometry3 - 1).y;
-			vertice.vz = vertexGeometry.at(readedFaces.at(i).geometry3 - 1).z;
+			vertice.vx = vertexGeometry.at(currentFace.geometry3 - 1).x;
+			vertice.vy = vertexGeometry.at(currentFace.geometry3 - 1).y;
+			vertice.vz = vertexGeometry.at(currentFace.geometry3 - 1).z;
 
-			vertice.tx = vertexTexture.at(readedFaces.at(i).texture3 - 1).x;
-			vertice.ty = vertexTexture.at(readedFaces.at(i).texture3 - 1).y;
+			vertice.tx = vertexTexture.at(currentFace.texture3 - 1).x;
+			vertice.ty = vertexTexture.at(currentFace.texture3 - 1).y;
 			/*
-			vertice.nx = vertexNormal.at(readedFaces.at(i).normal3 - 1).x;
-			vertice.ny = vertexNormal.at(readedFaces.at(i).normal3 - 1).y;
-			vertice.nz = vertexNormal.at(readedFaces.at(i).normal3 - 1).z;*/
+			vertice.nx = vertexNormal.at(currentFace.normal3 - 1).x;
+			vertice.ny = vertexNormal.at(currentFace.normal3 - 1).y;
+			vertice.nz = vertexNormal.at(currentFace.normal3 - 1).z;*/
 
 			addVertice(vertice);
 
-			if(numberOfVertexPerFace == 4) {
-				vertice.vx = vertexGeometry.at(readedFaces.at(i).geometry4 - 1).x;
-				vertice.vy = vertexGeometry.at(readedFaces.at(i).geometry4 - 1).y;
-				vertice.vz = vertexGeometry.at(readedFaces.at(i).geometry4 - 1).z;
+			if(currentFace.numberOfVertex == 4) {
+				vertice.vx = vertexGeometry.at(currentFace.geometry4 - 1).x;
+				vertice.vy = vertexGeometry.at(currentFace.geometry4 - 1).y;
+				vertice.vz = vertexGeometry.at(currentFace.geometry4 - 1).z;
 
-				vertice.tx = vertexTexture.at(readedFaces.at(i).texture4 - 1).x;
-				vertice.ty = vertexTexture.at(readedFaces.at(i).texture4 - 1).y;
+				vertice.tx = vertexTexture.at(currentFace.texture4 - 1).x;
+				vertice.ty = vertexTexture.at(currentFace.texture4 - 1).y;
 				/*
-				vertice.nx = vertexNormal.at(readedFaces.at(i).normal4 - 1).x;
-				vertice.ny = vertexNormal.at(readedFaces.at(i).normal4 - 1).y;
-				vertice.nz = vertexNormal.at(readedFaces.at(i).normal4 - 1).z;*/
+				vertice.nx = vertexNormal.at(currentFace.normal4 - 1).x;
+				vertice.ny = vertexNormal.at(currentFace.normal4 - 1).y;
+				vertice.nz = vertexNormal.at(currentFace.normal4 - 1).z;*/
 
 				addVertice(vertice);
 			}
@@ -236,6 +230,17 @@ void OpenGLBuffer::deleteBuffer()
 	}
 }
 
+void OpenGLBuffer::beginPrimitiveGroup(GLenum primitiveType, bool force)
+{
+	if(m_currentPrimitiveType != primitiveType || force) {
+		PrimitiveGroup newPrimitiveGroup;
+		newPrimitiveGroup.beginningIndiceIndex = m_indices.size();
+		newPrimitiveGroup.primitiveType = primitiveType;
+		m_currentPrimitiveType = primitiveType;
+		m_primitiveGroups.push_back(newPrimitiveGroup);
+	}
+}
+
 void OpenGLBuffer::addVertice(const OpenGLVertice& vertice)
 {
 	m_vertex.push_back(vertice);
@@ -256,10 +261,21 @@ void OpenGLBuffer::addVertices(const OpenGLVertice& v1, const OpenGLVertice& v2,
 
 void OpenGLBuffer::append(const OpenGLBuffer& otherBuffer)
 {
-	int otherVertexSize = otherBuffer.m_vertex.size();
-	for(int i = 0; i < otherVertexSize; ++i) {
-		addVertice(otherBuffer.m_vertex.at(i));
+	// Add the other primitive groups
+	int otherPrimitiveGroupsSize = otherBuffer.m_primitiveGroups.size();
+	for(int i = 0; i < otherPrimitiveGroupsSize; ++i) {
+		PrimitiveGroup translatedGroup = otherBuffer.m_primitiveGroups[i];
+		translatedGroup.beginningIndiceIndex += m_indices.size(); // We must translate the groups indices since they will be "translated" by calling addVertice() a few line below
+		m_primitiveGroups.push_back(translatedGroup);
 	}
+
+	int otherVertexSize = otherBuffer.m_vertex.size();
+	// Add the other vertex
+	for(int i = 0; i < otherVertexSize; ++i) {
+		addVertice(otherBuffer.m_vertex[i]);
+	}
+
+	beginPrimitiveGroup(m_currentPrimitiveType, true);
 }
 
 void OpenGLBuffer::translate3f(const GLfloat tx, const GLfloat ty, const GLfloat tz)
@@ -267,9 +283,9 @@ void OpenGLBuffer::translate3f(const GLfloat tx, const GLfloat ty, const GLfloat
 	int vertexSize = m_vertex.size();
 	for(int i = 0; i < vertexSize; ++i)
 	{
-		m_vertex.at(i).vx += tx;
-		m_vertex.at(i).vy += ty;
-		m_vertex.at(i).vz += tz;
+		m_vertex[i].vx += tx;
+		m_vertex[i].vy += ty;
+		m_vertex[i].vz += tz;
 	}
 }
 
@@ -304,7 +320,20 @@ void OpenGLBuffer::render()
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		// Render !
-		glDrawElements(m_primitiveType, m_indices.size(), GL_UNSIGNED_INT, BUFFER_OFFSET(0));
+		int numberOfPrimitiveGroups = m_primitiveGroups.size();
+		for(int i = 0; i < numberOfPrimitiveGroups; ++i)
+		{
+			int numberOfIndicesForThisGroup;
+			if(i == numberOfPrimitiveGroups - 1) { // The last group : last index - beginning index
+				numberOfIndicesForThisGroup = m_indices.size() - m_primitiveGroups[i].beginningIndiceIndex;
+			}
+			else { // Not the last group : next beginning index - beginning index
+				numberOfIndicesForThisGroup = m_primitiveGroups[i+1].beginningIndiceIndex - m_primitiveGroups[i].beginningIndiceIndex;
+			}
+
+			glDrawElements(m_primitiveGroups[i].primitiveType, numberOfIndicesForThisGroup,
+						   GL_UNSIGNED_INT, BUFFER_OFFSET_UINT(m_primitiveGroups[i].beginningIndiceIndex));
+		}
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
@@ -320,6 +349,9 @@ void OpenGLBuffer::clear()
 {
 	m_vertex.clear();
 	m_indices.clear();
+	m_primitiveGroups.clear();
+	// Keep the primitive type of the buffer by forcing re-creation a primitive group
+	beginPrimitiveGroup(m_currentPrimitiveType, true);
 	b_dirty = true;
 }
 

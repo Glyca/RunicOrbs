@@ -4,6 +4,11 @@
 #include "OpenGLVertice.h"
 #include <vector>
 
+struct PrimitiveGroup {
+	GLuint beginningIndiceIndex; //!< At which index of the indice array the group begins \sa m_indices
+	GLenum primitiveType; //!< Which is the king of primitive for this group
+};
+
 /*! Represents geometry that can be put in an OpenGL Buffer Object */
 class OpenGLBuffer
 {
@@ -17,6 +22,11 @@ public:
 
 	/*! Allocates a new OpenGL buffer and delete the old one if allocated */
 	void genBuffer();
+
+	/*! Begin a group of the same primitive type (like GL_TRIANGLES or GL_QUADS)
+		Next calls to addVertice() will render vertices of that primitive
+		\sa PrimitiveGroup addVertice() */
+	void beginPrimitiveGroup(GLenum primitiveType, bool force = false);
 
 	/*! Push a vertice to the buffer with a new indice */
 	void addVertice(const OpenGLVertice& vertice);
@@ -44,10 +54,11 @@ private:
 	/*! Fill the buffer with the data of our vertex */
 	void fill();
 
-	GLenum m_primitiveType; //!< The kind of primitives to draw (mode argument of glDrawElements)
+	GLenum m_currentPrimitiveType; //!< The kind of primitives to draw (mode argument of glDrawElements)
 	std::vector<OpenGLVertice> m_vertex; //!< Vertex of the buffer
 	std::vector<GLuint> m_indices; //!< Indices of the indice buffer
-	bool b_allocated; //!< Whether the buffer is allocated or not
+	std::vector<PrimitiveGroup> m_primitiveGroups;
+	bool b_allocated; //!< Whether the buffer is allocated in video memory or not
 	bool b_dirty; //!< If we must refill the buffer with the new vertex
 	GLuint i_vertexBufferId; //!< OpenGL ID of the VBO
 	GLuint i_indicesBufferId; //!< OpenGL ID of the IBO
