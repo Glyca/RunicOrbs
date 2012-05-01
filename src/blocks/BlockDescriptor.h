@@ -1,8 +1,9 @@
 #ifndef BLOCKDESCRIPTOR_H
 #define BLOCKDESCRIPTOR_H
 
+#include <QRectF>
+#include <QImage>
 #include "BlockInfo.h"
-#include "gui/TextureManager.h" // TextureCoordinates
 
 class OpenGLBuffer;
 class World;

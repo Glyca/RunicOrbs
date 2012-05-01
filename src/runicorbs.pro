@@ -63,7 +63,6 @@ SOURCES += main.cpp\
         gui/GameWindow.cpp \
         gui/GLWidget.cpp \
         gui/glextensions.cpp \
-        gui/TextureManager.cpp \
         gui/ChunkDrawer.cpp \
         gui/OpenGLBuffer.cpp \
         gui/OpenGLVertice.cpp \
@@ -72,7 +71,8 @@ SOURCES += main.cpp\
         gui/ui/ServerWidget.cpp \
         blocks/CubeBlock.cpp \
         blocks/TorchBlock.cpp \
-        gui/ui/Home.cpp
+        gui/ui/Home.cpp \
+    gui/RessourceManager.cpp
 
 HEADERS  += \
         PhysicObject.h \
@@ -116,7 +116,6 @@ HEADERS  += \
         gui/GameWindow.h \
         gui/GLWidget.h \
         gui/glextensions.h \
-        gui/TextureManager.h \
         gui/ChunkDrawer.h \
         gui/ui/ConnectDialog.h \
         gui/ui/OptionsDialog.h \
@@ -125,7 +124,8 @@ HEADERS  += \
         gui/OpenGLVertice.h \
         blocks/CubeBlock.h \
         blocks/TorchBlock.h \
-        gui/ui/Home.h
+        gui/ui/Home.h \
+    gui/RessourceManager.h
 
 FORMS    += \
         gui/ui/ConnectDialog.ui \

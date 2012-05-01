@@ -15,7 +15,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 	m_configuration->loadDefaultConfigFile();
 	m_connector->world().setSeed(m_configuration->getSeed());
 	m_connector->setViewDistance(m_configuration->getViewDistance());
-	m_textureManager.setTextureFiltering((TextureManager::TextureFiltering)m_configuration->getTextureFiltering());
+	m_ressourceManager.setTextureFiltering((RessourceManager::TextureFiltering)m_configuration->getTextureFiltering());
 	setFps(m_configuration->getFps());
 	setAutoFillBackground(false);
 	setWindowTitle("The Runic Orbs");
@@ -24,9 +24,8 @@ GameWindow::GameWindow(ServerConnector* connector)
 	m_connector->me()->give(Blocks::TORCH.id(), 10);
 
 	// Load all models of blocks
-	for(int blockId = 0; blockId < MAX_BLOCKID; ++blockId)
-		Blocks::byId(blockId).loadModel(qApp->applicationDirPath() + "/gfx/textures/");
-	m_textureManager.loadItemImages();
+	m_ressourceManager.loadModels();
+	m_ressourceManager.loadItemImages();
 	drawInventoryPixmap();
 
 	m_masterOglLinesBuffer = new OpenGLBuffer(GL_LINES);
@@ -52,7 +51,7 @@ void GameWindow::initializeGL()
 	linfo(Channel_OpenGL, tr("Initialized OpenGL, version %1.%2").arg(format().majorVersion()).arg(format().minorVersion()));
 	linfo(Channel_OpenGL, tr("OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4").arg((const char*)glGetString(GL_VENDOR)).arg((const char*)glGetString(GL_RENDERER)).arg((const char*)glGetString(GL_VERSION)).arg(maxTextureSize));
 
-	m_textureManager.loadTextures();
+	m_ressourceManager.loadTextures();
 
 	glClearColor(138.0f / 255.0f, 198.0f / 255.0f, 206.0f / 255.0f, 0.0f);
 	glClearDepth(1.0f);
@@ -86,9 +85,9 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 	setCamera();
 
-	m_textureManager.bindTexture();
+	m_ressourceManager.bindTexture();
 	render3D(); // 3D render
-	m_textureManager.unbindTexture();
+	m_ressourceManager.unbindTexture();
 
 	if(m_configuration->getSmoothShades()) glShadeModel(GL_FLAT); // disable
 	glDisable(GL_DEPTH_TEST);

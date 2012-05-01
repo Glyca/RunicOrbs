@@ -1,4 +1,4 @@
-﻿#include "TextureManager.h"
+﻿#include "RessourceManager.h"
 #include "blocks/Blocks.h"
 #include "blocks/BlockDescriptor.h"
 #include "blocks/TorchBlock.h"
@@ -7,22 +7,30 @@
 const char* TEXTURE_PATH = "/gfx/textures/";
 const char* ITEMS_IMAGES_PATH = "/gfx/items/";
 
-TextureManager::TextureManager() : m_textureFiltering(TextureFiltering_BilinearMipmaps)
+RessourceManager::RessourceManager() : m_textureFiltering(TextureFiltering_BilinearMipmaps)
 {
 
 }
 
-TextureManager::~TextureManager()
+RessourceManager::~RessourceManager()
 {
 
 }
 
-void TextureManager::setTextureFiltering(TextureFiltering filtering)
+void RessourceManager::loadModels()
+{
+	// Load all models of blocks
+	for(int blockId = 0; blockId < MAX_BLOCKID; ++blockId) {
+		Blocks::byId(blockId).loadModel(qApp->applicationDirPath() + TEXTURE_PATH);
+	}
+}
+
+void RessourceManager::setTextureFiltering(TextureFiltering filtering)
 {
 	m_textureFiltering = filtering;
 }
 
-QImage TextureManager::getTextureAtlas()
+QImage RessourceManager::getTextureAtlas()
 {
 	QString errorString = QObject::tr("Texture loading [%1] for \"%2\" failed!");
 	QString loadedString = QObject::tr("Successfully loaded \"%1\" texture [%2].");
@@ -78,7 +86,7 @@ QImage TextureManager::getTextureAtlas()
 	return qim_atlas;
 }
 
-GLuint TextureManager::loadTextures()
+GLuint RessourceManager::loadTextures()
 {
 	QImage qim_textureAtlas = getTextureAtlas();
 	if(qim_textureAtlas.isNull())
@@ -129,17 +137,17 @@ GLuint TextureManager::loadTextures()
 	}
 }
 
-void TextureManager::bindTexture()
+void RessourceManager::bindTexture()
 {
 	glBindTexture(GL_TEXTURE_2D, gi_textureID);
 }
 
-void TextureManager::unbindTexture()
+void RessourceManager::unbindTexture()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void TextureManager::loadItemImages()
+void RessourceManager::loadItemImages()
 {
 	QString errorString = QObject::tr("Item image loading [%1] for \"%2\" failed!");
 	QString loadedString = QObject::tr("Successfully loaded \"%1\" item image [%2].");

@@ -2,7 +2,7 @@
 #define GAMEWINDOW_H
 
 #include "GLWidget.h"
-#include "TextureManager.h"
+#include "RessourceManager.h"
 
 class ClientConfiguration;
 class OpenGLBuffer;
@@ -34,7 +34,7 @@ private:
 
 	ClientConfiguration* m_configuration;
 	ServerConnector* m_connector;
-	TextureManager m_textureManager;
+	RessourceManager m_ressourceManager;
 
 	void pause();
 	void resume();

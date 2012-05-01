@@ -6,7 +6,7 @@
 #define BUFFER_OFFSET_UINT(a) (BUFFER_OFFSET(a * sizeof(GLuint)))
 
 /*! 3 floats used to describe vectors or textures coordinates in the .obj loader */
-struct ThreeGLfloats {
+struct FloatVector {
 	GLfloat x, y, z;
 };
 
@@ -35,9 +35,9 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 	}
 
 	QTextStream in(&file);
-	std::vector<ThreeGLfloats> vertexGeometry;
-	std::vector<ThreeGLfloats> vertexTexture;
-	std::vector<ThreeGLfloats> vertexNormal;
+	std::vector<FloatVector> vertexGeometry;
+	std::vector<FloatVector> vertexTexture;
+	std::vector<FloatVector> vertexNormal;
 	std::vector<ReadedFace> readedFaces;
 
 	while (!in.atEnd()) { // Read each line of the OBJ file
@@ -53,7 +53,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		}
 		else if(identifier == "v") // Parse vertex
 		{
-			ThreeGLfloats vertex;
+			FloatVector vertex;
 			lineIn >> vertex.x;
 			lineIn >> vertex.y;
 			lineIn >> vertex.z;
@@ -61,19 +61,19 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		}
 		else if(identifier == "vt") // Parse vertex texture
 		{
-			ThreeGLfloats vertex;
-			lineIn >> vertex.x;
-			lineIn >> vertex.y;
-			// Don't care of the z component for textures²
-			vertexTexture.push_back(vertex);
+			FloatVector texture;
+			lineIn >> texture.x;
+			lineIn >> texture.y;
+			// Don't care of the z component for textures
+			vertexTexture.push_back(texture);
 		}
 		else if(identifier == "vn") // Parse vertex normal
 		{
-			ThreeGLfloats vertex;
-			lineIn >> vertex.x;
-			lineIn >> vertex.y;
-			lineIn >> vertex.z;
-			vertexNormal.push_back(vertex);
+			FloatVector normal;
+			lineIn >> normal.x;
+			lineIn >> normal.y;
+			lineIn >> normal.z;
+			vertexNormal.push_back(normal);
 		}
 		else if(identifier == "f") // Parse a face
 		{
@@ -185,7 +185,6 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		addVertice(vertice);
 
 		if(currentFace.numberOfVertex >= 3) {
-
 			vertice.vx = vertexGeometry[currentFace.geometry3 - 1].x;
 			vertice.vy = vertexGeometry[currentFace.geometry3 - 1].y;
 			vertice.vz = vertexGeometry[currentFace.geometry3 - 1].z;
@@ -221,7 +220,6 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			}
 		}
 	}
-
 }
 
 OpenGLBuffer::~OpenGLBuffer()
