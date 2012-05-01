@@ -7,19 +7,9 @@
 QT       += core gui opengl network xml webkit
 
 CONFIG(debug, debug|release) {
-        DESTDIR = ../build/debug/
-        RCC_DIR = ../build/debug/rcc/
-        UI_DIR = ../build/debug/ui/
-        MOC_DIR = ../build/debug/moc/
-        OBJECTS_DIR = ../build/debug/obj/
-        TARGET = ../../runicorbsd
+        TARGET = ../runicorbsd
 } else {
-        DESTDIR = ../build/release/
-        RCC_DIR = ../build/release/rcc/
-        UI_DIR = ../build/release/ui/
-        MOC_DIR = ../build/release/moc/
-        OBJECTS_DIR = ../build/release/obj/
-        TARGET = ../../runicorbs
+        TARGET = ../runicorbs
 }
 
 CONFIG += thread
@@ -154,3 +144,6 @@ QMAKE_LFLAGS_RELEASE += -Wl,-O3 -O3
 # Enable to check size of functions and ASM
 #QMAKE_CXXFLAGS += -save-temps -fverbose-asm
 #QMAKE_LFLAGS = -Wl,-Map,craftux.map
+
+# Enable this in order to profile the code with callgrind
+#QMAKE_CXXFLAGS += -g
