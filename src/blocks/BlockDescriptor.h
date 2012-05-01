@@ -12,21 +12,23 @@ class World;
 class BlockDescriptor
 {
 public:
-	BlockDescriptor(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true)
-		: i_id(id), s_name(name), b_breakable(breakable), b_canPassThrough(canPassThrough), m_model(NULL) {}
+	BlockDescriptor(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true, int weight = 0)
+		: i_id(id), s_name(name), b_breakable(breakable), b_canPassThrough(canPassThrough), i_weight(weight), m_model(NULL) {}
 
 	inline int id() const {return i_id;}
 	inline const char* name() const {return s_name;}
 	inline bool isBreakable() const {return b_breakable;}
 	inline bool canPassThrough() const {return b_canPassThrough;}
+	inline int weight() const {return i_weight;}
 	inline virtual bool isCube() const {return false;} //!< Whether the block is a cube or not
 
 	/*! Set the texture coordinates of the block */
-	inline virtual void setTexture(const QRectF& texturePos, float ratio) {m_texturePos = texturePos; m_textureRatio = ratio;}
-	inline QRectF& texture() {return m_texturePos;}
+	virtual void setTexture(const QRectF& texturePos, float ratio);
+	const QRectF& texture() const;
 
-	inline void setItemImage(const QImage& image) {qim_item = image;}
-	inline QImage& itemImage() {return qim_item;}
+	/*! Set the item image of the block, used in the inventory */
+	void setItemImage(const QImage& image);
+	const QImage& itemImage() const;
 
 	/*! Load the 3d model of the block from a file in modelFolder */
 	virtual void loadModel(const QString& modelFolder);
@@ -42,6 +44,7 @@ protected:
 	// Properties
 	bool b_breakable;
 	bool b_canPassThrough;
+	int i_weight;
 
 	// Appearance
 	OpenGLBuffer* m_model; //!< The 3D model of the block (when not NULL)

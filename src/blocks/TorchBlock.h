@@ -6,13 +6,7 @@
 class TorchBlock : public BlockDescriptor
 {
 public:
-	TorchBlock(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true)
-	{
-		i_id = id;
-		s_name = name;
-		b_breakable = breakable;
-		b_canPassThrough = canPassThrough;
-	}
+	TorchBlock(const int id = 0, const char* name = "undefined", const bool breakable = true, const bool canPassThrough = true, int weight = 0) : BlockDescriptor(id, name, breakable, canPassThrough, weight) {}
 
 	virtual void setTexture(const QRectF& texturePos, float ratio);
 

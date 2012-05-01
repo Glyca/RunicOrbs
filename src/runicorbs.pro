@@ -62,7 +62,8 @@ SOURCES += main.cpp\
         blocks/CubeBlock.cpp \
         blocks/TorchBlock.cpp \
         gui/ui/Home.cpp \
-    gui/RessourceManager.cpp
+    gui/RessourceManager.cpp \
+    Inventory.cpp
 
 HEADERS  += \
         PhysicObject.h \
@@ -115,7 +116,8 @@ HEADERS  += \
         blocks/CubeBlock.h \
         blocks/TorchBlock.h \
         gui/ui/Home.h \
-    gui/RessourceManager.h
+    gui/RessourceManager.h \
+    Inventory.h
 
 FORMS    += \
         gui/ui/ConnectDialog.ui \
