@@ -14,7 +14,7 @@ public:
 		b_canPassThrough = canPassThrough;
 	}
 
-	virtual void setTexture(const QRectF& texturePos);
+	virtual void setTexture(const QRectF& texturePos, float ratio);
 
 	virtual void loadModel(const QString& modelFolder);
 

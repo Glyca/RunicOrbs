@@ -3,9 +3,8 @@
 #include "gui/OpenGLVertice.h"
 #include "Log.h"
 
-void TorchBlock::setTexture(const QRectF& texturePos)
+void TorchBlock::setTexture(const QRectF& texturePos, float ratio)
 {
-	BlockDescriptor::setTexture(texturePos);
 	if(m_model != NULL) {
 		m_model->adjustTextures(texturePos);
 	}

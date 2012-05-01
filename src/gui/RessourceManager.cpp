@@ -77,7 +77,7 @@ QImage RessourceManager::getTextureAtlas()
 									GLfloat(it.value().height()) / GLfloat(atlasHeight) // Height
 									); // It is the position of this block texture in the atlas, to be used in texture coordinates
 
-		Blocks::byId(it.key()).setTexture(textureAtlasPosition);
+		Blocks::byId(it.key()).setTexture(textureAtlasPosition, float(it.value().width()) / float(it.value().height()));
 		currentHeight += it.value().height();
 	}
 

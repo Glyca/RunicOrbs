@@ -16,7 +16,22 @@ public:
 	}
 
 	inline virtual bool isCube() const {return true;}
+
+	virtual void setTexture(const QRectF& texturePos, float ratio);
+
 	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& position, const World& workingWorld) const;
+
+private:
+	enum CubeFace {
+		CubeFace_Front,
+		CubeFace_Left,
+		CubeFace_Bottom,
+		CubeFace_Right,
+		CubeFace_Top,
+		CubeFace_Back
+	};
+
+	QRectF m_faceTexturesPosition[6]; //!< 6 faces, 6 texture coordinates
 };
 
 #endif // CUBEBLOCK_H
