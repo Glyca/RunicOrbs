@@ -88,38 +88,38 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			readedFace.numberOfVertex = faceStrings.size();
 			readedFace.haveNormal1 = readedFace.haveNormal2 = readedFace.haveNormal3 = readedFace.haveNormal4 = false;
 
-			vertexComponents = faceStrings.at(0).split('/', QString::KeepEmptyParts);
-			readedFace.geometry1 = vertexComponents.at(0).toUInt();
-			readedFace.texture1 = vertexComponents.at(1).toUInt();
+			vertexComponents = faceStrings[0].split('/', QString::KeepEmptyParts);
+			readedFace.geometry1 = vertexComponents[0].toUInt();
+			readedFace.texture1 = vertexComponents[1].toUInt();
 			if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
-				readedFace.normal1 = vertexComponents.at(2).toUInt();
+				readedFace.normal1 = vertexComponents[2].toUInt();
 				readedFace.haveNormal1 = true;
 			}
 
-			vertexComponents = faceStrings.at(1).split('/', QString::KeepEmptyParts);
-			readedFace.geometry2 = vertexComponents.at(0).toUInt();
-			readedFace.texture2 = vertexComponents.at(1).toUInt();
+			vertexComponents = faceStrings[1].split('/', QString::KeepEmptyParts);
+			readedFace.geometry2 = vertexComponents[0].toUInt();
+			readedFace.texture2 = vertexComponents[1].toUInt();
 			if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
-				readedFace.normal2 = vertexComponents.at(2).toUInt();
+				readedFace.normal2 = vertexComponents[2].toUInt();
 				readedFace.haveNormal2 = true;
 			}
 
 			if(readedFace.numberOfVertex >= 3) {
-				vertexComponents = faceStrings.at(2).split('/', QString::KeepEmptyParts);
-				readedFace.geometry3 = vertexComponents.at(0).toUInt();
-				readedFace.texture3 = vertexComponents.at(1).toUInt();
+				vertexComponents = faceStrings[2].split('/', QString::KeepEmptyParts);
+				readedFace.geometry3 = vertexComponents[0].toUInt();
+				readedFace.texture3 = vertexComponents[1].toUInt();
 				if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
-					readedFace.normal3 = vertexComponents.at(2).toUInt();
+					readedFace.normal3 = vertexComponents[2].toUInt();
 					readedFace.haveNormal3 = true;
 				}
 
 				// If it is a quad
 				if(readedFace.numberOfVertex == 4) {
-					vertexComponents = faceStrings.at(3).split('/', QString::KeepEmptyParts);
-					readedFace.geometry4 = vertexComponents.at(0).toUInt();
-					readedFace.texture4 = vertexComponents.at(1).toUInt();
+					vertexComponents = faceStrings[3].split('/', QString::KeepEmptyParts);
+					readedFace.geometry4 = vertexComponents[0].toUInt();
+					readedFace.texture4 = vertexComponents[1].toUInt();
 					if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
-						readedFace.normal4 = vertexComponents.at(2).toUInt();
+						readedFace.normal4 = vertexComponents[2].toUInt();
 						readedFace.haveNormal4 = true;
 					}
 				}
@@ -137,7 +137,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 	for(int i = 0; i < numberOfFaces; ++i) // For all our faces
 	{
 		OpenGLVertice vertice;
-		ReadedFace& currentFace = readedFaces.at(i);
+		ReadedFace& currentFace = readedFaces[i];
 
 		switch(currentFace.numberOfVertex)
 		{ // Check how many vertex we have in this face
@@ -152,33 +152,33 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			break;
 		}
 
-		vertice.vx = vertexGeometry.at(currentFace.geometry1 - 1).x;
-		vertice.vy = vertexGeometry.at(currentFace.geometry1 - 1).y;
-		vertice.vz = vertexGeometry.at(currentFace.geometry1 - 1).z;
+		vertice.vx = vertexGeometry[currentFace.geometry1 - 1].x;
+		vertice.vy = vertexGeometry[currentFace.geometry1 - 1].y;
+		vertice.vz = vertexGeometry[currentFace.geometry1 - 1].z;
 
-		vertice.tu = vertexTexture.at(currentFace.texture1 - 1).x;
-		vertice.tv = 1.0f - vertexTexture.at(currentFace.texture1 - 1).y;
+		vertice.tu = vertexTexture[currentFace.texture1 - 1].x;
+		vertice.tv = 1.0f - vertexTexture[currentFace.texture1 - 1].y;
 
 		if(currentFace.haveNormal1) {
-			vertice.nx = vertexNormal.at(currentFace.normal1 - 1).x;
-			vertice.ny = vertexNormal.at(currentFace.normal1 - 1).y;
-			vertice.nz = vertexNormal.at(currentFace.normal1 - 1).z;
+			vertice.nx = vertexNormal[currentFace.normal1 - 1].x;
+			vertice.ny = vertexNormal[currentFace.normal1 - 1].y;
+			vertice.nz = vertexNormal[currentFace.normal1 - 1].z;
 		}
 
 		vertice.setColors(1.0f);
 		addVertice(vertice);
 
-		vertice.vx = vertexGeometry.at(currentFace.geometry2 - 1).x;
-		vertice.vy = vertexGeometry.at(currentFace.geometry2 - 1).y;
-		vertice.vz = vertexGeometry.at(currentFace.geometry2 - 1).z;
+		vertice.vx = vertexGeometry[currentFace.geometry2 - 1].x;
+		vertice.vy = vertexGeometry[currentFace.geometry2 - 1].y;
+		vertice.vz = vertexGeometry[currentFace.geometry2 - 1].z;
 
-		vertice.tu = vertexTexture.at(currentFace.texture2 - 1).x;
-		vertice.tv = 1.0f - vertexTexture.at(currentFace.texture2 - 1).y;
+		vertice.tu = vertexTexture[currentFace.texture2 - 1].x;
+		vertice.tv = 1.0f - vertexTexture[currentFace.texture2 - 1].y;
 
 		if(currentFace.haveNormal2) {
-			vertice.nx = vertexNormal.at(currentFace.normal2 - 1).x;
-			vertice.ny = vertexNormal.at(currentFace.normal2 - 1).y;
-			vertice.nz = vertexNormal.at(currentFace.normal2 - 1).z;
+			vertice.nx = vertexNormal[currentFace.normal2 - 1].x;
+			vertice.ny = vertexNormal[currentFace.normal2 - 1].y;
+			vertice.nz = vertexNormal[currentFace.normal2 - 1].z;
 		}
 
 		vertice.setColors(1.0f);
@@ -186,34 +186,34 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 
 		if(currentFace.numberOfVertex >= 3) {
 
-			vertice.vx = vertexGeometry.at(currentFace.geometry3 - 1).x;
-			vertice.vy = vertexGeometry.at(currentFace.geometry3 - 1).y;
-			vertice.vz = vertexGeometry.at(currentFace.geometry3 - 1).z;
+			vertice.vx = vertexGeometry[currentFace.geometry3 - 1].x;
+			vertice.vy = vertexGeometry[currentFace.geometry3 - 1].y;
+			vertice.vz = vertexGeometry[currentFace.geometry3 - 1].z;
 
-			vertice.tu = vertexTexture.at(currentFace.texture3 - 1).x;
-			vertice.tv = 1.0f - vertexTexture.at(currentFace.texture3 - 1).y;
+			vertice.tu = vertexTexture[currentFace.texture3 - 1].x;
+			vertice.tv = 1.0f - vertexTexture[currentFace.texture3 - 1].y;
 
 			if(currentFace.haveNormal3) {
-				vertice.nx = vertexNormal.at(currentFace.normal3 - 1).x;
-				vertice.ny = vertexNormal.at(currentFace.normal3 - 1).y;
-				vertice.nz = vertexNormal.at(currentFace.normal3 - 1).z;
+				vertice.nx = vertexNormal[currentFace.normal3 - 1].x;
+				vertice.ny = vertexNormal[currentFace.normal3 - 1].y;
+				vertice.nz = vertexNormal[currentFace.normal3 - 1].z;
 			}
 
 			vertice.setColors(1.0f);
 			addVertice(vertice);
 
 			if(currentFace.numberOfVertex == 4) {
-				vertice.vx = vertexGeometry.at(currentFace.geometry4 - 1).x;
-				vertice.vy = vertexGeometry.at(currentFace.geometry4 - 1).y;
-				vertice.vz = vertexGeometry.at(currentFace.geometry4 - 1).z;
+				vertice.vx = vertexGeometry[currentFace.geometry4 - 1].x;
+				vertice.vy = vertexGeometry[currentFace.geometry4 - 1].y;
+				vertice.vz = vertexGeometry[currentFace.geometry4 - 1].z;
 
-				vertice.tu = vertexTexture.at(currentFace.texture4 - 1).x;
-				vertice.tv = 1.0f - vertexTexture.at(currentFace.texture4 - 1).y;
+				vertice.tu = vertexTexture[currentFace.texture4 - 1].x;
+				vertice.tv = 1.0f - vertexTexture[currentFace.texture4 - 1].y;
 
 				if(currentFace.haveNormal4) {
-					vertice.nx = vertexNormal.at(currentFace.normal4 - 1).x;
-					vertice.ny = vertexNormal.at(currentFace.normal4 - 1).y;
-					vertice.nz = vertexNormal.at(currentFace.normal4 - 1).z;
+					vertice.nx = vertexNormal[currentFace.normal4 - 1].x;
+					vertice.ny = vertexNormal[currentFace.normal4 - 1].y;
+					vertice.nz = vertexNormal[currentFace.normal4 - 1].z;
 				}
 
 				vertice.setColors(1.0f);
