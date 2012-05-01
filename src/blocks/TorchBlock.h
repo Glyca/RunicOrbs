@@ -14,6 +14,8 @@ public:
 		b_canPassThrough = canPassThrough;
 	}
 
+	virtual void setTexture(const QRectF& texturePos);
+
 	virtual void loadModel(const QString& modelFolder);
 
 	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& position, const World& workingWorld) const;

@@ -38,6 +38,11 @@ public:
 	/*! Copy otherBuffer at the end of this buffer */
 	void append(const OpenGLBuffer& otherBuffer);
 
+	/*! Make texture coordinates be in the targetRectangle instead of in a 1;1 square.
+		Used for texture atlas to correct texture coordinates.
+		\warning This function must be called only one time! */
+	void adjustTextures(const QRectF& targetRectangle);
+
 	/*! Translates the whole buffer */
 	void translate3f(const GLfloat tx, const GLfloat ty, const GLfloat tz);
 

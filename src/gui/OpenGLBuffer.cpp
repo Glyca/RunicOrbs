@@ -158,6 +158,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		vertice.ny = vertexNormal.at(currentFace.normal1 - 1).y;
 		vertice.nz = vertexNormal.at(currentFace.normal1 - 1).z;*/
 
+		vertice.setColors(1.0f);
 		addVertice(vertice);
 
 		vertice.vx = vertexGeometry.at(currentFace.geometry2 - 1).x;
@@ -171,6 +172,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		vertice.ny = vertexNormal.at(currentFace.normal2 - 1).y;
 		vertice.nz = vertexNormal.at(currentFace.normal2 - 1).z;*/
 
+		vertice.setColors(1.0f);
 		addVertice(vertice);
 
 		if(currentFace.numberOfVertex >= 3) {
@@ -186,6 +188,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			vertice.ny = vertexNormal.at(currentFace.normal3 - 1).y;
 			vertice.nz = vertexNormal.at(currentFace.normal3 - 1).z;*/
 
+			vertice.setColors(1.0f);
 			addVertice(vertice);
 
 			if(currentFace.numberOfVertex == 4) {
@@ -200,6 +203,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 				vertice.ny = vertexNormal.at(currentFace.normal4 - 1).y;
 				vertice.nz = vertexNormal.at(currentFace.normal4 - 1).z;*/
 
+				vertice.setColors(1.0f);
 				addVertice(vertice);
 			}
 		}
@@ -261,21 +265,36 @@ void OpenGLBuffer::addVertices(const OpenGLVertice& v1, const OpenGLVertice& v2,
 
 void OpenGLBuffer::append(const OpenGLBuffer& otherBuffer)
 {
-	// Add the other primitive groups
+	GLenum originalPrimitiveType = m_currentPrimitiveType;
+
 	int otherPrimitiveGroupsSize = otherBuffer.m_primitiveGroups.size();
 	for(int i = 0; i < otherPrimitiveGroupsSize; ++i) {
-		PrimitiveGroup translatedGroup = otherBuffer.m_primitiveGroups[i];
-		translatedGroup.beginningIndiceIndex += m_indices.size(); // We must translate the groups indices since they will be "translated" by calling addVertice() a few line below
-		m_primitiveGroups.push_back(translatedGroup);
+		int numberOfIndicesForThisGroup;
+
+		if(i == otherPrimitiveGroupsSize - 1) { // The last group : last index - beginning index
+			numberOfIndicesForThisGroup = otherBuffer.m_indices.size() - otherBuffer.m_primitiveGroups[i].beginningIndiceIndex;
+		}
+		else { // Not the last group : next beginning index - beginning index
+			numberOfIndicesForThisGroup = otherBuffer.m_primitiveGroups[i+1].beginningIndiceIndex - otherBuffer.m_primitiveGroups[i].beginningIndiceIndex;
+		}
+
+		beginPrimitiveGroup(otherBuffer.m_primitiveGroups[i].primitiveType);
+		for(int j = 0; j < numberOfIndicesForThisGroup; ++j) {
+			addVertice(otherBuffer.m_vertex[j]);
+		}
 	}
 
-	int otherVertexSize = otherBuffer.m_vertex.size();
-	// Add the other vertex
-	for(int i = 0; i < otherVertexSize; ++i) {
-		addVertice(otherBuffer.m_vertex[i]);
-	}
+	beginPrimitiveGroup(originalPrimitiveType, true);
+}
 
-	beginPrimitiveGroup(m_currentPrimitiveType, true);
+void OpenGLBuffer::adjustTextures(const QRectF& targetRectangle)
+{
+	int numberOfVertex = m_vertex.size();
+	for(int i = 0; i < numberOfVertex; ++i)
+	{
+		m_vertex[i].tx = targetRectangle.left() + m_vertex[i].tx * targetRectangle.width();
+		m_vertex[i].ty = targetRectangle.top() + m_vertex[i].ty * targetRectangle.height();
+	}
 }
 
 void OpenGLBuffer::translate3f(const GLfloat tx, const GLfloat ty, const GLfloat tz)
@@ -333,6 +352,7 @@ void OpenGLBuffer::render()
 
 			glDrawElements(m_primitiveGroups[i].primitiveType, numberOfIndicesForThisGroup,
 						   GL_UNSIGNED_INT, BUFFER_OFFSET_UINT(m_primitiveGroups[i].beginningIndiceIndex));
+
 		}
 
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);

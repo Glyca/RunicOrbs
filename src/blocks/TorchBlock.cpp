@@ -3,6 +3,14 @@
 #include "gui/OpenGLVertice.h"
 #include "Log.h"
 
+void TorchBlock::setTexture(const QRectF& texturePos)
+{
+	BlockDescriptor::setTexture(texturePos);
+	if(m_model != NULL) {
+		m_model->adjustTextures(texturePos);
+	}
+}
+
 void TorchBlock::loadModel(const QString& modelFolder)
 {
 	m_model = new OpenGLBuffer(modelFolder + name() + ".obj");

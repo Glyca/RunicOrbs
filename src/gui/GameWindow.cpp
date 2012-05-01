@@ -80,6 +80,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 	if(m_configuration->getSmoothShades()) glShadeModel(GL_SMOOTH); // re-enable
 	glEnable(GL_DEPTH_TEST); // re-enable
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_TEXTURE_2D);
 
 	glLoadIdentity();
 

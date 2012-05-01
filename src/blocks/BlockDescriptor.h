@@ -21,11 +21,8 @@ public:
 	inline virtual bool isCube() const {return false;} //!< Whether the block is a cube or not
 
 	/*! Set the texture coordinates of the block */
-	inline void setTexture(const TexCoords& texture1, const TexCoords& texture2, const TexCoords& texture3, const TexCoords& texture4) {
-		m_texturePos[0] = texture1; m_texturePos[1] = texture2; m_texturePos[2] = texture3; m_texturePos[3] = texture4;
-	}
-
-	inline TexCoords* getTexture() {return m_texturePos;}
+	inline virtual void setTexture(const QRectF& texturePos) {m_texturePos = texturePos;}
+	inline QRectF& texture() {return m_texturePos;}
 
 	inline void setItemImage(const QImage& image) {qim_item = image;}
 	inline QImage& itemImage() {return qim_item;}
@@ -47,7 +44,7 @@ protected:
 
 	// Appearance
 	OpenGLBuffer* m_model; //!< The 3D model of the block (when not NULL)
-	TexCoords m_texturePos[4];
+	QRectF m_texturePos; //!< The position of the texture of the block in the atlas
 	QImage qim_item;
 };
 

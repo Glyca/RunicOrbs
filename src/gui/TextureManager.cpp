@@ -62,14 +62,14 @@ QImage TextureManager::getTextureAtlas()
 	while (it.hasNext()) {
 		it.next();
 		qp_assembler.drawImage(0, currentHeight, it.value());
-		Blocks::byId(it.key()).setTexture(TexCoords(0,
-													GLfloat(currentHeight) / GLfloat(atlasHeight)),
-										  TexCoords(GLfloat(it.value().width()) / GLfloat(atlasWidth),
-													GLfloat(currentHeight) / GLfloat(atlasHeight)),
-										  TexCoords(GLfloat(it.value().width()) / GLfloat(atlasWidth),
-													GLfloat(currentHeight + it.value().height()) / GLfloat(atlasHeight)),
-										  TexCoords(0,
-													GLfloat(currentHeight + it.value().height()) / GLfloat(atlasHeight)));
+
+		QRectF textureAtlasPosition(0, // Left
+									GLfloat(currentHeight) / GLfloat(atlasHeight), // Top
+									GLfloat(it.value().width()) / GLfloat(atlasWidth), // Width
+									GLfloat(it.value().height()) / GLfloat(atlasHeight) // Height
+									); // It is the position of this block texture in the atlas, to be used in texture coordinates
+
+		Blocks::byId(it.key()).setTexture(textureAtlasPosition);
 		currentHeight += it.value().height();
 	}
 
