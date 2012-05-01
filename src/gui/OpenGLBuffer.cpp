@@ -152,7 +152,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		vertice.vz = vertexGeometry.at(currentFace.geometry1 - 1).z;
 
 		vertice.tx = vertexTexture.at(currentFace.texture1 - 1).x;
-		vertice.ty = vertexTexture.at(currentFace.texture1 - 1).y;
+		vertice.ty = 1.0f - vertexTexture.at(currentFace.texture1 - 1).y;
 		/*
 		vertice.nx = vertexNormal.at(currentFace.normal1 - 1).x;
 		vertice.ny = vertexNormal.at(currentFace.normal1 - 1).y;
@@ -166,7 +166,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		vertice.vz = vertexGeometry.at(currentFace.geometry2 - 1).z;
 
 		vertice.tx = vertexTexture.at(currentFace.texture2 - 1).x;
-		vertice.ty = vertexTexture.at(currentFace.texture2 - 1).y;
+		vertice.ty = 1.0f - vertexTexture.at(currentFace.texture2 - 1).y;
 		/*
 		vertice.nx = vertexNormal.at(currentFace.normal2 - 1).x;
 		vertice.ny = vertexNormal.at(currentFace.normal2 - 1).y;
@@ -182,7 +182,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			vertice.vz = vertexGeometry.at(currentFace.geometry3 - 1).z;
 
 			vertice.tx = vertexTexture.at(currentFace.texture3 - 1).x;
-			vertice.ty = vertexTexture.at(currentFace.texture3 - 1).y;
+			vertice.ty = 1.0f - vertexTexture.at(currentFace.texture3 - 1).y;
 			/*
 			vertice.nx = vertexNormal.at(currentFace.normal3 - 1).x;
 			vertice.ny = vertexNormal.at(currentFace.normal3 - 1).y;
@@ -197,7 +197,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 				vertice.vz = vertexGeometry.at(currentFace.geometry4 - 1).z;
 
 				vertice.tx = vertexTexture.at(currentFace.texture4 - 1).x;
-				vertice.ty = vertexTexture.at(currentFace.texture4 - 1).y;
+				vertice.ty = 1.0f - vertexTexture.at(currentFace.texture4 - 1).y;
 				/*
 				vertice.nx = vertexNormal.at(currentFace.normal4 - 1).x;
 				vertice.ny = vertexNormal.at(currentFace.normal4 - 1).y;
