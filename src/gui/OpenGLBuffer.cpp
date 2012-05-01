@@ -13,6 +13,7 @@ struct ThreeGLfloats {
 /*! A face described with "f" in .obj file */
 struct ReadedFace {
 	int numberOfVertex;
+	bool haveNormal1, haveNormal2, haveNormal3, haveNormal4;
 	GLuint geometry1, normal1, texture1;
 	GLuint geometry2, normal2, texture2;
 	GLuint geometry3, normal3, texture3; // only if we have 3 vertex or more
@@ -85,12 +86,14 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			QStringList vertexComponents;
 
 			readedFace.numberOfVertex = faceStrings.size();
+			readedFace.haveNormal1 = readedFace.haveNormal2 = readedFace.haveNormal3 = readedFace.haveNormal4 = false;
 
 			vertexComponents = faceStrings.at(0).split('/', QString::KeepEmptyParts);
 			readedFace.geometry1 = vertexComponents.at(0).toUInt();
 			readedFace.texture1 = vertexComponents.at(1).toUInt();
 			if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
 				readedFace.normal1 = vertexComponents.at(2).toUInt();
+				readedFace.haveNormal1 = true;
 			}
 
 			vertexComponents = faceStrings.at(1).split('/', QString::KeepEmptyParts);
@@ -98,6 +101,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			readedFace.texture2 = vertexComponents.at(1).toUInt();
 			if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
 				readedFace.normal2 = vertexComponents.at(2).toUInt();
+				readedFace.haveNormal2 = true;
 			}
 
 			if(readedFace.numberOfVertex >= 3) {
@@ -106,6 +110,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 				readedFace.texture3 = vertexComponents.at(1).toUInt();
 				if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
 					readedFace.normal3 = vertexComponents.at(2).toUInt();
+					readedFace.haveNormal3 = true;
 				}
 
 				// If it is a quad
@@ -115,6 +120,7 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 					readedFace.texture4 = vertexComponents.at(1).toUInt();
 					if(vertexComponents.size() == 3) { // If we have 3 components (like 1/2/3), it means we have a normal
 						readedFace.normal4 = vertexComponents.at(2).toUInt();
+						readedFace.haveNormal4 = true;
 					}
 				}
 			}
@@ -123,7 +129,6 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			readedFaces.push_back(readedFace);
 		}
 	}
-
 
 	file.close(); // Finish him!
 
@@ -151,12 +156,14 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		vertice.vy = vertexGeometry.at(currentFace.geometry1 - 1).y;
 		vertice.vz = vertexGeometry.at(currentFace.geometry1 - 1).z;
 
-		vertice.tx = vertexTexture.at(currentFace.texture1 - 1).x;
-		vertice.ty = 1.0f - vertexTexture.at(currentFace.texture1 - 1).y;
-		/*
-		vertice.nx = vertexNormal.at(currentFace.normal1 - 1).x;
-		vertice.ny = vertexNormal.at(currentFace.normal1 - 1).y;
-		vertice.nz = vertexNormal.at(currentFace.normal1 - 1).z;*/
+		vertice.tu = vertexTexture.at(currentFace.texture1 - 1).x;
+		vertice.tv = 1.0f - vertexTexture.at(currentFace.texture1 - 1).y;
+
+		if(currentFace.haveNormal1) {
+			vertice.nx = vertexNormal.at(currentFace.normal1 - 1).x;
+			vertice.ny = vertexNormal.at(currentFace.normal1 - 1).y;
+			vertice.nz = vertexNormal.at(currentFace.normal1 - 1).z;
+		}
 
 		vertice.setColors(1.0f);
 		addVertice(vertice);
@@ -165,12 +172,14 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 		vertice.vy = vertexGeometry.at(currentFace.geometry2 - 1).y;
 		vertice.vz = vertexGeometry.at(currentFace.geometry2 - 1).z;
 
-		vertice.tx = vertexTexture.at(currentFace.texture2 - 1).x;
-		vertice.ty = 1.0f - vertexTexture.at(currentFace.texture2 - 1).y;
-		/*
-		vertice.nx = vertexNormal.at(currentFace.normal2 - 1).x;
-		vertice.ny = vertexNormal.at(currentFace.normal2 - 1).y;
-		vertice.nz = vertexNormal.at(currentFace.normal2 - 1).z;*/
+		vertice.tu = vertexTexture.at(currentFace.texture2 - 1).x;
+		vertice.tv = 1.0f - vertexTexture.at(currentFace.texture2 - 1).y;
+
+		if(currentFace.haveNormal2) {
+			vertice.nx = vertexNormal.at(currentFace.normal2 - 1).x;
+			vertice.ny = vertexNormal.at(currentFace.normal2 - 1).y;
+			vertice.nz = vertexNormal.at(currentFace.normal2 - 1).z;
+		}
 
 		vertice.setColors(1.0f);
 		addVertice(vertice);
@@ -181,12 +190,14 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 			vertice.vy = vertexGeometry.at(currentFace.geometry3 - 1).y;
 			vertice.vz = vertexGeometry.at(currentFace.geometry3 - 1).z;
 
-			vertice.tx = vertexTexture.at(currentFace.texture3 - 1).x;
-			vertice.ty = 1.0f - vertexTexture.at(currentFace.texture3 - 1).y;
-			/*
-			vertice.nx = vertexNormal.at(currentFace.normal3 - 1).x;
-			vertice.ny = vertexNormal.at(currentFace.normal3 - 1).y;
-			vertice.nz = vertexNormal.at(currentFace.normal3 - 1).z;*/
+			vertice.tu = vertexTexture.at(currentFace.texture3 - 1).x;
+			vertice.tv = 1.0f - vertexTexture.at(currentFace.texture3 - 1).y;
+
+			if(currentFace.haveNormal3) {
+				vertice.nx = vertexNormal.at(currentFace.normal3 - 1).x;
+				vertice.ny = vertexNormal.at(currentFace.normal3 - 1).y;
+				vertice.nz = vertexNormal.at(currentFace.normal3 - 1).z;
+			}
 
 			vertice.setColors(1.0f);
 			addVertice(vertice);
@@ -196,12 +207,14 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 				vertice.vy = vertexGeometry.at(currentFace.geometry4 - 1).y;
 				vertice.vz = vertexGeometry.at(currentFace.geometry4 - 1).z;
 
-				vertice.tx = vertexTexture.at(currentFace.texture4 - 1).x;
-				vertice.ty = 1.0f - vertexTexture.at(currentFace.texture4 - 1).y;
-				/*
-				vertice.nx = vertexNormal.at(currentFace.normal4 - 1).x;
-				vertice.ny = vertexNormal.at(currentFace.normal4 - 1).y;
-				vertice.nz = vertexNormal.at(currentFace.normal4 - 1).z;*/
+				vertice.tu = vertexTexture.at(currentFace.texture4 - 1).x;
+				vertice.tv = 1.0f - vertexTexture.at(currentFace.texture4 - 1).y;
+
+				if(currentFace.haveNormal4) {
+					vertice.nx = vertexNormal.at(currentFace.normal4 - 1).x;
+					vertice.ny = vertexNormal.at(currentFace.normal4 - 1).y;
+					vertice.nz = vertexNormal.at(currentFace.normal4 - 1).z;
+				}
 
 				vertice.setColors(1.0f);
 				addVertice(vertice);
@@ -292,8 +305,8 @@ void OpenGLBuffer::adjustTextures(const QRectF& targetRectangle)
 	int numberOfVertex = m_vertex.size();
 	for(int i = 0; i < numberOfVertex; ++i)
 	{
-		m_vertex[i].tx = targetRectangle.left() + m_vertex[i].tx * targetRectangle.width();
-		m_vertex[i].ty = targetRectangle.top() + m_vertex[i].ty * targetRectangle.height();
+		m_vertex[i].tu = targetRectangle.x() + m_vertex[i].tu * targetRectangle.width();
+		m_vertex[i].tv = targetRectangle.y() + m_vertex[i].tv * targetRectangle.height();
 	}
 }
 
@@ -320,23 +333,28 @@ void OpenGLBuffer::render()
 
 		glVertexPointer(3, // Coordinates per vertex
 						GL_FLOAT, // Data type
-						8*sizeof(GLfloat), // Offset between each vertice
+						OPENGLVERTICE_SIZE * sizeof(GLfloat), // Offset between each vertice
 						BUFFER_OFFSET_FLOAT(0)); // where is the first vertice
 
 
 		glColorPointer(3, // Coordinates per color
 					   GL_FLOAT, // Data type
-					   8*sizeof(GLfloat), // Offset between each color
+					   OPENGLVERTICE_SIZE * sizeof(GLfloat), // Offset between each color
 					   BUFFER_OFFSET_FLOAT(3)); // where is the first color
 
 		glTexCoordPointer(2, // Coordinates per texture coordinate
 						  GL_FLOAT, // Data type
-						  8*sizeof(GLfloat), // Offset between each texture coordinate
+						  OPENGLVERTICE_SIZE * sizeof(GLfloat), // Offset between each texture coordinate
 						  BUFFER_OFFSET_FLOAT(6)); // where is the first texture coordinate
+
+		glNormalPointer(GL_FLOAT, // Data type
+						OPENGLVERTICE_SIZE * sizeof(GLfloat), // Offset between each texture coordinate
+						BUFFER_OFFSET_FLOAT(8)); // where is the first texture coordinate
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_COLOR_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 
 		// Render !
 		int numberOfPrimitiveGroups = m_primitiveGroups.size();
@@ -355,6 +373,7 @@ void OpenGLBuffer::render()
 
 		}
 
+		glDisableClientState(GL_NORMAL_ARRAY);
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 		glDisableClientState(GL_COLOR_ARRAY);
 		glDisableClientState(GL_VERTEX_ARRAY);
