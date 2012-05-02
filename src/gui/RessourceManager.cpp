@@ -103,6 +103,9 @@ GLuint RessourceManager::loadTextures()
 		// Bindons cet ID
 		glBindTexture(GL_TEXTURE_2D, gi_textureID);
 
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+
 		switch(m_textureFiltering) {
 		// Infos : http://gregs-blog.com/2008/01/17/opengl-texture-filter-parameters-explained/
 		// http://www.opengl.org/discussion_boards/ubbthreads.php?ubb=showflat&Number=133117
