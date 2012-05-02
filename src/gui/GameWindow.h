@@ -8,8 +8,6 @@ class ClientConfiguration;
 class OpenGLBuffer;
 class ServerConnector;
 
-const int INVENTORY_SQUARE_SIZE = 60; //!< The size of an item slot of the inventory
-
 class GameWindow : public GLWidget
 {
 	Q_OBJECT

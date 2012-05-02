@@ -7,7 +7,7 @@ BlockUseEvent::BlockUseEvent(const BlockPosition& position, Player* player) : Pl
 
 void BlockUseEvent::perform(Server& server) const
 {
-	int blockId = m_player->inventorySlot(m_player->selectedSlot()).id();
+	int blockId = m_player->inventorySlot(m_player->selectedSlot()).id;
 	// If there is not already a block here the player has a block of this id in stock
 	if(server.world().block(m_blockPosition)->isVoid() && m_player->takeOne(blockId)) {
 		server.world().block(m_blockPosition)->setId(blockId);

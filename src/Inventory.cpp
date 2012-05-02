@@ -19,6 +19,16 @@ const InventorySlot& Inventory::inventorySlot(int slotNumber) const
 		return m_inventorySlots[0];
 }
 
+int Inventory::weight() const
+{
+	return m_weight;
+}
+
+int Inventory::maxWeight() const
+{
+	return m_maxWeight;
+}
+
 bool Inventory::addOne(const int blockId)
 {
 	// Check if the player can carry one more block
@@ -30,6 +40,7 @@ bool Inventory::addOne(const int blockId)
 	{
 		if(m_inventorySlots[i].id == blockId) {
 			m_inventorySlots[i].quantity++;
+			m_weight += Blocks::byId(blockId).weight();
 			return true;
 		}
 	}
@@ -40,6 +51,7 @@ bool Inventory::addOne(const int blockId)
 		if(m_inventorySlots[i].id == 0) {
 			m_inventorySlots[i].id = blockId;
 			m_inventorySlots[i].quantity++;
+			m_weight += Blocks::byId(blockId).weight();
 			return true;
 		}
 	}
@@ -55,6 +67,7 @@ bool Inventory::removeOne(const int blockId)
 	{
 		if(m_inventorySlots[i].id == blockId && m_inventorySlots[i].quantity > 0) {
 			m_inventorySlots[i].quantity--;
+			m_weight -= Blocks::byId(blockId).weight();
 			// If there is not any block, remove the id
 			if(m_inventorySlots[i].quantity == 0) {
 				m_inventorySlots[i].id = 0;

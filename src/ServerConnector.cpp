@@ -81,9 +81,9 @@ void ServerConnector::selectSlot(const int selectedSlot)
 	// Check that the slot id we demand is valid
 	int newSelectedSlot = selectedSlot;
 	if(newSelectedSlot < 0) {
-		newSelectedSlot = INVENTORY_SIZE - 1;
+		newSelectedSlot = VIEWABLE_INVENTORY_SIZE - 1;
 	}
-	if(newSelectedSlot >= (int)INVENTORY_SIZE) {
+	if(newSelectedSlot >= (int)VIEWABLE_INVENTORY_SIZE) {
 		newSelectedSlot = 0;
 	}
 	SlotSelectEvent* event = new SlotSelectEvent(newSelectedSlot, me());

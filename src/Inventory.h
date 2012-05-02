@@ -16,6 +16,9 @@ public:
 
 	const InventorySlot& inventorySlot(int slotNumber) const;
 
+	int weight() const;
+	int maxWeight() const;
+
 	/*! Try to add an item of the specified id to this slot */
 	bool addOne(const int blockId);
 	/*! Try to remove an item of the specified id to this inventory */

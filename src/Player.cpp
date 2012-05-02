@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(int id) : Entity(id), i_selectedSlot(0)
+Player::Player(int id) : Entity(id), m_inventory(Inventory(1000)), i_selectedSlot(0)
 {
 }
 
@@ -11,9 +11,19 @@ Vector Player::eyePosition()
 	return footPosition;
 }
 
+int Player::currentLoad() const
+{
+	return m_inventory.weight();
+}
+
+int Player::maxLoad() const
+{
+	return m_inventory.maxWeight();
+}
+
 void Player::setSelectedSlot(const unsigned int slotNumber)
 {
-	if(slotNumber > INVENTORY_SIZE) {
+	if(slotNumber > VIEWABLE_INVENTORY_SIZE) {
 		i_selectedSlot = 0;
 	}
 	else {
@@ -21,44 +31,24 @@ void Player::setSelectedSlot(const unsigned int slotNumber)
 	}
 }
 
-InventorySlot& Player::inventorySlot(const unsigned int slotNumber)
+const InventorySlot& Player::inventorySlot(int slotNumber) const
 {
-	if(slotNumber > INVENTORY_SIZE) {
-		return m_inventorySlots[0];
-	}
-	else {
-		return m_inventorySlots[slotNumber];
-	}
+	return m_inventory.inventorySlot(slotNumber); // Already performs checks on slotNumber
 }
 
 bool Player::giveOne(const int id)
 {
-	// Let's find a slot of this id to put the block
-	for(unsigned int s = 0; s < INVENTORY_SIZE; ++s)
-	{
-		// If we added the block to the slot successfully
-		if(inventorySlot(s).addOne(id)) {
-			return true;
-		}
-	}
-	// We didn't find any free slot
-	return false;
+	return m_inventory.addOne(id);
 }
 
 void Player::give(const int id, const int quantity)
 {
 	for(int i = 0; i < quantity; ++i) {
-		if(giveOne(id)) {
-			continue;
-		}
-		else {
-			break;
-		}
+		if(!giveOne(id)) break;
 	}
 }
 
 bool Player::takeOne(const int id)
 {
-	// If the slot is already of the type id
-	return inventorySlot(selectedSlot()).removeOne(id);
+	return m_inventory.removeOne(id);
 }

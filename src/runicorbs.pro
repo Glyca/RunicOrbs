@@ -30,7 +30,6 @@ SOURCES += main.cpp\
         ChunkGenerator.cpp \
         ClientConfiguration.cpp \
         Log.cpp \
-        InventorySlot.cpp \
         blocks/BlockInfo.cpp \
         blocks/BlockDescriptor.cpp \
         blocks/Blocks.cpp \
@@ -83,7 +82,6 @@ HEADERS  += \
         ClientConfiguration.h \
         Log.h \
         FastMath.h \
-        InventorySlot.h \
         blocks/BlockInfo.h \
         blocks/BlockDescriptor.h \
         blocks/Blocks.h \

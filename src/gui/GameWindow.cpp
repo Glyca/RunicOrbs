@@ -7,8 +7,11 @@
 #include "ServerConnector.h"
 #include "version.h"
 
+const int WEIGHT_BAR_HEIGHT = 30; //!< The height of the charge bar, all margins included
+const int INVENTORY_SQUARE_SIZE = 60; //!< The size of an item slot of the inventory
+
 GameWindow::GameWindow(ServerConnector* connector)
-	: m_configuration(new ClientConfiguration()), m_connector(connector), b_playing(true), b_debugView(false), m_originalCursor(cursor()), m_inventoryPixmap(QPixmap(INVENTORY_SIZE * INVENTORY_SQUARE_SIZE, INVENTORY_SQUARE_SIZE))
+	: m_configuration(new ClientConfiguration()), m_connector(connector), b_playing(true), b_debugView(false), m_originalCursor(cursor()), m_inventoryPixmap(QPixmap(VIEWABLE_INVENTORY_SIZE * INVENTORY_SQUARE_SIZE, INVENTORY_SQUARE_SIZE + WEIGHT_BAR_HEIGHT))
 {
 	m_connector->world().physicEngine()->attach(m_connector->me());
 
@@ -105,11 +108,14 @@ void GameWindow::render2D(QPainter& painter)
 	QFontMetrics metrics = QFontMetrics(font());
 	int border = qMax(4, metrics.leading());
 	painter.setRenderHints(QPainter::TextAntialiasing | QPainter::Antialiasing, m_configuration->getAntialiasing() ? true : false);
-	painter.setPen(Qt::white);
+	QPen pen(painter.pen());
+	pen.setColor(Qt::white);
+	painter.setPen(pen);
 
 	if(b_playing) {
 		QString text = QString("The Runic Orbs version " TRO_VERSION " @ ") + QString::number(getCurrentFPS()) + tr("FPS");
 		if(b_debugView) {
+			text.reserve(500);
 			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
 			text.append("\n" "Pitch : " + QString::number(m_connector->me()->pitch()) + " // Yaw : " + QString::number(m_connector->me()->yaw()));
 			text.append("\n" "Block : " + m_connector->me()->pointedBlock() + " ID = " + QString::number(m_connector->world().block(m_connector->me()->pointedBlock())->id()));
@@ -128,7 +134,7 @@ void GameWindow::render2D(QPainter& painter)
 		painter.drawLine((width() >> 1) - RETICLE_RADIUS, height() >> 1, (width() >> 1) + RETICLE_RADIUS, height() >> 1);
 		painter.drawLine(width() >> 1, (height() >> 1) - RETICLE_RADIUS, width() >> 1, (height() >> 1) + RETICLE_RADIUS);
 		// Draw the inventory :
-		painter.drawPixmap((width() >> 1) - (m_inventoryPixmap.width() >> 1), height() - INVENTORY_SQUARE_SIZE - 5, m_inventoryPixmap);
+		painter.drawPixmap(width() / 2 - m_inventoryPixmap.width() / 2, height() - m_inventoryPixmap.height() - 5, m_inventoryPixmap);
 	}
 	else
 	{
@@ -203,28 +209,28 @@ void GameWindow::drawInventoryPixmap()
 	font.setPixelSize(18);
 	painter.setFont(font);
 
-	for(unsigned int i = 0; i < INVENTORY_SIZE; ++i)
+	for(unsigned int i = 0; i < VIEWABLE_INVENTORY_SIZE; ++i)
 	{
 		// Draw a square
 		QRect slotRect(i * INVENTORY_SQUARE_SIZE + 1,
-					   SQUARE_BORDER,
+					   WEIGHT_BAR_HEIGHT + SQUARE_BORDER,
 					   INVENTORY_SQUARE_SIZE - 2 * SQUARE_BORDER,
 					   INVENTORY_SQUARE_SIZE - 2 * SQUARE_BORDER);
-		if(m_connector->me()->inventorySlot(i).id() != 0) {
+		if(m_connector->me()->inventorySlot(i).id != 0) {
 			// Draw the image of the block
-			painter.drawImage(slotRect, Blocks::byId(m_connector->me()->inventorySlot(i).id()).itemImage());
+			painter.drawImage(slotRect, Blocks::byId(m_connector->me()->inventorySlot(i).id).itemImage());
 			// Adjust the rectangle (add borders) and draw the amount we have in the slot
 			QRect slotAmountLabelRect(slotRect);
 			slotAmountLabelRect.adjust(-4, -4, -4, -4);
 			pen.setColor(Qt::black);
 			painter.setPen(pen);
 			// 1 : draw a shadow
-			painter.drawText(slotAmountLabelRect, Qt::AlignBottom | Qt::AlignRight, QString::number(m_connector->me()->inventorySlot(i).amount()));
+			painter.drawText(slotAmountLabelRect, Qt::AlignBottom | Qt::AlignRight, QString::number(m_connector->me()->inventorySlot(i).quantity));
 			slotAmountLabelRect.adjust(-1, -1, -1, -1);
 			pen.setColor(Qt::white);
 			painter.setPen(pen);
 			// 2 : then the real text
-			painter.drawText(slotAmountLabelRect, Qt::AlignBottom | Qt::AlignRight, QString::number(m_connector->me()->inventorySlot(i).amount()));
+			painter.drawText(slotAmountLabelRect, Qt::AlignBottom | Qt::AlignRight, QString::number(m_connector->me()->inventorySlot(i).quantity));
 		}
 		// If this is the selected slot
 		if(m_connector->me()->selectedSlot() == i) {
@@ -240,6 +246,39 @@ void GameWindow::drawInventoryPixmap()
 		// Draw the border rectangle
 		painter.drawRoundRect(slotRect, SQUARE_BORDER_RADIUS, SQUARE_BORDER_RADIUS);
 	}
+
+	font.setWeight(QFont::Normal);
+	font.setPixelSize(10);
+	painter.setFont(font);
+	QString chargeLabel = tr("Charge");
+	QFontMetrics fontMetrics(font);
+
+	// Create a rectangle where to put the label and the bar
+	QRect chargeBarAndLabelRect = QRect(m_inventoryPixmap.width() / 2, m_inventoryPixmap.height() - INVENTORY_SQUARE_SIZE - WEIGHT_BAR_HEIGHT, m_inventoryPixmap.width()/2, WEIGHT_BAR_HEIGHT);
+	chargeBarAndLabelRect.adjust(5, 5, 0, -5); // Put some margins (5px) for the label and bar
+
+	// Draw the charge label
+	QRect boundingRect = fontMetrics.boundingRect(chargeBarAndLabelRect, Qt::AlignLeft, chargeLabel);
+	painter.drawText(boundingRect, Qt::AlignLeft, chargeLabel);
+
+	// Draw the charge bar :
+	QRect chargeBarOutsideRect = chargeBarAndLabelRect.adjusted(boundingRect.width() + 5, 0, -3, -7);
+
+	int insideRectWidth = m_connector->me()->currentLoad() * (chargeBarOutsideRect.width() - 4) / m_connector->me()->maxLoad();
+
+	if(insideRectWidth >= 1) {
+		pen.setColor(QColor("#f5de57"));
+		pen.setWidth(8);
+		painter.setPen(pen);
+		painter.drawRoundedRect(chargeBarOutsideRect.adjusted(3, 8, insideRectWidth - chargeBarOutsideRect.width() + 4, -8), 0, 0);
+	}
+
+	pen.setColor(Qt::lightGray);
+	pen.setWidth(2);
+	painter.setPen(pen);
+	painter.drawRoundedRect(chargeBarOutsideRect, 6, 6);
+
+	// Finish the drawing of the inventory
 	painter.end();
 }
 
