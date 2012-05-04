@@ -120,22 +120,22 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>http://www.runicorbs.net/</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="80"/>
+        <location filename="../src/gui/ui/Home.ui" line="93"/>
         <source>Play &amp;solo</source>
         <translation>Partie &amp;solo</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="87"/>
+        <location filename="../src/gui/ui/Home.ui" line="100"/>
         <source>Join a &amp;multiplayer game</source>
         <translation>Rejoindre une partie &amp;multijoueur</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="94"/>
+        <location filename="../src/gui/ui/Home.ui" line="107"/>
         <source>&amp;Host a game</source>
         <translation>&amp;Héberger une partie</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="101"/>
+        <location filename="../src/gui/ui/Home.ui" line="114"/>
         <source>&amp;Options</source>
         <translation>&amp;Options</translation>
     </message>
@@ -375,17 +375,17 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Chargé la texture [%2] du bloc &quot;%1&quot; !</translation>
     </message>
     <message>
-        <location filename="../src/gui/RessourceManager.cpp" line="137"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="141"/>
         <source>Textures loaded!</source>
         <translation>Textures chargées !</translation>
     </message>
     <message>
-        <location filename="../src/gui/RessourceManager.cpp" line="155"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="159"/>
         <source>Item image loading [%1] for &quot;%2&quot; failed!</source>
         <translation>Le chargement de l&apos;image [%1] du bloc &quot;%2&quot; a échoué !</translation>
     </message>
     <message>
-        <location filename="../src/gui/RessourceManager.cpp" line="156"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="160"/>
         <source>Successfully loaded &quot;%1&quot; item image [%2].</source>
         <translation>Chargé l&apos;image [%2] du bloc &quot;%1&quot; !</translation>
     </message>
