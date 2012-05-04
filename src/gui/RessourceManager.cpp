@@ -60,7 +60,11 @@ QImage RessourceManager::getTextureAtlas()
 		}
 	}
 
-	// Step 2 : Draw the texture atlas, and set texture coordinates of BlockDescriptor properly
+	// Step 2 : Make the atlas dimension be power of two
+	atlasWidth = nextPowerOf2(atlasWidth);
+	atlasHeight = nextPowerOf2(atlasHeight);
+
+	// Step 3 : Draw the texture atlas, and set texture coordinates of BlockDescriptor properly
 	QImage qim_atlas(atlasWidth, atlasHeight, QImage::Format_ARGB32);
 	qim_atlas.fill(Qt::transparent);
 	QPainter qp_assembler(&qim_atlas);
@@ -167,4 +171,25 @@ void RessourceManager::loadItemImages()
 			ldebug(Channel_Textures, loadedString.arg(Blocks::byId(blockID).name(), itemImageFilename));
 		}
 	}
+}
+
+int RessourceManager::nextPowerOf2(uint x)
+{
+	const int MAX_POWER = 30;
+	static uint powersOfTwo[MAX_POWER];
+	static bool initialized = false;
+
+	if(!initialized) {
+		powersOfTwo[0] = 1;
+		for(int i = 1; i < MAX_POWER; ++i) {
+			powersOfTwo[i] = 2 * powersOfTwo[i - 1];
+		}
+		initialized = true;
+	}
+
+	for(int i = 1; i < MAX_POWER; ++i) {
+		if(x >= powersOfTwo[i - 1] && x < powersOfTwo[i]) return powersOfTwo[i];
+	}
+
+	return -1;
 }

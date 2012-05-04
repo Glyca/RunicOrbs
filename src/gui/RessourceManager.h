@@ -38,6 +38,9 @@ public:
 	void loadItemImages();
 
 private:
+	/*! Give the following power of two (useful to have right texture dimensions) */
+	int nextPowerOf2(uint x);
+
 	GLuint gi_textureID; //!< The id of the unique texture, the atlas
 	TextureFiltering m_textureFiltering;
 };
