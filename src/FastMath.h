@@ -1,6 +1,8 @@
 #ifndef FASTMATH_H
 #define FASTMATH_H
 
+#include <QtGlobal> // Q_UNUSED
+
 #define C_PI 3.14159265358979323846
 
 /*! Templates for fast math on floats
@@ -13,21 +15,21 @@ template <int I> inline float Factorial() { return I * Factorial<I - 1>(); }
 template <> inline float Factorial<0>() { return 1.0f; }
 
 template <int N> inline float Power(float x) { return x * Power<N - 1>(x); }
-template <> inline float Power<0>(float x) { return 1.0f; }
+template <> inline float Power<0>(float x) { return 1.0f; Q_UNUSED(x); }
 
 template <int I> inline float Exp_(float x) { return Exp_<I - 1>(x) + Power<I>(x) / Factorial<I>(); }
-template <> inline float Exp_<0>(float x) { return 0.0f; }
+template <> inline float Exp_<0>(float x) { return 0.0f; Q_UNUSED(x); }
 
 template <int N> inline float Exponential(float x) { return x < 0.0f ? 1.0f / Exp_<N>(-x) : Exp_<N>(x); }
 
 template <int N> inline float Cosinus(float x) { return Cosinus<N - 1>(x) + (N % 2 ? -1 : 1) * Power<2 * N>(x) / Factorial<2 * N>(); }
-template <> inline float Cosinus<0>(float x) { return 1.0f; }
+template <> inline float Cosinus<0>(float x) { return 1.0f; Q_UNUSED(x); }
 
 template <int N> inline float Sinus(float x) { return Cosinus<N>(C_PI_OVER_2 - x); }
 
 template <int I> inline float Atanh(float x) { return Atanh<I - 1>(x) + Power<2 * I + 1>(x) / (2 * I + 1); }
 template <> inline float Atanh<1>(float x) { return x; }
-template <> inline float Atanh<0>(float x) { return 0.0f; }
+template <> inline float Atanh<0>(float x) { return 0.0f; Q_UNUSED(x); }
 }
 
 /*! Templates for fast math on doubles
@@ -40,21 +42,21 @@ template <int I> inline double Factorial() { return I * Factorial<I - 1>(); }
 template <> inline double Factorial<0>() { return 1.0; }
 
 template <int N> inline double Power(double x) { return x * Power<N - 1>(x); }
-template <> inline double Power<0>(double x) { return 1.0; }
+template <> inline double Power<0>(double x) { return 1.0; Q_UNUSED(x); }
 
 template <int I> inline double Exp_(double x) { return Exp_<I - 1>(x) + Power<I>(x) / Factorial<I>(); }
-template <> inline double Exp_<0>(double x) { return 0.0; }
+template <> inline double Exp_<0>(double x) { return 0.0; Q_UNUSED(x); }
 
 template <int N> inline double Exponential(double x) { return x < 0.0 ? 1.0 / Exp_<N>(-x) : Exp_<N>(x); }
 
 template <int N> inline double Cosinus(double x) { return Cosinus<N - 1>(x) + (N % 2 ? -1 : 1) * Power<2 * N>(x) / Factorial<2 * N>(); }
-template <> inline double Cosinus<0>(double x) { return 1.0; }
+template <> inline double Cosinus<0>(double x) { return 1.0; Q_UNUSED(x); }
 
 template <int N> inline double Sinus(double x) { return Cosinus<N>(C_PI_OVER_2 - x); }
 
 template <int I> inline double Atanh(double x) { return Atanh<I - 1>(x) + Power<2 * I + 1>(x) / (2 * I + 1); }
 template <> inline double Atanh<1>(double x) { return x; }
-template <> inline double Atanh<0>(double x) { return 0.0; }
+template <> inline double Atanh<0>(double x) { return 0.0; Q_UNUSED(x); }
 }
 
 /*! Provide fast inlined math functions */

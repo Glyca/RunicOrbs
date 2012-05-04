@@ -96,6 +96,7 @@ void CubeBlock::setTexture(const QRectF& texturePos, float ratio)
 
 void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& bp, const World& workingWorld) const
 {
+	Q_UNUSED(workingWorld);
 	/* How we must draw a face to fit the texture :
 	v4----v3
 	|     |
@@ -105,7 +106,6 @@ void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, con
 	const GLfloat TOP_LIGHT = 1.0f;
 	const GLfloat SIDE_LIGHT_OCCLUSION = 0.85f;
 	const GLfloat BOTTOM_LIGHT = 0.65f;
-	const QRectF& texCoords = blockSet.block->descriptor().texture();
 
 	// Front face
 	if(!blockSet.frontBlock->descriptor().isCube()) {

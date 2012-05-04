@@ -7,6 +7,7 @@ SlotSelectEvent::SlotSelectEvent(const int selectedSlot, Player* player) : Playe
 
 void SlotSelectEvent::perform(Server& server) const
 {
+	Q_UNUSED(server);
 	m_player->setSelectedSlot(i_selectedSlot);
 }
 
