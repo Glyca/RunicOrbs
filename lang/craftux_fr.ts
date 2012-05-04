@@ -64,31 +64,36 @@
         <translation type="obsolete">OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="49"/>
+        <location filename="../src/gui/GameWindow.cpp" line="54"/>
         <source>Initialized OpenGL, version %1.%2</source>
         <translation>OpenGL initialisé en version %1.%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="50"/>
+        <location filename="../src/gui/GameWindow.cpp" line="55"/>
         <source>OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</source>
         <translation>Pilote OpenGL : %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="108"/>
+        <location filename="../src/gui/GameWindow.cpp" line="116"/>
         <source>FPS</source>
         <translation> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="110"/>
+        <location filename="../src/gui/GameWindow.cpp" line="119"/>
         <source>Position : </source>
         <translation>Position : </translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GameWindow.cpp" line="253"/>
+        <source>Charge</source>
+        <translation>Charge</translation>
     </message>
     <message>
         <source> FPS</source>
         <translation type="obsolete"> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="132"/>
+        <location filename="../src/gui/GameWindow.cpp" line="141"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>
@@ -282,44 +287,49 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="84"/>
         <source>No configuration file founded. Creating a new one!</source>
-        <translation>Aucun fichier de configuration trouvé. Création d&apos;un nouveau !</translation>
+        <translation type="obsolete">Aucun fichier de configuration trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="89"/>
+        <location filename="../src/ClientConfiguration.cpp" line="60"/>
+        <source>No client configuration file founded. Creating a new one!</source>
+        <translation>Aucun fichier de configuration du client trouvé. Création d&apos;un nouveau !</translation>
+    </message>
+    <message>
+        <location filename="../src/ClientConfiguration.cpp" line="65"/>
         <source>Can&apos;t parse client configuration file %1</source>
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="191"/>
+        <location filename="../src/ClientConfiguration.cpp" line="167"/>
+        <location filename="../src/server/ServerConfiguration.cpp" line="83"/>
         <source>This is the Craftux configuration file</source>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="199"/>
+        <location filename="../src/ClientConfiguration.cpp" line="175"/>
         <source>Settings for gameplay</source>
         <translation>Paramètres de jeu</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="209"/>
+        <location filename="../src/ClientConfiguration.cpp" line="185"/>
         <source>Configure graphics</source>
         <translation>Configuration des graphismes</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="219"/>
+        <location filename="../src/ClientConfiguration.cpp" line="195"/>
         <source>Configure keymap</source>
         <translation>Mappage des touches</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="222"/>
+        <location filename="../src/ClientConfiguration.cpp" line="198"/>
         <source>Configure movement key</source>
         <translation>Mappage des touches du déplacement</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="265"/>
+        <location filename="../src/ClientConfiguration.cpp" line="241"/>
         <source>Error opening client configuration file %1</source>
-        <translation>Erreur lors de l&apos;ouverture du fichier de configuration %1</translation>
+        <translation>Erreur lors de l&apos;ouverture du fichier de configuration client %1</translation>
     </message>
     <message>
         <source>[Debug] %s
@@ -355,29 +365,49 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Catalogue des blocs créé, il contient %1 blocs.</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="27"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="35"/>
         <source>Texture loading [%1] for &quot;%2&quot; failed!</source>
         <translation>Le chargement de la texture [%1] du bloc &quot;%2&quot; a échoué !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="28"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="36"/>
         <source>Successfully loaded &quot;%1&quot; texture [%2].</source>
         <translation>Chargé la texture [%2] du bloc &quot;%1&quot; !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="126"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="137"/>
         <source>Textures loaded!</source>
         <translation>Textures chargées !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="144"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="155"/>
         <source>Item image loading [%1] for &quot;%2&quot; failed!</source>
         <translation>Le chargement de l&apos;image [%1] du bloc &quot;%2&quot; a échoué !</translation>
     </message>
     <message>
-        <location filename="../src/gui/TextureManager.cpp" line="145"/>
+        <location filename="../src/gui/RessourceManager.cpp" line="156"/>
         <source>Successfully loaded &quot;%1&quot; item image [%2].</source>
         <translation>Chargé l&apos;image [%2] du bloc &quot;%1&quot; !</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ServerConfiguration.cpp" line="40"/>
+        <source>No server configuration file founded. Creating a new one!</source>
+        <translation>Aucun fichier de configuration du serveur trouvé. Création d&apos;un nouveau !</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ServerConfiguration.cpp" line="45"/>
+        <source>Can&apos;t parse server configuration file %1</source>
+        <translation>Impossible d&apos;analyser le fichier de configuration serveur %1</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ServerConfiguration.cpp" line="90"/>
+        <source>Settings for server&apos;s network</source>
+        <translation>Paramètres réseau du serveur</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ServerConfiguration.cpp" line="102"/>
+        <source>Error opening server configuration file %1</source>
+        <translation>Erreur lors de l&apos;ouverture du fichier de configuration serveur %1</translation>
     </message>
 </context>
 <context>
@@ -408,22 +438,22 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="21"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="22"/>
         <source>The server starts</source>
         <translation>Le serveur démarre</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="29"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="32"/>
         <source>The server is being stopped</source>
         <translation>Le serveur s&apos;arrête</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="37"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="40"/>
         <source>The server is running</source>
         <translation>Le serveur est allumé</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="44"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="47"/>
         <source>The server is not running</source>
         <translation>Le serveur est éteint</translation>
     </message>

@@ -62,7 +62,9 @@ SOURCES += main.cpp\
         blocks/TorchBlock.cpp \
         gui/ui/Home.cpp \
     gui/RessourceManager.cpp \
-    Inventory.cpp
+    Inventory.cpp \
+    server/ServerConfiguration.cpp \
+    AbstractConfiguration.cpp
 
 HEADERS  += \
         PhysicObject.h \
@@ -115,7 +117,9 @@ HEADERS  += \
         blocks/TorchBlock.h \
         gui/ui/Home.h \
     gui/RessourceManager.h \
-    Inventory.h
+    Inventory.h \
+    server/ServerConfiguration.h \
+    AbstractConfiguration.h
 
 FORMS    += \
         gui/ui/ConnectDialog.ui \

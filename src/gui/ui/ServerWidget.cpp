@@ -1,3 +1,4 @@
+#include "server/ServerConfiguration.h"
 #include "server/MultiplayerServerThread.h"
 #include "ServerWidget.h"
 #include "ui_ServerWidget.h"
@@ -20,6 +21,8 @@ void ServerWidget::startServer()
 {
 	ui->serverSatuslabel->setText(tr("The server starts"));
 	ui->startButton->setEnabled(false);
+	ServerConfiguration* serverConfiguration = new ServerConfiguration();
+	serverConfiguration->loadDefaultConfigFile();
 	m_server = new MultiplayerServerThread();
 	serverStarted();
 }

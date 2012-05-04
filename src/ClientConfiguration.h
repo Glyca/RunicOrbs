@@ -1,7 +1,7 @@
 #ifndef CLIENTCONFIGURATION_H
 #define CLIENTCONFIGURATION_H
 
-#include <QString>
+#include "AbstractConfiguration.h"
 
 enum Action {
 	UP,
@@ -12,34 +12,28 @@ enum Action {
 	NBVAL
 };
 
-/*! Manage the configuration of the Craftux client */
-class ClientConfiguration
+/*! Manage the configuration of The Runic Orbs client */
+class ClientConfiguration : public AbstractConfiguration
 {
 public:
-	/*! Create a default configuration */
 	ClientConfiguration();
-	/*! Load the configuration from a file */
 	ClientConfiguration(const QString& filename);
-
-	//~ClientConfiguration();
 
 	/*! Create tab */
 	void initKeyMap();
 
 	/*! Load the configuration from the configuration file */
-	void loadDefaultConfigFile();
+	virtual void loadDefaultConfigFile();
 
 	/*! Populate config with default values */
-	void defaultValues();
-	void reloadDefault();
+	virtual void defaultValues();
 
-	void setFilename(const QString& filename);
-	void setDefaultFilename();
+	virtual void setDefaultFilename();
 
 	/*! Load the configuration from the disk */
-	void load();
+	virtual void load();
 	/*! Save the configuration on the disk */
-	void save() const;
+	virtual void save() const;
 
 	/* Accessors have willingly a get or set prefix to enphasize that it's a provider class */
 
@@ -66,7 +60,6 @@ public:
 	void setTextureFiltering(const int filtering);
 
 private:
-	QString s_filename;
 	int i_fps;
 	int i_seed;
 	int *i_keyMap;

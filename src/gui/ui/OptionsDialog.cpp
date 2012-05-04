@@ -47,7 +47,7 @@ void OptionsDialog::onClick(QAbstractButton* button)
 
 	else if(ui->buttonBox->standardButton(button) == QDialogButtonBox::RestoreDefaults)
 	{
-		config.reloadDefault();
+		config.defaultValues();
 		refresh();
 	}
 }
@@ -63,11 +63,7 @@ void OptionsDialog::refresh()
 		 i.next();
 		 ActionToButtonMap[(Action)i.key()]->setText(config.getKeyVal((Action)i.key()));
 	 }
-	/*ui->buttonUp->setText(config.getKeyVal(ClientConfiguration::UP));
-	ui->buttonLeft->setText(config.getKeyVal(ClientConfiguration::LEFT));
-	ui->buttonDown->setText(config.getKeyVal(ClientConfiguration::DOWN));
-	ui->buttonRight->setText(config.getKeyVal(ClientConfiguration::RIGHT));
-	ui->buttonJump->setText(config.getKeyVal(ClientConfiguration::JUMP));*/
+
 	checkKey();
 
 	ui->viewDistanceSpinBox->setValue(config.getViewDistance());
@@ -86,7 +82,6 @@ void OptionsDialog::save()
 {
 	config.setSeed(ui->seedLineEdit->text().toInt());
 	config.setFps(ui->FPSSpinBox->value());
-	//config.setKey(ClientConfiguration::DOWN,32);
 	config.setViewDistance(ui->viewDistanceSpinBox->value());
 	config.setSmoothShades(ui->smoothShadesCheckBox->isChecked());
 	config.setAntialiasing(ui->antialiasingCheckBox->isChecked());
@@ -114,15 +109,9 @@ void OptionsDialog::keyPressEvent(QKeyEvent *event)
 			config.setKey((Action)reallocationKey,Qt::Key_Space);
 		else
 			config.setKey((Action)reallocationKey,event->key());
-		//ActionToButtonMap[(Action)reallocationKey]->setText(config.getKeyVal((ClientConfiguration::Action)reallocationKey));
 		refresh();
 	}
 	checkKey();
-	/*if(!doubleKey)
-	{
-		refresh();
-	}*/
-
 }
 
 void OptionsDialog::checkKey()

@@ -2,17 +2,17 @@
 
 #include <QtXml/QtXml>
 
-ClientConfiguration::ClientConfiguration()
+ClientConfiguration::ClientConfiguration() : AbstractConfiguration()
 {
 	initKeyMap();
-	//defaultValues();
-	reloadDefault();
+	defaultValues();
 	setDefaultFilename();
 	loadDefaultConfigFile();
 }
 
-ClientConfiguration::ClientConfiguration(const QString& filename) : s_filename(filename)
+ClientConfiguration::ClientConfiguration(const QString& filename) : AbstractConfiguration(s_filename)
 {
+	Q_UNUSED(filename);
 	defaultValues(); // Set the defaults
 }
 
@@ -34,25 +34,6 @@ void ClientConfiguration::defaultValues()
 	// Here are the defaults value for the configuration :
 	i_fps = 60;
 	i_seed = 123456789;
-	/*
-	<up>90</up>
-   <left>81</left>
-   <down>83</down>
-   <right>68</right>
-   <jump>32</jump>
-   */
-	/*i_keyMap[UP] = 'z'-32;
-	i_keyMap[LEFT] = 'q'-32;
-	i_keyMap[DOWN] = 's'-32;
-	i_keyMap[RIGHT] = 'd'-32;
-	i_keyMap[JUMP] = 32;*/
-}
-
-void ClientConfiguration::reloadDefault()
-{
-	// Here are the defaults value for the configuration :
-	i_fps = 60;
-	i_seed = 123456789;
 	i_keyMap[UP] = 'z'-32;
 	i_keyMap[LEFT] = 'q'-32;
 	i_keyMap[DOWN] = 's'-32;
@@ -62,11 +43,6 @@ void ClientConfiguration::reloadDefault()
 	b_smoothShades = true;
 	b_antialiasing = true;
 	i_textureFiltering = 2;
-}
-
-void ClientConfiguration::setFilename(const QString& filename)
-{
-	s_filename = filename;
 }
 
 void ClientConfiguration::setDefaultFilename()
@@ -81,7 +57,7 @@ void ClientConfiguration::load()
 
 	if (!file.open(QIODevice::ReadOnly))
 	{
-		qWarning() << QObject::tr("No configuration file founded. Creating a new one!");
+		qWarning() << QObject::tr("No client configuration file founded. Creating a new one!");
 		save();
 		return;
 	}
@@ -93,17 +69,17 @@ void ClientConfiguration::load()
 
 	file.close();
 
-	QDomElement childNode = doc.documentElement(); // Access to the first child
-	while(!childNode.isNull())
+	QDomElement rootNode = doc.documentElement(); // Access to the first child
+	while(!rootNode.isNull())
 	{
-		if(childNode.tagName() == "craftux")
+		if(rootNode.tagName() == "craftux")
 		{
-			QDomElement craftuxChildNode = childNode.firstChildElement();
-			while(!craftuxChildNode.isNull())
+			QDomElement craftuxNode = rootNode.firstChildElement();
+			while(!craftuxNode.isNull())
 			{
-				if(craftuxChildNode.tagName() == "game")
+				if(craftuxNode.tagName() == "game")
 				{
-					QDomElement gameChildNode = craftuxChildNode.firstChildElement();
+					QDomElement gameChildNode = craftuxNode.firstChildElement();
 					while(!gameChildNode.isNull())
 					{
 						if(gameChildNode.tagName() == "seed") // Parse seed
@@ -113,9 +89,9 @@ void ClientConfiguration::load()
 						gameChildNode = gameChildNode.nextSiblingElement();
 					}
 				}
-				else if(craftuxChildNode.tagName() == "graphics")
+				else if(craftuxNode.tagName() == "graphics")
 				{
-					QDomElement graphicsChildNode = craftuxChildNode.firstChildElement();
+					QDomElement graphicsChildNode = craftuxNode.firstChildElement();
 					while(!graphicsChildNode.isNull())
 					{
 						if(graphicsChildNode.tagName() == "fps") // Parse FPS
@@ -141,9 +117,9 @@ void ClientConfiguration::load()
 						graphicsChildNode = graphicsChildNode.nextSiblingElement();
 					}
 				}
-				else if(craftuxChildNode.tagName() == "keymap")
+				else if(craftuxNode.tagName() == "keymap")
 				{
-					QDomElement keyChildNode = craftuxChildNode.firstChildElement();
+					QDomElement keyChildNode = craftuxNode.firstChildElement();
 					while(!keyChildNode.isNull())
 					{
 						if(keyChildNode.tagName() == "move") // Parse movment key
@@ -177,10 +153,10 @@ void ClientConfiguration::load()
 						keyChildNode = keyChildNode.nextSiblingElement();
 					}
 				}
-				craftuxChildNode = craftuxChildNode.nextSiblingElement();
+				craftuxNode = craftuxNode.nextSiblingElement();
 			}
 		}
-		childNode = childNode.nextSiblingElement();
+		rootNode = rootNode.nextSiblingElement();
 	}
 }
 
