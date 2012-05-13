@@ -20,6 +20,8 @@ public:
 public slots:
 	void startServer();
 	void stopServer();
+	void printLine(const std::string& line);
+	void clearConsole();
 
 private:
 	void serverStarted();

@@ -9,11 +9,14 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Craftux server</string>
+   <string>The Runic Orbs server</string>
+  </property>
+  <property name="currentIndex">
+   <number>1</number>
   </property>
   <widget class="QWidget" name="overviewTab">
    <attribute name="title">
-    <string>Overview</string>
+    <string>&amp;Overview</string>
    </attribute>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -48,8 +51,72 @@
   </widget>
   <widget class="QWidget" name="consoleTab">
    <attribute name="title">
-    <string>Console</string>
+    <string>&amp;Console</string>
    </attribute>
+   <layout class="QVBoxLayout" name="verticalLayout_2">
+    <item>
+     <layout class="QHBoxLayout" name="consoleTopHorizontalLayout">
+      <item>
+       <widget class="QLabel" name="consoleDescriptionLabel">
+        <property name="text">
+         <string>The console provides a view on what is going on the server.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="consoleClearButton">
+        <property name="text">
+         <string>&amp;Clear</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QTextBrowser" name="consoleTextBrowser">
+      <property name="acceptRichText">
+       <bool>false</bool>
+      </property>
+      <property name="textInteractionFlags">
+       <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="consoleTabHorizontalLayout">
+      <item>
+       <widget class="QLabel" name="commandLabel">
+        <property name="text">
+         <string>Command:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="commandLineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="sendButton">
+        <property name="text">
+         <string>&amp;Send</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
   </widget>
  </widget>
  <resources/>

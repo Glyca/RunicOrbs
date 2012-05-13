@@ -3,6 +3,7 @@
 
 #include <list>
 #include <ostream>
+#include <QObject>
 #include <QString>
 
 /*! Channels available */
@@ -17,11 +18,18 @@ enum LogChannel {
 };
 
 /*! Singloton class for logging */
-class Log
+class Log : public QObject
 {
+	Q_OBJECT
+
 public:
 	Log();
 	~Log();
+
+	inline static Log& instance() {
+		static Log log;
+		return log;
+	}
 
 	static void printLine(const std::string& string);
 
@@ -44,11 +52,10 @@ public:
 	/*! Plug an ostream on which the log will print */
 	static void plugOutputStream(std::ostream* stream);
 
+signals:
+	void print(const std::string& string);
+
 private:
-	inline static Log& instance() {
-		static Log log;
-		return log;
-	}
 
 	static const char* channelString(const LogChannel channel);
 

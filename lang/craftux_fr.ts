@@ -413,47 +413,79 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>ServerWidget</name>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.ui" line="12"/>
         <source>Craftux server</source>
-        <translation>Serveur Craftux</translation>
+        <translation type="obsolete">Serveur Craftux</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.ui" line="16"/>
         <source>Overview</source>
-        <translation>Aperçu</translation>
+        <translation type="obsolete">Aperçu</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.ui" line="34"/>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="12"/>
+        <source>The Runic Orbs server</source>
+        <translation>Serveur The Runic Orbs</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="19"/>
+        <source>&amp;Overview</source>
+        <translation>&amp;Aperçu</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="37"/>
         <source>&amp;Start</source>
         <translation>&amp;Démarrer</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.ui" line="41"/>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="44"/>
         <source>Sto&amp;p</source>
         <translation>Arrê&amp;ter</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.ui" line="51"/>
-        <source>Console</source>
-        <translation>Console</translation>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="54"/>
+        <source>&amp;Console</source>
+        <translation>&amp;Console</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="22"/>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="62"/>
+        <source>The console provides a view on what is going on the server.</source>
+        <translation>La console permet d&apos;avoir une vue sur ce qui se passe sur le serveur.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="82"/>
+        <source>&amp;Clear</source>
+        <translation>&amp;Purger</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="103"/>
+        <source>Command:</source>
+        <translation>Commande :</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="113"/>
+        <source>&amp;Send</source>
+        <translation>&amp;Envoyer</translation>
+    </message>
+    <message>
+        <source>Console</source>
+        <translation type="obsolete">Console</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="34"/>
         <source>The server starts</source>
         <translation>Le serveur démarre</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="32"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="47"/>
         <source>The server is being stopped</source>
         <translation>Le serveur s&apos;arrête</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="40"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="65"/>
         <source>The server is running</source>
         <translation>Le serveur est allumé</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="47"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="72"/>
         <source>The server is not running</source>
         <translation>Le serveur est éteint</translation>
     </message>

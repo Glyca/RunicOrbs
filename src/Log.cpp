@@ -32,12 +32,15 @@ Log::~Log()
 
 void Log::printLine(const std::string& string)
 {
+	// Print on ostreams
 	std::list<std::ostream*>::iterator it(instance().m_ostreams.begin()), eit(instance().m_ostreams.end());
 	for(; it != eit; ++it) {
 		(*it)->write(string.c_str(), string.size());
 		(*it)->put('\n');
 		(*it)->flush();
 	}
+	// Print on slots
+	emit instance().print(string);
 }
 
 void Log::debugLine(const std::string& string, const LogChannel channel)
