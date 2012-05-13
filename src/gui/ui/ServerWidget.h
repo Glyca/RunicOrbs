@@ -3,7 +3,7 @@
 
 #include <QTabWidget>
 
-class MultiplayerServerThread;
+class MultiplayerServer;
 
 namespace Ui {
 	class ServerWidget;
@@ -26,7 +26,7 @@ private:
 	void serverStopped();
 
 	Ui::ServerWidget *ui;
-	MultiplayerServerThread* m_server;
+	MultiplayerServer* m_server;
 };
 
 #endif // SERVERWIDGET_H

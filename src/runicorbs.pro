@@ -33,8 +33,6 @@ SOURCES += main.cpp\
         blocks/BlockInfo.cpp \
         blocks/BlockDescriptor.cpp \
         blocks/Blocks.cpp \
-        server/MultiplayerServerThread.cpp \
-        server/MultiplayerServer.cpp \
         server/ClientThread.cpp \
         server/Server.cpp \
         server/LocalServer.cpp \
@@ -64,7 +62,9 @@ SOURCES += main.cpp\
     gui/RessourceManager.cpp \
     Inventory.cpp \
     server/ServerConfiguration.cpp \
-    AbstractConfiguration.cpp
+    AbstractConfiguration.cpp \
+    server/TcpServer.cpp \
+    server/MultiplayerServer.cpp
 
 HEADERS  += \
         PhysicObject.h \
@@ -87,8 +87,6 @@ HEADERS  += \
         blocks/BlockInfo.h \
         blocks/BlockDescriptor.h \
         blocks/Blocks.h \
-        server/MultiplayerServerThread.h \
-        server/MultiplayerServer.h \
         server/ClientThread.h \
         server/Server.h \
         server/LocalServer.h \
@@ -119,7 +117,9 @@ HEADERS  += \
     gui/RessourceManager.h \
     Inventory.h \
     server/ServerConfiguration.h \
-    AbstractConfiguration.h
+    AbstractConfiguration.h \
+    server/TcpServer.h \
+    server/MultiplayerServer.h
 
 FORMS    += \
         gui/ui/ConnectDialog.ui \

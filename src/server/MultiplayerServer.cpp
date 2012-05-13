@@ -1,13 +1,6 @@
 #include "MultiplayerServer.h"
-#include "ClientThread.h"
 
-MultiplayerServer::MultiplayerServer(QObject* parent) : QTcpServer(parent)
+MultiplayerServer::MultiplayerServer() : m_tcpServer(new TcpServer(this))
 {
-}
 
-void MultiplayerServer::incomingConnection(int socketDescriptor)
-{
-	ClientThread* clientThread = new ClientThread(socketDescriptor, this);
-	connect(clientThread, SIGNAL(finished()), clientThread, SLOT(deleteLater()));
-	clientThread->start();
 }

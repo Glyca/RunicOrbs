@@ -1,22 +1,17 @@
-#ifndef MULTIPLAYERTCPSERVER_H
-#define MULTIPLAYERTCPSERVER_H
+#ifndef MULTIPLAYERSERVER_H
+#define MULTIPLAYERSERVER_H
 
-#include <QTcpServer>
+#include "Server.h"
+#include "TcpServer.h"
 
-/*! The mulitplayer TCP server, aggregated in a MultiplayerServerThread. It creates a ClientThread for each client.*/
-class MultiplayerServer : public QTcpServer
+/*! The multiplayer server, running the TCP server TcpServer. */
+class MultiplayerServer : public Server
 {
-	Q_OBJECT
 public:
-	explicit MultiplayerServer(QObject *parent = 0);
-
-signals:
-
-public slots:
+	MultiplayerServer();
 
 private:
-	void incomingConnection(int socketDescriptor);
-
+	TcpServer* m_tcpServer;
 };
 
-#endif // MULTIPLAYERTCPSERVER_H
+#endif // MULTIPLAYERSERVER_H

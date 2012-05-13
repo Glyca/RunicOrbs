@@ -1,5 +1,5 @@
 #include "server/ServerConfiguration.h"
-#include "server/MultiplayerServerThread.h"
+#include "server/MultiplayerServer.h"
 #include "ServerWidget.h"
 #include "ui_ServerWidget.h"
 
@@ -23,7 +23,7 @@ void ServerWidget::startServer()
 	ui->startButton->setEnabled(false);
 	ServerConfiguration* serverConfiguration = new ServerConfiguration();
 	serverConfiguration->loadDefaultConfigFile();
-	m_server = new MultiplayerServerThread();
+	m_server = new MultiplayerServer();
 	serverStarted();
 }
 
