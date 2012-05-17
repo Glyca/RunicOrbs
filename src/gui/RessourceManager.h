@@ -17,7 +17,7 @@ public:
 
 	enum TextureFiltering {
 		TextureFiltering_None = 0,
-		TextureFiltering_Bilinear = 1,
+		TextureFiltering_Mipmaps = 1,
 		TextureFiltering_BilinearMipmaps = 2,
 		TextureFiltering_TrilinearMipmaps = 3
 	};

@@ -209,9 +209,8 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="272"/>
         <source>Bilinear</source>
-        <translation>Bilinéaire</translation>
+        <translation type="obsolete">Bilinéaire</translation>
     </message>
     <message>
         <location filename="../src/gui/ui/OptionsDialog.ui" line="277"/>
@@ -264,6 +263,11 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Gauche</translation>
     </message>
     <message>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="272"/>
+        <source>Mipmaps</source>
+        <translation>Mipmaps</translation>
+    </message>
+    <message>
         <location filename="../src/gui/ui/OptionsDialog.ui" line="366"/>
         <source>Right</source>
         <translation>Droite</translation>
@@ -291,43 +295,43 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation type="obsolete">Aucun fichier de configuration trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="60"/>
+        <location filename="../src/ClientConfiguration.cpp" line="61"/>
         <source>No client configuration file founded. Creating a new one!</source>
         <translation>Aucun fichier de configuration du client trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="65"/>
+        <location filename="../src/ClientConfiguration.cpp" line="66"/>
         <source>Can&apos;t parse client configuration file %1</source>
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="167"/>
+        <location filename="../src/ClientConfiguration.cpp" line="168"/>
         <location filename="../src/server/ServerConfiguration.cpp" line="83"/>
         <source>This is the Craftux configuration file</source>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="175"/>
+        <location filename="../src/ClientConfiguration.cpp" line="176"/>
         <source>Settings for gameplay</source>
         <translation>Paramètres de jeu</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="185"/>
+        <location filename="../src/ClientConfiguration.cpp" line="186"/>
         <source>Configure graphics</source>
         <translation>Configuration des graphismes</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="195"/>
+        <location filename="../src/ClientConfiguration.cpp" line="196"/>
         <source>Configure keymap</source>
         <translation>Mappage des touches</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="198"/>
+        <location filename="../src/ClientConfiguration.cpp" line="199"/>
         <source>Configure movement key</source>
         <translation>Mappage des touches du déplacement</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="241"/>
+        <location filename="../src/ClientConfiguration.cpp" line="242"/>
         <source>Error opening client configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration client %1</translation>
     </message>

@@ -269,7 +269,7 @@
                </item>
                <item>
                 <property name="text">
-                 <string>Bilinear</string>
+                 <string>Mipmaps</string>
                 </property>
                </item>
                <item>

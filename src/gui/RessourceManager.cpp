@@ -117,9 +117,9 @@ GLuint RessourceManager::loadTextures()
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);// Filtrage lorsqu'on rétrécit la texture
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);// Filtrage lorsqu'on étire la texture
 			break;
-		case TextureFiltering_Bilinear:
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		case TextureFiltering_Mipmaps:
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 			break;
 		case TextureFiltering_BilinearMipmaps:
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -131,7 +131,7 @@ GLuint RessourceManager::loadTextures()
 			break;
 		}
 
-		if(m_textureFiltering >= TextureFiltering_BilinearMipmaps) {
+		if(m_textureFiltering >= TextureFiltering_Mipmaps) {
 			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, qim_Texture.width(), qim_Texture.height(), GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
 		}
 		else {

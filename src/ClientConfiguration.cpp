@@ -1,4 +1,5 @@
 #include "ClientConfiguration.h"
+#include "gui/RessourceManager.h"
 
 #include <QtXml/QtXml>
 
@@ -42,7 +43,7 @@ void ClientConfiguration::defaultValues()
 	i_viewDistance = 2;
 	b_smoothShades = true;
 	b_antialiasing = true;
-	i_textureFiltering = 2;
+	i_textureFiltering = RessourceManager::TextureFiltering_Mipmaps;
 }
 
 void ClientConfiguration::setDefaultFilename()
