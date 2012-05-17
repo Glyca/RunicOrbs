@@ -125,12 +125,7 @@ BlockInfo* World::block(const BlockPosition& bp) const
 		chunkBlockZ = bp.z % CHUNK_Z_SIZE;
 	}
 
-	if(isChunkLoaded(chunkPos)) {
-		return chunk(chunkPos)->block(chunkBlockX, bp.y, chunkBlockZ);
-	}
-	else {
-		return BlockInfo::voidBlock();
-	}
+	return chunk(chunkPos)->block(chunkBlockX, bp.y, chunkBlockZ);
 }
 
 BlockInfo* World::block(const Vector& position)

@@ -20,7 +20,7 @@ struct ReadedFace {
 	GLuint geometry4, normal4, texture4; // only if we have 4 vertex
 };
 
-OpenGLBuffer::OpenGLBuffer(GLenum primitiveType) : b_allocated(false), b_dirty(true), i_vertexBufferId(0), i_indicesBufferId(0)
+OpenGLBuffer::OpenGLBuffer(GLenum primitiveType) : b_allocated(false), b_dirty(true), b_preventUpload(false), i_vertexBufferId(0), i_indicesBufferId(0)
 {
 	beginPrimitiveGroup(primitiveType, true);
 }
@@ -323,7 +323,7 @@ void OpenGLBuffer::render()
 {
 	if(b_allocated) {
 		if(b_dirty) {
-			fill();
+			upload();
 		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, i_vertexBufferId);
@@ -382,6 +382,11 @@ void OpenGLBuffer::render()
 	}
 }
 
+void OpenGLBuffer::preventUpload(bool preventIt)
+{
+	b_preventUpload = preventIt;
+}
+
 void OpenGLBuffer::clear()
 {
 	m_vertex.clear();
@@ -392,15 +397,17 @@ void OpenGLBuffer::clear()
 	b_dirty = true;
 }
 
-void OpenGLBuffer::fill()
+void OpenGLBuffer::upload()
 {
-	glBindBuffer(GL_ARRAY_BUFFER, i_vertexBufferId);
-	glBufferData(GL_ARRAY_BUFFER, m_vertex.size() * OPENGLVERTICE_SIZE * sizeof(GLfloat), &m_vertex[0], GL_STATIC_DRAW); // Send data
-	glBindBuffer(GL_ARRAY_BUFFER, 0); // Safely disbale buffer
+	if(!b_preventUpload) {
+		glBindBuffer(GL_ARRAY_BUFFER, i_vertexBufferId);
+		glBufferData(GL_ARRAY_BUFFER, m_vertex.size() * OPENGLVERTICE_SIZE * sizeof(GLfloat), &m_vertex[0], GL_STATIC_DRAW); // Send data
+		glBindBuffer(GL_ARRAY_BUFFER, 0); // Safely disbale buffer
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_indicesBufferId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), &m_indices[0], GL_STATIC_DRAW); // Send data
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Safely disbale buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, i_indicesBufferId);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(GLuint), &m_indices[0], GL_STATIC_DRAW); // Send data
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0); // Safely disbale buffer
 
-	b_dirty = false;
+		b_dirty = false;
+	}
 }

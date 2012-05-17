@@ -46,6 +46,7 @@ ChunkGenerator::ChunkGenerator(const ChunkGenerator&) : QThread()
 
 void ChunkGenerator::run()
 {
+	QWriteLocker locker(&m_chunkToGenerate->rwLock());
 //#define USE_3D_NOISE // Enable 3d noise (very very experimental)
 #ifdef USE_3D_NOISE
 	for(int i = 0; i < CHUNK_X_SIZE; i++)
@@ -82,8 +83,6 @@ void ChunkGenerator::run()
 			double rockAltitude = (perlinNoise2d(wi*0.017, wk*0.017) + 1)*CHUNK_HEIGHT/3;
 			double dirtAltitude = (perlinNoise2d(-wi*0.017, -wk*0.017)/3);
 
-			m_chunkToGenerate->rwLock().lockForWrite();
-
 			for(int j = 0; j < rockAltitude; j++)
 			{
 				m_chunkToGenerate->block(i, j, k)->setId(1);
@@ -95,8 +94,6 @@ void ChunkGenerator::run()
 			// Full light on the top void block :
 			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + 2, k)->setLightLevel(15);
 			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + 1, k)->setId(3);
-
-			m_chunkToGenerate->rwLock().unlock();
 		}
 	}
 #endif

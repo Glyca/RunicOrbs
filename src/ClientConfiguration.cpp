@@ -11,7 +11,7 @@ ClientConfiguration::ClientConfiguration() : AbstractConfiguration()
 	loadDefaultConfigFile();
 }
 
-ClientConfiguration::ClientConfiguration(const QString& filename) : AbstractConfiguration(s_filename)
+ClientConfiguration::ClientConfiguration(const QString& filename) : AbstractConfiguration(filename)
 {
 	Q_UNUSED(filename);
 	defaultValues(); // Set the defaults

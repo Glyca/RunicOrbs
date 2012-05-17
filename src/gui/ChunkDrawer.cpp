@@ -10,18 +10,23 @@ ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw)
 {
 	m_oglBuffer = new OpenGLBuffer(GL_QUADS);
 	m_oglBuffer->genBuffer();
+
+	m_workingThread = new QThread();
+	connect(m_workingThread, SIGNAL(finished()), m_workingThread, SLOT(deleteLater())); // The thread will auto-destroy
+	this->moveToThread(m_workingThread);
+	m_workingThread->start();
 }
 
 ChunkDrawer::~ChunkDrawer()
 {
+	m_workingThread->quit();
 	delete m_oglBuffer;
 }
 
 void ChunkDrawer::generateVBO()
 {
-	m_oglBuffer->clear();
-
-	QReadLocker(&m_chunkToDraw->rwLock());
+	m_oglBuffer->preventUpload(true); // Indicates to keep the old geometry in video memory until we finished to regenerate it.
+	m_oglBuffer->clear(); // Clearing the buffer will not be visible at screen since video memory is kept intact.
 
 	World& workingWorld = m_chunkToDraw->world();
 	int zi, zj, zk; // These are the coordinates of the zero (0;0;0) block of the chunk (in chunk relative coordinates of course)
@@ -273,6 +278,8 @@ void ChunkDrawer::generateVBO()
 			} // j
 		} // i
 	} // k
+
+	m_oglBuffer->preventUpload(false); // Now video memory can be updated freely
 }
 
 void ChunkDrawer::render()

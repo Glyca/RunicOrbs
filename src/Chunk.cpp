@@ -88,11 +88,14 @@ void Chunk::makeSurroundingChunksDirty() const
 
 void Chunk::render3D()
 {
+	QReadLocker locker(&m_rwLock);
 	if(m_state == ChunkState_Active) {
 		if(b_dirty) {
-			m_chunkDrawer->generateVBO();
+			// Regenerate chunk geometry in another thread
+			QMetaObject::invokeMethod(m_chunkDrawer, "generateVBO");
 			b_dirty = false;
 		}
+
 		m_chunkDrawer->render(); // Incredibly fast !
 	}
 }

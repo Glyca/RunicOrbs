@@ -49,6 +49,9 @@ public:
 	/*! Render the buffer on the screen */
 	void render();
 
+	/*! Avoid any new geometry to be uploaded to the video memory. Used when redrawing a chunk for example */
+	void preventUpload(bool preventIt);
+
 	/*! Clear all vertex of the buffer */
 	void clear();
 
@@ -56,8 +59,8 @@ public:
 	void deleteBuffer();
 
 private:
-	/*! Fill the buffer with the data of our vertex */
-	void fill();
+	/*! Upload the data of our vertex to the buffer in video memory */
+	void upload();
 
 	GLenum m_currentPrimitiveType; //!< The kind of primitives to draw (mode argument of glDrawElements)
 	std::vector<OpenGLVertice> m_vertex; //!< Vertex of the buffer
@@ -65,6 +68,7 @@ private:
 	std::vector<PrimitiveGroup> m_primitiveGroups;
 	bool b_allocated; //!< Whether the buffer is allocated in video memory or not
 	bool b_dirty; //!< If we must refill the buffer with the new vertex
+	volatile bool b_preventUpload; //!< Whether we can upload geometry to the buffer or not
 	GLuint i_vertexBufferId; //!< OpenGL ID of the VBO
 	GLuint i_indicesBufferId; //!< OpenGL ID of the IBO
 };

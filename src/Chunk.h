@@ -10,9 +10,9 @@ class BlockInfo;
 class ChunkDrawer;
 class World;
 
-const int CHUNK_X_SIZE = 24;
+const int CHUNK_X_SIZE = 20;
 const int CHUNK_Y_SIZE = 256;
-const int CHUNK_Z_SIZE = 24;
+const int CHUNK_Z_SIZE = 20;
 const int CHUNK_HEIGHT = CHUNK_Y_SIZE;
 
 typedef QPair<int, int> ChunkPosition;
@@ -63,7 +63,7 @@ public slots:
 	void idle(); //!< Make the Chunk enter in an idle state (it will not be drawed)
 
 private:
-	QReadWriteLock m_rwLock;
+	QReadWriteLock m_rwLock; //!< R/W mutex
 	ChunkState m_state;
 	bool b_dirty; //!< If we need to redraw the chunk
 	ChunkPosition m_position; //!< The postion of the chunk in chunk unit.
