@@ -9,7 +9,6 @@
 ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw)
 {
 	m_oglBuffer = new OpenGLBuffer(GL_QUADS);
-	m_oglBuffer->genBuffer();
 
 	m_workingThread = new QThread();
 	connect(m_workingThread, SIGNAL(finished()), m_workingThread, SLOT(deleteLater())); // The thread will auto-destroy
@@ -19,14 +18,14 @@ ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw)
 
 ChunkDrawer::~ChunkDrawer()
 {
-	m_workingThread->quit();
+	m_workingThread->exit();
 	delete m_oglBuffer;
 }
 
 void ChunkDrawer::generateVBO()
 {
-	m_oglBuffer->preventUpload(true); // Indicates to keep the old geometry in video memory until we finished to regenerate it.
-	m_oglBuffer->clear(); // Clearing the buffer will not be visible at screen since video memory is kept intact.
+	OpenGLBuffer* newOglBuffer = new OpenGLBuffer(GL_QUADS);
+	newOglBuffer->preventUpload(true); // Indicates to "don't upload the geometry in video memory until we finished to generate it".
 
 	World& workingWorld = m_chunkToDraw->world();
 	int zi, zj, zk; // These are the coordinates of the zero (0;0;0) block of the chunk (in chunk relative coordinates of course)
@@ -65,7 +64,7 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 		}
 	}
 
@@ -97,7 +96,7 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 		}
 	}
 
@@ -129,7 +128,7 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 		}
 	}
 
@@ -161,7 +160,7 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 		}
 	}
 
@@ -193,7 +192,7 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 		}
 	}
 
@@ -225,7 +224,7 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 		}
 	}
 
@@ -274,12 +273,16 @@ void ChunkDrawer::generateVBO()
 				blockSet.topBackLeftBlock = m_chunkToDraw->block(i - 1, j + 1, k + 1);
 				blockSet.topBackRightBlock = m_chunkToDraw->block(i + 1, j + 1, k + 1);
 
-				blockSet.block->descriptor().render(*m_oglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+				blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
 			} // j
 		} // i
 	} // k
 
-	m_oglBuffer->preventUpload(false); // Now video memory can be updated freely
+	// Be sure of the order of what happens below because of multithreading (execution can stop at any time at every line)
+	OpenGLBuffer* oldOglBuffer = m_oglBuffer;
+	m_oglBuffer = newOglBuffer; // At this point, nothing will be drawn (new buffer isn't uploaded into vram)
+	newOglBuffer->preventUpload(false); // Now video memory can be updated freely (new buffer will be uploaded in vram and drawn)
+	delete oldOglBuffer;
 }
 
 void ChunkDrawer::render()
