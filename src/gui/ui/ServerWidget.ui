@@ -105,7 +105,11 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="commandLineEdit"/>
+       <widget class="QLineEdit" name="commandLineEdit">
+        <property name="placeholderText">
+         <string>Type a command here</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="sendButton">

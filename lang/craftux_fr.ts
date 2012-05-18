@@ -11,17 +11,37 @@
         <translation>Se connecter à un serveur</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ConnectDialog.ui" line="35"/>
+        <location filename="../src/gui/ui/ConnectDialog.ui" line="42"/>
+        <source>Username</source>
+        <translation>Pseudo</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ConnectDialog.ui" line="49"/>
+        <source>Your nickname</source>
+        <translation>Votre pseudo</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ConnectDialog.ui" line="59"/>
+        <source>Password</source>
+        <translation>Mot de passe</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ConnectDialog.ui" line="80"/>
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ConnectDialog.ui" line="45"/>
+        <location filename="../src/gui/ui/ConnectDialog.ui" line="87"/>
+        <source>superunicorbs.com or 127.0.0.1 for example</source>
+        <translation>superunicorbs.com or 127.0.0.1 par exemple</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ConnectDialog.ui" line="94"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ConnectDialog.ui" line="71"/>
+        <location filename="../src/gui/ui/ConnectDialog.ui" line="123"/>
         <source>Last servers</source>
         <translation>Derniers serveurs</translation>
     </message>
@@ -209,6 +229,11 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Aucun</translation>
     </message>
     <message>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="272"/>
+        <source>Mipmaps (recommended)</source>
+        <translation>Mipmaps (recommandé)</translation>
+    </message>
+    <message>
         <source>Bilinear</source>
         <translation type="obsolete">Bilinéaire</translation>
     </message>
@@ -263,9 +288,8 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Gauche</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="272"/>
         <source>Mipmaps</source>
-        <translation>Mipmaps</translation>
+        <translation type="obsolete">Mipmaps</translation>
     </message>
     <message>
         <location filename="../src/gui/ui/OptionsDialog.ui" line="366"/>
@@ -465,7 +489,12 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Commande :</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.ui" line="113"/>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="110"/>
+        <source>Type a command here</source>
+        <translation>Tapez une commande ici</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ServerWidget.ui" line="117"/>
         <source>&amp;Send</source>
         <translation>&amp;Envoyer</translation>
     </message>
