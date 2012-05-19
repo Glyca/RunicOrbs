@@ -7,7 +7,7 @@ MoveEvent::MoveEvent(const Entity::WalkDirection direction, Entity* entity) : m_
 
 void MoveEvent::perform(Server& server) const // TODO : will not work in multiplayer
 {
-
+	Q_UNUSED(server);
 }
 
 QByteArray MoveEvent::serialize() const

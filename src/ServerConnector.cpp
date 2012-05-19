@@ -24,7 +24,7 @@ World& ServerConnector::world()
 
 void ServerConnector::takeEvent(const ClientEvent* event)
 {
-
+	Q_UNUSED(event);
 }
 
 void ServerConnector::loadAndPruneChunks()
