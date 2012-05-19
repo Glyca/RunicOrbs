@@ -11,6 +11,11 @@ ServerConnector::ServerConnector(QObject *parent) : QObject(parent)
 	qDebug() << "Initialized" << metaObject()->className();
 }
 
+ServerConnector::~ServerConnector()
+{
+
+}
+
 World& ServerConnector::world()
 {
 	Q_ASSERT(1!=1);

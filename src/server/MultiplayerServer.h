@@ -21,6 +21,7 @@ class MultiplayerServer : public QTcpServer, public Server
 {
 public:
 	MultiplayerServer(ServerConfiguration* serverConfiguration);
+	virtual ~MultiplayerServer();
 
 protected:
 	void incomingConnection(int handle);

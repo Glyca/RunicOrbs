@@ -291,6 +291,12 @@ void GameWindow::setCamera()
 			  0.0, 1.0, 0.0);
 }
 
+void GameWindow::closeEvent(QCloseEvent* closeEvent)
+{
+	closeEvent->accept();
+	delete this;
+}
+
 void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 {
 	if(b_playing)

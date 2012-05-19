@@ -12,6 +12,7 @@ class Server : public QObject
 	Q_OBJECT
 public:
 	explicit Server(QObject* parent = 0);
+	virtual ~Server();
 
 	World& world() { return *m_world; }
 

@@ -16,6 +16,7 @@ class ServerConnector : public QObject
 	Q_OBJECT
 public:
 	explicit ServerConnector(QObject *parent = 0);
+	virtual ~ServerConnector();
 
 	virtual World& world();
 

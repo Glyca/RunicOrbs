@@ -11,6 +11,7 @@ class ClientHandler : public QObject
 	Q_OBJECT
 public:
 	explicit ClientHandler(int socketDescriptor, MultiplayerServer* server);
+	~ClientHandler();
 
 signals:
 	void error(QAbstractSocket::SocketError socketError);

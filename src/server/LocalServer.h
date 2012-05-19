@@ -8,6 +8,7 @@ class LocalServer : public Server
 	Q_OBJECT
 public:
 	LocalServer(QObject* parent = 0);
+	virtual ~LocalServer();
 };
 
 #endif // LOCALSERVER_H

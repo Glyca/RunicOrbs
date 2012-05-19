@@ -7,6 +7,12 @@ ClientHandler::ClientHandler(int socketDescriptor, MultiplayerServer* server) : 
 {
 }
 
+ClientHandler::~ClientHandler()
+{
+	m_socket->disconnectFromHost();
+	delete m_socket;
+}
+
 void ClientHandler::bind()
 {
 	ldebug(Channel_Server, "Binding client...");

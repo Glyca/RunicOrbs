@@ -9,6 +9,7 @@ class LocalServerConnector : public ServerConnector
 	Q_OBJECT
 public:
 	LocalServerConnector();
+	virtual ~LocalServerConnector();
 
 	virtual World& world() { return m_server->world(); }
 
