@@ -1,6 +1,7 @@
 #ifndef SERVERWIDGET_H
 #define SERVERWIDGET_H
 
+#include <QString>
 #include <QTabWidget>
 
 class MultiplayerServer;
@@ -20,7 +21,7 @@ public:
 public slots:
 	void startServer();
 	void stopServer();
-	void printLine(const std::string& line);
+	void printLine(const QString &line);
 	void clearConsole();
 
 private:

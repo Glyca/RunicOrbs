@@ -17,7 +17,7 @@ ServerWidget::ServerWidget(QWidget *parent) : QTabWidget(parent), ui(new Ui::Ser
 	connect(ui->startButton, SIGNAL(clicked()), this, SLOT(startServer()));
 	connect(ui->stopButton, SIGNAL(clicked()), this, SLOT(stopServer()));
 	connect(ui->consoleClearButton, SIGNAL(clicked()), this, SLOT(clearConsole()));
-	connect(&Log::instance(), SIGNAL(print(const std::string&)), this, SLOT(printLine(const std::string&)));
+	connect(&Log::instance(), SIGNAL(print(const QString&)), this, SLOT(printLine(const QString&)));
 
 	// Center the window on the screen
 	QDesktopWidget* desktop = QApplication::desktop();
@@ -38,7 +38,7 @@ void ServerWidget::startServer()
 	// Load server configuration and start it
 	ServerConfiguration* serverConfiguration = new ServerConfiguration();
 	serverConfiguration->loadDefaultConfigFile();
-	m_server = new MultiplayerServer();
+	m_server = new MultiplayerServer(serverConfiguration);
 	serverStarted();
 }
 
@@ -50,9 +50,9 @@ void ServerWidget::stopServer()
 	serverStopped();
 }
 
-void ServerWidget::printLine(const std::string& line)
+void ServerWidget::printLine(const QString& line)
 {
-	ui->consoleTextBrowser->append(QString::fromStdString(line));
+	ui->consoleTextBrowser->append(line);
 }
 
 void ServerWidget::clearConsole()

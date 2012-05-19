@@ -40,7 +40,7 @@ void Log::printLine(const std::string& string)
 		(*it)->flush();
 	}
 	// Print on slots
-	emit instance().print(string);
+	emit instance().print(QString::fromStdString(string));
 }
 
 void Log::debugLine(const std::string& string, const LogChannel channel)

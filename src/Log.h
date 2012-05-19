@@ -53,7 +53,7 @@ public:
 	static void plugOutputStream(std::ostream* stream);
 
 signals:
-	void print(const std::string& string);
+	void print(const QString& string);
 
 private:
 
