@@ -14,9 +14,34 @@ You must have Qt libraries installed (or in DLLs next to the executable for Wind
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions on the [forum](http://www.runicorbs.net/forums)!
 
 ##Changelog
-###v0.0.5 (not released yet)
+###v0.0.6 (Jun 9 2012)
 ```
-
+```
+###v0.0.5 (released soon)
+```
+(project rename, many performance and code improvments, OBJ loader, charge)
++ Renamed project into "The Runic Orbs"
++ Fast functions for expansive math operations (cos, sin...)
++ Most windows are centered as they are displayed
++ New "TORCH" block which doesn't produce light yet
++ Basic light occlusion for blocks
++ World seed is now taken into account for chunk generation and is displayed with F3
++ Chunks are generated in separate threads (no FPS drop when exploring anymore)
++ Great speed improvment by computing chunk geometry in another thread
++ Basic log system (not in a file yet)
++ New OBJ (Wavefront) 3D models loader and renderer
++ Cube blocks can have a multiple faced textures
++ Added a GRASS layer in terrain generation
++ Inventories now have a charge, and the player can see it thanks to a charge bar at screen
++ Official website is displayed in a frame in the Home dialog, along with a link.
++ Console in the server widget, which displays server log
+* You can't place a block where there is already on placed
+* Chunk are generated and rendered only when in the view distanre (no useless chunk generation anymore)
+* Player spawns randomly in positives (and thus not buggy) chunks
+* Avoid color to "drool" between textures because of filtering
+* Reduced chunk size from 24 to 20 for speed
+* Changed "bilinear" texture filtering by "mipmaps" and made it default
+* Tweaked some guis
 ```
 ###v0.0.4 (April 1 2012)
 ```
