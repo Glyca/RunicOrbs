@@ -3,14 +3,16 @@
 #include "ClientHandler.h"
 #include "Log.h"
 
-ClientHandler::ClientHandler(int socketDescriptor, MultiplayerServer* server) : m_parentServer(server), b_binded(false), i_socketDescriptor(socketDescriptor)
+ClientHandler::ClientHandler(int socketDescriptor, MultiplayerServer* server) : m_parentServer(server), b_socketCreated(false), i_socketDescriptor(socketDescriptor)
 {
 }
 
 ClientHandler::~ClientHandler()
 {
-	m_socket->disconnectFromHost();
-	delete m_socket;
+	if(b_socketCreated) {
+		m_socket->disconnectFromHost();
+		delete m_socket;
+	}
 }
 
 void ClientHandler::bind()
@@ -18,6 +20,7 @@ void ClientHandler::bind()
 	ldebug(Channel_Server, "Binding client...");
 
 	m_socket = new QTcpSocket(this);
+	b_socketCreated = true;
 
 	connect(m_socket, SIGNAL(connected()), this, SLOT(connected()));
 	connect(m_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));

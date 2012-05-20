@@ -3,6 +3,7 @@
 
 #include "OpenGL.h"
 
+/*! A convenient QGLWidget wrapper */
 class GLWidget : public QGLWidget
 {
 	Q_OBJECT

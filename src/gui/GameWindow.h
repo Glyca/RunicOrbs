@@ -8,6 +8,7 @@ class ClientConfiguration;
 class OpenGLBuffer;
 class ServerConnector;
 
+/*! The GLWidget where the game takes place */
 class GameWindow : public GLWidget
 {
 	Q_OBJECT

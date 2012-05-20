@@ -3,6 +3,7 @@
 
 #include "PhysicObject.h"
 
+/*! A PhysicObject that can walk and have a view direction */
 class Entity : public PhysicObject
 {
 public:

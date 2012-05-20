@@ -3,6 +3,7 @@
 
 #include "AbstractConfiguration.h"
 
+/*! Manages the configuration of The Runic Orbs server */
 class ServerConfiguration : public AbstractConfiguration
 {
 public:

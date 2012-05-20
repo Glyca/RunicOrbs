@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "blocks/BlockInfo.h" // BlockPosition
 
+/*! A Player who can pick blocks */
 class Me : public Player
 {
 public:

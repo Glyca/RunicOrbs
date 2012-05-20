@@ -3,7 +3,7 @@
 
 #include <QString>
 
-/*! A abstract class for configuations.
+/*! An abstract class for configuations.
 	One aim of the class is to provide a instant access to its values, that's why they are "hardcoded", and not in a map for example.
 \note Configuration is not load from the disk until a load function is called */
 class AbstractConfiguration

@@ -63,7 +63,8 @@ SOURCES += main.cpp\
     server/ServerConfiguration.cpp \
     AbstractConfiguration.cpp \
     server/MultiplayerServer.cpp \
-    server/ClientHandler.cpp
+    server/ClientHandler.cpp \
+    server/events/BiEvent.cpp
 
 HEADERS  += \
         PhysicObject.h \
@@ -117,7 +118,8 @@ HEADERS  += \
     server/ServerConfiguration.h \
     AbstractConfiguration.h \
     server/MultiplayerServer.h \
-    server/ClientHandler.h
+    server/ClientHandler.h \
+    server/events/BiEvent.h
 
 FORMS    += \
         gui/ui/ConnectDialog.ui \
