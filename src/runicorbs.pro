@@ -133,7 +133,9 @@ TRANSLATIONS = ../lang/craftux_fr.ts
 CODECFORTR = UTF-8
 
 # Now necessary for glu*() calls
+unix {
 LIBS += -lGLU
+}
 
 QMAKE_CXXFLAGS_RELEASE -= -g -O2
 QMAKE_LFLAGS_RELEASE -= -Wl,-O1
