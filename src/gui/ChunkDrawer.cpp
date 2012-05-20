@@ -64,7 +64,8 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.position = BlockPosition(zi + i, zj + j, zk + k);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet);
 		}
 	}
 
@@ -96,7 +97,8 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.position = BlockPosition(zi + i, zj + j, zk + k);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet);
 		}
 	}
 
@@ -128,7 +130,8 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.position = BlockPosition(zi + i, zj + j, zk + k);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet);
 		}
 	}
 
@@ -160,7 +163,8 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.position = BlockPosition(zi + i, zj + j, zk + k);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet);
 		}
 	}
 
@@ -192,7 +196,8 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.position = BlockPosition(zi + i, zj + j, zk + k);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet);
 		}
 	}
 
@@ -224,7 +229,8 @@ void ChunkDrawer::generateVBO()
 
 			blockSet.bottomBlock = workingWorld.block(BlockPosition(zi + i, zj + j - 1, zk + k));
 
-			blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+			blockSet.position = BlockPosition(zi + i, zj + j, zk + k);
+			blockSet.block->descriptor().render(*newOglBuffer, blockSet);
 		}
 	}
 
@@ -273,7 +279,8 @@ void ChunkDrawer::generateVBO()
 				blockSet.topBackLeftBlock = m_chunkToDraw->block(i - 1, j + 1, k + 1);
 				blockSet.topBackRightBlock = m_chunkToDraw->block(i + 1, j + 1, k + 1);
 
-				blockSet.block->descriptor().render(*newOglBuffer, blockSet, BlockPosition(zi + i, zj + j, zk + k), workingWorld);
+				blockSet.position = BlockPosition(zi + i, zj + j, zk + k);
+				blockSet.block->descriptor().render(*newOglBuffer, blockSet);
 			} // j
 		} // i
 	} // k
@@ -282,7 +289,7 @@ void ChunkDrawer::generateVBO()
 	OpenGLBuffer* oldOglBuffer = m_oglBuffer;
 	m_oglBuffer = newOglBuffer; // At this point, nothing will be drawn (new buffer isn't uploaded into vram)
 	newOglBuffer->preventUpload(false); // Now video memory can be updated freely (new buffer will be uploaded in vram and drawn)
-	delete oldOglBuffer;
+	delete oldOglBuffer; // FIXME : May crash (opengl call not from main thread)
 }
 
 void ChunkDrawer::render()

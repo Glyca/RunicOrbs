@@ -17,10 +17,9 @@ void TorchBlock::loadModel(const QString& modelFolder)
 	linfo(Channel_OpenGL, "torch model loaded");
 }
 
-void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& bp, const World& workingWorld) const
+void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet) const
 {
-	Q_UNUSED(blockSet); Q_UNUSED(workingWorld);
 	OpenGLBuffer translatedModel(*m_model);
-	translatedModel.translate3f(bp.x, bp.y, bp.z);
+	translatedModel.translate3f(blockSet.position.x, blockSet.position.y, blockSet.position.z);
 	targetBuffer.append(translatedModel);
 }

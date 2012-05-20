@@ -13,7 +13,7 @@ public:
 
 	virtual void setTexture(const QRectF& texturePos, float ratio);
 
-	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& position, const World& workingWorld) const;
+	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet) const;
 
 private:
 	enum CubeFace {

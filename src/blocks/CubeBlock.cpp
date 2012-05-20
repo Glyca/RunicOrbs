@@ -94,9 +94,8 @@ void CubeBlock::setTexture(const QRectF& texturePos, float ratio)
 	}
 }
 
-void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& bp, const World& workingWorld) const
+void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet) const
 {
-	Q_UNUSED(workingWorld);
 	/* How we must draw a face to fit the texture :
 	v4----v3
 	|     |
@@ -110,19 +109,19 @@ void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, con
 	// Front face
 	if(!blockSet.frontBlock->descriptor().isCube()) {
 
-		OpenGLVertice v1(bp.x, bp.y, bp.z); // 0.0f,0.0f,0.0f,
+		OpenGLVertice v1(blockSet.position.x, blockSet.position.y, blockSet.position.z); // 0.0f,0.0f,0.0f,
 		v1.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v1.setTextures(m_faceTexturesPosition[CubeFace_Front].left(), m_faceTexturesPosition[CubeFace_Front].bottom());
 
-		OpenGLVertice v2(bp.x + 1.0f, bp.y, bp.z); // 1.0f,0.0f,0.0f,
+		OpenGLVertice v2(blockSet.position.x + 1.0f, blockSet.position.y, blockSet.position.z); // 1.0f,0.0f,0.0f,
 		v2.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v2.setTextures(m_faceTexturesPosition[CubeFace_Front].right(), m_faceTexturesPosition[CubeFace_Front].bottom());
 
-		OpenGLVertice v3(bp.x + 1.0f, bp.y + 1.0f, bp.z); //  1.0f,1.0f,0.0f,
+		OpenGLVertice v3(blockSet.position.x + 1.0f, blockSet.position.y + 1.0f, blockSet.position.z); //  1.0f,1.0f,0.0f,
 		v3.setColors((blockSet.topFrontBlock->descriptor().isCube() || blockSet.topRightBlock->descriptor().isCube() || blockSet.topFrontRightBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v3.setTextures(m_faceTexturesPosition[CubeFace_Front].right(), m_faceTexturesPosition[CubeFace_Front].top());
 
-		OpenGLVertice v4(bp.x, bp.y + 1.0f, bp.z); //  0.0f,1.0f,0.0f,
+		OpenGLVertice v4(blockSet.position.x, blockSet.position.y + 1.0f, blockSet.position.z); //  0.0f,1.0f,0.0f,
 		v4.setColors((blockSet.topFrontBlock->descriptor().isCube() || blockSet.topLeftBlock->descriptor().isCube() || blockSet.topFrontLeftBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v4.setTextures(m_faceTexturesPosition[CubeFace_Front].left(), m_faceTexturesPosition[CubeFace_Front].top());
 
@@ -131,40 +130,40 @@ void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, con
 	// Left face
 	if(!blockSet.leftBlock->descriptor().isCube()) {
 
-		OpenGLVertice v1(bp.x, bp.y, bp.z + 1.0f); // 0.0f,0.0f,1.0f,
+		OpenGLVertice v1(blockSet.position.x, blockSet.position.y, blockSet.position.z + 1.0f); // 0.0f,0.0f,1.0f,
 		v1.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v1.setTextures(m_faceTexturesPosition[CubeFace_Left].left(), m_faceTexturesPosition[CubeFace_Left].bottom());
 
-		OpenGLVertice v2(bp.x, bp.y, bp.z); // 0.0f,0.0f,0.0f,
+		OpenGLVertice v2(blockSet.position.x, blockSet.position.y, blockSet.position.z); // 0.0f,0.0f,0.0f,
 		v2.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v2.setTextures(m_faceTexturesPosition[CubeFace_Left].right(), m_faceTexturesPosition[CubeFace_Left].bottom());
 
-		OpenGLVertice v3(bp.x, bp.y + 1.0f, bp.z); // 0.0f,1.0f,0.0f,
+		OpenGLVertice v3(blockSet.position.x, blockSet.position.y + 1.0f, blockSet.position.z); // 0.0f,1.0f,0.0f,
 		v3.setColors((blockSet.topFrontBlock->descriptor().isCube() || blockSet.topLeftBlock->descriptor().isCube() || blockSet.topFrontLeftBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v3.setTextures(m_faceTexturesPosition[CubeFace_Left].right(), m_faceTexturesPosition[CubeFace_Left].top());
 
-		OpenGLVertice v4(bp.x, bp.y + 1.0f, bp.z + 1.0f); // 0.0f,1.0f,1.0f,
+		OpenGLVertice v4(blockSet.position.x, blockSet.position.y + 1.0f, blockSet.position.z + 1.0f); // 0.0f,1.0f,1.0f,
 		v4.setColors((blockSet.topBackBlock->descriptor().isCube() || blockSet.topLeftBlock->descriptor().isCube() || blockSet.topBackLeftBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v4.setTextures(m_faceTexturesPosition[CubeFace_Left].left(), m_faceTexturesPosition[CubeFace_Left].top());
 
 		targetBuffer.addVertices(v1, v2, v3, v4);
 	}
 	// Bottom face
-	if(bp.y != 0 && (!blockSet.bottomBlock->descriptor().isCube())) {
+	if(blockSet.position.y != 0 && (!blockSet.bottomBlock->descriptor().isCube())) {
 
-		OpenGLVertice v1(bp.x, bp.y, bp.z + 1.0f); // 0.0f,0.0f,1.0f,
+		OpenGLVertice v1(blockSet.position.x, blockSet.position.y, blockSet.position.z + 1.0f); // 0.0f,0.0f,1.0f,
 		v1.setColors(BOTTOM_LIGHT);
 		v1.setTextures(m_faceTexturesPosition[CubeFace_Bottom].left(), m_faceTexturesPosition[CubeFace_Bottom].bottom());
 
-		OpenGLVertice v2(bp.x + 1.0f, bp.y, bp.z + 1.0f); // 1.0f,0.0f,1.0f,
+		OpenGLVertice v2(blockSet.position.x + 1.0f, blockSet.position.y, blockSet.position.z + 1.0f); // 1.0f,0.0f,1.0f,
 		v2.setColors(BOTTOM_LIGHT);
 		v2.setTextures(m_faceTexturesPosition[CubeFace_Bottom].right(), m_faceTexturesPosition[CubeFace_Bottom].bottom());
 
-		OpenGLVertice v3(bp.x + 1.0f, bp.y, bp.z); // 1.0f,0.0f,0.0f,
+		OpenGLVertice v3(blockSet.position.x + 1.0f, blockSet.position.y, blockSet.position.z); // 1.0f,0.0f,0.0f,
 		v3.setColors(BOTTOM_LIGHT);
 		v3.setTextures(m_faceTexturesPosition[CubeFace_Bottom].right(), m_faceTexturesPosition[CubeFace_Bottom].top());
 
-		OpenGLVertice v4(bp.x, bp.y, bp.z); // 0.0f,0.0f,0.0f,
+		OpenGLVertice v4(blockSet.position.x, blockSet.position.y, blockSet.position.z); // 0.0f,0.0f,0.0f,
 		v4.setColors(BOTTOM_LIGHT);
 		v4.setTextures(m_faceTexturesPosition[CubeFace_Bottom].left(), m_faceTexturesPosition[CubeFace_Bottom].top());
 
@@ -173,19 +172,19 @@ void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, con
 	// Right face
 	if(!blockSet.rightBlock->descriptor().isCube()) {
 
-		OpenGLVertice v1(bp.x + 1.0f, bp.y, bp.z); // 1.0f,0.0f,0.0f,
+		OpenGLVertice v1(blockSet.position.x + 1.0f, blockSet.position.y, blockSet.position.z); // 1.0f,0.0f,0.0f,
 		v1.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v1.setTextures(m_faceTexturesPosition[CubeFace_Right].left(), m_faceTexturesPosition[CubeFace_Right].bottom());
 
-		OpenGLVertice v2(bp.x + 1.0f, bp.y, bp.z + 1.0f); // 1.0f,0.0f,1.0f,
+		OpenGLVertice v2(blockSet.position.x + 1.0f, blockSet.position.y, blockSet.position.z + 1.0f); // 1.0f,0.0f,1.0f,
 		v2.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v2.setTextures(m_faceTexturesPosition[CubeFace_Right].right(), m_faceTexturesPosition[CubeFace_Right].bottom());
 
-		OpenGLVertice v3(bp.x + 1.0f, bp.y + 1.0f, bp.z + 1.0f); // 1.0f,1.0f,1.0f,
+		OpenGLVertice v3(blockSet.position.x + 1.0f, blockSet.position.y + 1.0f, blockSet.position.z + 1.0f); // 1.0f,1.0f,1.0f,
 		v3.setColors((blockSet.topBackBlock->descriptor().isCube() || blockSet.topRightBlock->descriptor().isCube() || blockSet.topBackRightBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v3.setTextures(m_faceTexturesPosition[CubeFace_Right].right(), m_faceTexturesPosition[CubeFace_Right].top());
 
-		OpenGLVertice v4(bp.x + 1.0f, bp.y + 1.0f, bp.z); // 1.0f,1.0f,0.0f,
+		OpenGLVertice v4(blockSet.position.x + 1.0f, blockSet.position.y + 1.0f, blockSet.position.z); // 1.0f,1.0f,0.0f,
 		v4.setColors((blockSet.topFrontBlock->descriptor().isCube() || blockSet.topRightBlock->descriptor().isCube() || blockSet.topFrontRightBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v4.setTextures(m_faceTexturesPosition[CubeFace_Right].left(), m_faceTexturesPosition[CubeFace_Right].top());
 
@@ -194,19 +193,19 @@ void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, con
 	// Top face
 	if(!blockSet.topBlock->descriptor().isCube()) {
 
-		OpenGLVertice v1(bp.x, bp.y + 1.0f, bp.z); // 0.0f,1.0f,0.0f,
+		OpenGLVertice v1(blockSet.position.x, blockSet.position.y + 1.0f, blockSet.position.z); // 0.0f,1.0f,0.0f,
 		v1.setColors((blockSet.topFrontBlock->descriptor().isCube() || blockSet.topLeftBlock->descriptor().isCube() || blockSet.topFrontLeftBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v1.setTextures(m_faceTexturesPosition[CubeFace_Top].left(), m_faceTexturesPosition[CubeFace_Top].bottom());
 
-		OpenGLVertice v2(bp.x + 1.0f, bp.y + 1.0f, bp.z); // 1.0f,1.0f,0.0f,
+		OpenGLVertice v2(blockSet.position.x + 1.0f, blockSet.position.y + 1.0f, blockSet.position.z); // 1.0f,1.0f,0.0f,
 		v2.setColors((blockSet.topFrontBlock->descriptor().isCube() || blockSet.topRightBlock->descriptor().isCube() || blockSet.topFrontRightBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v2.setTextures(m_faceTexturesPosition[CubeFace_Top].right(), m_faceTexturesPosition[CubeFace_Top].bottom());
 
-		OpenGLVertice v3(bp.x + 1.0f, bp.y + 1.0f, bp.z + 1.0f); // 1.0f,1.0f,1.0f,
+		OpenGLVertice v3(blockSet.position.x + 1.0f, blockSet.position.y + 1.0f, blockSet.position.z + 1.0f); // 1.0f,1.0f,1.0f,
 		v3.setColors((blockSet.topBackBlock->descriptor().isCube() || blockSet.topRightBlock->descriptor().isCube() || blockSet.topBackRightBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v3.setTextures(m_faceTexturesPosition[CubeFace_Top].right(), m_faceTexturesPosition[CubeFace_Top].top());
 
-		OpenGLVertice v4(bp.x, bp.y + 1.0f, bp.z + 1.0f); // 0.0f,1.0f,1.0f,
+		OpenGLVertice v4(blockSet.position.x, blockSet.position.y + 1.0f, blockSet.position.z + 1.0f); // 0.0f,1.0f,1.0f,
 		v4.setColors((blockSet.topBackBlock->descriptor().isCube() || blockSet.topLeftBlock->descriptor().isCube() || blockSet.topBackLeftBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v4.setTextures(m_faceTexturesPosition[CubeFace_Top].left(), m_faceTexturesPosition[CubeFace_Top].top());
 
@@ -215,19 +214,19 @@ void CubeBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, con
 	// Back face
 	if(!blockSet.backBlock->descriptor().isCube()) {
 
-		OpenGLVertice v1(bp.x + 1.0f, bp.y, bp.z + 1.0); // 1.0f,0.0f,1.0f,
+		OpenGLVertice v1(blockSet.position.x + 1.0f, blockSet.position.y, blockSet.position.z + 1.0); // 1.0f,0.0f,1.0f,
 		v1.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v1.setTextures(m_faceTexturesPosition[CubeFace_Back].left(), m_faceTexturesPosition[CubeFace_Back].bottom());
 
-		OpenGLVertice v2(bp.x, bp.y, bp.z + 1.0f); // 0.0f,0.0f,1.0f,
+		OpenGLVertice v2(blockSet.position.x, blockSet.position.y, blockSet.position.z + 1.0f); // 0.0f,0.0f,1.0f,
 		v2.setColors((blockSet.bottomBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v2.setTextures(m_faceTexturesPosition[CubeFace_Back].right(), m_faceTexturesPosition[CubeFace_Back].bottom());
 
-		OpenGLVertice v3(bp.x, bp.y + 1.0f, bp.z + 1.0f); // 0.0f,1.0f,1.0f,
+		OpenGLVertice v3(blockSet.position.x, blockSet.position.y + 1.0f, blockSet.position.z + 1.0f); // 0.0f,1.0f,1.0f,
 		v3.setColors((blockSet.topBackBlock->descriptor().isCube() || blockSet.topLeftBlock->descriptor().isCube() || blockSet.topBackLeftBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v3.setTextures(m_faceTexturesPosition[CubeFace_Back].right(), m_faceTexturesPosition[CubeFace_Back].top());
 
-		OpenGLVertice v4(bp.x + 1.0f, bp.y + 1.0f, bp.z + 1.0f); // 1.0f,1.0f,1.0f,
+		OpenGLVertice v4(blockSet.position.x + 1.0f, blockSet.position.y + 1.0f, blockSet.position.z + 1.0f); // 1.0f,1.0f,1.0f,
 		v4.setColors((blockSet.topBackBlock->descriptor().isCube() || blockSet.topRightBlock->descriptor().isCube() || blockSet.topBackRightBlock->descriptor().isCube()) ? SIDE_LIGHT_OCCLUSION : TOP_LIGHT);
 		v4.setTextures(m_faceTexturesPosition[CubeFace_Back].left(), m_faceTexturesPosition[CubeFace_Back].top());
 

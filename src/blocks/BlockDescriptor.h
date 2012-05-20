@@ -34,7 +34,7 @@ public:
 	virtual void loadModel(const QString& modelFolder);
 
 	/*! Draw block geometry at position using blockInfo, in the targetBuffer */
-	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet, const BlockPosition& position, const World& workingWorld) const;
+	virtual void render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet) const;
 
 protected:
 	// General

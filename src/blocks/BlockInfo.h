@@ -59,7 +59,7 @@ Instead there is just some swaps between these BlockInfo pointers and fetchs of 
 struct BlockSet
 {
 	BlockInfo* block;
-	BlockPosition* position;
+	BlockPosition position;
 
 	BlockInfo* frontBlock;
 	BlockInfo* leftBlock;
