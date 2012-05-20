@@ -12,6 +12,8 @@ CubeBlock Blocks::STONE(1, "stone", B_BREAKABLE, B_CANNOTPASSTROUGH, 10);
 CubeBlock Blocks::DIRT(2, "dirt", B_BREAKABLE, B_CANNOTPASSTROUGH, 5);
 CubeBlock Blocks::GRASS(3, "grass", B_BREAKABLE, B_CANNOTPASSTROUGH, 6);
 TorchBlock Blocks::TORCH(4, "torch", B_BREAKABLE, B_CANPASSTROUGH, 2);
+CubeBlock Blocks::WOOD(5, "wood", B_BREAKABLE, B_CANNOTPASSTROUGH, 4);
+CubeBlock Blocks::LEAVES(6, "leaves", B_BREAKABLE, B_CANNOTPASSTROUGH, 1);
 
 Blocks::Blocks()
 {
@@ -25,6 +27,8 @@ Blocks::Blocks()
 	m_blockDescriptors[2] = &Blocks::DIRT;
 	m_blockDescriptors[3] = &Blocks::GRASS;
 	m_blockDescriptors[4] = &Blocks::TORCH;
+	m_blockDescriptors[5] = &Blocks::WOOD;
+	m_blockDescriptors[6] = &Blocks::LEAVES;
 	linfo(Channel_Blocks, QObject::tr("Blocks catalog created, having %1 blocks.").arg(MAX_BLOCKID));
 }
 

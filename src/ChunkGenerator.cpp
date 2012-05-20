@@ -1,5 +1,6 @@
 #include "ChunkGenerator.h"
 #include "Chunk.h"
+#include "blocks/CubeBlock.h"
 #include "FastMath.h"
 
 // adapted from : http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
@@ -47,7 +48,7 @@ ChunkGenerator::ChunkGenerator(const ChunkGenerator&) : QThread()
 void ChunkGenerator::run()
 {
 	QWriteLocker locker(&m_chunkToGenerate->rwLock());
-//#define USE_3D_NOISE // Enable 3d noise (very very experimental)
+	//#define USE_3D_NOISE // Enable 3d noise (very very experimental)
 #ifdef USE_3D_NOISE
 	for(int i = 0; i < CHUNK_X_SIZE; i++)
 	{
@@ -57,14 +58,19 @@ void ChunkGenerator::run()
 			{
 				int wi, wj, wk; // Coordinates in the world
 				m_chunkToGenerate->mapToWorld(i, j, k, wi, wj, wk);
-				double noised = (perlinNoise3d(wi*0.01, wj*0.01, wk*0.01));
-				if(noised > (j)/(CHUNK_HEIGHT/0.9))
+
+				double noise3d = (perlinNoise3d(wi*0.009, wj*0.009, wk*0.009));
+
+				double rockAltitude = (perlinNoise2d(wi*0.017, wk*0.017) + 1)*CHUNK_HEIGHT/3;
+				double altitudeRatio = double(j) / double(CHUNK_HEIGHT);
+
+				if(noise3d > double(j) * altitudeRatio || j <= rockAltitude)
 				{
-					if(noised > 0.5) {
-						m_chunkToGenerate->block(i, j, k)->setId(2);
+					if(noise3d > 0.05 * altitudeRatio) {
+						m_chunkToGenerate->block(i, j, k)->setId(1);
 					}
 					else {
-						m_chunkToGenerate->block(i, j, k)->setId(1);
+						m_chunkToGenerate->block(i, j, k)->setId(2);
 					}
 				}
 				else {
@@ -91,9 +97,43 @@ void ChunkGenerator::run()
 			{
 				m_chunkToGenerate->block(i, j, k)->setId(2);
 			}
-			// Full light on the top void block :
-			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + 2, k)->setLightLevel(15);
+
 			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + 1, k)->setId(3);
+
+			int treeNumber = (wi * wk * int(rockAltitude*dirtAltitude) * i_seed);
+			if(treeNumber % 10 == 9){
+
+				int treeHeight = treeNumber % 6;
+
+				for(int trunk = 0; trunk <= treeHeight; trunk++) {
+					m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + trunk, k)->setId(Blocks::WOOD.id());
+				}
+
+				if(treeHeight > 2) {
+					for(int oi = -2; oi <= 2; ++oi) {
+						for(int ok = -2; ok <= 2; ++ok) {
+							if(!(abs(oi) == 2 && abs(ok) == 2))
+							{
+								if(m_chunkToGenerate->block(i + oi, rockAltitude + dirtAltitude + treeHeight + 1, k + ok)->isVoid()) {
+									m_chunkToGenerate->block(i + oi, rockAltitude + dirtAltitude + treeHeight + 1, k + ok)->setId(Blocks::LEAVES.id());
+								}
+							}
+						}
+					}
+				}
+
+				m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + treeHeight + 1, k)->setId(Blocks::WOOD.id());
+
+				m_chunkToGenerate->block(i - 1, rockAltitude + dirtAltitude + treeHeight + 2, k    )->setId(Blocks::LEAVES.id());
+				m_chunkToGenerate->block(i    , rockAltitude + dirtAltitude + treeHeight + 2, k    )->setId(Blocks::LEAVES.id());
+				m_chunkToGenerate->block(i + 1, rockAltitude + dirtAltitude + treeHeight + 2, k    )->setId(Blocks::LEAVES.id());
+				m_chunkToGenerate->block(i    , rockAltitude + dirtAltitude + treeHeight + 2, k - 1)->setId(Blocks::LEAVES.id());
+				m_chunkToGenerate->block(i    , rockAltitude + dirtAltitude + treeHeight + 2, k + 1)->setId(Blocks::LEAVES.id());
+
+				m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + treeHeight + 3, k)->setId(Blocks::LEAVES.id());
+			}
+
+
 		}
 	}
 #endif

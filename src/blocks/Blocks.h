@@ -5,7 +5,7 @@ class BlockDescriptor;
 class CubeBlock;
 class TorchBlock;
 
-const int MAX_BLOCKID = 5;
+const int MAX_BLOCKID = 7;
 
 /*! The Blocks class holds all informations about any blocks (such as resistance, breakability...) stored in BlockDescriptor s */
 class Blocks
@@ -18,6 +18,8 @@ public:
 	static CubeBlock DIRT;
 	static CubeBlock GRASS;
 	static TorchBlock TORCH;
+	static CubeBlock WOOD;
+	static CubeBlock LEAVES;
 
 	/*! Give the BlockDescriptor of the given block ID */
 	static BlockDescriptor& byId(const int id);
