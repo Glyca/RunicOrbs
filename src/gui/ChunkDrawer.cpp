@@ -39,7 +39,7 @@ void ChunkDrawer::generateVBO()
 	// x=0
 	for(int k = 0; k < CHUNK_Z_SIZE; ++k) // z
 	{
-		for(int j = 1; j < CHUNK_HEIGHT; ++j) // y, altitude
+		for(int j = 1; j < CHUNK_HEIGHT - 1; ++j) // y, altitude
 		{
 			const int i = 0;
 
@@ -205,7 +205,7 @@ void ChunkDrawer::generateVBO()
 	for(int i = 0; i < CHUNK_X_SIZE; ++i) // x
 	{
 		const int k = CHUNK_Z_SIZE - 1;
-		for(int j = 0; j < CHUNK_HEIGHT; ++j) // y, altitude
+		for(int j = 0; j < CHUNK_HEIGHT - 1; ++j) // y, altitude
 		{
 
 			blockSet.block = m_chunkToDraw->block(i, j, k);

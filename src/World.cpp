@@ -52,13 +52,13 @@ ChunkPosition World::chunkPosition(const int x, const int z) const
 	// without this check, it would return 0;0 for the chunk at -0.5;-0.3
 	// but chunk -0;-0 is the same as 0;0, hence the -1 to have chunk -1;-1
 	if(x < 0) {
-		cx = x / CHUNK_X_SIZE - 1;
+		cx = (x+1) / CHUNK_X_SIZE - 1;
 	}
 	else {
 		cx = x / CHUNK_X_SIZE;
 	}
 	if(z < 0) {
-		cz = z / CHUNK_Z_SIZE - 1;
+		cz = (z+1) / CHUNK_Z_SIZE - 1;
 	}
 	else {
 		cz = z / CHUNK_Z_SIZE;
