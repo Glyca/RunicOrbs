@@ -14,10 +14,7 @@ You must have Qt libraries installed (or in DLLs next to the executable for Wind
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions on the [forum](http://www.runicorbs.net/forums)!
 
 ##Changelog
-###v0.0.6 (Jun 9 2012)
-```
-```
-###v0.0.5 (released soon)
+###v0.0.5 (Jun 9 2012)
 ```
 (project rename, many performance and code improvments, OBJ loader, charge)
 + Renamed project into "The Runic Orbs"
@@ -42,6 +39,7 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 * Reduced chunk size from 24 to 20 for speed
 * Changed "bilinear" texture filtering by "mipmaps" and made it default
 * Tweaked some guis
+* Fixed bug of inaccessible blocks in negative chunks
 ```
 ###v0.0.4 (April 1 2012)
 ```
