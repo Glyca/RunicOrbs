@@ -1,3 +1,4 @@
+#include <QCloseEvent>
 #include <QDesktopWidget>
 #include "Log.h"
 #include "server/ServerConfiguration.h"
@@ -27,6 +28,12 @@ ServerWidget::ServerWidget(QWidget *parent) : QTabWidget(parent), ui(new Ui::Ser
 ServerWidget::~ServerWidget()
 {
 	delete ui;
+}
+
+void ServerWidget::closeEvent(QCloseEvent* closeEvent)
+{
+	closeEvent->accept();
+	deleteLater();
 }
 
 void ServerWidget::startServer()

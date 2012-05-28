@@ -4,6 +4,7 @@
 #include <QWidget>
 
 class OptionsDialog;
+class ServerWidget;
 
 namespace Ui {
 	class Home;
@@ -23,12 +24,15 @@ private slots:
 	void openOptions();
 	void optionsClosed();
 	void openConnectDialog();
-	void openServerInterface();
+	void openServerWidget();
+	void serverWidgetClosed();
 
 private:
 	Ui::Home *ui;
 	bool b_optionDialogOpened;
 	OptionsDialog* m_optionsDialog;
+	bool b_serverWidgetOpened;
+	ServerWidget* m_serverWidget;
 };
 
 #endif // CRAFTUXHOME_H

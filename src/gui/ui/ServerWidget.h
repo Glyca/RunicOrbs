@@ -18,6 +18,8 @@ public:
 	explicit ServerWidget(QWidget *parent = 0);
 	~ServerWidget();
 
+	void closeEvent(QCloseEvent* closeEvent);
+
 public slots:
 	void startServer();
 	void stopServer();

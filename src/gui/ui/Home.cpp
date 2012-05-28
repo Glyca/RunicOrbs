@@ -12,12 +12,12 @@
 #include "ui_Home.h"
 
 Home::Home(QWidget *parent) :
-	QWidget(parent), ui(new Ui::Home), b_optionDialogOpened(false), m_optionsDialog(NULL)
+	QWidget(parent), ui(new Ui::Home), b_optionDialogOpened(false), m_optionsDialog(NULL), b_serverWidgetOpened(false), m_serverWidget(NULL)
 {
 	ui->setupUi(this);
 	connect(ui->soloButton, SIGNAL(clicked()), this, SLOT(soloGameLaunch()));
 	connect(ui->multiButton, SIGNAL(clicked()), this, SLOT(openConnectDialog()));
-	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(openServerInterface()));
+	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(openServerWidget()));
 	connect(ui->optionsButton, SIGNAL(clicked()), this, SLOT(openOptions()));
 	connect(ui->quitButton, SIGNAL(clicked()), this, SLOT(close()));
 	ui->versionLabel->setText(tr("version %1").arg(TRO_VERSION));
@@ -69,9 +69,24 @@ void Home::openConnectDialog()
 	connectDialog->show();
 }
 
-void Home::openServerInterface()
+void Home::openServerWidget()
 {
-	ServerWidget* serverWidget = new ServerWidget();
-	this->close();
-	serverWidget->show();
+	if(b_serverWidgetOpened)
+	{
+		// we don't open two server widgets at one time
+	}
+	else
+	{
+		if(m_serverWidget != NULL) delete m_serverWidget;
+		m_serverWidget = new ServerWidget();
+		m_serverWidget->show();
+		connect(m_serverWidget, SIGNAL(destroyed()), this, SLOT(serverWidgetClosed()));
+		b_serverWidgetOpened = true;
+	}
+}
+
+void Home::serverWidgetClosed()
+{
+	b_serverWidgetOpened = false;
+	m_serverWidget = NULL;
 }
