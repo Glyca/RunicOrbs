@@ -33,41 +33,45 @@ Vector Entity::direction() const
 
 void Entity::processMove(const preal f_elapsedTimeSec)
 {
-	v_walkVelocity.null(); // We reset the walk velocity
+	v_walkVelocity *= (0.9 * f_elapsedTimeSec); // We reset we lower the walk velocity
 
 	if(isWalking())
 	{
-		const preal f_walkVelocityCoefficient = 5.0f;
-		Vector v_walkIncrement = direction() * f_walkVelocityCoefficient;
+		Vector v_direction = direction();
 
 		if(m_walkDirection & WalkDirection_Forward)
 		{
-			v_walkVelocity += v_walkIncrement;
+			v_walkVelocity += v_direction;
 		}
 		if(m_walkDirection & WalkDirection_Backward)
 		{
-			v_walkVelocity -= v_walkIncrement;
+			v_walkVelocity -= v_direction;
 		}
 		if(m_walkDirection & WalkDirection_Left)
 		{
 			// Mouvement latéral à droite (avec le vecteur normal à droite (-z;0;x))
 			Vector leftVelocity;
-			leftVelocity.x = v_walkIncrement.z;
-			leftVelocity.z -= v_walkIncrement.x;
+			leftVelocity.x = v_direction.z;
+			leftVelocity.z -= v_direction.x;
 			v_walkVelocity += leftVelocity;
 		}
 		if(m_walkDirection & WalkDirection_Right)
 		{
 			// Mouvement latéral à droite (avec le vecteur normal à droite (-z;0;x))
 			Vector rightVelocity;
-			rightVelocity.x -= v_walkIncrement.z;
-			rightVelocity.z = v_walkIncrement.x;
+			rightVelocity.x -= v_direction.z;
+			rightVelocity.z = v_direction.x;
 			v_walkVelocity += rightVelocity;
 		}
 		v_walkVelocity.y = 0.0; // In all cases, walking don't provide any vertical movement.
+
+		v_walkVelocity.normalize();
+
+		const preal f_walkVelocityCoefficient = 5.0;
+		v_walkVelocity *= f_walkVelocityCoefficient;
 	}
 
-	if(isJumping() && this->touchesFloor())
+	if(isJumping() && touchesFloor())
 	{
 		const preal f_jumpVerticalForce = 350.0; // NEWTONS
 		applyForcev(Vector(0.0, f_jumpVerticalForce / f_elapsedTimeSec, 0.0)); // Jump force is thus not proportional to the delta of time, since it's a force
