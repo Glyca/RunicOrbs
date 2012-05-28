@@ -108,13 +108,17 @@ void PhysicObject::processCollisions()
 				 || !world()->block((Vector(v_position.x + f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->descriptor().canPassThrough() ) ) {
 		v_totalVelocity.x = 0.0;
 	}
-	else if( v_totalVelocity.x < 0.0
-			 && ( !world()->block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->descriptor().canPassThrough()
-				  || !world()->block((Vector(v_position.x - f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->descriptor().canPassThrough() ) ) {
+	else if(v_totalVelocity.x < 0.0
+			&& ( !world()->block((Vector(v_position.x - f_contour, v_position.y, v_position.z)))->descriptor().canPassThrough()
+				 || !world()->block((Vector(v_position.x - f_contour, v_position.y + PLAYER_HEIGHT - f_contour, v_position.z)))->descriptor().canPassThrough() ) ) {
 		v_totalVelocity.x = 0.0;
 	}
 
 	if(v_totalVelocity.y < 0.0 && touchesFloor()) {
+		v_totalVelocity.y = 0.0;
+	}
+	else if(v_totalVelocity.y > 0.0
+			&& !world()->block((Vector(v_position.x, v_position.y + PLAYER_HEIGHT + f_contour/2.0, v_position.z)))->descriptor().canPassThrough()) {
 		v_totalVelocity.y = 0.0;
 	}
 

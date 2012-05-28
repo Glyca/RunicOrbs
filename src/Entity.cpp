@@ -73,7 +73,7 @@ void Entity::processMove(const preal f_elapsedTimeSec)
 
 	if(isJumping() && touchesFloor())
 	{
-		const preal f_jumpVerticalForce = 350.0; // NEWTONS
+		const preal f_jumpVerticalForce = 330.0; // NEWTONS
 		applyForcev(Vector(0.0, f_jumpVerticalForce / f_elapsedTimeSec, 0.0)); // Jump force is thus not proportional to the delta of time, since it's a force
 	}
 
