@@ -1,6 +1,7 @@
 #include "GameWindow.h"
 #include "blocks/TorchBlock.h"
 #include "ClientConfiguration.h"
+#include "gui/ui/Home.h"
 #include "Log.h"
 #include "OpenGLBuffer.h"
 #include "PhysicEngine.h"
@@ -294,6 +295,8 @@ void GameWindow::setCamera()
 void GameWindow::closeEvent(QCloseEvent* closeEvent)
 {
 	closeEvent->accept();
+	Home* home = new Home();
+	home->show();
 	delete this;
 }
 
