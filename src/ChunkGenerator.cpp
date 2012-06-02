@@ -2,6 +2,7 @@
 #include "Chunk.h"
 #include "blocks/CubeBlock.h"
 #include "FastMath.h"
+#include "World.h"
 
 // adapted from : http://staffwww.itn.liu.se/~stegu/simplexnoise/simplexnoise.pdf
 
@@ -88,6 +89,8 @@ void ChunkGenerator::run()
 			m_chunkToGenerate->mapToWorld(i, 0, k, wi, wj, wk);
 			double rockAltitude = (perlinNoise2d(wi*0.017, wk*0.017) + 1)*CHUNK_HEIGHT/3;
 			double dirtAltitude = (perlinNoise2d(-wi*0.017, -wk*0.017)/3);
+			double treePerlin = perlinNoise2d(- wi*0.009 + 0.1, wk*0.009 - 0.2);
+			double treeProbability = (1.0 + treePerlin) + 0.2;
 
 			for(int j = 0; j < rockAltitude; j++)
 			{
@@ -98,45 +101,67 @@ void ChunkGenerator::run()
 				m_chunkToGenerate->block(i, j, k)->setId(2);
 			}
 
-			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + 1, k)->setId(3);
+			m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + 1, k)->setId(Blocks::GRASS.id());
 
-			int treeNumber = (wi * wk * int(rockAltitude*dirtAltitude) * i_seed);
-			if(treeNumber % 10 == 9){
+			int treeSeed = (wi * wk * int(rockAltitude*dirtAltitude*treePerlin) * i_seed);
+			if(treeSeed % 4 > treeProbability * treeProbability)
+			{
+				int treeHeight = double(treeSeed % 3) * treeProbability * treeProbability * treeProbability;
 
-				int treeHeight = treeNumber % 6;
-
-				for(int trunk = 0; trunk <= treeHeight; trunk++) {
-					m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + trunk, k)->setId(Blocks::WOOD.id());
+				if(treeHeight > 5) { // spawn a big tree
+					generateTree(wi + 1, rockAltitude + dirtAltitude, wk, treeHeight);
+					generateTree(wi, rockAltitude + dirtAltitude, wk + 1, treeHeight);
+					generateTree(wi + 1, rockAltitude + dirtAltitude, wk + 1, treeHeight);
+					generateTree(wi, rockAltitude + dirtAltitude, wk, treeHeight);
 				}
-
-				if(treeHeight > 2) {
-					for(int oi = -2; oi <= 2; ++oi) {
-						for(int ok = -2; ok <= 2; ++ok) {
-							if(!(abs(oi) == 2 && abs(ok) == 2))
-							{
-								if(m_chunkToGenerate->block(i + oi, rockAltitude + dirtAltitude + treeHeight + 1, k + ok)->isVoid()) {
-									m_chunkToGenerate->block(i + oi, rockAltitude + dirtAltitude + treeHeight + 1, k + ok)->setId(Blocks::LEAVES.id());
-								}
-							}
-						}
-					}
+				else {
+					generateTree(wi, rockAltitude + dirtAltitude, wk, treeHeight);
 				}
-
-				m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + treeHeight + 1, k)->setId(Blocks::WOOD.id());
-
-				m_chunkToGenerate->block(i - 1, rockAltitude + dirtAltitude + treeHeight + 2, k    )->setId(Blocks::LEAVES.id());
-				m_chunkToGenerate->block(i    , rockAltitude + dirtAltitude + treeHeight + 2, k    )->setId(Blocks::LEAVES.id());
-				m_chunkToGenerate->block(i + 1, rockAltitude + dirtAltitude + treeHeight + 2, k    )->setId(Blocks::LEAVES.id());
-				m_chunkToGenerate->block(i    , rockAltitude + dirtAltitude + treeHeight + 2, k - 1)->setId(Blocks::LEAVES.id());
-				m_chunkToGenerate->block(i    , rockAltitude + dirtAltitude + treeHeight + 2, k + 1)->setId(Blocks::LEAVES.id());
-
-				m_chunkToGenerate->block(i, rockAltitude + dirtAltitude + treeHeight + 3, k)->setId(Blocks::LEAVES.id());
 			}
-
-
 		}
 	}
 #endif
+}
+
+void ChunkGenerator::generateTree(int x, int y, int z, int height)
+{
+	World& workingWorld = m_chunkToGenerate->world();
+	// Put wood blocks for the trunk
+	for(int trunk = 0; trunk <= height; trunk++) {
+		workingWorld.block(BlockPosition(x, y + trunk, z))->setId(Blocks::WOOD.id());
+	}
+	// Put a minimal block of leaves just over the trunk (mainly for little trees
+	workingWorld.block(BlockPosition(x, y + height + 1, z))->setId(Blocks::LEAVES.id());
+
+	// The hoizontal beam of the foliage
+	int beam = std::min(std::max(height - 2, 0), 3);
+
+	// Bottom "sphere" of the foliage
+	for(int j = 0; j <= beam; ++j) {
+		for(int i = -j; i <= j; ++i) {
+			for(int k = -j; k <= j; ++k) {
+				if(!(abs(i) == j && abs(k) == j)) // Don't put the corners of this pseudo-circle layer of foliage
+				{
+					if(workingWorld.block(BlockPosition(x + i, y + height + j, z + k))->isVoid()) {
+						workingWorld.block(BlockPosition(x + i, y + height + j, z + k))->setId(Blocks::LEAVES.id());
+					}
+				}
+			}
+		}
+	}
+	// Top "sphere" of the foliage
+	for(int j = -beam; j <= 0; ++j) {
+		for(int i = j; i <= -j; ++i) {
+			for(int k = j; k <= -j; ++k) {
+				if(!(abs(i) == -j && abs(k) == -j))
+				{
+					if(workingWorld.block(BlockPosition(x + i, y + height + 2*beam + j, z + k))->isVoid()) {
+						workingWorld.block(BlockPosition(x + i, y + height + 2*beam + j, z + k))->setId(Blocks::LEAVES.id());
+					}
+				}
+			}
+		}
+	}
 }
 
 double ChunkGenerator::cosineInterpolate2d(const double a, const double b, const double x) {

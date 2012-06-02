@@ -19,6 +19,8 @@ public:
 	void run();
 
 private:
+	void generateTree(int x, int y, int z, int height);
+
 	/*! Dot product */
 	inline static double dot3d(const int g[], const double x, const double y, const double z) {return g[0]*x + g[1]*y + g[2]*z;}
 
