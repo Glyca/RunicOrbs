@@ -3,7 +3,7 @@
 #include "gui/ChunkDrawer.h"
 #include "World.h"
 
-Chunk::Chunk(QObject *parent, ChunkPosition position) : QObject(parent), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
+Chunk::Chunk(World* parentWorld, ChunkPosition position) : QObject(parentWorld), m_world(parentWorld), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
 {
 	int size = CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE;
 	p_BlockInfos = new BlockInfo[size];
@@ -23,7 +23,6 @@ void Chunk::activate()
 		b_dirty = true; // we must redraw the chunk
 		m_state = ChunkState_Active;
 	}
-
 }
 
 void Chunk::idle()

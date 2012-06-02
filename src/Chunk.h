@@ -22,7 +22,7 @@ class Chunk : public QObject
 {
 	Q_OBJECT
 public:
-	explicit Chunk(QObject *parent, ChunkPosition position);
+	explicit Chunk(World* parentWorld, ChunkPosition position);
 	~Chunk();
 
 	/*! This returns the mutex of the Chunk. Be sure to unlock it when needed!! */
@@ -43,7 +43,7 @@ public:
 	BlockInfo* block(const int x, const int y, const int z);
 
 	/*! Give the world the chunk belongs to */
-	inline World& world() const {return *reinterpret_cast<World*>(parent());}
+	inline World& world() const {return *m_world;}
 
 	/*! Convert coordinates relatives to the chunk into world coordinates */
 	void mapToWorld(const int chunkX, const int chunkY, const int chunkZ, int& worldX, int& worldY, int& worldZ) const;
@@ -63,6 +63,7 @@ public slots:
 	void idle(); //!< Make the Chunk enter in an idle state (it will not be drawed)
 
 private:
+	World* m_world; //!< The world this chunk belongs to
 	QReadWriteLock m_rwLock; //!< R/W mutex
 	ChunkState m_state;
 	bool b_dirty; //!< If we need to redraw the chunk

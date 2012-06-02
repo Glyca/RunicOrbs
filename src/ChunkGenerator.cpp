@@ -126,12 +126,6 @@ void ChunkGenerator::run()
 void ChunkGenerator::generateTree(int x, int y, int z, int height)
 {
 	World& workingWorld = m_chunkToGenerate->world();
-	// Put wood blocks for the trunk
-	for(int trunk = 0; trunk <= height; trunk++) {
-		workingWorld.block(BlockPosition(x, y + trunk, z))->setId(Blocks::WOOD.id());
-	}
-	// Put a minimal block of leaves just over the trunk (mainly for little trees
-	workingWorld.block(BlockPosition(x, y + height + 1, z))->setId(Blocks::LEAVES.id());
 
 	// The hoizontal beam of the foliage
 	int beam = std::min(std::max(height - 2, 0), 3);
@@ -162,6 +156,13 @@ void ChunkGenerator::generateTree(int x, int y, int z, int height)
 			}
 		}
 	}
+
+	// Put wood blocks for the trunk
+	for(int trunk = 0; trunk <= height; trunk++) {
+		workingWorld.block(BlockPosition(x, y + trunk, z))->setId(Blocks::WOOD.id());
+	}
+	// Put a minimal block of leaves just over the trunk (mainly for little trees
+	workingWorld.block(BlockPosition(x, y + height + 1, z))->setId(Blocks::LEAVES.id());
 }
 
 double ChunkGenerator::cosineInterpolate2d(const double a, const double b, const double x) {
