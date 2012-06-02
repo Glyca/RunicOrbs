@@ -84,27 +84,27 @@
         <translation type="obsolete">OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="54"/>
+        <location filename="../src/gui/GameWindow.cpp" line="55"/>
         <source>Initialized OpenGL, version %1.%2</source>
         <translation>OpenGL initialisé en version %1.%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="55"/>
+        <location filename="../src/gui/GameWindow.cpp" line="56"/>
         <source>OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</source>
         <translation>Pilote OpenGL : %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="116"/>
+        <location filename="../src/gui/GameWindow.cpp" line="117"/>
         <source>FPS</source>
         <translation> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="119"/>
+        <location filename="../src/gui/GameWindow.cpp" line="120"/>
         <source>Position : </source>
         <translation>Position : </translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="253"/>
+        <location filename="../src/gui/GameWindow.cpp" line="254"/>
         <source>Charge</source>
         <translation>Charge</translation>
     </message>
@@ -113,7 +113,7 @@
         <translation type="obsolete"> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="141"/>
+        <location filename="../src/gui/GameWindow.cpp" line="142"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>
@@ -173,9 +173,13 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>OptionsDialog</name>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="18"/>
         <source>Options for Craftux client</source>
-        <translation>Options pour le client Craftux</translation>
+        <translation type="obsolete">Options pour le client Craftux</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="18"/>
+        <source>Options for The Runic Orbs client</source>
+        <translation>Options pour le client The Runic Orbs</translation>
     </message>
     <message>
         <location filename="../src/gui/ui/OptionsDialog.ui" line="37"/>
@@ -234,6 +238,11 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Mipmaps (recommandé)</translation>
     </message>
     <message>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="487"/>
+        <source>Credits</source>
+        <translation>Crédits</translation>
+    </message>
+    <message>
         <source>Bilinear</source>
         <translation type="obsolete">Bilinéaire</translation>
     </message>
@@ -268,17 +277,17 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Arrière</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="415"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="418"/>
         <source>Global</source>
         <translation>Global</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="444"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="447"/>
         <source>Music</source>
         <translation>Musique</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="473"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="476"/>
         <source>Effects</source>
         <translation>Effets</translation>
     </message>
@@ -302,7 +311,7 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Sauter</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="390"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="393"/>
         <source>Sound</source>
         <translation>Son</translation>
     </message>
@@ -388,7 +397,7 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation type="obsolete">Le chargement de la texture [%1] a échoué !</translation>
     </message>
     <message>
-        <location filename="../src/blocks/Blocks.cpp" line="28"/>
+        <location filename="../src/blocks/Blocks.cpp" line="32"/>
         <source>Blocks catalog created, having %1 blocks.</source>
         <translation>Catalogue des blocs créé, il contient %1 blocs.</translation>
     </message>
@@ -436,6 +445,16 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <location filename="../src/server/ServerConfiguration.cpp" line="102"/>
         <source>Error opening server configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration serveur %1</translation>
+    </message>
+    <message>
+        <location filename="../src/server/MultiplayerServer.cpp" line="13"/>
+        <source>Listening to port %1</source>
+        <translation>Écoute du port %1</translation>
+    </message>
+    <message>
+        <location filename="../src/server/MultiplayerServer.cpp" line="16"/>
+        <source>Can&apos;t listen to port %1! Isn&apos;t the server already launched?</source>
+        <translation>Impossible d&apos;écouter le port %1 ! Le serveur n&apos;est-il pas déjà lancé ?</translation>
     </message>
 </context>
 <context>
@@ -503,22 +522,22 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation type="obsolete">Console</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="34"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="41"/>
         <source>The server starts</source>
         <translation>Le serveur démarre</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="47"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="54"/>
         <source>The server is being stopped</source>
         <translation>Le serveur s&apos;arrête</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="65"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="72"/>
         <source>The server is running</source>
         <translation>Le serveur est allumé</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ServerWidget.cpp" line="72"/>
+        <location filename="../src/gui/ui/ServerWidget.cpp" line="79"/>
         <source>The server is not running</source>
         <translation>Le serveur est éteint</translation>
     </message>
