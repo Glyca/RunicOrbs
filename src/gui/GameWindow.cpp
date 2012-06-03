@@ -24,6 +24,27 @@ GameWindow::GameWindow(ServerConnector* connector)
 	setAutoFillBackground(false);
 	setWindowTitle("The Runic Orbs");
 
+	QDesktopWidget* desktop = QApplication::desktop();
+	switch(m_configuration->getWindowSize())
+	{
+	case ClientConfiguration::WindowSize_Centered:
+		// Center the window on the screen
+		move( (desktop->width() - width()) / 2 , (desktop->height() - height()) / 2 - 50 );
+		break;
+
+	case ClientConfiguration::WindowSize_Maximized:
+		showMaximized();
+		break;
+
+	case ClientConfiguration::WindowSize_Fullscreen:
+		showFullScreen();
+		break;
+
+	case ClientConfiguration::WindowSize_Default:
+	default:
+		break;
+	}
+
 	// Give us 10 torches to survive
 	m_connector->me()->give(Blocks::TORCH.id(), 10);
 

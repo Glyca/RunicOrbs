@@ -33,6 +33,7 @@ void ClientConfiguration::loadDefaultConfigFile()
 void ClientConfiguration::defaultValues()
 {
 	// Here are the defaults value for the configuration :
+	m_windowSize = WindowSize_Maximized;
 	i_fps = 60;
 	i_seed = 123456789;
 	i_keyMap[UP] = 'z'-32;
@@ -78,6 +79,18 @@ void ClientConfiguration::load()
 			QDomElement craftuxNode = rootNode.firstChildElement();
 			while(!craftuxNode.isNull())
 			{
+				if(craftuxNode.tagName() == "general")
+				{
+					QDomElement generalChildNode = craftuxNode.firstChildElement();
+					while(!generalChildNode.isNull())
+					{
+						if(generalChildNode.tagName() == "windowSize") // Parse seed
+						{
+							setWindowSize((WindowSize)generalChildNode.text().toInt());
+						}
+						generalChildNode = generalChildNode.nextSiblingElement();
+					}
+				}
 				if(craftuxNode.tagName() == "game")
 				{
 					QDomElement gameChildNode = craftuxNode.firstChildElement();
@@ -165,11 +178,21 @@ void ClientConfiguration::save() const
 {
 	QDomDocument doc("xml");
 
-	doc.appendChild(doc.createComment(QObject::tr("This is the Craftux configuration file")));
+	doc.appendChild(doc.createComment(QObject::tr("This is the configuration file of The Runic Orbs")));
 	doc.appendChild(doc.createTextNode("\n")); // for nicer output
 
 	QDomElement rootNode = doc.createElement("craftux");
 	doc.appendChild(rootNode);
+
+	/*! General Element*/
+	QDomElement generalNode = doc.createElement("general");
+	generalNode.appendChild(doc.createComment(QObject::tr("General settings")));
+
+	QDomElement windowSizeNode = doc.createElement("windowSize");
+	windowSizeNode.appendChild( doc.createTextNode(QVariant(getWindowSize()).toString()) );
+	generalNode.appendChild(windowSizeNode);
+
+	rootNode.appendChild(generalNode);
 
 	/*! Game Element*/
 	QDomElement gameNode = doc.createElement("game");
@@ -248,7 +271,19 @@ void ClientConfiguration::save() const
 }
 
 
-/*! Get and Set method*/
+/* Get and Set methods */
+
+ClientConfiguration::WindowSize ClientConfiguration::getWindowSize() const
+{
+	return m_windowSize;
+}
+
+void ClientConfiguration::setWindowSize(const WindowSize size)
+{
+	if(size <= WindowSize_Fullscreen)
+		m_windowSize = size;
+}
+
 int ClientConfiguration::getFps() const
 {
 	return i_fps;

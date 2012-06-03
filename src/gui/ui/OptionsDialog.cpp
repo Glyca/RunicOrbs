@@ -55,6 +55,8 @@ void OptionsDialog::onClick(QAbstractButton* button)
 void OptionsDialog::refresh()
 {
 	resetAllColor();
+
+	ui->windowSizeComboBox->setCurrentIndex(config.getWindowSize());
 	ui->seedLineEdit->setText(QVariant(config.getSeed()).toString());
 	ui->FPSSpinBox->setValue(config.getFps());
 
@@ -80,6 +82,7 @@ void OptionsDialog::load()
 
 void OptionsDialog::save()
 {
+	config.setWindowSize((ClientConfiguration::WindowSize)ui->windowSizeComboBox->currentIndex());
 	config.setSeed(ui->seedLineEdit->text().toInt());
 	config.setFps(ui->FPSSpinBox->value());
 	config.setViewDistance(ui->viewDistanceSpinBox->value());

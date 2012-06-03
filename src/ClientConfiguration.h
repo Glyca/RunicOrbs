@@ -37,6 +37,16 @@ public:
 
 	/* Accessors have willingly a get or set prefix to enphasize that it's a provider class */
 
+	enum WindowSize {
+		WindowSize_Default = 0,
+		WindowSize_Centered = 1,
+		WindowSize_Maximized = 2,
+		WindowSize_Fullscreen = 3
+	};
+
+	WindowSize getWindowSize() const;
+	void setWindowSize(const WindowSize size);
+
 	int getFps() const;
 	void setFps(const int fps);
 
@@ -60,6 +70,7 @@ public:
 	void setTextureFiltering(const int filtering);
 
 private:
+	WindowSize m_windowSize;
 	int i_fps;
 	int i_seed;
 	int *i_keyMap;
