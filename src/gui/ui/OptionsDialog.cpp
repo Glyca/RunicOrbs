@@ -1,6 +1,7 @@
 #include "OptionsDialog.h"
 #include "ui_OptionsDialog.h"
-#include <QDebug>
+#include <QCryptographicHash>
+
 
 OptionsDialog::OptionsDialog(QWidget *parent) :
 	QDialog(parent),
@@ -83,7 +84,22 @@ void OptionsDialog::load()
 void OptionsDialog::save()
 {
 	config.setWindowSize((ClientConfiguration::WindowSize)ui->windowSizeComboBox->currentIndex());
-	config.setSeed(ui->seedLineEdit->text().toInt());
+	if(QString::number(ui->seedLineEdit->text().toInt()) == ui->seedLineEdit->text()) {
+		config.setSeed(ui->seedLineEdit->text().toInt());
+	}
+	else {
+		// Not a number : get an integer hash of the string as seed
+		// Generate a 128 bits hash
+		QByteArray hash = QCryptographicHash::hash(ui->seedLineEdit->text().toAscii(), QCryptographicHash::Md5);
+		char* hashData = hash.data();
+		// Get each 32 bits part in a int
+		qint32 int1 = *reinterpret_cast<qint32*>(&hashData[0]);
+		qint32 int2 = *reinterpret_cast<qint32*>(&hashData[4]);
+		qint32 int3 = *reinterpret_cast<qint32*>(&hashData[8]);
+		qint32 int4 = *reinterpret_cast<qint32*>(&hashData[12]);
+		qint32 seed = int1 + int2 + int3 + int4;
+		config.setSeed(seed);
+	}
 	config.setFps(ui->FPSSpinBox->value());
 	config.setViewDistance(ui->viewDistanceSpinBox->value());
 	config.setSmoothShades(ui->smoothShadesCheckBox->isChecked());
