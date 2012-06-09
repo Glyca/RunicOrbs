@@ -14,7 +14,6 @@ void TorchBlock::setTexture(const QRectF& texturePos, float ratio)
 void TorchBlock::loadModel(const QString& modelFolder)
 {
 	m_model = new OpenGLBuffer(modelFolder + name() + ".obj");
-	linfo(Channel_OpenGL, "torch model loaded");
 }
 
 void TorchBlock::render(OpenGLBuffer& targetBuffer, const BlockSet& blockSet) const

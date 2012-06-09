@@ -48,19 +48,13 @@ GameWindow::GameWindow(ServerConnector* connector)
 	// Give us 10 torches to survive
 	m_connector->me()->give(Blocks::TORCH.id(), 10);
 
-	// Load all models of blocks
-	m_ressourceManager.loadModels();
 	m_ressourceManager.loadItemImages();
 	drawInventoryPixmap();
-
-	m_masterOglLinesBuffer = new OpenGLBuffer(GL_LINES);
-	m_masterOglLinesBuffer->genBuffer(); // create the buffer
 
 	// Every second, we load and prune the chunks
 	connect(t_secondTimer, SIGNAL(timeout()), m_connector, SLOT(loadAndPruneChunks()));
 	// Be notified when the inventory changes in order to redraw it
 	connect(m_connector, SIGNAL(refreshInventory()), this, SLOT(drawInventoryPixmap()));
-	resume();
 }
 
 GameWindow::~GameWindow()
@@ -76,7 +70,14 @@ void GameWindow::initializeGL()
 	linfo(Channel_OpenGL, tr("Initialized OpenGL, version %1.%2").arg(format().majorVersion()).arg(format().minorVersion()));
 	linfo(Channel_OpenGL, tr("OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4").arg((const char*)glGetString(GL_VENDOR)).arg((const char*)glGetString(GL_RENDERER)).arg((const char*)glGetString(GL_VERSION)).arg(maxTextureSize));
 
-	m_ressourceManager.loadTextures();
+	// Load all models of blocks (Models have to be loaded BEFORE textures !!!)
+	m_ressourceManager.loadModels();
+
+	m_masterOglLinesBuffer = new OpenGLBuffer(GL_LINES);
+	m_masterOglLinesBuffer->genBuffer(); // create the buffer
+
+	glEnable(GL_TEXTURE_2D);
+	m_ressourceManager.loadTextures(); // Load textures AFTER models
 
 	glClearColor(138.0f / 255.0f, 198.0f / 255.0f, 206.0f / 255.0f, 0.0f);
 	glClearDepth(1.0f);
@@ -92,8 +93,10 @@ void GameWindow::initializeGL()
 		glHint(GL_POLYGON_SMOOTH_HINT, GL_FASTEST);
 	}
 	glLineWidth(2.5f);
-	glEnable(GL_TEXTURE_2D);
 	glShadeModel(GL_FLAT); // In all cases we start with flat
+
+	// Start the game when OpenGL finished initiaizing
+	resume();
 }
 
 void GameWindow::paintEvent(QPaintEvent *event)
@@ -110,7 +113,7 @@ void GameWindow::paintEvent(QPaintEvent *event)
 
 	setCamera();
 
-	m_ressourceManager.bindTexture();
+	m_ressourceManager.bindTexture(); // Bind the texture atlas
 	render3D(); // 3D render
 	m_ressourceManager.unbindTexture();
 
@@ -272,6 +275,8 @@ void GameWindow::drawInventoryPixmap()
 	font.setWeight(QFont::Normal);
 	font.setPixelSize(10);
 	painter.setFont(font);
+	pen.setColor(Qt::lightGray);
+	painter.setPen(pen);
 	QString chargeLabel = tr("Charge");
 	QFontMetrics fontMetrics(font);
 
