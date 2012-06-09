@@ -1,5 +1,5 @@
 #Welcome to the world of The Runic Orbs!
-**The Runic Orbs** is a funny sandbox indie adventure game using C++, OpenGL and Qt4. It was originally created by [Glyca](https://github.com/Glyca/RunicOrbs).  
+**The Runic Orbs** is a funny sandbox indie adventure game using C++, OpenGL and Qt4. It was originally created by [Glyca](https://github.com/Glyca/RunicOrbs).
 * **[Official website](http://www.runicorbs.net)**
 * [Let's talk about it on the forums](http://www.runicorbs.net/forums)
 * [Look at the wiki](https://github.com/Glyca/RunicOrbs/wiki)
@@ -10,13 +10,23 @@
 Check for builds at the [download section](https://github.com/Glyca/RunicOrbs/downloads).
 You must have Qt libraries installed (or in DLLs next to the executable for Windows), since they are not provided in the zip.
 
+##Recommendations
+* Default seed 12345678 already offers a beautiful landscape
+* You should not go in negatives coordinates, because destucking is buggy (F3 to se your coordinates)
+* You should not put an high view distance, otherwise your graphic card will sweat :D
+* At startup, let the game load a few chunks before mining for the first time
+
 ##Contributing
 Any contribution, no matter the form or amount, is greatly appreciated. Feel free to make suggestions on the [forum](http://www.runicorbs.net/forums)!
 
 ##Changelog
+###v0.0.6 (comming soon)
+```
+(basic multiplayer, saving)
+```
 ###v0.0.5 (Jun 9 2012)
 ```
-(project rename, many performance and code improvments, OBJ loader, charge)
+(project rename, many performance and code improvments, OBJ loader, charge, and many more)
 + Renamed project into "The Runic Orbs"
 + Fast functions for expansive math operations (cos, sin...)
 + Most windows are centered as they are displayed
@@ -32,14 +42,20 @@ Any contribution, no matter the form or amount, is greatly appreciated. Feel fre
 + Inventories now have a charge, and the player can see it thanks to a charge bar at screen
 + Official website is displayed in a frame in the Home dialog, along with a link.
 + Console in the server widget, which displays server log
++ Closing the game window brings you back to the home menu
++ Added credits tab in option dialog
++ Window size at startup can be configured in options
++ Seed can be a string, which is then converted to an integer in options
 * You can't place a block where there is already on placed
 * Chunk are generated and rendered only when in the view distanre (no useless chunk generation anymore)
 * Player spawns randomly in positives (and thus not buggy) chunks
-* Avoid color to "drool" between textures because of filtering
 * Reduced chunk size from 24 to 20 for speed
 * Changed "bilinear" texture filtering by "mipmaps" and made it default
-* Tweaked some guis
+* Tweaked some GUIs
 * Fixed bug of inaccessible blocks in negative chunks
+* Walk velocity is not direction dependant anymore
+* You can't jump trought blocks anymore
+* Reduced jump force
 ```
 ###v0.0.4 (April 1 2012)
 ```
