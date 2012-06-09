@@ -58,14 +58,11 @@
         <widget class="QWebView" name="newsWebView">
          <property name="url">
           <url>
-           <string>http://www.runicorbs.net/</string>
+           <string>http://www.runicorbs.net/ingame.php</string>
           </url>
          </property>
-         <property name="zoomFactor">
-          <double>0.800000011920929</double>
-         </property>
          <property name="renderHints">
-          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::SmoothPixmapTransform|QPainter::TextAntialiasing</set>
+          <set>QPainter::Antialiasing|QPainter::HighQualityAntialiasing|QPainter::TextAntialiasing</set>
          </property>
         </widget>
        </item>
