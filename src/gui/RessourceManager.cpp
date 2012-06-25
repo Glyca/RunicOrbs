@@ -132,11 +132,9 @@ GLuint RessourceManager::loadTextures()
 		}
 
 		if(m_textureFiltering >= TextureFiltering_Mipmaps) {
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, qim_Texture.width(), qim_Texture.height(), GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
+			glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 		}
-		else {
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, qim_Texture.width(), qim_Texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
-		}
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, qim_Texture.width(), qim_Texture.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, qim_Texture.bits());
 
 		linfo(Channel_Textures, QObject::tr("Textures loaded!"));
 
