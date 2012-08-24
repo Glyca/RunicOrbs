@@ -195,13 +195,13 @@ void World::render3D()
 bool World::worldEvent(WorldEvent* worldEvent)
 {
 	// For now do nothing
-	qDebug() << "World received WorldEvent ##" << worldEvent->type();
+	//qDebug() << "World received WorldEvent ##" << worldEvent->type();
 	return false;
 }
 
 bool World::chunkEvent(ChunkEvent* chunkEvent)
 {
-	qDebug() << "World received ChunkEvent ##" << chunkEvent->type();
+	//qDebug() << "World received ChunkEvent ##" << chunkEvent->type();
 
 	PlayerChunkEvent* playerChunkEvent = dynamic_cast<PlayerChunkEvent*>(chunkEvent);
 	if(playerChunkEvent != 0)
@@ -236,7 +236,7 @@ bool World::chunkEvent(ChunkEvent* chunkEvent)
 bool World::blockEvent(BlockEvent* blockEvent)
 {
 	// Do nothing
-	qDebug() << "World received BlockEvent ##" << blockEvent->type();
+	//qDebug() << "World received BlockEvent ##" << blockEvent->type();
 
 	PlayerBlockEvent* playerBlockEvent = dynamic_cast<PlayerBlockEvent*>(blockEvent);
 	if(playerBlockEvent != 0)

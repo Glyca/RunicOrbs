@@ -3,7 +3,7 @@
 #include "ClientServer.h"
 
 ClientServer::ClientServer(const QString &hostName, quint16 port)
-	: Server(this, 123456789), s_hostname(hostName), i_port(port), b_connected(false)
+	: Server(qApp, 123456789), s_hostname(hostName), i_port(port), b_connected(false)
 {
 	QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
 			this, SLOT(displayError(QAbstractSocket::SocketError)));
@@ -13,6 +13,7 @@ ClientServer::ClientServer(const QString &hostName, quint16 port)
 
 ClientServer::~ClientServer()
 {
+	m_socket.abort();
 }
 
 bool ClientServer::connect()

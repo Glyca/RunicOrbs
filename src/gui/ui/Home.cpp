@@ -4,6 +4,7 @@
 #include "Home.h"
 #include "ConnectDialog.h"
 #include "gui/GameWindow.h"
+#include "LoadingWidget.h"
 #include "server/LocalServer.h"
 #include "OptionsDialog.h"
 #include "ServerConnector.h"
@@ -42,9 +43,7 @@ Home::~Home()
 void Home::soloGameLaunch()
 {
 	// Création et génération du monde
-	QLabel info(tr("Loading your world\nPlease wait..."));
-	info.show();
-	QCoreApplication::processEvents();
+	LoadingWidget loadingWidget;
 	LocalServer* localServer = new LocalServer(qApp, 123);
 	ServerConnector* connector = new ServerConnector(localServer);
 	GameWindow* gameWindow = new GameWindow(connector);

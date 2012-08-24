@@ -2,6 +2,7 @@
 #include "ConnectDialog.h"
 #include "ui_ConnectDialog.h"
 #include "gui/GameWindow.h"
+#include "LoadingWidget.h"
 #include "ServerConnector.h"
 
 ConnectDialog::ConnectDialog(QWidget *parent) : QDialog(parent), ui(new Ui::ConnectDialog)
@@ -18,12 +19,17 @@ ConnectDialog::~ConnectDialog()
 void ConnectDialog::onClick(QAbstractButton* button)
 {
 	if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
-		QLabel* info = new QLabel(tr("Connecting to the server\nPlease wait..."), 0, Qt::Popup);
-		info->show();
-		QCoreApplication::processEvents();
-		m_connectorToBeUsed = new ServerConnector(new ClientServer(ui->adressLineEdit->text(), ui->portSpinBox->value()));
-		connect(m_connectorToBeUsed, SIGNAL(connected()), this, SLOT(startGame()));
-		m_connectorToBeUsed->connect();
+		LoadingWidget loadingWidget;
+		ClientServer* clientServer = new ClientServer(ui->adressLineEdit->text(), ui->portSpinBox->value());
+
+		if(clientServer->connect()) {
+			m_connectorToBeUsed = new ServerConnector(clientServer);
+			connect(m_connectorToBeUsed, SIGNAL(connected()), this, SLOT(startGame()));
+			m_connectorToBeUsed->connect();
+		}
+		else {
+			delete clientServer;
+		}
 	}
 }
 

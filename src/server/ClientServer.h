@@ -12,6 +12,7 @@
 */
 class ClientServer : public Server
 {
+	Q_OBJECT
 public:
 	ClientServer(const QString& hostName, quint16 port);
 	virtual ~ClientServer();

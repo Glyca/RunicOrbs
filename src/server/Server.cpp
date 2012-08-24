@@ -25,21 +25,21 @@ const PhysicObject* Server::po(const int id) const
 bool Server::worldEvent(WorldEvent* worldEvent)
 {
 	// For now there is just one world, therefore we send all events to it
-	qDebug() << "Server received WorldEvent ##" << worldEvent->type();
+	//qDebug() << "Server received WorldEvent ##" << worldEvent->type();
 	return QCoreApplication::sendEvent(world(), worldEvent);
 }
 
 bool Server::chunkEvent(ChunkEvent* chunkEvent)
 {
 	// For now there is just one world, therefore we send all events to it
-	qDebug() << "Server received ChunkEvent ##" << chunkEvent->type();
+	//qDebug() << "Server received ChunkEvent ##" << chunkEvent->type();
 	return false;
 }
 
 bool Server::blockEvent(BlockEvent* blockEvent)
 {
 	// For now there is just one world, therefore we send all events to it
-	qDebug() << "Server received BlockEvent ##" << blockEvent->type();
+	//qDebug() << "Server received BlockEvent ##" << blockEvent->type();
 	return false;
 }
 

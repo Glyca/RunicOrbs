@@ -19,19 +19,19 @@ Chunk::~Chunk()
 bool Chunk::worldEvent(WorldEvent* worldEvent)
 {
 	// For now do nothing
-	qDebug() << "Chunk received WorldEvent ##" << worldEvent->type();
+	//qDebug() << "Chunk received WorldEvent ##" << worldEvent->type();
 	return true;
 }
 
 bool Chunk::chunkEvent(ChunkEvent* chunkEvent)
 {
-	qDebug() << "Chunk received ChunkEvent ##" << chunkEvent->type();
+	//qDebug() << "Chunk received ChunkEvent ##" << chunkEvent->type();
 	return true;
 }
 
 bool Chunk::blockEvent(BlockEvent* blockEvent)
 {
-	qDebug() << "Chunk received BlockEvent ##" << blockEvent->type();
+	//qDebug() << "Chunk received BlockEvent ##" << blockEvent->type();
 	return true;
 }
 
