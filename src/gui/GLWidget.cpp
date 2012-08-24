@@ -1,4 +1,6 @@
-﻿#include "GLWidget.h"
+﻿#include <QMessageBox>
+
+#include "GLWidget.h"
 #include "glextensions.h"
 
 GLWidget::GLWidget(const int framesPerSecond, QWidget *parent, const char *name, QGLFormat format)
@@ -8,6 +10,14 @@ GLWidget::GLWidget(const int framesPerSecond, QWidget *parent, const char *name,
 	setFps(framesPerSecond);
 	makeCurrent(); // We have to make context current to resolve OpenGL functions (Fixes ISSUE 2)
 	getGLExtensionFunctions().resolve(context()); // resolve OpenGL >1.5 functions (Fix for ISSUE 1)
+
+	if(!getGLExtensionFunctions().openGL15Supported()) {
+		QMessageBox::critical(this, tr("Unsupported OpenGL feature"),
+							  tr("Your computer is not OpenGL 1.5 compatible, which is the minimum to run The Runic Orbs.\n\n"
+								 "OpenGL 1.5 was released in 2003,\n"
+								 "please update your graphic card drivers."));
+		qApp->exit(0);
+	}
 
 	t_secondTimer = new QTimer(this);
 	t_secondTimer->setInterval(1000);

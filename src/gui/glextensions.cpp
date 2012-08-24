@@ -58,10 +58,10 @@ bool GLExtensionFunctions::resolve(const QGLContext *context)
 	RESOLVE_GL_FUNC(FramebufferRenderbufferEXT)
 	RESOLVE_GL_FUNC(CheckFramebufferStatusEXT)
 
-        RESOLVE_GL_FUNC(ActiveTexture)
+	RESOLVE_GL_FUNC(ActiveTexture)
 	RESOLVE_GL_FUNC(TexImage3D)
 
-        RESOLVE_GL_FUNC(GenBuffers)
+	RESOLVE_GL_FUNC(GenBuffers)
 	RESOLVE_GL_FUNC(BindBuffer)
 	RESOLVE_GL_FUNC(BufferData)
 	RESOLVE_GL_FUNC(DeleteBuffers)
@@ -72,27 +72,27 @@ bool GLExtensionFunctions::resolve(const QGLContext *context)
 }
 
 bool GLExtensionFunctions::fboSupported() {
-    return GenFramebuffersEXT
-	    && GenRenderbuffersEXT
-	    && BindRenderbufferEXT
-	    && RenderbufferStorageEXT
-	    && DeleteFramebuffersEXT
-	    && DeleteRenderbuffersEXT
-	    && BindFramebufferEXT
-	    && FramebufferTexture2DEXT
-	    && FramebufferRenderbufferEXT
-	    && CheckFramebufferStatusEXT;
+	return GenFramebuffersEXT
+		&& GenRenderbuffersEXT
+		&& BindRenderbufferEXT
+		&& RenderbufferStorageEXT
+		&& DeleteFramebuffersEXT
+		&& DeleteRenderbuffersEXT
+		&& BindFramebufferEXT
+		&& FramebufferTexture2DEXT
+		&& FramebufferRenderbufferEXT
+		&& CheckFramebufferStatusEXT;
 }
 
 bool GLExtensionFunctions::openGL15Supported() {
-    return ActiveTexture
-	    && TexImage3D
-            && GenBuffers
-	    && BindBuffer
-	    && BufferData
-	    && DeleteBuffers
-	    && MapBuffer
-	    && UnmapBuffer;
+	return ActiveTexture
+		&& TexImage3D
+		&& GenBuffers
+		&& BindBuffer
+		&& BufferData
+		&& DeleteBuffers
+		&& MapBuffer
+		&& UnmapBuffer;
 }
 
 #undef RESOLVE_GL_FUNC

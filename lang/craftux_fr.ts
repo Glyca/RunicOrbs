@@ -3,6 +3,42 @@
 <TS version="2.0" language="fr_FR">
 <defaultcodec>UTF-8</defaultcodec>
 <context>
+    <name>ClientHandler</name>
+    <message>
+        <location filename="../src/server/ClientHandler.cpp" line="57"/>
+        <source>The host was not found. Please check the host name and port settings.</source>
+        <translation>L&apos;hôte est introuvable. Veuillez vérifier l&apos;adresse et le port.</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientHandler.cpp" line="60"/>
+        <source>The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.</source>
+        <translation>L&apos;hôte a refusé la connection. Assurez-vous que le serveur est lancé et vérifiez que l&apos;adresse et le port sont corrects.</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientHandler.cpp" line="66"/>
+        <source>The following error occurred: %1.</source>
+        <translation>L&apos;erreur suivante s&apos;est produite : %1.</translation>
+    </message>
+</context>
+<context>
+    <name>ClientServer</name>
+    <message>
+        <location filename="../src/server/ClientServer.cpp" line="38"/>
+        <source>The host was not found. Please check the host name and port settings.</source>
+        <translation>L&apos;hôte est introuvable. Veuillez vérifier l&apos;adresse et le port.</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientServer.cpp" line="42"/>
+        <source>The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.</source>
+        <translation>L&apos;hôte a refusé la connection. Assurez-vous que le serveur est lancé et vérifiez que l&apos;adresse et le port sont corrects.</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientServer.cpp" line="49"/>
+        <source>The following error occurred: %1.</source>
+        <translation>L&apos;erreur suivante s&apos;est produite : %1.</translation>
+    </message>
+</context>
+<context>
     <name>ConnectDialog</name>
     <message>
         <location filename="../src/gui/ui/ConnectDialog.ui" line="18"/>
@@ -45,6 +81,13 @@
         <source>Last servers</source>
         <translation>Derniers serveurs</translation>
     </message>
+    <message>
+        <location filename="../src/gui/ui/ConnectDialog.cpp" line="21"/>
+        <source>Connecting to the server
+Please wait...</source>
+        <translation>Connection au serveur
+Veuillez patienter...</translation>
+    </message>
 </context>
 <context>
     <name>CraftuxHome</name>
@@ -78,33 +121,60 @@
     </message>
 </context>
 <context>
+    <name>EventReadyObject</name>
+    <message>
+        <location filename="../src/EventReadyObject.cpp" line="82"/>
+        <source>Player #%1 is already connected to this object %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GLWidget</name>
+    <message>
+        <location filename="../src/gui/GLWidget.cpp" line="15"/>
+        <source>Unsupported OpenGL feature</source>
+        <translation>Fonctionalité OpenGL non supportée</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/GLWidget.cpp" line="16"/>
+        <source>Your computer is not OpenGL 1.5 compatible, which is the minimum to run The Runic Orbs.
+
+OpenGL 1.5 was released in 2003,
+please update your graphic card drivers.</source>
+        <translation>Votre ordinateur n&apos;est pas compatible OpenGL 1.5, qui est le minimum pour lancer The Runic Orbs.
+
+OpenGL 1.5 est sorti en 2003,
+veuillez mettre à jour vos pilotes de carte graphique.</translation>
+    </message>
+</context>
+<context>
     <name>GameWindow</name>
     <message>
         <source>Initialized OpenGL, version %d.%d</source>
         <translation type="obsolete">OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="76"/>
+        <location filename="../src/gui/GameWindow.cpp" line="70"/>
         <source>Initialized OpenGL, version %1.%2</source>
         <translation>OpenGL initialisé en version %1.%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="77"/>
+        <location filename="../src/gui/GameWindow.cpp" line="71"/>
         <source>OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</source>
         <translation>Pilote OpenGL : %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="138"/>
+        <location filename="../src/gui/GameWindow.cpp" line="142"/>
         <source>FPS</source>
         <translation> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="141"/>
+        <location filename="../src/gui/GameWindow.cpp" line="145"/>
         <source>Position : </source>
         <translation>Position : </translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="275"/>
+        <location filename="../src/gui/GameWindow.cpp" line="281"/>
         <source>Charge</source>
         <translation>Charge</translation>
     </message>
@@ -113,7 +183,7 @@
         <translation type="obsolete"> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="163"/>
+        <location filename="../src/gui/GameWindow.cpp" line="167"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>
@@ -125,49 +195,59 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
 <context>
     <name>Home</name>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="26"/>
+        <location filename="../src/gui/ui/Home.ui" line="18"/>
         <source>Welcome to The Runic Orbs</source>
         <translation>Bienvenue à The Runic Orbs</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="41"/>
         <source>The Runic Orbs</source>
-        <translation>The Runic Orbs</translation>
+        <translation type="obsolete">The Runic Orbs</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="61"/>
         <source>http://www.runicorbs.net/</source>
-        <translation>http://www.runicorbs.net/</translation>
+        <translation type="obsolete">http://www.runicorbs.net/</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="93"/>
+        <location filename="../src/gui/ui/Home.ui" line="43"/>
+        <source>http://www.runicorbs.net/ingame.php</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.ui" line="75"/>
         <source>Play &amp;solo</source>
         <translation>Partie &amp;solo</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="100"/>
+        <location filename="../src/gui/ui/Home.ui" line="82"/>
         <source>Join a &amp;multiplayer game</source>
         <translation>Rejoindre une partie &amp;multijoueur</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="107"/>
+        <location filename="../src/gui/ui/Home.ui" line="89"/>
         <source>&amp;Host a game</source>
         <translation>&amp;Héberger une partie</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="114"/>
+        <location filename="../src/gui/ui/Home.ui" line="96"/>
         <source>&amp;Options</source>
         <translation>&amp;Options</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="289"/>
+        <location filename="../src/gui/ui/Home.ui" line="271"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.cpp" line="23"/>
+        <location filename="../src/gui/ui/Home.cpp" line="31"/>
         <source>version %1</source>
         <translation>version %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/Home.cpp" line="45"/>
+        <source>Loading your world
+Please wait...</source>
+        <translation>Chargement de votre monde
+Veuillez patienter...</translation>
     </message>
 </context>
 <context>
@@ -368,7 +448,7 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
     <message>
-        <location filename="../src/server/ServerConfiguration.cpp" line="83"/>
+        <location filename="../src/server/ServerConfiguration.cpp" line="84"/>
         <source>This is the Craftux configuration file</source>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
@@ -448,7 +528,7 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
     <message>
         <location filename="../src/gui/RessourceManager.cpp" line="36"/>
         <source>Successfully loaded &quot;%1&quot; texture [%2].</source>
-        <translation>Chargé la texture [%2] du bloc &quot;%1&quot; !</translation>
+        <translation>Chargé la texture [%2] du bloc &quot;%1&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/RessourceManager.cpp" line="141"/>
@@ -463,25 +543,25 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
     <message>
         <location filename="../src/gui/RessourceManager.cpp" line="160"/>
         <source>Successfully loaded &quot;%1&quot; item image [%2].</source>
-        <translation>Chargé l&apos;image [%2] du bloc &quot;%1&quot; !</translation>
+        <translation>Chargé l&apos;image [%2] du bloc &quot;%1&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/server/ServerConfiguration.cpp" line="40"/>
+        <location filename="../src/server/ServerConfiguration.cpp" line="41"/>
         <source>No server configuration file founded. Creating a new one!</source>
         <translation>Aucun fichier de configuration du serveur trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/server/ServerConfiguration.cpp" line="45"/>
+        <location filename="../src/server/ServerConfiguration.cpp" line="46"/>
         <source>Can&apos;t parse server configuration file %1</source>
         <translation>Impossible d&apos;analyser le fichier de configuration serveur %1</translation>
     </message>
     <message>
-        <location filename="../src/server/ServerConfiguration.cpp" line="90"/>
+        <location filename="../src/server/ServerConfiguration.cpp" line="91"/>
         <source>Settings for server&apos;s network</source>
         <translation>Paramètres réseau du serveur</translation>
     </message>
     <message>
-        <location filename="../src/server/ServerConfiguration.cpp" line="102"/>
+        <location filename="../src/server/ServerConfiguration.cpp" line="103"/>
         <source>Error opening server configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration serveur %1</translation>
     </message>
@@ -494,6 +574,14 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <location filename="../src/server/MultiplayerServer.cpp" line="16"/>
         <source>Can&apos;t listen to port %1! Isn&apos;t the server already launched?</source>
         <translation>Impossible d&apos;écouter le port %1 ! Le serveur n&apos;est-il pas déjà lancé ?</translation>
+    </message>
+</context>
+<context>
+    <name>ServerConnector</name>
+    <message>
+        <location filename="../src/ServerConnector.cpp" line="12"/>
+        <source>ServerConnector initialized, pid #%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -579,6 +667,19 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <location filename="../src/gui/ui/ServerWidget.cpp" line="79"/>
         <source>The server is not running</source>
         <translation>Le serveur est éteint</translation>
+    </message>
+</context>
+<context>
+    <name>World</name>
+    <message>
+        <location filename="../src/World.cpp" line="18"/>
+        <source>Created a world with seed %1 and time %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/World.cpp" line="42"/>
+        <source>A new Player #%1 is in the world #%2.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
