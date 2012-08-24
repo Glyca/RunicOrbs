@@ -1,5 +1,6 @@
 ﻿#include <QtGui>
 #include <QGLWidget>
+#include <QUrl>
 
 #include "Home.h"
 #include "ConnectDialog.h"
@@ -16,6 +17,10 @@ Home::Home(QWidget *parent) :
 	QWidget(parent), ui(new Ui::Home), b_optionDialogOpened(false), m_optionsDialog(NULL), b_serverWidgetOpened(false), m_serverWidget(NULL)
 {
 	ui->setupUi(this);
+	QString url("http://www.runicorbs.net/ingame.php?syslang=" + QLocale::system().name()
+				+ "&version=" + QString::fromUtf8(QUrl::toPercentEncoding(TRO_VERSION)));
+	ui->newsWebView->setUrl(url);
+
 	QString imageName(qApp->applicationDirPath() + "/gfx/logo.png");
 	if(QFile(imageName).exists()) {
 		ui->titleLabel->setPixmap(QPixmap(imageName));
