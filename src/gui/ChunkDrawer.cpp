@@ -8,7 +8,7 @@
 
 ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw)
 {
-	m_oglBuffer = new OpenGLBuffer(GL_QUADS);
+	m_currentOglBuffer = new OpenGLBuffer(GL_QUADS);
 
 	m_workingThread = new QThread();
 	connect(m_workingThread, SIGNAL(finished()), m_workingThread, SLOT(deleteLater())); // The thread will auto-destroy
@@ -19,7 +19,7 @@ ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw)
 ChunkDrawer::~ChunkDrawer()
 {
 	m_workingThread->exit();
-	delete m_oglBuffer;
+	delete m_currentOglBuffer;
 }
 
 void ChunkDrawer::generateVBO()
@@ -286,15 +286,25 @@ void ChunkDrawer::generateVBO()
 	} // k
 
 	// Be sure of the order of what happens below because of multithreading (execution can stop at any time at every line)
-	OpenGLBuffer* oldOglBuffer = m_oglBuffer;
-	m_oglBuffer = newOglBuffer; // At this point, nothing will be drawn (new buffer isn't uploaded into vram)
+	OpenGLBuffer* oldOglBuffer = m_currentOglBuffer;
+	m_currentOglBuffer = newOglBuffer; // At this point, nothing will be drawn (new buffer isn't uploaded into vram)
 	newOglBuffer->preventUpload(false); // Now video memory can be updated freely (new buffer will be uploaded in vram and drawn)
-	delete oldOglBuffer; // FIXME : May crash (opengl call not from main thread)
+
+	m_oglBuffersToDestroyMutex.lock();
+	m_oglBuffersToDestroy.push_back(oldOglBuffer);
+	m_oglBuffersToDestroyMutex.unlock();
 }
 
 void ChunkDrawer::render()
 {
-	m_oglBuffer->render();
+	m_oglBuffersToDestroyMutex.lock();
+	foreach(OpenGLBuffer* oglBuffer, m_oglBuffersToDestroy) {
+		m_oglBuffersToDestroy.removeOne(oglBuffer);
+		delete oglBuffer;
+	}
+	m_oglBuffersToDestroyMutex.unlock();
+
+	m_currentOglBuffer->render();
 }
 
 void ChunkDrawer::pushBlockSetUpwards(BlockSet& blockSet) const

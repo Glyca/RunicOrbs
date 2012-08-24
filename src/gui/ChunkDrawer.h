@@ -36,7 +36,10 @@ private:
 	void pushBlockSetUpwards(BlockSet& blockSet) const;
 
 	Chunk* m_chunkToDraw;
-	OpenGLBuffer* m_oglBuffer;
+	OpenGLBuffer* m_currentOglBuffer; //!< The OpenGLBuffer currently drawed at the screen
+	OpenGLBuffer* m_nextOglBuffer; //!< A created (in the main thread) OpenGLBuffer (ready for filling in another thread)
+	QList<OpenGLBuffer*> m_oglBuffersToDestroy; //!< OpenGL to be destroyed (in the main thread)
+	QMutex m_oglBuffersToDestroyMutex;
 	QThread* m_workingThread;
 };
 

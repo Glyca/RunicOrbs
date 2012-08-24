@@ -224,7 +224,6 @@ OpenGLBuffer::OpenGLBuffer(const QString& filename)
 
 OpenGLBuffer::~OpenGLBuffer()
 {
-	clear();
 	deleteBuffer();
 }
 
