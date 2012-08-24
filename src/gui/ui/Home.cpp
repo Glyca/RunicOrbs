@@ -15,6 +15,14 @@ Home::Home(QWidget *parent) :
 	QWidget(parent), ui(new Ui::Home), b_optionDialogOpened(false), m_optionsDialog(NULL), b_serverWidgetOpened(false), m_serverWidget(NULL)
 {
 	ui->setupUi(this);
+	QString imageName(qApp->applicationDirPath() + "/gfx/logo.png");
+	if(QFile(imageName).exists()) {
+		ui->titleLabel->setPixmap(QPixmap(imageName));
+	}
+	else {
+		ui->titleLabel->setText("The Runic Orbs");
+	}
+
 	connect(ui->soloButton, SIGNAL(clicked()), this, SLOT(soloGameLaunch()));
 	connect(ui->multiButton, SIGNAL(clicked()), this, SLOT(openConnectDialog()));
 	connect(ui->serverButton, SIGNAL(clicked()), this, SLOT(openServerWidget()));
