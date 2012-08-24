@@ -14,10 +14,10 @@ const int INVENTORY_SQUARE_SIZE = 60; //!< The size of an item slot of the inven
 GameWindow::GameWindow(ServerConnector* connector)
 	: m_configuration(new ClientConfiguration()), m_connector(connector), b_playing(true), b_debugView(false), m_originalCursor(cursor()), m_inventoryPixmap(QPixmap(VIEWABLE_INVENTORY_SIZE * INVENTORY_SQUARE_SIZE, INVENTORY_SQUARE_SIZE + WEIGHT_BAR_HEIGHT))
 {
-	m_connector->world().physicEngine()->attach(m_connector->me());
+	m_connector->world()->physicEngine()->attach(m_connector->me());
 
 	m_configuration->loadDefaultConfigFile();
-	m_connector->world().setSeed(m_configuration->getSeed());
+	m_connector->world()->setSeed(m_configuration->getSeed());
 	m_connector->setViewDistance(m_configuration->getViewDistance());
 	m_ressourceManager.setTextureFiltering((RessourceManager::TextureFiltering)m_configuration->getTextureFiltering());
 	setFps(m_configuration->getFps());
@@ -54,7 +54,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 	// Every second, we load and prune the chunks
 	connect(t_secondTimer, SIGNAL(timeout()), m_connector, SLOT(loadAndPruneChunks()));
 	// Be notified when the inventory changes in order to redraw it
-	connect(m_connector, SIGNAL(refreshInventory()), this, SLOT(drawInventoryPixmap()));
+	connect(m_connector, SIGNAL(inventoryChanged()), this, SLOT(drawInventoryPixmap()));
 }
 
 GameWindow::~GameWindow()
@@ -102,12 +102,13 @@ void GameWindow::initializeGL()
 void GameWindow::paintEvent(QPaintEvent *event)
 {
 	Q_UNUSED(event);
-	m_connector->world().physicEngine()->processMoves();
+	m_connector->world()->physicEngine()->processMoves();
 
 	if(m_configuration->getSmoothShades()) glShadeModel(GL_SMOOTH); // re-enable
 	glEnable(GL_DEPTH_TEST); // re-enable
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_BLEND);
 
 	glLoadIdentity();
 
@@ -143,8 +144,8 @@ void GameWindow::render2D(QPainter& painter)
 			text.reserve(500);
 			text.append("\n\n" + tr("Position : ") + m_connector->me()->v_position);
 			text.append("\n" "Pitch : " + QString::number(m_connector->me()->pitch()) + " // Yaw : " + QString::number(m_connector->me()->yaw()));
-			text.append("\n" "Block : " + m_connector->me()->pointedBlock() + " ID = " + QString::number(m_connector->world().block(m_connector->me()->pointedBlock())->id()));
-			text.append("\n\nWorld seed = " + QString::number(m_connector->world().seed()));
+			text.append("\n" "Block : " + m_connector->me()->pointedBlock() + " ID = " + QString::number(m_connector->world()->block(m_connector->me()->pointedBlock())->id()));
+			text.append("\n\nWorld seed = " + QString::number(m_connector->world()->seed()));
 			text.append("\nTouches floor = " + (m_connector->me()->touchesFloor() ? QString("true") : QString("false")));
 			text.append("\nIs stuck = " + (m_connector->me()->isStuck() ? QString("true") : QString("false")));
 
@@ -173,7 +174,7 @@ void GameWindow::render2D(QPainter& painter)
 void GameWindow::render3D()
 {
 	// BLOCKS RENDER
-	m_connector->world().render3D();
+	m_connector->world()->render3D();
 
 	m_masterOglLinesBuffer->clear(); // empty the line buffer
 

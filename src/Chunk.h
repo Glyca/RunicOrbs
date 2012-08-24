@@ -1,10 +1,11 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
-#include <QObject>
 #include <QList>
 #include <QReadWriteLock>
 #include <QPair>
+
+#include "EventReadyObject.h"
 
 class BlockInfo;
 class ChunkDrawer;
@@ -18,7 +19,7 @@ const int CHUNK_HEIGHT = CHUNK_Y_SIZE;
 typedef QPair<int, int> ChunkPosition;
 
 /*! A chunk of a World containing all BlockInfo */
-class Chunk : public QObject
+class Chunk : public EventReadyObject
 {
 	Q_OBJECT
 public:
@@ -27,6 +28,10 @@ public:
 
 	/*! This returns the mutex of the Chunk. Be sure to unlock it when needed!! */
 	inline QReadWriteLock& rwLock() {return m_rwLock;}
+
+	virtual bool worldEvent(WorldEvent* worldEvent);
+	virtual bool chunkEvent(ChunkEvent* chunkEvent);
+	virtual bool blockEvent(BlockEvent* blockEvent);
 
 	enum ChunkState {
 		ChunkState_Active,

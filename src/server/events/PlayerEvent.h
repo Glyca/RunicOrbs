@@ -1,17 +1,21 @@
 #ifndef PLAYEREVENT_H
 #define PLAYEREVENT_H
 
-#include "ServerEvent.h"
-#include "Player.h"
+#include "BaseEvent.h"
 
-/*! An abstract class for an event which concerns a player */
-class PlayerEvent : public ServerEvent
+class PlayerEvent : virtual public BaseEvent
 {
 public:
-	PlayerEvent(Player* player);
+	PlayerEvent(EventId eventId, QDataStream& stream);
+	PlayerEvent(EventId eventId, quint32 playerId);
+	virtual ~PlayerEvent();
 
-protected:
-	Player* m_player; // The player concerned by the event
+	virtual void serializeTo(QDataStream& stream) const;
+
+	quint32 playerId() const;
+
+private:
+	quint32 i_playerId;
 };
 
 #endif // PLAYEREVENT_H

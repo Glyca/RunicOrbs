@@ -20,8 +20,12 @@ public:
 	quint16 getPort() const;
 	void setPort(quint16 port);
 
+	int getSeed() const;
+	void setSeed(int seed);
+
 private:
 	quint16 i_port;
+	int i_seed;
 };
 
 #endif // SERVERCONFIGURATION_H

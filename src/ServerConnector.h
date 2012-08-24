@@ -1,51 +1,63 @@
 #ifndef SERVERCONNECTOR_H
 #define SERVERCONNECTOR_H
 
-#include <QObject>
 #include <QList>
 
+#include "EventReadyObject.h"
 #include "Me.h"
 #include "World.h"
 
-class ClientEvent;
-class ServerEvent;
+class BaseEvent;
 
 /*! The ServerConnector class is a gate to a Server */
-class ServerConnector : public QObject
+class ServerConnector : public EventReadyObject
 {
 	Q_OBJECT
 public:
-	explicit ServerConnector(QObject *parent = 0);
+	explicit ServerConnector(Server* serverToConnect);
 	virtual ~ServerConnector();
 
-	virtual World& world();
+	/*! Connect to the server. Must be called before everything else.
+		\returns true if connection succeeded */
+	bool connect();
 
-	inline Me* me() const {return m_me;}
+	World* world();
 
+	/*! Send an event to the Server this ServerConnector is connected to.
+		If it is a ClientServer, the event will be send over the network. */
+	void postEventToServer(BaseEvent* event);
+
+	/*! Return a pointer to the Player the player is */
+	Me* me();
+
+	/*! Mine the pointed block */
 	void pickBlock();
+	/*! Place a block on the pointed emplacement */
 	void useBlock();
+	/*! Select a slot of the inventory */
 	void selectSlot(const int selectedSlot);
 
 	void setViewDistance(const int distance);
 
-	/*! Emit signal refreshInventory() */
-	inline void makeInventoryRefreshed() {emit refreshInventory();}
+	/*! Request a new chunk to be loaded */
+	void loadChunk(const ChunkPosition& chunkPosition);
+	/*! Request a chunk to be unloaded */
+	void unloadChunk(const ChunkPosition& chunkPosition);
 
 signals:
-	/*! Send an event to a Server, such as a remote Server. FIXME : The Event is not destroyed for the moment */
-	void postEvent(const ServerEvent* event);
-
+	/*! Fired when connected to the server */
+	void connected();
 	/*! Fired when we must redraw the inventory */
-	void refreshInventory();
+	void inventoryChanged();
 
 public slots:
-	/*! Perform the event for the client (may be received from the network) */
-	void takeEvent(const ClientEvent* event);
 	/*! Load and unload chunks arround the player */
 	void loadAndPruneChunks();
 
-protected:
-	Me* m_me;
+private:
+	Server* m_server; //!< The server we are talking to
+	int i_worldId; //!< The current World id
+	int i_playerId; //!< The current Player id
 	QList<ChunkPosition> m_loadedChunks; //!< The chunks we loaded
 	int i_viewDistance;
 };

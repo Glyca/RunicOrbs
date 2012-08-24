@@ -7,9 +7,14 @@ PhysicEngine::PhysicEngine(World* world, QObject *parent) : QObject(parent), m_w
 	m_elapsedTimer.start();
 }
 
+World* PhysicEngine::world()
+{
+	return m_workingWorld;
+}
+
 PhysicObject* PhysicEngine::createPhysicObject(preal mass)
 {
-	PhysicObject* po = new PhysicObject(m_workingWorld, 0, mass);
+	PhysicObject* po = new PhysicObject(this, 0, mass);
 	this->attach(po);
 	return po;
 }

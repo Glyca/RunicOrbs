@@ -1,9 +1,10 @@
 #include "Chunk.h"
 #include "blocks/BlockDescriptor.h"
 #include "gui/ChunkDrawer.h"
+#include "server/events/PlayerBlockEvent.h"
 #include "World.h"
 
-Chunk::Chunk(World* parentWorld, ChunkPosition position) : QObject(parentWorld), m_world(parentWorld), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
+Chunk::Chunk(World* parentWorld, ChunkPosition position) : EventReadyObject(parentWorld), m_world(parentWorld), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
 {
 	int size = CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE;
 	p_BlockInfos = new BlockInfo[size];
@@ -13,6 +14,25 @@ Chunk::~Chunk()
 {
 	idle();
 	delete[] p_BlockInfos;
+}
+
+bool Chunk::worldEvent(WorldEvent* worldEvent)
+{
+	// For now do nothing
+	qDebug() << "Chunk received WorldEvent ##" << worldEvent->type();
+	return true;
+}
+
+bool Chunk::chunkEvent(ChunkEvent* chunkEvent)
+{
+	qDebug() << "Chunk received ChunkEvent ##" << chunkEvent->type();
+	return true;
+}
+
+bool Chunk::blockEvent(BlockEvent* blockEvent)
+{
+	qDebug() << "Chunk received BlockEvent ##" << blockEvent->type();
+	return true;
 }
 
 void Chunk::activate()

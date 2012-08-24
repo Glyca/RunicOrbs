@@ -1,39 +1,34 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <QObject>
-
-#include "events/ClientEvent.h"
-#include "events/ServerEvent.h"
+#include "EventReadyObject.h"
 #include "World.h"
 
-class Server : public QObject
+class Server : public EventReadyObject
 {
 	Q_OBJECT
 public:
-	explicit Server(QObject* parent = 0);
+	explicit Server(QObject* parent, int seed);
 	virtual ~Server();
 
-	World& world() { return *m_world; }
+	World* world() { return m_world; }
 
 	/*! Return a const reference to a physic object of the server */
 	const PhysicObject* po(const int id) const;
 
+	virtual bool worldEvent(WorldEvent* worldEvent);
+	virtual bool chunkEvent(ChunkEvent* chunkEvent);
+	virtual bool blockEvent(BlockEvent* blockEvent);
+
 	/*! Return a new "per-server unique" PhysicObject id */
-	inline int nextPhysicObjectId() {return ++i_nextPhysicObjectId;}
-
-signals:
-	/*! Send an event to a client, such as a remote one. FIXME : The event is not destroyed for the moment */
-	void postEvent(const ClientEvent* event);
-
-public slots:
-	/*! Perform the event (may be received from the network) on the server */
-	void takeEvent(const ServerEvent* event);
+	int nextPhysicObjectId();
 
 protected:
 	World* m_world;
-private:
 	int i_nextPhysicObjectId;
+
+private:
+	Server(){}
 };
 
 #endif // SERVER_H

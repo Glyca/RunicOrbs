@@ -23,6 +23,7 @@ void ServerConfiguration::defaultValues()
 {
 	// Here are the defaults value for the configuration :
 	i_port = 51130;
+	i_seed = 123456789;
 }
 
 void ServerConfiguration::setDefaultFilename()
@@ -115,4 +116,14 @@ quint16 ServerConfiguration::getPort() const
 void ServerConfiguration::setPort(quint16 port)
 {
 	i_port = port;
+}
+
+int ServerConfiguration::getSeed() const
+{
+	return i_seed;
+}
+
+void ServerConfiguration::setSeed(int seed)
+{
+	i_seed = seed;
 }

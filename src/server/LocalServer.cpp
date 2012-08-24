@@ -1,9 +1,9 @@
 #include "LocalServer.h"
+#include "../Log.h"
 
-LocalServer::LocalServer(QObject* parent) : Server(parent)
+LocalServer::LocalServer(QObject* parent, int seed) : Server(parent, seed)
 {
-	//TODO : initialize corectly a world
-	m_world = new World(this, 123, this);
+	ldebug(Channel_Server, "Started local server!");
 }
 
 LocalServer::~LocalServer()

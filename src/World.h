@@ -1,10 +1,12 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include <QObject>
 #include <QHash>
+#include <QMap>
 
 #include "Chunk.h"
+#include "EventReadyObject.h"
+#include "Player.h"
 
 class BlockInfo;
 class BlockPosition;
@@ -13,18 +15,21 @@ class PhysicObject;
 class Server; // avoid circular inclusions
 class Vector;
 
-class World : public QObject
+class World : public EventReadyObject
 {
 public:
-	explicit World(Server* server, const int seed, QObject *parent = 0);
+	explicit World(Server* parentServer, const int seed);
 	~World();
 
-	/*! Return the server where the world is running */
-	inline Server* server() const {return m_server;}
 	/*! Return the PhysicEngine of the world */
 	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
 	/*! Return a reference to an entity */
 	const PhysicObject* po(const int id) const;
+
+	/*! Creates a player in this World */
+	Player* newPlayer();
+
+	int nextPhysicObjectId();
 
 	/*! Access to a chunk of the world from a chunk position */
 	Chunk* chunk(const ChunkPosition& position) const;
@@ -35,6 +40,10 @@ public:
 	ChunkPosition chunkPosition(const int x, const int z) const;
 	/*! Access to a ChunkPosition of the world from a block position */
 	ChunkPosition chunkPosition(const BlockPosition& position) const;
+
+	virtual bool worldEvent(WorldEvent* worldEvent);
+	virtual bool chunkEvent(ChunkEvent* chunkEvent);
+	virtual bool blockEvent(BlockEvent* blockEvent);
 
 	/*! Return true if the Chunk is loaded, false otherwise */
 	bool isChunkLoaded(const ChunkPosition& position) const;
@@ -60,9 +69,13 @@ public:
 public slots:
 
 private:
-	Server* m_server; //!< The server where the world runs
+	World(){}
+
+	Server* m_server; //!< The Server this World belongs to
+	int i_worldId; //!< The Id of the World
 	QHash<ChunkPosition, Chunk*> * m_chunks;
 	Chunk* m_voidChunk; //!< The void chunk is given when you try to access a too far chunk
+	QMap<int, Player*> m_players; //!< Players who are in this world
 	PhysicEngine* m_physicEngine;
 	int i_time; //!< The current time of the word
 	int i_seed; //!< Seed of the world

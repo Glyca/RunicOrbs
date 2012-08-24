@@ -13,6 +13,8 @@ class PhysicEngine : public QObject
 public:
 	explicit PhysicEngine(World* world, QObject *parent = 0);
 
+	World* world();
+
 	PhysicObject* createPhysicObject(preal mass = f_defaultMass);
 
 	inline void attach(PhysicObject* po) {m_physicObjects.append(po);}

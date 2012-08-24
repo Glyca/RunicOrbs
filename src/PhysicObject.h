@@ -14,10 +14,12 @@ class PhysicObject : public QObject
 {
 	friend class PhysicEngine;
 public:
-	PhysicObject(World* world, int id = 0, preal mass = f_defaultMass);
+	PhysicObject(PhysicEngine* parentPhysicEngine, int id = 0, preal mass = f_defaultMass);
 	virtual ~PhysicObject();
 
+	PhysicEngine* physicEngine();
 	inline int id() const {return i_id;}
+	World* world();
 
 	virtual Vector velocity() const;
 
@@ -30,15 +32,13 @@ public:
 	/*! Unstuck a PhysicObject in the floor (may be caused by low FPS */
 	void destuck();
 
-	inline preal mass() const {return f_mass;}
-	inline void setMass(const preal mass) {f_mass = mass;}
+	preal mass() const {return f_mass;}
+	void setMass(preal mass) {f_mass = mass;}
 
 	/*! Wether the object is lying on the floor or not */
 	bool touchesFloor();
 	/*! Wether the object is stuck */
 	bool isStuck();
-
-	inline World* world() {return m_world;}
 
 public: // Public temporairement
 
@@ -51,9 +51,9 @@ protected: // protected
 	virtual void processMove(const preal f_elapsedTimeSec);
 
 	void processCollisions();
-	World* m_world;
 
 private:
+	PhysicEngine* m_parentPhysicEngine;
 	int i_id; //!< The ID of the PhysicObject on this server
 	preal f_mass; //!< The mass of the object in kg
 };

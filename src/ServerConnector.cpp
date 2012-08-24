@@ -1,35 +1,46 @@
-#include "server/events/ChunkConnectEvent.h"
-#include "server/events/BlockPickEvent.h"
-#include "server/events/BlockUseEvent.h"
-#include "server/events/SlotSelectEvent.h"
+#include "Log.h"
+#include "server/events/BlockChangedEvent.h"
+#include "server/events/PlayerChunkEvent.h"
+#include "server/Server.h"
 #include "ServerConnector.h"
 
-#include <QDebug>
-
-ServerConnector::ServerConnector(QObject *parent) : QObject(parent)
+ServerConnector::ServerConnector(Server* serverToConnect)
+	: EventReadyObject(reinterpret_cast<QObject*>(serverToConnect)), m_server(serverToConnect)
 {
-	qDebug() << "Initialized" << metaObject()->className();
+	Player* player = m_server->world()->newPlayer();
+	i_playerId = player->id();
+	ldebug(Channel_Server, tr("ServerConnector initialized, pid #%1").arg(i_playerId));
 }
 
 ServerConnector::~ServerConnector()
 {
-
 }
 
-World& ServerConnector::world()
+bool ServerConnector::connect()
 {
-	Q_ASSERT(1!=1);
-	return *(World*)0x123456789; // TODO WARNING : we can't access a world from a ServerConnector, only with its children.
+	emit connected();
+	return true; // TODO
 }
 
-void ServerConnector::takeEvent(const ClientEvent* event)
+World* ServerConnector::world()
 {
-	Q_UNUSED(event);
+	return m_server->world();
+}
+
+void ServerConnector::postEventToServer(BaseEvent* event)
+{
+	// Post the event to the server :
+	QCoreApplication::postEvent(reinterpret_cast<QObject*>(m_server), event);
+}
+
+Me* ServerConnector::me()
+{
+	return static_cast<Me*>(m_server->player(i_playerId));
 }
 
 void ServerConnector::loadAndPruneChunks()
 {
-	ChunkPosition currentPosition = world().chunkPosition(me()->v_position.x, me()->v_position.z);
+	ChunkPosition currentPosition = world()->chunkPosition(me()->v_position.x, me()->v_position.z);
 	QList<ChunkPosition> wantedChunks; // The chunks we still want to be active
 
 	// Create a list of the wanted chunks
@@ -53,8 +64,7 @@ void ServerConnector::loadAndPruneChunks()
 		}
 		else {
 			// The chunk is unwanted, get rid of it
-			ChunkConnectEvent* event = new ChunkConnectEvent(processingChunk, ChunkConnectEvent::ChunkConnection_Disconnect);
-			emit postEvent(event);
+			unloadChunk(processingChunk);
 			// Delete it from the loaded chunks list
 			m_loadedChunks.removeAt(i); i--;
 		}
@@ -63,27 +73,38 @@ void ServerConnector::loadAndPruneChunks()
 	// Now we load the chunks that were not in the loaded chunks
 	for (int i = 0; i < wantedChunks.size(); ++i) {
 		ChunkPosition processingChunk = wantedChunks.at(i);
-		ChunkConnectEvent* event = new ChunkConnectEvent(processingChunk, ChunkConnectEvent::ChunkConnection_Connect);
-		emit postEvent(event);
+		loadChunk(processingChunk);
 		m_loadedChunks.push_back(processingChunk);
 	}
 }
 
+void ServerConnector::loadChunk(const ChunkPosition& chunkPosition)
+{
+	postEventToServer(new PlayerChunkEvent(Connect_PlayerChunkEventId, i_worldId, chunkPosition, me()->id()));
+}
+
+void ServerConnector::unloadChunk(const ChunkPosition& chunkPosition)
+{
+	postEventToServer(new PlayerChunkEvent(Disconnect_PlayerChunkEventId, i_worldId, chunkPosition, me()->id()));
+}
+
 void ServerConnector::pickBlock()
 {
-	BlockPickEvent* event = new BlockPickEvent(me()->pointedBlock(), me());
-	emit postEvent(event);
+	BlockPosition blockPosition = me()->pointedBlock();
+	ChunkPosition chunkPosition = world()->chunkPosition(blockPosition);
+	postEventToServer(new PlayerBlockEvent(Pick_PlayerBlockEventId, i_worldId, chunkPosition, blockPosition, me()->id()));
 }
 
 void ServerConnector::useBlock()
 {
-	BlockUseEvent* event = new BlockUseEvent(me()->pointedFreeBlock(), me());
-	emit postEvent(event);
+	BlockPosition blockPosition = me()->pointedFreeBlock();
+	ChunkPosition chunkPosition = world()->chunkPosition(blockPosition);
+	postEventToServer(new PlayerBlockEvent(Place_PlayerBlockEventId, i_worldId, chunkPosition, blockPosition, me()->id()));
 }
 
 void ServerConnector::selectSlot(const int selectedSlot)
 {
-	// Check that the slot id we demand is valid
+/*	// Check that the slot id we demand is valid
 	int newSelectedSlot = selectedSlot;
 	if(newSelectedSlot < 0) {
 		newSelectedSlot = VIEWABLE_INVENTORY_SIZE - 1;
@@ -92,7 +113,7 @@ void ServerConnector::selectSlot(const int selectedSlot)
 		newSelectedSlot = 0;
 	}
 	SlotSelectEvent* event = new SlotSelectEvent(newSelectedSlot, me());
-	emit postEvent(event);
+	emit postEvent(event);*/
 }
 
 void ServerConnector::setViewDistance(const int distance)

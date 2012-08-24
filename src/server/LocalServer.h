@@ -7,7 +7,7 @@ class LocalServer : public Server
 {
 	Q_OBJECT
 public:
-	LocalServer(QObject* parent = 0);
+	explicit LocalServer(QObject* parent, int seed);
 	virtual ~LocalServer();
 };
 

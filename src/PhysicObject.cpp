@@ -1,3 +1,4 @@
+#include "PhysicEngine.h"
 #include "PhysicObject.h"
 #include "blocks/BlockDescriptor.h"
 #include "Log.h"
@@ -6,10 +7,11 @@
 
 #include <QDebug>
 
-PhysicObject::PhysicObject(World* world, int id, preal mass) : m_world(world), f_mass(mass)
+PhysicObject::PhysicObject(PhysicEngine* parentPhysicEngine, int id, preal mass)
+	: m_parentPhysicEngine(parentPhysicEngine), f_mass(mass)
 {
 	if(id == 0) {
-		i_id = world->server()->nextPhysicObjectId();
+		i_id = world()->nextPhysicObjectId();
 	}
 	else {
 		i_id = id;
@@ -22,7 +24,16 @@ PhysicObject::PhysicObject(World* world, int id, preal mass) : m_world(world), f
 
 PhysicObject::~PhysicObject()
 {
+}
 
+PhysicEngine* PhysicObject::physicEngine()
+{
+	return m_parentPhysicEngine;
+}
+
+World* PhysicObject::world()
+{
+	return m_parentPhysicEngine->world();
 }
 
 Vector PhysicObject::velocity() const

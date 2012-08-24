@@ -1,15 +1,21 @@
-#include "World.h"
 #include "ChunkGenerator.h"
-#include "PhysicObject.h"
+#include "Log.h"
+#include "server/events/PlayerBlockEvent.h"
 #include "PhysicEngine.h"
+#include "PhysicObject.h"
+#include "server/Server.h"
+#include "World.h"
 
 #include <QDebug>
 
-World::World(Server* server, const int seed, QObject *parent) : QObject(parent), m_server(server), i_seed(seed)
+World::World(Server* parentServer, const int seed)
+	: EventReadyObject(parentServer), m_server(parentServer), i_worldId(0), i_time(0), i_seed(seed)
 {
 	m_physicEngine = new PhysicEngine(this, this);
 	m_chunks = new QHash<ChunkPosition, Chunk*>();
 	m_voidChunk = new Chunk(this, ChunkPosition(999999,999999));
+
+	ldebug(Channel_Server, tr("Created a world with seed %1 and time %2.").arg(i_seed).arg(i_time));
 }
 
 World::~World()
@@ -27,6 +33,19 @@ World::~World()
 const PhysicObject* World::po(const int id) const
 {
 	return m_physicEngine->po(id);
+}
+
+Player* World::newPlayer()
+{
+	Player* newPlayer = new Player(physicEngine(), nextPhysicObjectId());
+	connectPlayer(newPlayer);
+	ldebug(Channel_Server, tr("A new Player #%1 is in the world #%2.").arg(newPlayer->id()).arg(i_worldId));
+	return newPlayer;
+}
+
+int World::nextPhysicObjectId()
+{
+	return m_server->nextPhysicObjectId();
 }
 
 Chunk* World::chunk(const ChunkPosition& position) const
@@ -172,3 +191,88 @@ void World::render3D()
 		++it;
 	}
 }
+
+bool World::worldEvent(WorldEvent* worldEvent)
+{
+	// For now do nothing
+	qDebug() << "World received WorldEvent ##" << worldEvent->type();
+	return false;
+}
+
+bool World::chunkEvent(ChunkEvent* chunkEvent)
+{
+	qDebug() << "World received ChunkEvent ##" << chunkEvent->type();
+
+	PlayerChunkEvent* playerChunkEvent = dynamic_cast<PlayerChunkEvent*>(chunkEvent);
+	if(playerChunkEvent != 0)
+	{
+		switch(playerChunkEvent->type())
+		{
+		case Connect_PlayerChunkEventId:
+			qDebug() << "Player" << playerChunkEvent->playerId() << "wants the Chunk" << playerChunkEvent->chunkPosition();
+			loadChunk(playerChunkEvent->chunkPosition());
+			break;
+		case Disconnect_PlayerChunkEventId:
+			qDebug() << "Player" << playerChunkEvent->playerId() << "doesn't want the Chunk" << playerChunkEvent->chunkPosition();
+			unloadChunk(playerChunkEvent->chunkPosition());
+			break;
+		default:
+			break;
+		}
+	}
+
+	// Send the event to the concerned chunk
+	ChunkPosition chunkPosition = chunkEvent->chunkPosition();
+	if(isChunkLoaded(chunkPosition)) {
+		return QCoreApplication::sendEvent(chunk(chunkPosition), chunkEvent);
+	}
+	else
+	{
+		// The demanded chunk is not loaded !
+		return false;
+	}
+}
+
+bool World::blockEvent(BlockEvent* blockEvent)
+{
+	// Do nothing
+	qDebug() << "World received BlockEvent ##" << blockEvent->type();
+
+	PlayerBlockEvent* playerBlockEvent = dynamic_cast<PlayerBlockEvent*>(blockEvent);
+	if(playerBlockEvent != 0)
+	{
+		Player* thePlayer = player(playerBlockEvent->playerId());
+		if(thePlayer == NULL) return false;
+
+		switch(playerBlockEvent->type())
+		{
+		case Pick_PlayerBlockEventId:
+		{
+			if(thePlayer->giveOne(block(playerBlockEvent->blockPosition())->id()))
+			{
+				block(playerBlockEvent->blockPosition())->setId(0);
+				// Make the chunk and chunks arround redrawed
+				chunk(playerBlockEvent->blockPosition())->makeDirty();
+				chunk(playerBlockEvent->blockPosition())->makeSurroundingChunksDirty();
+			}
+		}
+			break;
+		case Place_PlayerBlockEventId:
+		{
+			int blockId = thePlayer->inventorySlot(thePlayer->selectedSlot()).id;
+			// If there is not already a block here the player has a block of this id in stock
+			if(block(playerBlockEvent->blockPosition())->isVoid() && thePlayer->takeOne(blockId))
+			{
+				block(playerBlockEvent->blockPosition())->setId(blockId);
+				chunk(playerBlockEvent->blockPosition())->makeDirty();
+			}
+		}
+			break;
+		default:
+			break;
+		}
+	}
+
+	return false;
+}
+

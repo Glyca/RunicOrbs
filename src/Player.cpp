@@ -1,7 +1,22 @@
+#include "server/events/BaseEvent.h"
 #include "Player.h"
 
-Player::Player(int id) : Entity(id), m_inventory(Inventory(1000)), i_selectedSlot(0)
+Player::Player(PhysicEngine* parentPhysicEngine, int id)
+	: Entity(parentPhysicEngine, id), m_inventory(Inventory(1000)), i_selectedSlot(0)
 {
+	setMass(75.0);
+}
+
+Player::~Player()
+{
+}
+
+bool Player::event(QEvent* event)
+{
+	BaseEvent* baseEvent = dynamic_cast<BaseEvent*>(event);
+	if(baseEvent != 0) {
+
+	}
 }
 
 Vector Player::eyePosition()

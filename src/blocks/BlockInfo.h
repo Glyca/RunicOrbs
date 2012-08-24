@@ -1,6 +1,7 @@
 ﻿#ifndef BLOCKINFO_H
 #define BLOCKINFO_H
 
+#include <QDataStream>
 #include <QString>
 
 #include "Blocks.h"
@@ -13,6 +14,16 @@ struct BlockPosition {
 	}
 	int x, y, z;
 };
+
+inline QDataStream& operator<<(QDataStream& stream, const BlockPosition& bp)
+{
+	return stream << static_cast<qint32>(bp.x) << static_cast<qint32>(bp.y) << static_cast<qint32>(bp.z);
+}
+
+inline QDataStream& operator>>(QDataStream& stream, BlockPosition& bp)
+{
+	return stream >> bp.x >> bp.y >> bp.z;
+}
 
 const int DEFAULT_BLOCK_ID = 0;
 
@@ -51,6 +62,21 @@ inline bool operator==(const BlockInfo& block1, const BlockInfo& block2)
 inline bool operator!=(const BlockInfo& block1, const BlockInfo& block2)
 {
 	return !(block1 == block2);
+}
+
+inline QDataStream& operator<<(QDataStream& stream, const BlockInfo& bi)
+{
+	return stream << static_cast<quint16>(bi.id()) << static_cast<quint8>(bi.lightLevel());
+}
+
+inline QDataStream& operator>>(QDataStream& stream, BlockInfo& bi)
+{
+	quint16 id;
+	quint8 lightLevel;
+	stream >> id >> lightLevel;
+	bi.setId(id);
+	bi.setLightLevel(lightLevel);
+	return stream;
 }
 
 /*! Contains the BlockInfo of a block, its BlockPosition and many pointers to surrounding blocks.

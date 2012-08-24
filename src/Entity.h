@@ -7,7 +7,7 @@
 class Entity : public PhysicObject
 {
 public:
-	Entity(int id = 0);
+	Entity(PhysicEngine* parentPhysicEngine, int id = 0);
 	virtual ~Entity();
 
 	virtual Vector velocity() const;

@@ -2,7 +2,9 @@
 #define CONNECTDIALOG_H
 
 #include <QDialog>
-#include <QAbstractButton>
+
+class QAbstractButton;
+class ServerConnector;
 
 namespace Ui {
 	class ConnectDialog;
@@ -18,9 +20,11 @@ public:
 
 public slots:
 	void onClick(QAbstractButton*);
+	void startGame();
 
 private:
 	Ui::ConnectDialog *ui;
+	ServerConnector* m_connectorToBeUsed;
 };
 
 #endif // CONNECTDIALOG_H

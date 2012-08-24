@@ -4,12 +4,18 @@
 #include "Entity.h"
 #include "Inventory.h"
 
+class BaseEvent;
+
 const unsigned int VIEWABLE_INVENTORY_SIZE = 8;
 
 class Player : public Entity
 {
+	Q_OBJECT
 public:
-	Player(int id = 0);
+	Player(PhysicEngine* parentPhysicEngine, int id = 0);
+	virtual ~Player();
+
+	virtual bool event(QEvent* event);
 
 	/*! The position of the eye of the player (useful for the camera) */
 	Vector eyePosition();
@@ -31,6 +37,12 @@ public:
 	void give(const int id, const int quantity);
 	/*! Try to take one block of the specified id to the player */
 	bool takeOne(const int id);
+
+signals:
+	/*! This signal is emitted when the Player receive a BaseEvent.
+	Usually, for a local game, this signal is connected to a slot of a LocalServerConnector ;
+	and for a multiplayer game, this is connected to a slot of the associated ClientHandler */
+	/*void eventReceived(BaseEvent* baseEvent);*/
 
 private:
 	Inventory m_inventory; //!< The inventory of the player

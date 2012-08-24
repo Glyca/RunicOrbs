@@ -12,9 +12,6 @@ public:
 
 	BlockPosition pointedBlock();
 	BlockPosition pointedFreeBlock();
-
-private:
-
 };
 
 #endif // ME_H

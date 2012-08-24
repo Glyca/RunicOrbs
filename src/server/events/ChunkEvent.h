@@ -2,16 +2,24 @@
 #define CHUNKEVENT_H
 
 #include "Chunk.h"
-#include "ServerEvent.h"
+#include "WorldEvent.h"
 
-/*! An abstract class for an event of chunk */
-class ChunkEvent : public ServerEvent
+/*! A WorldEvent that happened in a Chunk
+  Compared to the WorldEvent, it contains one more information about the Chunk where the event occurred
+*/
+class ChunkEvent : public WorldEvent
 {
 public:
-	ChunkEvent(const ChunkPosition& position);
+	ChunkEvent(EventId eventId, QDataStream& stream);
+	ChunkEvent(EventId eventId, quint32 worldId, const ChunkPosition& chunkPosition);
+	virtual ~ChunkEvent();
 
-protected:
-	ChunkPosition m_chunkPosition;
+	virtual void serializeTo(QDataStream& stream) const;
+
+	const ChunkPosition& chunkPosition() const { return m_position; }
+
+private:
+	ChunkPosition m_position;
 };
 
 #endif // CHUNKEVENT_H

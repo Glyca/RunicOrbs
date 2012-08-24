@@ -24,7 +24,7 @@ void ClientHandler::bind()
 
 	connect(m_socket, SIGNAL(connected()), this, SLOT(connected()));
 	connect(m_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
-	connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SIGNAL(error(QAbstractSocket::SocketError)));
+	connect(m_socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(error(QAbstractSocket::SocketError)));
 	connect(m_socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
 
 	if (!m_socket->setSocketDescriptor(i_socketDescriptor))
@@ -46,4 +46,23 @@ void ClientHandler::readyRead()
 void ClientHandler::disconnected()
 {
 	ldebug(Channel_Server, "Client disconnected!");
+}
+
+void ClientHandler::error(QAbstractSocket::SocketError socketError)
+{
+	switch (socketError) {
+	case QAbstractSocket::RemoteHostClosedError:
+		break;
+	case QAbstractSocket::HostNotFoundError:
+		lwarning(Channel_Server, tr("The host was not found. Please check the host name and port settings."));
+		break;
+	case QAbstractSocket::ConnectionRefusedError:
+		lwarning(Channel_Server, tr("The connection was refused by the peer. "
+									"Make sure the server is running, "
+									"and check that the host name and port "
+									"settings are correct."));
+		break;
+	default:
+		lwarning(Channel_Server, tr("The following error occurred: %1.").arg(m_socket->errorString()));
+	}
 }

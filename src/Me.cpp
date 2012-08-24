@@ -8,15 +8,15 @@ const float F_BLOCK_SEAK_STEP = 0.05f;
 /*! How far do we loook for a non-void cube */
 const float F_MAX_BLOCK_SEAK = 8.0f;
 
-Me::Me(World* world) : Player(1) // For the moment we take the id 1 for all Me, which is wrong in mulitplayer
+Me::Me(World* world) : Player(world->physicEngine(), 1) // For the moment we take the id 1 for all Me, which is wrong in mulitplayer
 {
 	setMass(70.0f); // 70kg is good
-	m_world = world;
+	//m_world = world;
 
 	int spawnX = rand() % (5 * CHUNK_X_SIZE) + 1;
 	int spawnZ = rand() % (5 * CHUNK_Z_SIZE) + 1;
 
-	int altitude = m_world->altitude(spawnX, spawnZ);
+	int altitude = this->world()->altitude(spawnX, spawnZ);
 	v_position = Vector(spawnX, altitude + 20, spawnZ);
 
 	qDebug("Me created");

@@ -14,9 +14,6 @@ public:
 	explicit ClientHandler(int socketDescriptor, MultiplayerServer* server);
 	~ClientHandler();
 
-signals:
-	void error(QAbstractSocket::SocketError socketError);
-
 public slots:
 	/*! Create m_socket and set its i_socketDescriptor, connecting the client.
 		This slot is not called from the main thread, thus the socket lives in another thread. */
@@ -25,6 +22,8 @@ public slots:
 	void connected();
 	void readyRead();
 	void disconnected();
+
+	void error(QAbstractSocket::SocketError socketError);
 
 private:
 	MultiplayerServer* m_parentServer; //!< The MultiplayerServer where the ClientHandler lives

@@ -7,7 +7,7 @@
 const int MAX_CLIENTTHREADS = 4;
 
 MultiplayerServer::MultiplayerServer(ServerConfiguration* serverConfiguration)
-	: Server(reinterpret_cast<QObject*>(this)), m_configuration(serverConfiguration), i_maxClientThreads(MAX_CLIENTTHREADS)
+	: Server(reinterpret_cast<QObject*>(this), serverConfiguration->getSeed()), m_configuration(serverConfiguration), i_maxClientThreads(MAX_CLIENTTHREADS)
 {
 	if(listen(QHostAddress::Any, m_configuration->getPort())) {
 		linfo(Channel_Server, QObject::tr("Listening to port %1").arg(m_configuration->getPort()));
@@ -15,6 +15,8 @@ MultiplayerServer::MultiplayerServer(ServerConfiguration* serverConfiguration)
 	else {
 		lerror(Channel_Server, QObject::tr("Can't listen to port %1! Isn't the server already launched?").arg(m_configuration->getPort()));
 	}
+
+	ldebug(Channel_Server, "Started multiplayer server!");
 }
 
 MultiplayerServer::~MultiplayerServer()

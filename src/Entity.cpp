@@ -3,13 +3,13 @@
 
 #include <QDebug>
 
-Entity::Entity(int id) : PhysicObject(world(), id), f_pitchDegrees(180.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
+Entity::Entity(PhysicEngine* parentPhysicEngine, int id)
+	: PhysicObject(parentPhysicEngine, id), f_pitchDegrees(180.0f), f_yawDegrees(135.0f), m_walkDirection(WalkDirection_Stop), b_jumping(false)
 {
 }
 
 Entity::~Entity()
 {
-
 }
 
 Vector Entity::velocity() const
