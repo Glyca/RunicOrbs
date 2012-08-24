@@ -40,12 +40,12 @@ public:
 
 signals:
 	/*! This signal is emitted when the Player receive a BaseEvent.
-	Usually, for a local game, this signal is connected to a slot of a LocalServerConnector ;
+	Usually, for a local game, this signal is connected to a slot of a ServerConnector ;
 	and for a multiplayer game, this is connected to a slot of the associated ClientHandler */
-	/*void eventReceived(BaseEvent* baseEvent);*/
+	void eventReceived(BaseEvent* baseEvent);
 
 private:
-	Inventory m_inventory; //!< The inventory of the player
+	Inventory* m_inventory; //!< The inventory of the player
 	unsigned int i_selectedSlot; //!< Which slot of his inventory the player have selected
 };
 

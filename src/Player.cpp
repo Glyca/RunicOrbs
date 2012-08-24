@@ -1,21 +1,25 @@
-#include "server/events/BaseEvent.h"
+#include "server/events/PlayerEvent.h"
 #include "Player.h"
 
 Player::Player(PhysicEngine* parentPhysicEngine, int id)
-	: Entity(parentPhysicEngine, id), m_inventory(Inventory(1000)), i_selectedSlot(0)
+	: Entity(parentPhysicEngine, id), m_inventory(new Inventory(this, 1000)), i_selectedSlot(0)
 {
-	setMass(75.0);
+	setMass(70.0);
 }
 
 Player::~Player()
 {
+	delete m_inventory;
 }
 
 bool Player::event(QEvent* event)
 {
-	BaseEvent* baseEvent = dynamic_cast<BaseEvent*>(event);
-	if(baseEvent != 0) {
-
+	PlayerEvent* playerEvent = dynamic_cast<PlayerEvent*>(event);
+	if(playerEvent != 0) {
+		if(playerEvent->playerId() == this->id()) // This event is for this Player
+		{
+			emit eventReceived(playerEvent);
+		}
 	}
 }
 
@@ -28,12 +32,12 @@ Vector Player::eyePosition()
 
 int Player::currentLoad() const
 {
-	return m_inventory.weight();
+	return m_inventory->weight();
 }
 
 int Player::maxLoad() const
 {
-	return m_inventory.maxWeight();
+	return m_inventory->maxWeight();
 }
 
 void Player::setSelectedSlot(const unsigned int slotNumber)
@@ -48,12 +52,12 @@ void Player::setSelectedSlot(const unsigned int slotNumber)
 
 const InventorySlot& Player::inventorySlot(int slotNumber) const
 {
-	return m_inventory.inventorySlot(slotNumber); // Already performs checks on slotNumber
+	return m_inventory->inventorySlot(slotNumber); // Already performs checks on slotNumber
 }
 
 bool Player::giveOne(const int id)
 {
-	return m_inventory.addOne(id);
+	return m_inventory->addOne(id);
 }
 
 void Player::give(const int id, const int quantity)
@@ -65,5 +69,5 @@ void Player::give(const int id, const int quantity)
 
 bool Player::takeOne(const int id)
 {
-	return m_inventory.removeOne(id);
+	return m_inventory->removeOne(id);
 }

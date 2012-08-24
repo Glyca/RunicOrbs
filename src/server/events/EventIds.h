@@ -10,6 +10,8 @@ enum EventId {
 
 	PlayerEventId = 4000,
 
+	InventoryChangedEventId = 4010,
+
 	PlayerChunkEventId = 4100,
 	Connect_PlayerChunkEventId = 4101,
 	Disconnect_PlayerChunkEventId = 4102,

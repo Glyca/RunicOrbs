@@ -1,8 +1,13 @@
-#include "Inventory.h"
+#include <QCoreApplication>
+
 #include "blocks/Blocks.h"
 #include "blocks/BlockDescriptor.h"
+#include "Inventory.h"
+#include "server/events/InventoryChangedEvent.h"
+#include "Player.h"
 
-Inventory::Inventory(int maxWeight) : m_maxWeight(maxWeight), m_weight(0)
+Inventory::Inventory(Player* parentPlayer, int maxWeight)
+	: m_player(parentPlayer), m_maxWeight(maxWeight), m_weight(0)
 {
 	for(int i = 0; i < NUMBER_OF_INVENTORY_SLOTS; ++i)
 	{
@@ -41,6 +46,8 @@ bool Inventory::addOne(const int blockId)
 		if(m_inventorySlots[i].id == blockId) {
 			m_inventorySlots[i].quantity++;
 			m_weight += Blocks::byId(blockId).weight();
+			QCoreApplication::sendEvent(m_player,
+			new InventoryChangedEvent(InventoryChangedEventId, m_player->id(), m_inventorySlots[i].id, m_inventorySlots[i].quantity));
 			return true;
 		}
 	}

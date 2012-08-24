@@ -61,7 +61,8 @@ SOURCES += main.cpp\
 				server/events/PlayerChunkEvent.cpp \
 				server/events/PlayerBlockEvent.cpp \
 				server/events/BlockChangedEvent.cpp \
-				server/ClientServer.cpp
+				server/ClientServer.cpp \
+    server/events/InventoryChangedEvent.cpp
 
 HEADERS  += \
 								PhysicObject.h \
@@ -113,7 +114,8 @@ HEADERS  += \
 				server/events/PlayerChunkEvent.h \
 				server/events/PlayerBlockEvent.h \
 				server/events/BlockChangedEvent.h \
-				server/ClientServer.h
+				server/ClientServer.h \
+    server/events/InventoryChangedEvent.h
 
 FORMS    += \
 								gui/ui/ConnectDialog.ui \

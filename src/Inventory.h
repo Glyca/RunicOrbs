@@ -1,6 +1,8 @@
 #ifndef INVENTORY_H
 #define INVENTORY_H
 
+class Player;
+
 const int NUMBER_OF_INVENTORY_SLOTS = 30;
 
 /*! A slot of an inventory */
@@ -12,7 +14,7 @@ struct InventorySlot {
 class Inventory
 {
 public:
-	Inventory(int maxWeight);
+	Inventory(Player* parentPlayer, int maxWeight);
 
 	const InventorySlot& inventorySlot(int slotNumber) const;
 
@@ -28,6 +30,7 @@ public:
 	bool add(const int blockId, const int amount);
 
 private:
+	Player* m_player; //!< The Player this Inventory belongs to
 	InventorySlot m_inventorySlots[30]; //!< The slots of the inventory
 	int m_maxWeight;
 	int m_weight; //!< The total weight of all things this inventory contains
