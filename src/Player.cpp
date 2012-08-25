@@ -1,4 +1,4 @@
-#include "server/events/PlayerEvent.h"
+#include "server/events/ToolSelectEvent.h"
 #include "Player.h"
 
 Player::Player(PhysicEngine* parentPhysicEngine, int id)
@@ -14,19 +14,25 @@ Player::~Player()
 
 bool Player::event(QEvent* event)
 {
+	BaseEvent* baseEvent = dynamic_cast<BaseEvent*>(event);
+	if(baseEvent != 0) {
+		emit eventReceived(baseEvent);
+	}
+
 	PlayerEvent* playerEvent = dynamic_cast<PlayerEvent*>(event);
 	if(playerEvent != 0) {
 		if(playerEvent->playerId() == this->id()) // This event is for this Player
 		{
-			emit eventReceived(playerEvent);
-
 			if(playerEvent->type() == InventoryChangedEventId) {
+				emit inventoryChanged();
+			}
+
+			else if(playerEvent->type() == ToolSelectEventId) {
+				setSelectedSlot(static_cast<ToolSelectEvent*>(playerEvent)->slot());
 				emit inventoryChanged();
 			}
 		}
 	}
-
-
 }
 
 Vector Player::eyePosition()

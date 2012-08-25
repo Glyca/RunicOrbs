@@ -6,6 +6,7 @@
 #include "OpenGLBuffer.h"
 #include "PhysicEngine.h"
 #include "ServerConnector.h"
+#include "server/events/ToolSelectEvent.h"
 #include "version.h"
 
 const int WEIGHT_BAR_HEIGHT = 30; //!< The height of the charge bar, all margins included
@@ -442,7 +443,19 @@ void GameWindow::mousePressEvent(QMouseEvent* mouseEvent)
 void GameWindow::wheelEvent(QWheelEvent* wheelEvent)
 {
 	int step = wheelEvent->delta() / 120;
-	m_connector->selectSlot(m_connector->me()->selectedSlot() - step); // The check of the id validity is done in this function, so we don't care of it here
+	int newWantedSlot = m_connector->me()->selectedSlot() - step;
+
+	// Check that the slot id we demand is valid
+	if(newWantedSlot < 0) {
+		newWantedSlot = VIEWABLE_INVENTORY_SIZE - 1;
+	}
+	if(newWantedSlot >= (int)VIEWABLE_INVENTORY_SIZE) {
+		newWantedSlot = 0;
+	}
+
+	ToolSelectEvent* event = new ToolSelectEvent(ToolSelectEventId, m_connector->me()->id(), newWantedSlot, 0);
+	m_connector->postEventToServer(event);
+
 	wheelEvent->accept();
 	drawInventoryPixmap();
 }

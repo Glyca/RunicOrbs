@@ -63,7 +63,8 @@ SOURCES += main.cpp\
 				server/events/BlockChangedEvent.cpp \
 				server/ClientServer.cpp \
 				server/events/InventoryChangedEvent.cpp \
-				gui/ui/LoadingWidget.cpp
+				gui/ui/LoadingWidget.cpp \
+    server/events/ToolSelectEvent.cpp
 
 HEADERS  += \
 								PhysicObject.h \
@@ -117,7 +118,8 @@ HEADERS  += \
 				server/events/BlockChangedEvent.h \
 				server/ClientServer.h \
 				server/events/InventoryChangedEvent.h \
-				gui/ui/LoadingWidget.h
+				gui/ui/LoadingWidget.h \
+    server/events/ToolSelectEvent.h
 
 FORMS    += \
 								gui/ui/ConnectDialog.ui \

@@ -34,8 +34,6 @@ public:
 	void pickBlock();
 	/*! Place a block on the pointed emplacement */
 	void useBlock();
-	/*! Select a slot of the inventory */
-	void selectSlot(const int selectedSlot);
 
 	void setViewDistance(const int distance);
 
@@ -51,6 +49,8 @@ signals:
 public slots:
 	/*! Load and unload chunks arround the player */
 	void loadAndPruneChunks();
+
+	void playerReceivedEvent(BaseEvent* baseEvent);
 
 private:
 	Server* m_server; //!< The server we are talking to

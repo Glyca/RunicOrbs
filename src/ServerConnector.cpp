@@ -78,6 +78,11 @@ void ServerConnector::loadAndPruneChunks()
 	}
 }
 
+void ServerConnector::playerReceivedEvent(BaseEvent* baseEvent)
+{
+
+}
+
 void ServerConnector::loadChunk(const ChunkPosition& chunkPosition)
 {
 	postEventToServer(new PlayerChunkEvent(Connect_PlayerChunkEventId, i_worldId, chunkPosition, me()->id()));
@@ -100,20 +105,6 @@ void ServerConnector::useBlock()
 	BlockPosition blockPosition = me()->pointedFreeBlock();
 	ChunkPosition chunkPosition = world()->chunkPosition(blockPosition);
 	postEventToServer(new PlayerBlockEvent(Place_PlayerBlockEventId, i_worldId, chunkPosition, blockPosition, me()->id()));
-}
-
-void ServerConnector::selectSlot(const int selectedSlot)
-{
-/*	// Check that the slot id we demand is valid
-	int newSelectedSlot = selectedSlot;
-	if(newSelectedSlot < 0) {
-		newSelectedSlot = VIEWABLE_INVENTORY_SIZE - 1;
-	}
-	if(newSelectedSlot >= (int)VIEWABLE_INVENTORY_SIZE) {
-		newSelectedSlot = 0;
-	}
-	SlotSelectEvent* event = new SlotSelectEvent(newSelectedSlot, me());
-	emit postEvent(event);*/
 }
 
 void ServerConnector::setViewDistance(const int distance)

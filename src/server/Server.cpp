@@ -2,6 +2,7 @@
 
 #include "server/events/BlockEvent.h"
 #include "Log.h"
+#include "server/events/PlayerEvent.h"
 #include "Server.h"
 #include "version.h"
 
@@ -20,6 +21,19 @@ Server::~Server()
 const PhysicObject* Server::po(const int id) const
 {
 	return m_world->po(id);
+}
+
+bool Server::baseEvent(BaseEvent* baseEvent)
+{
+	PlayerEvent* playerEvent = dynamic_cast<PlayerEvent*>(baseEvent); // Send player events to their recipients
+	if(playerEvent != 0) {
+		Player* recipient = player(playerEvent->playerId());
+		if(recipient != NULL) {
+			return QCoreApplication::sendEvent(recipient, playerEvent);
+		}
+	}
+
+	return false;
 }
 
 bool Server::worldEvent(WorldEvent* worldEvent)

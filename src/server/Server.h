@@ -16,6 +16,7 @@ public:
 	/*! Return a const reference to a physic object of the server */
 	const PhysicObject* po(const int id) const;
 
+	virtual bool baseEvent(BaseEvent* baseEvent);
 	virtual bool worldEvent(WorldEvent* worldEvent);
 	virtual bool chunkEvent(ChunkEvent* chunkEvent);
 	virtual bool blockEvent(BlockEvent* blockEvent);
