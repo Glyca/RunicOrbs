@@ -59,6 +59,8 @@ bool Inventory::addOne(const int blockId)
 			m_inventorySlots[i].id = blockId;
 			m_inventorySlots[i].quantity++;
 			m_weight += Blocks::byId(blockId).weight();
+			QCoreApplication::sendEvent(m_player,
+			new InventoryChangedEvent(InventoryChangedEventId, m_player->id(), m_inventorySlots[i].id, m_inventorySlots[i].quantity));
 			return true;
 		}
 	}
@@ -79,6 +81,8 @@ bool Inventory::removeOne(const int blockId)
 			if(m_inventorySlots[i].quantity == 0) {
 				m_inventorySlots[i].id = 0;
 			}
+			QCoreApplication::sendEvent(m_player,
+			new InventoryChangedEvent(InventoryChangedEventId, m_player->id(), m_inventorySlots[i].id, m_inventorySlots[i].quantity));
 			return true;
 		}
 	}

@@ -44,6 +44,10 @@ signals:
 	and for a multiplayer game, this is connected to a slot of the associated ClientHandler */
 	void eventReceived(BaseEvent* baseEvent);
 
+	/*! This signal is emitted when the Inventory of the Player has changed
+	  Usually, we redraw the inventory */
+	void inventoryChanged();
+
 private:
 	Inventory* m_inventory; //!< The inventory of the player
 	unsigned int i_selectedSlot; //!< Which slot of his inventory the player have selected

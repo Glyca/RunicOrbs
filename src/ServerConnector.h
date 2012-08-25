@@ -47,8 +47,6 @@ public:
 signals:
 	/*! Fired when connected to the server */
 	void connected();
-	/*! Fired when we must redraw the inventory */
-	void inventoryChanged();
 
 public slots:
 	/*! Load and unload chunks arround the player */

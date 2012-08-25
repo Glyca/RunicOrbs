@@ -19,8 +19,14 @@ bool Player::event(QEvent* event)
 		if(playerEvent->playerId() == this->id()) // This event is for this Player
 		{
 			emit eventReceived(playerEvent);
+
+			if(playerEvent->type() == InventoryChangedEventId) {
+				emit inventoryChanged();
+			}
 		}
 	}
+
+
 }
 
 Vector Player::eyePosition()

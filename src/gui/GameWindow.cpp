@@ -54,7 +54,7 @@ GameWindow::GameWindow(ServerConnector* connector)
 	// Every second, we load and prune the chunks
 	connect(t_secondTimer, SIGNAL(timeout()), m_connector, SLOT(loadAndPruneChunks()));
 	// Be notified when the inventory changes in order to redraw it
-	connect(m_connector, SIGNAL(inventoryChanged()), this, SLOT(drawInventoryPixmap()));
+	connect(m_connector->me(), SIGNAL(inventoryChanged()), this, SLOT(drawInventoryPixmap()));
 }
 
 GameWindow::~GameWindow()
