@@ -62,8 +62,8 @@ SOURCES += main.cpp\
 				server/events/PlayerBlockEvent.cpp \
 				server/events/BlockChangedEvent.cpp \
 				server/ClientServer.cpp \
-    server/events/InventoryChangedEvent.cpp \
-    gui/ui/LoadingWidget.cpp
+				server/events/InventoryChangedEvent.cpp \
+				gui/ui/LoadingWidget.cpp
 
 HEADERS  += \
 								PhysicObject.h \
@@ -116,8 +116,8 @@ HEADERS  += \
 				server/events/PlayerBlockEvent.h \
 				server/events/BlockChangedEvent.h \
 				server/ClientServer.h \
-    server/events/InventoryChangedEvent.h \
-    gui/ui/LoadingWidget.h
+				server/events/InventoryChangedEvent.h \
+				gui/ui/LoadingWidget.h
 
 FORMS    += \
 								gui/ui/ConnectDialog.ui \
@@ -125,12 +125,15 @@ FORMS    += \
 								gui/ui/ServerWidget.ui \
 								gui/ui/Home.ui
 
-OTHER_FILES += ../README.md
+OTHER_FILES += ../README.md \
+				ressources.rc
 
 # Add translations here (in the UTF-8 format)
 TRANSLATIONS = ../lang/craftux_fr.ts
 
 CODECFORTR = UTF-8
+
+RC_FILE = ressources.rc
 
 # Now necessary for glu*() calls
 unix {

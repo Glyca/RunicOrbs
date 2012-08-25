@@ -1,5 +1,6 @@
 ﻿#include <ctime>
 #include <iostream> // std::cout
+#include <QIcon>
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTextCodec>
@@ -30,7 +31,10 @@ int main(int argc, char *argv[])
 	craftuxTranslator.load("craftux_" + QLocale::system().name(), a.applicationDirPath() + "/lang/");
 	a.installTranslator(&craftuxTranslator);
 
-	Home w;
-	w.show();
+	a.setWindowIcon(QIcon(a.applicationDirPath() + "/gfx/icon.png"));
+
+	Home home;
+	home.show();
+
 	return a.exec();
 }
