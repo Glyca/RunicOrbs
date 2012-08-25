@@ -3,7 +3,8 @@
 
 #include "PlayerEvent.h"
 
-/*! This event is sended when a Player choses a new tool/slot of this inventory */
+/*! This event is sended when a Player choses a new tool/slot of this inventory
+	Tool paramter is only required when talking to the _other_ players to notice them */
 class ToolSelectEvent : public PlayerEvent
 {
 public:
