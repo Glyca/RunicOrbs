@@ -4,7 +4,7 @@
 Player::Player(PhysicEngine* parentPhysicEngine, int id)
 	: Entity(parentPhysicEngine, id), m_inventory(new Inventory(this, 1000)), i_selectedSlot(0)
 {
-	setMass(70.0);
+	setMass(100.0); // deliberately high
 }
 
 Player::~Player()
