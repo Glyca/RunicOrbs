@@ -2,6 +2,7 @@
 #define CONNECTDIALOG_H
 
 #include <QDialog>
+#include <QListWidgetItem>
 
 class QAbstractButton;
 class ServerConnector;
@@ -16,13 +17,18 @@ class ConnectDialog : public QDialog
 
 public:
 	explicit ConnectDialog(QWidget *parent = 0);
-	~ConnectDialog();
+	virtual ~ConnectDialog();
 
 public slots:
 	void onClick(QAbstractButton*);
+	void selectServer(QListWidgetItem*);
 	void startGame();
 
 private:
+	/*! Load last servers from the disk */
+	void loadServers();
+	void saveServers();
+
 	Ui::ConnectDialog *ui;
 	ServerConnector* m_connectorToBeUsed;
 };
