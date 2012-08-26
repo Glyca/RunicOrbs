@@ -27,7 +27,7 @@ void ConnectDialog::onClick(QAbstractButton* button)
 {
 	if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
 		LoadingWidget loadingWidget;
-		ClientServer* clientServer = new ClientServer(ui->adressLineEdit->text(), ui->portSpinBox->value());
+		ClientServer* clientServer = new ClientServer(ui->adressLineEdit->text(), ui->portSpinBox->value(), ui->nameLineEdit->text());
 
 		if(clientServer->connect()) {
 			m_connectorToBeUsed = new ServerConnector(clientServer);

@@ -5,35 +5,62 @@
 <context>
     <name>ClientHandler</name>
     <message>
-        <location filename="../src/server/ClientHandler.cpp" line="57"/>
+        <location filename="../src/server/ClientHandler.cpp" line="64"/>
         <source>The host was not found. Please check the host name and port settings.</source>
         <translation>L&apos;hôte est introuvable. Veuillez vérifier l&apos;adresse et le port.</translation>
     </message>
     <message>
-        <location filename="../src/server/ClientHandler.cpp" line="60"/>
+        <location filename="../src/server/ClientHandler.cpp" line="67"/>
         <source>The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.</source>
         <translation>L&apos;hôte a refusé la connection. Assurez-vous que le serveur est lancé et vérifiez que l&apos;adresse et le port sont corrects.</translation>
     </message>
     <message>
-        <location filename="../src/server/ClientHandler.cpp" line="66"/>
+        <location filename="../src/server/ClientHandler.cpp" line="73"/>
         <source>The following error occurred: %1.</source>
         <translation>L&apos;erreur suivante s&apos;est produite : %1.</translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientHandler.cpp" line="82"/>
+        <source>version: OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientHandler.cpp" line="93"/>
+        <source>nickname &quot;%1&quot; : OK</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ClientServer</name>
     <message>
-        <location filename="../src/server/ClientServer.cpp" line="39"/>
+        <location filename="../src/server/ClientServer.cpp" line="38"/>
+        <source>Your version of the game doesn&apos;t math server&apos;s one.
+Please update the game.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientServer.cpp" line="44"/>
+        <source>Your nickname is already used or is forbidden.
+Please use another one.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientServer.cpp" line="78"/>
+        <source>The server has closed the connection unexpectedly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/server/ClientServer.cpp" line="88"/>
         <source>The host was not found. Please check the host name and port settings.</source>
         <translation>L&apos;hôte est introuvable. Veuillez vérifier l&apos;adresse et le port.</translation>
     </message>
     <message>
-        <location filename="../src/server/ClientServer.cpp" line="43"/>
+        <location filename="../src/server/ClientServer.cpp" line="92"/>
         <source>The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.</source>
         <translation>L&apos;hôte a refusé la connection. Assurez-vous que le serveur est lancé et vérifiez que l&apos;adresse et le port sont corrects.</translation>
     </message>
     <message>
-        <location filename="../src/server/ClientServer.cpp" line="50"/>
+        <location filename="../src/server/ClientServer.cpp" line="99"/>
         <source>The following error occurred: %1.</source>
         <translation>L&apos;erreur suivante s&apos;est produite : %1.</translation>
     </message>

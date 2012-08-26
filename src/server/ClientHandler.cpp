@@ -2,8 +2,10 @@
 
 #include "ClientHandler.h"
 #include "Log.h"
+#include "version.h"
 
-ClientHandler::ClientHandler(int socketDescriptor, MultiplayerServer* server) : m_parentServer(server), b_socketCreated(false), i_socketDescriptor(socketDescriptor)
+ClientHandler::ClientHandler(int socketDescriptor, MultiplayerServer* server)
+	: m_parentServer(server), b_socketCreated(false), i_socketDescriptor(socketDescriptor)
 {
 }
 
@@ -13,6 +15,11 @@ ClientHandler::~ClientHandler()
 		m_socket->disconnectFromHost();
 		delete m_socket;
 	}
+}
+
+QTcpSocket& ClientHandler::socket()
+{
+	return *m_socket;
 }
 
 void ClientHandler::bind()
@@ -38,9 +45,9 @@ void ClientHandler::connected()
 	ldebug(Channel_Server, "Client connected!");
 }
 
-void ClientHandler::readyRead()
+void ClientHandler::readyRead() // There is some data to read
 {
-	ldebug(Channel_Server, QString("Received data: %1").arg(QString(m_socket->readAll())));
+	NetworkTalker::readyRead();
 }
 
 void ClientHandler::disconnected()
@@ -65,4 +72,45 @@ void ClientHandler::error(QAbstractSocket::SocketError socketError)
 	default:
 		lwarning(Channel_Server, tr("The following error occurred: %1.").arg(m_socket->errorString()));
 	}
+}
+
+void ClientHandler::readPacket(QByteArray& data)
+{
+	if(!b_versionConfirmed) {
+		if(QByteArray(TRO_VERSION) == data)
+		{
+			ldebug(Channel_Server, tr("version: OK"));
+			b_versionConfirmed = true;
+		}
+		else {
+			sendPacket(QByteArray(BAD_VERSION));
+			disconnect();
+		}
+	}
+
+	else if(!b_identityConfirmed) {
+		if(true) { // nickname validity check
+			ldebug(Channel_Server, tr("nickname \"%1\" : OK").arg(QString::fromUtf8(data)));
+			b_identityConfirmed = true;
+		}
+		else {
+			sendPacket(QByteArray(BAD_NICKNAME));
+			disconnect();
+		}
+	}
+
+	else {
+		NetworkTalker::readPacket(data);
+	}
+}
+
+void ClientHandler::processReadEvent(BaseEvent* event)
+{
+	Q_UNUSED(event);
+}
+
+void ClientHandler::disconnect()
+{
+	m_socket->waitForBytesWritten();
+	m_socket->disconnectFromHost();
 }

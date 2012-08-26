@@ -9,7 +9,7 @@ enum EventId {
 	ChunkEventId = 3000,
 
 	PlayerEventId = 4000,
-	PlayerDropEventId = 4000,
+	PlayerDropEventId = 4001,
 
 	InventoryChangedEventId = 4010,
 
@@ -20,7 +20,8 @@ enum EventId {
 	Disconnect_PlayerChunkEventId = 4102,
 
 	BlockEventId = 5000,
-	BlockChangedEventId = 5001,
+
+	BlockChangedEventId = 5010,
 
 	PlayerBlockEventId = 6000,
 	Pick_PlayerBlockEventId = 6001,
