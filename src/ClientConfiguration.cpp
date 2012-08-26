@@ -14,13 +14,19 @@ ClientConfiguration::ClientConfiguration() : AbstractConfiguration()
 ClientConfiguration::ClientConfiguration(const QString& filename) : AbstractConfiguration(filename)
 {
 	Q_UNUSED(filename);
+	initKeyMap();
 	defaultValues(); // Set the defaults
+}
+
+ClientConfiguration::~ClientConfiguration()
+{
+	delete[] i_keyMap;
 }
 
 void ClientConfiguration::initKeyMap()
 {
-	i_keyMap=new int[NBVAL];
-	for(int i=0;i<=NBVAL;i++)
+	i_keyMap = new int[NBVAL];
+	for(int i = 0; i < NBVAL; i++)
 		i_keyMap[i]=32;
 }
 
@@ -41,6 +47,7 @@ void ClientConfiguration::defaultValues()
 	i_keyMap[DOWN] = 's'-32;
 	i_keyMap[RIGHT] = 'd'-32;
 	i_keyMap[JUMP] = 32;
+	i_keyMap[DROP] = 'x'-32;
 	i_viewDistance = 2;
 	b_smoothShades = true;
 	b_antialiasing = true;
@@ -63,6 +70,7 @@ void ClientConfiguration::load()
 		save();
 		return;
 	}
+
 	if (!doc.setContent(&file)) {
 		qCritical() << QObject::tr("Can't parse client configuration file %1").arg(s_filename);
 		file.close();
@@ -161,6 +169,10 @@ void ClientConfiguration::load()
 								{
 									i_keyMap[JUMP]=moveChildNode.text().toInt();
 								}
+								else if(moveChildNode.tagName() == "drop")
+								{
+									i_keyMap[DROP]=moveChildNode.text().toInt();
+								}
 								moveChildNode = moveChildNode.nextSiblingElement();
 							}
 						}
@@ -236,6 +248,9 @@ void ClientConfiguration::save() const
 	QDomElement jumpNode = doc.createElement("jump");
 	jumpNode.appendChild( doc.createTextNode(QVariant(i_keyMap[JUMP]).toString()) );
 	moveNode.appendChild(jumpNode);
+	QDomElement dropNode = doc.createElement("drop");
+	dropNode.appendChild( doc.createTextNode(QVariant(i_keyMap[DROP]).toString()) );
+	moveNode.appendChild(dropNode);
 
 	keyNode.appendChild(moveNode);
 

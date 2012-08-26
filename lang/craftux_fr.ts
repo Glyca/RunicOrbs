@@ -23,17 +23,17 @@
 <context>
     <name>ClientServer</name>
     <message>
-        <location filename="../src/server/ClientServer.cpp" line="38"/>
+        <location filename="../src/server/ClientServer.cpp" line="39"/>
         <source>The host was not found. Please check the host name and port settings.</source>
         <translation>L&apos;hôte est introuvable. Veuillez vérifier l&apos;adresse et le port.</translation>
     </message>
     <message>
-        <location filename="../src/server/ClientServer.cpp" line="42"/>
+        <location filename="../src/server/ClientServer.cpp" line="43"/>
         <source>The connection was refused by the peer. Make sure the server is running, and check that the host name and port settings are correct.</source>
         <translation>L&apos;hôte a refusé la connection. Assurez-vous que le serveur est lancé et vérifiez que l&apos;adresse et le port sont corrects.</translation>
     </message>
     <message>
-        <location filename="../src/server/ClientServer.cpp" line="49"/>
+        <location filename="../src/server/ClientServer.cpp" line="50"/>
         <source>The following error occurred: %1.</source>
         <translation>L&apos;erreur suivante s&apos;est produite : %1.</translation>
     </message>
@@ -82,10 +82,9 @@
         <translation>Derniers serveurs</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/ConnectDialog.cpp" line="21"/>
         <source>Connecting to the server
 Please wait...</source>
-        <translation>Connection au serveur
+        <translation type="obsolete">Connection au serveur
 Veuillez patienter...</translation>
     </message>
 </context>
@@ -154,27 +153,27 @@ veuillez mettre à jour vos pilotes de carte graphique.</translation>
         <translation type="obsolete">OpenGL initialisé en version %d.%d</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="70"/>
+        <location filename="../src/gui/GameWindow.cpp" line="71"/>
         <source>Initialized OpenGL, version %1.%2</source>
         <translation>OpenGL initialisé en version %1.%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="71"/>
+        <location filename="../src/gui/GameWindow.cpp" line="72"/>
         <source>OpenGL driver: %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</source>
         <translation>Pilote OpenGL : %1 | %2 | %3 | GL_MAX_TEXTURE_SIZE = %4</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="142"/>
+        <location filename="../src/gui/GameWindow.cpp" line="143"/>
         <source>FPS</source>
         <translation> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="145"/>
+        <location filename="../src/gui/GameWindow.cpp" line="146"/>
         <source>Position : </source>
         <translation>Position : </translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="281"/>
+        <location filename="../src/gui/GameWindow.cpp" line="282"/>
         <source>Charge</source>
         <translation>Charge</translation>
     </message>
@@ -183,7 +182,7 @@ veuillez mettre à jour vos pilotes de carte graphique.</translation>
         <translation type="obsolete"> IPS</translation>
     </message>
     <message>
-        <location filename="../src/gui/GameWindow.cpp" line="167"/>
+        <location filename="../src/gui/GameWindow.cpp" line="168"/>
         <source>The game is paused
 
 You can resume by pressing ESCAPE or quit with C.</source>
@@ -208,45 +207,49 @@ Vous pouvez reprendre la partie en appuyant sur ECHAP ou quitter avec C.</transl
         <translation type="obsolete">http://www.runicorbs.net/</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="43"/>
-        <source>http://www.runicorbs.net/ingame.php</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/ui/Home.ui" line="75"/>
+        <location filename="../src/gui/ui/Home.ui" line="70"/>
         <source>Play &amp;solo</source>
         <translation>Partie &amp;solo</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="82"/>
+        <location filename="../src/gui/ui/Home.ui" line="77"/>
         <source>Join a &amp;multiplayer game</source>
         <translation>Rejoindre une partie &amp;multijoueur</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="89"/>
+        <location filename="../src/gui/ui/Home.ui" line="84"/>
         <source>&amp;Host a game</source>
         <translation>&amp;Héberger une partie</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="96"/>
+        <location filename="../src/gui/ui/Home.ui" line="91"/>
         <source>&amp;Options</source>
         <translation>&amp;Options</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.ui" line="271"/>
+        <location filename="../src/gui/ui/Home.ui" line="266"/>
         <source>&amp;Quit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.cpp" line="31"/>
+        <location filename="../src/gui/ui/Home.cpp" line="37"/>
         <source>version %1</source>
         <translation>version %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/Home.cpp" line="45"/>
         <source>Loading your world
 Please wait...</source>
-        <translation>Chargement de votre monde
+        <translation type="obsolete">Chargement de votre monde
+Veuillez patienter...</translation>
+    </message>
+</context>
+<context>
+    <name>LoadingWidget</name>
+    <message>
+        <location filename="../src/gui/ui/LoadingWidget.cpp" line="9"/>
+        <source>Connecting to the server and loading your world
+Please wait...</source>
+        <translation>Connection au serveur et chargement de votre monde
 Veuillez patienter...</translation>
     </message>
 </context>
@@ -348,7 +351,12 @@ Veuillez patienter...</translation>
         <translation>Mipmaps (recommandé)</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="535"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="434"/>
+        <source>Drop object</source>
+        <translation>Lâcher un objet</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="545"/>
         <source>Credits</source>
         <translation>Crédits</translation>
     </message>
@@ -387,17 +395,17 @@ Veuillez patienter...</translation>
         <translation>Arrière</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="466"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="476"/>
         <source>Global</source>
         <translation>Global</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="495"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="505"/>
         <source>Music</source>
         <translation>Musique</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="524"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="534"/>
         <source>Effects</source>
         <translation>Effets</translation>
     </message>
@@ -421,7 +429,7 @@ Veuillez patienter...</translation>
         <translation>Sauter</translation>
     </message>
     <message>
-        <location filename="../src/gui/ui/OptionsDialog.ui" line="441"/>
+        <location filename="../src/gui/ui/OptionsDialog.ui" line="451"/>
         <source>Sound</source>
         <translation>Son</translation>
     </message>
@@ -438,12 +446,12 @@ Veuillez patienter...</translation>
         <translation type="obsolete">Aucun fichier de configuration trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="62"/>
+        <location filename="../src/ClientConfiguration.cpp" line="69"/>
         <source>No client configuration file founded. Creating a new one!</source>
         <translation>Aucun fichier de configuration du client trouvé. Création d&apos;un nouveau !</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="67"/>
+        <location filename="../src/ClientConfiguration.cpp" line="75"/>
         <source>Can&apos;t parse client configuration file %1</source>
         <translation>Impossible d&apos;analyser le fichier de configuration %1</translation>
     </message>
@@ -453,37 +461,37 @@ Veuillez patienter...</translation>
         <translation>Ceci est le fichier de configuration de Craftux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="181"/>
+        <location filename="../src/ClientConfiguration.cpp" line="193"/>
         <source>This is the configuration file of The Runic Orbs</source>
         <translation>Ceci est le fichier de configuration de The Runic Orbs</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="189"/>
+        <location filename="../src/ClientConfiguration.cpp" line="201"/>
         <source>General settings</source>
         <translation>Paramètres généraux</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="199"/>
+        <location filename="../src/ClientConfiguration.cpp" line="211"/>
         <source>Settings for gameplay</source>
         <translation>Paramètres de jeu</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="209"/>
+        <location filename="../src/ClientConfiguration.cpp" line="221"/>
         <source>Configure graphics</source>
         <translation>Configuration des graphismes</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="219"/>
+        <location filename="../src/ClientConfiguration.cpp" line="231"/>
         <source>Configure keymap</source>
         <translation>Mappage des touches</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="222"/>
+        <location filename="../src/ClientConfiguration.cpp" line="234"/>
         <source>Configure movement key</source>
         <translation>Mappage des touches du déplacement</translation>
     </message>
     <message>
-        <location filename="../src/ClientConfiguration.cpp" line="265"/>
+        <location filename="../src/ClientConfiguration.cpp" line="280"/>
         <source>Error opening client configuration file %1</source>
         <translation>Erreur lors de l&apos;ouverture du fichier de configuration client %1</translation>
     </message>
@@ -574,6 +582,11 @@ Veuillez patienter...</translation>
         <location filename="../src/server/MultiplayerServer.cpp" line="16"/>
         <source>Can&apos;t listen to port %1! Isn&apos;t the server already launched?</source>
         <translation>Impossible d&apos;écouter le port %1 ! Le serveur n&apos;est-il pas déjà lancé ?</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/ui/ConnectDialog.cpp" line="110"/>
+        <source>This file contains the last servers you played</source>
+        <translation>Ce fichier contient les derniers serveurs sur lesquels vous avez joué</translation>
     </message>
 </context>
 <context>

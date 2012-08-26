@@ -3,13 +3,12 @@
 #include <QCryptographicHash>
 
 
-OptionsDialog::OptionsDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::OptionsDialog)
+OptionsDialog::OptionsDialog(QWidget *parent)
+	: QDialog(parent), ui(new Ui::OptionsDialog)
 {
 	ui->setupUi(this);
 
-	configureMap();
+	fillAction2ButtonMap();
 
 	load();
 
@@ -24,12 +23,14 @@ OptionsDialog::OptionsDialog(QWidget *parent) :
 	connect(ui->buttonLeft, SIGNAL(clicked()), signalMapper, SLOT(map())) ;
 	connect(ui->buttonRight, SIGNAL(clicked()), signalMapper, SLOT(map())) ;
 	connect(ui->buttonJump, SIGNAL(clicked()), signalMapper, SLOT(map())) ;
+	connect(ui->buttonDrop, SIGNAL(clicked()), signalMapper, SLOT(map()));
 
-	signalMapper->setMapping(ui->buttonUp, UP) ;
-	signalMapper->setMapping(ui->buttonDown, DOWN) ;
-	signalMapper->setMapping(ui->buttonLeft, LEFT) ;
-	signalMapper->setMapping(ui->buttonRight, RIGHT) ;
-	signalMapper->setMapping(ui->buttonJump, JUMP) ;
+	signalMapper->setMapping(ui->buttonUp, UP);
+	signalMapper->setMapping(ui->buttonDown, DOWN);
+	signalMapper->setMapping(ui->buttonLeft, LEFT);
+	signalMapper->setMapping(ui->buttonRight, RIGHT);
+	signalMapper->setMapping(ui->buttonJump, JUMP);
+	signalMapper->setMapping(ui->buttonDrop, DROP);
 
 	connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(changeKey(int))) ;
 }
@@ -61,13 +62,13 @@ void OptionsDialog::refresh()
 	ui->seedLineEdit->setText(QVariant(config.getSeed()).toString());
 	ui->FPSSpinBox->setValue(config.getFps());
 
-	QMapIterator<Action,QPushButton*> i(ActionToButtonMap);
+	QMapIterator<Action,QPushButton*> i(m_actionToButtonMap);
 	 while (i.hasNext()) {
 		 i.next();
-		 ActionToButtonMap[(Action)i.key()]->setText(config.getKeyVal((Action)i.key()));
+		 m_actionToButtonMap[(Action)i.key()]->setText(config.getKeyVal((Action)i.key()));
 	 }
 
-	checkKey();
+	checkDoubleKey();
 
 	ui->viewDistanceSpinBox->setValue(config.getViewDistance());
 	ui->smoothShadesCheckBox->setChecked(config.getSmoothShades());
@@ -130,10 +131,10 @@ void OptionsDialog::keyPressEvent(QKeyEvent *event)
 			config.setKey((Action)reallocationKey,event->key());
 		refresh();
 	}
-	checkKey();
+	checkDoubleKey();
 }
 
-void OptionsDialog::checkKey()
+void OptionsDialog::checkDoubleKey()
 {
 	doubleKey=false;
 	QPushButton *okButton=ui->buttonBox->button(QDialogButtonBox::Ok);
@@ -160,13 +161,13 @@ void OptionsDialog::setButtonColor(Color color, Action action)
 	switch(color)
 	{
 	case RED:
-		ActionToButtonMap[action]->setStyleSheet("background-color:#ba0000;");
+		m_actionToButtonMap[action]->setStyleSheet("background-color:#ba0000;");
 		break;
 	case BLUE:
-		ActionToButtonMap[action]->setStyleSheet("background-color:#20acd6;");
+		m_actionToButtonMap[action]->setStyleSheet("background-color:#20acd6;");
 		break;
 	case DEFAULT:
-		ActionToButtonMap[action]->setStyleSheet("background-color:auto;");
+		m_actionToButtonMap[action]->setStyleSheet("background-color:auto;");
 		break;
 
 	}
@@ -174,18 +175,19 @@ void OptionsDialog::setButtonColor(Color color, Action action)
 
 void OptionsDialog::resetAllColor()
 {
-	QMapIterator<Action,QPushButton*> i(ActionToButtonMap);
+	QMapIterator<Action,QPushButton*> i(m_actionToButtonMap);
 	 while (i.hasNext()) {
 		 i.next();
 		 setButtonColor(DEFAULT,(Action)i.key());
 	 }
 }
 
-void OptionsDialog::configureMap()
+void OptionsDialog::fillAction2ButtonMap()
 {
-	ActionToButtonMap[UP]=ui->buttonUp;
-	ActionToButtonMap[DOWN]=ui->buttonDown;
-	ActionToButtonMap[LEFT]=ui->buttonLeft;
-	ActionToButtonMap[RIGHT]=ui->buttonRight;
-	ActionToButtonMap[JUMP]=ui->buttonJump;
+	m_actionToButtonMap[UP] = ui->buttonUp;
+	m_actionToButtonMap[DOWN] = ui->buttonDown;
+	m_actionToButtonMap[LEFT] = ui->buttonLeft;
+	m_actionToButtonMap[RIGHT] = ui->buttonRight;
+	m_actionToButtonMap[JUMP] = ui->buttonJump;
+	m_actionToButtonMap[DROP] = ui->buttonDrop;
 }

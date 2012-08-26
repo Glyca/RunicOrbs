@@ -347,8 +347,10 @@ void GameWindow::keyPressEvent(QKeyEvent* keyEvent)
 		if(keyEvent->key() == m_configuration->getKey(JUMP)) {
 			m_connector->me()->jump();
 		}
+		if(keyEvent->key() == m_configuration->getKey(DROP)) {
+			m_connector->postEventToServer(new PlayerEvent(PlayerDropEventId, m_connector->me()->id()));
+		}
 	}
-
 	GLWidget::keyPressEvent(keyEvent);
 }
 

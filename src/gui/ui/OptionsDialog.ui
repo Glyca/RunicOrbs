@@ -425,6 +425,16 @@
                </property>
               </widget>
              </item>
+             <item row="2" column="2">
+              <widget class="QPushButton" name="buttonDrop"/>
+             </item>
+             <item row="2" column="3">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Drop object</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
           </layout>

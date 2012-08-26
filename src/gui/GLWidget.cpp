@@ -25,6 +25,12 @@ GLWidget::GLWidget(const int framesPerSecond, QWidget *parent, const char *name,
 	t_secondTimer->start();
 }
 
+
+GLWidget::~GLWidget()
+{
+	delete t_secondTimer;
+}
+
 void GLWidget::resizeGL(int width, int height)
 {
 	i_winwidth = width; i_winheight = height;

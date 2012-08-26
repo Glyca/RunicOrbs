@@ -31,6 +31,10 @@ bool Player::event(QEvent* event)
 				setSelectedSlot(static_cast<ToolSelectEvent*>(playerEvent)->slot());
 				emit inventoryChanged();
 			}
+
+			else if(playerEvent->type() == PlayerDropEventId) {
+				takeOne(inventorySlot(selectedSlot()).id);  // will fire an InventoryChangedEvent
+			}
 		}
 	}
 }

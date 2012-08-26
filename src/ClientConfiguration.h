@@ -9,6 +9,7 @@ enum Action {
 	LEFT,
 	RIGHT,
 	JUMP,
+	DROP,
 	NBVAL
 };
 
@@ -18,6 +19,7 @@ class ClientConfiguration : public AbstractConfiguration
 public:
 	ClientConfiguration();
 	ClientConfiguration(const QString& filename);
+	virtual ~ClientConfiguration();
 
 	/*! Create tab */
 	void initKeyMap();

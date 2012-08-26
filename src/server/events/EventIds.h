@@ -9,6 +9,7 @@ enum EventId {
 	ChunkEventId = 3000,
 
 	PlayerEventId = 4000,
+	PlayerDropEventId = 4000,
 
 	InventoryChangedEventId = 4010,
 

@@ -38,19 +38,19 @@ private:
 		DEFAULT
 	};
 
-	QMap<Action,QPushButton*>ActionToButtonMap;
+	QMap<Action,QPushButton*> m_actionToButtonMap;
 
 	void load();
 	void save();
-	void checkKey();
+	void refresh();
+	void checkDoubleKey();
 	void setButtonColor(Color color,Action action);
 	void resetAllColor();
-	void configureMap();
+	void fillAction2ButtonMap();
 	Ui::OptionsDialog *ui;
 	int reallocationKey;
 	bool reallocation;
 	bool doubleKey; /*! If there is two meaning for one key */
-	void refresh();
 };
 
 #endif // OPTIONSDIALOG_H

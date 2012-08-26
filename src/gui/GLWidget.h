@@ -9,6 +9,7 @@ class GLWidget : public QGLWidget
 	Q_OBJECT
 public:
 	explicit GLWidget(const int framesPerSecond = 60, QWidget *parent = 0, const char *name = "CrafTuX", QGLFormat format = GLWidget::defaultFormat());
+	virtual ~GLWidget();
 	virtual void resizeGL(int width, int height);
 	virtual void keyPressEvent(QKeyEvent* keyEvent);
 
@@ -17,7 +18,7 @@ public:
 	static QGLFormat defaultFormat();
 
 public slots:
-	virtual void timeOutSlot();
+	void timeOutSlot();
 	void secondTimerTimeout();
 
 protected:
