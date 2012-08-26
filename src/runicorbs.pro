@@ -133,7 +133,7 @@ OTHER_FILES += ../README.md \
 				ressources.rc
 
 # Add translations here (in the UTF-8 format)
-TRANSLATIONS = ../lang/craftux_fr.ts
+TRANSLATIONS = ../lang/fr.ts
 
 CODECFORTR = UTF-8
 
@@ -154,7 +154,7 @@ QMAKE_LFLAGS_RELEASE += -Wl,-O3 -O3
 
 # Enable to check size of functions and ASM
 #QMAKE_CXXFLAGS += -save-temps -fverbose-asm
-#QMAKE_LFLAGS = -Wl,-Map,craftux.map
+#QMAKE_LFLAGS = -Wl,-Map,runicorbs.map
 
 # Enable this in order to profile the code with callgrind
 #QMAKE_CXXFLAGS += -g

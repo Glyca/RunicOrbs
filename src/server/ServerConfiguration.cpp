@@ -53,14 +53,14 @@ void ServerConfiguration::load()
 	QDomElement rootNode = doc.documentElement(); // Access to the first child
 	while(!rootNode.isNull())
 	{
-		if(rootNode.tagName() == "craftux")
+		if(rootNode.tagName() == "runicorbs")
 		{
-			QDomElement craftuxNode = rootNode.firstChildElement();
-			while(!craftuxNode.isNull())
+			QDomElement runicorbsNode = rootNode.firstChildElement();
+			while(!runicorbsNode.isNull())
 			{
-				if(craftuxNode.tagName() == "network")
+				if(runicorbsNode.tagName() == "network")
 				{
-					QDomElement networkNode = craftuxNode.firstChildElement();
+					QDomElement networkNode = runicorbsNode.firstChildElement();
 					while(!networkNode.isNull())
 					{
 						if(networkNode.tagName() == "port") // Parse server port
@@ -70,7 +70,7 @@ void ServerConfiguration::load()
 						networkNode = networkNode.nextSiblingElement();
 					}
 				}
-				craftuxNode = craftuxNode.nextSiblingElement();
+				runicorbsNode = runicorbsNode.nextSiblingElement();
 			}
 		}
 		rootNode = rootNode.nextSiblingElement();
@@ -84,7 +84,7 @@ void ServerConfiguration::save() const
 	doc.appendChild(doc.createComment(QObject::tr("This is the Craftux configuration file")));
 	doc.appendChild(doc.createTextNode("\n")); // for nicer output
 
-	QDomElement rootNode = doc.createElement("craftux");
+	QDomElement rootNode = doc.createElement("runicorbs");
 	doc.appendChild(rootNode);
 
 	QDomElement networkNode = doc.createElement("network");

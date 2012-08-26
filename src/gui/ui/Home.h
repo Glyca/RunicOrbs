@@ -1,5 +1,5 @@
-﻿#ifndef CRAFTUXHOME_H
-#define CRAFTUXHOME_H
+﻿#ifndef HOME_H
+#define HOME_H
 
 #include <QWidget>
 
@@ -10,7 +10,7 @@ namespace Ui {
 	class Home;
 }
 
-/*! The main menu of Craftux */
+/*! The main menu of The Runic Orbs */
 class Home : public QWidget
 {
 	Q_OBJECT
@@ -35,4 +35,4 @@ private:
 	ServerWidget* m_serverWidget;
 };
 
-#endif // CRAFTUXHOME_H
+#endif // HOME_H

@@ -27,9 +27,9 @@ int main(int argc, char *argv[])
 					   QLibraryInfo::location(QLibraryInfo::TranslationsPath) );
 	a.installTranslator(&qtTranslator);
 
-	QTranslator craftuxTranslator;
-	craftuxTranslator.load("craftux_" + QLocale::system().name(), a.applicationDirPath() + "/lang/");
-	a.installTranslator(&craftuxTranslator);
+	QTranslator theRunicOrbsTranslator;
+	theRunicOrbsTranslator.load(QLocale::system().name(), a.applicationDirPath() + "/lang/");
+	a.installTranslator(&theRunicOrbsTranslator);
 
 	a.setWindowIcon(QIcon(a.applicationDirPath() + "/gfx/icon.png"));
 
