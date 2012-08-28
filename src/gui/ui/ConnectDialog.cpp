@@ -79,6 +79,7 @@ void ConnectDialog::loadServers()
 				if(childNode.tagName() == "name")
 				{
 					ui->nameLineEdit->setText(childNode.text());
+					ui->adressLineEdit->setFocus(); // Since we have the name, focus on the adressLineEdit
 				}
 				childNode = childNode.nextSiblingElement();
 			}
@@ -101,7 +102,8 @@ void ConnectDialog::saveServers()
 	rootNode.appendChild(serversNode);
 
 	QDomElement firstServerNode = doc.createElement("server");
-	firstServerNode.appendChild( doc.createTextNode(ui->adressLineEdit->text() + ":" + QString::number(ui->portSpinBox->value())) );
+	QString newServerLine = ui->adressLineEdit->text() + ":" + QString::number(ui->portSpinBox->value());
+			firstServerNode.appendChild( doc.createTextNode(newServerLine) );
 	serversNode.appendChild(firstServerNode);
 
 	int nbOfSavedServers = 0;
@@ -111,9 +113,12 @@ void ConnectDialog::saveServers()
 		QListWidgetItem* item = ui->listWidget->takeItem(0);
 		if(item != 0)
 		{
-			QDomElement serverNode = doc.createElement("server");
-			serverNode.appendChild( doc.createTextNode(item->text()) );
-			serversNode.appendChild(serverNode);
+			if(item->text() != newServerLine) // If it isn't the new server, save it
+			{
+				QDomElement serverNode = doc.createElement("server");
+				serverNode.appendChild( doc.createTextNode(item->text()) );
+				serversNode.appendChild(serverNode);
+			}
 			nbOfSavedServers++;
 		}
 		else

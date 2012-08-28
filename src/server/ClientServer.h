@@ -30,8 +30,6 @@ signals:
 
 private:
 	bool event(QEvent* event);
-	//virtual bool baseEvent(BaseEvent* baseEvent);
-	//virtual bool worldEvent(WorldEvent* worldEvent); //!< To redirect all events to baseEvent
 
 	virtual QTcpSocket& socket();
 	virtual void readPacket(QByteArray& data);

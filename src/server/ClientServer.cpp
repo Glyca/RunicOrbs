@@ -45,22 +45,6 @@ bool ClientServer::event(QEvent* event)
 	}
 }
 
-/*bool ClientServer::baseEvent(BaseEvent* baseEvent)
-{
-	if(!baseEvent->transmitted()) {
-		sendEvent(baseEvent);
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool ClientServer::worldEvent(WorldEvent* worldEvent)
-{
-	return false;
-}*/
-
 QTcpSocket& ClientServer::socket()
 {
 	return m_socket;

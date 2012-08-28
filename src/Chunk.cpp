@@ -10,7 +10,7 @@
 #include "World.h"
 
 Chunk::Chunk(World* parentWorld, ChunkPosition position)
-	: EventReadyObject(parentWorld), m_world(parentWorld), m_state(ChunkState_Idle), b_dirty(true), b_compressed(false), m_position(position)
+	: EventReadyObject(parentWorld), m_world(parentWorld), m_state(ChunkState_Idle), b_dirty(true), m_position(position)
 {
 	p_BlockInfos = new BlockInfo[CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE];
 
@@ -88,7 +88,6 @@ void Chunk::activate(const QByteArray& data)
 void Chunk::compress()
 {
 	QWriteLocker wLocker(&m_rwLock);
-	b_compressed = false;
 	fba_compressedChunk = QtConcurrent::run(qCompress, (uchar*)p_BlockInfos, CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE * sizeof(BlockInfo), 9);
 	fba_compressedChunkWatcher.setFuture(fba_compressedChunk);
 }
@@ -96,7 +95,6 @@ void Chunk::compress()
 void Chunk::onCompressed()
 {
 	QWriteLocker wLocker(&m_rwLock);
-	b_compressed = true;
 
 	foreach (quint32 playerId, m_playersWantCompressedChunk) {
 		// SEND COMPRESSED CHUNK DATA TO PLAYER
@@ -171,7 +169,6 @@ void Chunk::makeDirty()
 {
 	QWriteLocker locker(&m_rwLock);
 	b_dirty = true;
-	b_compressed = false;
 	emit dirtied();
 }
 

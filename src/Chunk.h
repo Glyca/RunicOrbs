@@ -86,7 +86,6 @@ private:
 	ChunkState m_state;
 	bool b_dirty; //!< If we need to redraw the chunk
 
-	bool b_compressed;
 	QFuture<QByteArray> fba_compressedChunk; //!< The chunk, compressed if != NULL
 	QFutureWatcher<void> fba_compressedChunkWatcher;
 	QList<quint32> m_playersWantCompressedChunk; //!< A list of players who want to be informed when a chunk has been compressed
