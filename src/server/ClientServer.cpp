@@ -1,13 +1,16 @@
 #include <QtGui/QMessageBox>
 
+#include "server/events/ChunkNewDataEvent.h"
 #include "ClientServer.h"
+#include "Log.h"
 #include "version.h"
 
 ClientServer::ClientServer(const QString &hostName, quint16 port, const QString& nickName)
-	: Server(qApp, 123456789), s_hostname(hostName), i_port(port), s_nickName(nickName), b_connected(false)
+	: Server(qApp, 123456789), s_hostname(hostName), i_port(port), s_nickName(nickName), b_connected(false), b_playerIdFollowing(false)
 {
 	QObject::connect(&m_socket, SIGNAL(error(QAbstractSocket::SocketError)),
 			this, SLOT(displayError(QAbstractSocket::SocketError)));
+	QObject::connect(&m_socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
 	QObject::connect(&m_socket, SIGNAL(connected()), this, SIGNAL(connected()));
 	QObject::connect(this, SIGNAL(connected()), this, SLOT(onConnected()));
 	QObject::connect(&m_socket, SIGNAL(disconnected()), this, SIGNAL(disconnected()));
@@ -19,12 +22,44 @@ ClientServer::~ClientServer()
 	m_socket.abort();
 }
 
-bool ClientServer::baseEvent(BaseEvent* baseEvent)
+void ClientServer::sendNewChunkDataToPlayer(Chunk* chunk, quint32 playerId)
 {
-	sendEvent(baseEvent);
-	delete baseEvent;
-	return true;
+	Q_UNUSED(chunk); Q_UNUSED(playerId);
 }
+
+bool ClientServer::event(QEvent* event)
+{
+	// If this is a The Runic Orbs event
+	BaseEvent* theBaseEvent = dynamic_cast<BaseEvent*>(event);
+	if(theBaseEvent != 0)
+	{
+		if(!theBaseEvent->transmitted())
+		{
+			sendEvent(theBaseEvent);
+			return true;
+		}
+		else
+		{
+			return EventReadyObject::event(event);
+		}
+	}
+}
+
+/*bool ClientServer::baseEvent(BaseEvent* baseEvent)
+{
+	if(!baseEvent->transmitted()) {
+		sendEvent(baseEvent);
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+bool ClientServer::worldEvent(WorldEvent* worldEvent)
+{
+	return false;
+}*/
 
 QTcpSocket& ClientServer::socket()
 {
@@ -45,6 +80,22 @@ void ClientServer::readPacket(QByteArray& data)
 									"Please use another one."));
 	}
 
+	else if(data == QByteArray(PLAYER_ID_FOLLOWING)) {
+		b_playerIdFollowing = true;
+	}
+
+	else if(b_playerIdFollowing) {
+		b_playerIdFollowing = false;
+
+		int id = QString::fromUtf8(data.data()).toInt();
+
+		Player* myPlayer = new Player(m_world->physicEngine(), id);
+		this->connectPlayer(myPlayer);
+		m_world->connectPlayer(myPlayer);
+
+		emit playerReady(id);
+	}
+
 	else {
 		NetworkTalker::readPacket(data);
 	}
@@ -52,7 +103,7 @@ void ClientServer::readPacket(QByteArray& data)
 
 void ClientServer::processReadEvent(BaseEvent* event)
 {
-	Q_UNUSED(event);
+	QCoreApplication::postEvent(this, event);
 }
 
 bool ClientServer::connect()
@@ -65,6 +116,11 @@ bool ClientServer::connect()
 	sendPacket(s_nickName.toUtf8());
 
 	return b_connected;
+}
+
+void ClientServer::readyRead()
+{
+	NetworkTalker::readyRead();
 }
 
 void ClientServer::onConnected()

@@ -21,19 +21,26 @@ public:
 	virtual bool connect();
 	virtual World& world() { return *m_world; }
 
+	/*! For the ClientServer do nothing (should not be called) */
+	virtual void sendNewChunkDataToPlayer(Chunk* chunk, quint32 playerId);
+
 signals:
 	void connected();
 	void disconnected();
 
 private:
-	virtual bool baseEvent(BaseEvent* baseEvent);
+	bool event(QEvent* event);
+	//virtual bool baseEvent(BaseEvent* baseEvent);
+	//virtual bool worldEvent(WorldEvent* worldEvent); //!< To redirect all events to baseEvent
 
 	virtual QTcpSocket& socket();
 	virtual void readPacket(QByteArray& data);
 
+	/*! ! Events arrive from the network here */
 	virtual void processReadEvent(BaseEvent* event);
 
 private slots:
+	void readyRead();
 	void onConnected();
 	void onDisconnected();
 	void displayError(QAbstractSocket::SocketError socketError);
@@ -44,6 +51,7 @@ private:
 	quint16 i_port;
 	QString s_nickName;
 	bool b_connected;
+	bool b_playerIdFollowing; //!< If the following packet will be the player ID
 };
 
 #endif // CLIENTSERVER_H

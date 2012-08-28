@@ -65,7 +65,8 @@ SOURCES += main.cpp\
 				server/events/InventoryChangedEvent.cpp \
 				gui/ui/LoadingWidget.cpp \
 	server/events/ToolSelectEvent.cpp \
-	server/NetworkTalker.cpp
+	server/NetworkTalker.cpp \
+    server/events/ChunkNewDataEvent.cpp
 
 HEADERS  += \
 								PhysicObject.h \
@@ -121,7 +122,8 @@ HEADERS  += \
 				server/events/InventoryChangedEvent.h \
 				gui/ui/LoadingWidget.h \
 	server/events/ToolSelectEvent.h \
-	server/NetworkTalker.h
+	server/NetworkTalker.h \
+    server/events/ChunkNewDataEvent.h
 
 FORMS    += \
 								gui/ui/ConnectDialog.ui \

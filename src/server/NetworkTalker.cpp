@@ -1,4 +1,5 @@
 #include "server/events/BlockChangedEvent.h"
+#include "server/events/ChunkNewDataEvent.h"
 #include "server/events/InventoryChangedEvent.h"
 #include "server/events/PlayerBlockEvent.h"
 #include "server/events/ToolSelectEvent.h"
@@ -81,6 +82,9 @@ void NetworkTalker::readEvent(QByteArray& data)
 	case Disconnect_PlayerChunkEventId:
 		event = new PlayerChunkEvent(eventType, in);
 		break;
+	case ChunkNewDataEventId:
+		event = new ChunkNewDataEvent(eventType, in);
+		break;
 	case BlockEventId:
 		event = new BlockEvent(eventType, in);
 		break;
@@ -94,6 +98,7 @@ void NetworkTalker::readEvent(QByteArray& data)
 		break;
 	}
 
+	event->setTransmitted(true);
 	processReadEvent(event);
 }
 

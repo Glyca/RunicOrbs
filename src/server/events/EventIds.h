@@ -19,6 +19,8 @@ enum EventId {
 	Connect_PlayerChunkEventId = 4101,
 	Disconnect_PlayerChunkEventId = 4102,
 
+	ChunkNewDataEventId = 4150,
+
 	BlockEventId = 5000,
 
 	BlockChangedEventId = 5010,

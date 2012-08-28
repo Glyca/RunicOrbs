@@ -8,7 +8,7 @@
 #include <QDebug>
 
 PhysicObject::PhysicObject(PhysicEngine* parentPhysicEngine, int id, preal mass)
-	: m_parentPhysicEngine(parentPhysicEngine), f_mass(mass)
+	: QObject(parentPhysicEngine), m_parentPhysicEngine(parentPhysicEngine), f_mass(mass)
 {
 	if(id == 0) {
 		i_id = world()->nextPhysicObjectId();
@@ -96,7 +96,7 @@ void PhysicObject::destuck()
 		v_position.y = (preal)world()->altitude(v_position.x, v_position.z) + 0.01;
 		v_velocity.null();
 		v_acceleration.null();
-		ldebug(Channel_Physic, "destucked : set at " + QString::number(v_position.y));
+		//ldebug(Channel_Physic, "destucked : set at " + QString::number(v_position.y));
 	}
 }
 

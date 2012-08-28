@@ -9,6 +9,11 @@ class LocalServer : public Server
 public:
 	explicit LocalServer(QObject* parent, int seed);
 	virtual ~LocalServer();
+
+	virtual void start();
+
+	/*! For the LocalServer do nothing since we have already all the data */
+	virtual void sendNewChunkDataToPlayer(Chunk* chunk, quint32 playerId);
 };
 
 #endif // LOCALSERVER_H

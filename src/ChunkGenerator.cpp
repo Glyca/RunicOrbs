@@ -43,7 +43,11 @@ ChunkGenerator::ChunkGenerator(Chunk* chunkToGenerate, const int seed) : QThread
 
 ChunkGenerator::ChunkGenerator(const ChunkGenerator&) : QThread()
 {
+}
 
+ChunkGenerator::~ChunkGenerator()
+{
+	qDebug() << "finished to generate" << m_chunkToGenerate->position();
 }
 
 void ChunkGenerator::run()

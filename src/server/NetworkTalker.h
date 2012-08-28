@@ -7,6 +7,7 @@ class BaseEvent;
 
 #define BAD_VERSION "BAD_VERSION"
 #define BAD_NICKNAME "BAD_NICKNAME"
+#define PLAYER_ID_FOLLOWING "PLAYER_ID_FOLLOWING"
 
 /*! Children of this convenient class are able to talk over the network in the same way */
 class NetworkTalker
@@ -23,6 +24,8 @@ protected:
 	virtual void readPacket(QByteArray& data);
 	virtual void sendPacket(const QByteArray& data);
 
+	/*! This importnat method translates a byte array into a typed event (one of subclasses of BaseEvent).
+		Then it calls processReadEvent(BaseEvent* event) */
 	void readEvent(QByteArray& data);
 	void sendEvent(BaseEvent* event);
 

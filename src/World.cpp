@@ -9,7 +9,7 @@
 #include <QDebug>
 
 World::World(Server* parentServer, const int seed)
-	: EventReadyObject(parentServer), m_server(parentServer), i_worldId(0), i_time(0), i_seed(seed)
+	: EventReadyObject(parentServer), m_server(parentServer), i_worldId(0), b_canGenerateChunks(false), i_time(0), i_seed(seed)
 {
 	m_physicEngine = new PhysicEngine(this, this);
 	m_chunks = new QHash<ChunkPosition, Chunk*>();
@@ -30,22 +30,29 @@ World::~World()
 	delete m_physicEngine;
 }
 
+Server* World::server()
+{
+	return m_server;
+}
+
+int World::id() const
+{
+	return i_worldId;
+}
+
 const PhysicObject* World::po(const int id) const
 {
 	return m_physicEngine->po(id);
 }
 
-Player* World::newPlayer()
-{
-	Player* newPlayer = new Player(physicEngine(), nextPhysicObjectId());
-	connectPlayer(newPlayer);
-	ldebug(Channel_Server, tr("A new Player #%1 is in the world #%2.").arg(newPlayer->id()).arg(i_worldId));
-	return newPlayer;
-}
-
 int World::nextPhysicObjectId()
 {
 	return m_server->nextPhysicObjectId();
+}
+
+const QHash<ChunkPosition, Chunk*>* World::chunks() const
+{
+	return m_chunks;
 }
 
 Chunk* World::chunk(const ChunkPosition& position) const
@@ -95,6 +102,11 @@ bool World::isChunkLoaded(const ChunkPosition& position) const
 	return m_chunks->contains(position);
 }
 
+void World::enableChunkGeneration(bool yes)
+{
+	b_canGenerateChunks = yes;
+}
+
 void World::loadChunk(const ChunkPosition& position)
 {
 	if(isChunkLoaded(position)) // safety : If the chunk is already loaded
@@ -103,16 +115,25 @@ void World::loadChunk(const ChunkPosition& position)
 	}
 	else // otherwise, we generate a new fresh one
 	{
-		Chunk* newChunk = new Chunk(this, position);
+		createChunk(position);
+	}
+}
+
+void World::createChunk(const ChunkPosition& position)
+{
+	Chunk* newChunk = new Chunk(this, position);
+	if(b_canGenerateChunks)
+	{
 		ChunkGenerator* chunkGenerator = new ChunkGenerator(newChunk, i_seed);
-		// The generation thread will activate the chunk when finished
-		connect(chunkGenerator, SIGNAL(finished()), newChunk, SLOT(activate()));
+		qDebug() << "generating chunk" << position;
 		// The generation thread will auto-destroy itself when finished
 		connect(chunkGenerator, SIGNAL(finished()), chunkGenerator, SLOT(deleteLater()));
+		// The generation thread will activate the chunk when finished
+		connect(chunkGenerator, SIGNAL(finished()), newChunk, SLOT(activate()));
 		// Start the generation of the chunk
 		chunkGenerator->start();
-		m_chunks->insert(position, newChunk);
 	}
+	m_chunks->insert(position, newChunk);
 }
 
 void World::unloadChunk(Chunk* chunk)
@@ -182,16 +203,6 @@ BlockPosition World::highestBlock(const Vector& position)
 	return blockPosition;
 }
 
-void World::render3D()
-{
-	QHash<ChunkPosition, Chunk*>::const_iterator it = m_chunks->constBegin();
-	QHash<ChunkPosition, Chunk*>::const_iterator endit = m_chunks->constEnd();
-	while (it != endit) {
-		it.value()->render3D();
-		++it;
-	}
-}
-
 bool World::worldEvent(WorldEvent* worldEvent)
 {
 	// For now do nothing
@@ -203,24 +214,6 @@ bool World::chunkEvent(ChunkEvent* chunkEvent)
 {
 	//qDebug() << "World received ChunkEvent ##" << chunkEvent->type();
 
-	PlayerChunkEvent* playerChunkEvent = dynamic_cast<PlayerChunkEvent*>(chunkEvent);
-	if(playerChunkEvent != 0)
-	{
-		switch(playerChunkEvent->type())
-		{
-		case Connect_PlayerChunkEventId:
-			qDebug() << "Player" << playerChunkEvent->playerId() << "wants the Chunk" << playerChunkEvent->chunkPosition();
-			loadChunk(playerChunkEvent->chunkPosition());
-			break;
-		case Disconnect_PlayerChunkEventId:
-			qDebug() << "Player" << playerChunkEvent->playerId() << "doesn't want the Chunk" << playerChunkEvent->chunkPosition();
-			unloadChunk(playerChunkEvent->chunkPosition());
-			break;
-		default:
-			break;
-		}
-	}
-
 	// Send the event to the concerned chunk
 	ChunkPosition chunkPosition = chunkEvent->chunkPosition();
 	if(isChunkLoaded(chunkPosition)) {
@@ -229,7 +222,8 @@ bool World::chunkEvent(ChunkEvent* chunkEvent)
 	else
 	{
 		// The demanded chunk is not loaded !
-		return false;
+		loadChunk(chunkPosition);
+		return this->chunkEvent(chunkEvent);
 	}
 }
 
@@ -254,6 +248,9 @@ bool World::blockEvent(BlockEvent* blockEvent)
 				// Make the chunk and chunks arround redrawed
 				chunk(playerBlockEvent->blockPosition())->makeDirty();
 				chunk(playerBlockEvent->blockPosition())->makeSurroundingChunksDirty();
+				// For block events, send them to all player connected to this chunk
+				// thus when sb mine a block, everyone will be informed
+				chunk(playerBlockEvent->blockPosition())->sendEventToPlayers(playerBlockEvent);
 			}
 		}
 			break;
@@ -265,6 +262,7 @@ bool World::blockEvent(BlockEvent* blockEvent)
 			{
 				block(playerBlockEvent->blockPosition())->setId(blockId);
 				chunk(playerBlockEvent->blockPosition())->makeDirty();
+				chunk(playerBlockEvent->blockPosition())->sendEventToPlayers(playerBlockEvent);
 			}
 		}
 			break;

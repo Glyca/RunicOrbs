@@ -3,7 +3,9 @@
 
 #include <QWidget>
 
+class LoadingWidget;
 class OptionsDialog;
+class ServerConnector;
 class ServerWidget;
 
 namespace Ui {
@@ -20,7 +22,7 @@ public:
 	~Home();
 
 private slots:
-	void soloGameLaunch();
+	void soloGameLaunch(); //!< Called with button click
 	void openOptions();
 	void optionsClosed();
 	void openConnectDialog();

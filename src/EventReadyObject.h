@@ -11,7 +11,7 @@ class BlockEvent;
 class ChunkEvent;
 class WorldEvent;
 
-/*! A QObject overlay with many event handlers already defined */
+/*! A QObject overlay with many event handlers already defined, and Player notion */
 class EventReadyObject : public QObject
 {
 public:
@@ -25,7 +25,7 @@ public:
 	virtual bool chunkEvent(ChunkEvent* chunkEvent);
 	virtual bool blockEvent(BlockEvent* blockEvent);
 
-	/*! Add a Player to this object. Some events can be sended to it now from this object */
+	/*! Add a Player to this object. Some events can be sended to it from this object now */
 	void connectPlayer(Player* player);
 	/*! Get the connected Player of the given id */
 	Player* player(int playerId) const;

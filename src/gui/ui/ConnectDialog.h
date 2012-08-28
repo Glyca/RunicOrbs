@@ -22,7 +22,6 @@ public:
 public slots:
 	void onClick(QAbstractButton*);
 	void selectServer(QListWidgetItem*);
-	void startGame();
 
 private:
 	/*! Load last servers from the disk */
@@ -30,7 +29,6 @@ private:
 	void saveServers();
 
 	Ui::ConnectDialog *ui;
-	ServerConnector* m_connectorToBeUsed;
 };
 
 #endif // CONNECTDIALOG_H

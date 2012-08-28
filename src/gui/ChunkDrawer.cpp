@@ -8,6 +8,9 @@
 
 ChunkDrawer::ChunkDrawer(Chunk* chunkToDraw) : m_chunkToDraw(chunkToDraw)
 {
+	connect(chunkToDraw, SIGNAL(dirtied()), this, SLOT(generateVBO()), Qt::QueuedConnection);
+	connect(chunkToDraw, SIGNAL(activated()), this, SLOT(generateVBO()), Qt::QueuedConnection);
+
 	m_currentOglBuffer = new OpenGLBuffer(GL_QUADS);
 
 	m_workingThread = new QThread();
@@ -24,6 +27,8 @@ ChunkDrawer::~ChunkDrawer()
 
 void ChunkDrawer::generateVBO()
 {
+	if(m_chunkToDraw->state() != Chunk::ChunkState_Active) return;
+
 	OpenGLBuffer* newOglBuffer = new OpenGLBuffer(GL_QUADS);
 	newOglBuffer->preventUpload(true); // Indicates to "don't upload the geometry in video memory until we finished to generate it".
 

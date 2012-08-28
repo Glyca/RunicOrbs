@@ -175,7 +175,7 @@ void GameWindow::render2D(QPainter& painter)
 void GameWindow::render3D()
 {
 	// BLOCKS RENDER
-	m_connector->world()->render3D();
+	m_connector->render3D();
 
 	m_masterOglLinesBuffer->clear(); // empty the line buffer
 

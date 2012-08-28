@@ -8,6 +8,7 @@
 #include "World.h"
 
 class BaseEvent;
+class ChunkDrawer;
 
 /*! The ServerConnector class is a gate to a Server */
 class ServerConnector : public EventReadyObject
@@ -16,10 +17,6 @@ class ServerConnector : public EventReadyObject
 public:
 	explicit ServerConnector(Server* serverToConnect);
 	virtual ~ServerConnector();
-
-	/*! Connect to the server. Must be called before everything else.
-		\returns true if connection succeeded */
-	bool connect();
 
 	World* world();
 
@@ -37,6 +34,8 @@ public:
 
 	void setViewDistance(const int distance);
 
+	void render3D();
+
 	/*! Request a new chunk to be loaded */
 	void loadChunk(const ChunkPosition& chunkPosition);
 	/*! Request a chunk to be unloaded */
@@ -47,6 +46,8 @@ signals:
 	void connected();
 
 public slots:
+	void setPlayerId(int playerId);
+
 	/*! Load and unload chunks arround the player */
 	void loadAndPruneChunks();
 
@@ -57,6 +58,7 @@ private:
 	int i_worldId; //!< The current World id
 	int i_playerId; //!< The current Player id
 	QList<ChunkPosition> m_loadedChunks; //!< The chunks we loaded
+	QHash<ChunkPosition, ChunkDrawer*> m_chunkDrawers;
 	int i_viewDistance;
 };
 

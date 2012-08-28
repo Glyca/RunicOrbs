@@ -16,6 +16,8 @@ MultiplayerServer::MultiplayerServer(ServerConfiguration* serverConfiguration)
 		lerror(Channel_Server, QObject::tr("Can't listen to port %1! Isn't the server already launched?").arg(m_configuration->getPort()));
 	}
 
+	m_world->enableChunkGeneration(true);
+
 	ldebug(Channel_Server, "Started multiplayer server!");
 }
 
@@ -32,6 +34,18 @@ MultiplayerServer::~MultiplayerServer()
 		delete pool;
 		m_clientPools.pop_back();
 	}
+}
+
+bool MultiplayerServer::event(QEvent *event)
+{
+	return Server::event(event);
+}
+
+void MultiplayerServer::sendNewChunkDataToPlayer(Chunk* chunk, quint32 playerId)
+{
+	qDebug() << "compressing chunk" << chunk->position() << "for player" << playerId;
+	chunk->addPlayerWhoWantCompressedChunk(playerId);
+	chunk->compress();
 }
 
 void MultiplayerServer::incomingConnection(int handle)

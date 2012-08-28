@@ -1,3 +1,4 @@
+#include "gui/ChunkDrawer.h"
 #include "Log.h"
 #include "server/events/BlockChangedEvent.h"
 #include "server/events/PlayerChunkEvent.h"
@@ -7,19 +8,12 @@
 ServerConnector::ServerConnector(Server* serverToConnect)
 	: EventReadyObject(reinterpret_cast<QObject*>(serverToConnect)), m_server(serverToConnect)
 {
-	Player* player = m_server->world()->newPlayer();
-	i_playerId = player->id();
-	ldebug(Channel_Server, tr("ServerConnector initialized, pid #%1").arg(i_playerId));
+	QObject::connect(m_server, SIGNAL(playerReady(int)), this, SLOT(setPlayerId(int)));
+	QObject::connect(m_server, SIGNAL(playerReady(int)), this, SIGNAL(connected()));
 }
 
 ServerConnector::~ServerConnector()
 {
-}
-
-bool ServerConnector::connect()
-{
-	emit connected();
-	return true; // TODO
 }
 
 World* ServerConnector::world()
@@ -36,6 +30,12 @@ void ServerConnector::postEventToServer(BaseEvent* event)
 Me* ServerConnector::me()
 {
 	return static_cast<Me*>(m_server->player(i_playerId));
+}
+
+void ServerConnector::setPlayerId(int playerId)
+{
+	i_playerId = playerId;
+	ldebug(Channel_Server, tr("ServerConnector initialized, pid #%1").arg(i_playerId));
 }
 
 void ServerConnector::loadAndPruneChunks()
@@ -110,4 +110,31 @@ void ServerConnector::useBlock()
 void ServerConnector::setViewDistance(const int distance)
 {
 	i_viewDistance = distance;
+}
+
+void ServerConnector::render3D()
+{
+	const QHash<ChunkPosition, Chunk*>* chunks = m_server->world()->chunks();
+
+	QHash<ChunkPosition, Chunk*>::const_iterator it = chunks->constBegin();
+	QHash<ChunkPosition, Chunk*>::const_iterator endit = chunks->constEnd();
+	while (it != endit) {
+		ChunkPosition chunkPos = it.key();
+		Chunk* chunk = it.value();
+
+		if(chunk->state() == Chunk::ChunkState_Active) {
+			ChunkDrawer* chunkDrawer = m_chunkDrawers.value(chunkPos, NULL);
+
+			if(chunkDrawer == NULL)
+			{
+				chunkDrawer = new ChunkDrawer(chunk);
+				QMetaObject::invokeMethod(chunkDrawer, "generateVBO");
+				m_chunkDrawers[chunkPos] = chunkDrawer;
+			}
+
+			chunkDrawer->render();
+		}
+
+		++it;
+	}
 }

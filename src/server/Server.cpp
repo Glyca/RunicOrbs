@@ -23,6 +23,11 @@ const PhysicObject* Server::po(const int id) const
 	return m_world->po(id);
 }
 
+void Server::start()
+{
+
+}
+
 bool Server::baseEvent(BaseEvent* baseEvent)
 {
 	PlayerEvent* playerEvent = dynamic_cast<PlayerEvent*>(baseEvent); // Send player events to their recipients
@@ -55,6 +60,15 @@ bool Server::blockEvent(BlockEvent* blockEvent)
 	// For now there is just one world, therefore we send all events to it
 	//qDebug() << "Server received BlockEvent ##" << blockEvent->type();
 	return false;
+}
+
+Player* Server::newPlayer()
+{
+	Player* newPlayer = new Player(m_world->physicEngine(), nextPhysicObjectId());
+	connectPlayer(newPlayer);
+	m_world->connectPlayer(newPlayer);
+	ldebug(Channel_Server, tr("A new Player #%1 is in the server.").arg(newPlayer->id()));
+	return newPlayer;
 }
 
 int Server::nextPhysicObjectId()

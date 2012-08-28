@@ -7,6 +7,7 @@
 #include "NetworkTalker.h"
 
 class MultiplayerServer;
+class Player;
 
 /*! Handle the TCP connection between a client and a MultiplayerServer */
 class ClientHandler : public QObject, public NetworkTalker
@@ -27,6 +28,10 @@ public slots:
 	void readyRead();
 	void disconnected();
 
+	/*! Send a BaseEvent received by the Player
+		\sa Player::eventReceived */
+	void sendPlayerEvent(BaseEvent* baseEvent);
+
 	void error(QAbstractSocket::SocketError socketError);
 
 private:
@@ -42,6 +47,8 @@ private:
 
 	bool b_versionConfirmed; //!< If the client version is ok (no = kick)
 	bool b_identityConfirmed; //!< If the client has sent his nickname (bad one = kick)
+
+	Player* m_player; //!< The Player which this ClientHandler is the relay
 };
 
 #endif // CLIENTHANDLER_H

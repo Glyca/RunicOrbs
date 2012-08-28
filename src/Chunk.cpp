@@ -1,13 +1,23 @@
+#include <cstring> // memcpy
+#include <QFutureWatcher>
+
 #include "Chunk.h"
 #include "blocks/BlockDescriptor.h"
 #include "gui/ChunkDrawer.h"
+#include "server/events/ChunkNewDataEvent.h"
 #include "server/events/PlayerBlockEvent.h"
+#include "server/Server.h"
 #include "World.h"
 
-Chunk::Chunk(World* parentWorld, ChunkPosition position) : EventReadyObject(parentWorld), m_world(parentWorld), m_state(ChunkState_Idle), b_dirty(true), m_position(position), m_chunkDrawer(NULL)
+Chunk::Chunk(World* parentWorld, ChunkPosition position)
+	: EventReadyObject(parentWorld), m_world(parentWorld), m_state(ChunkState_Idle), b_dirty(true), b_compressed(false), m_position(position)
 {
-	int size = CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE;
-	p_BlockInfos = new BlockInfo[size];
+	p_BlockInfos = new BlockInfo[CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE];
+
+	connect(&fba_compressedChunkWatcher, SIGNAL(finished()), this, SIGNAL(compressed()));
+	connect(this, SIGNAL(compressed()), this, SLOT(onCompressed()));
+	connect(&fba_uncompressedChunkWatcher, SIGNAL(finished()), this, SIGNAL(uncompressed()));
+	connect(this, SIGNAL(uncompressed()), this, SLOT(onUncompressed()));
 }
 
 Chunk::~Chunk()
@@ -18,20 +28,43 @@ Chunk::~Chunk()
 
 bool Chunk::worldEvent(WorldEvent* worldEvent)
 {
-	// For now do nothing
-	//qDebug() << "Chunk received WorldEvent ##" << worldEvent->type();
 	return true;
 }
 
 bool Chunk::chunkEvent(ChunkEvent* chunkEvent)
 {
-	//qDebug() << "Chunk received ChunkEvent ##" << chunkEvent->type();
+	PlayerChunkEvent* playerChunkEvent = dynamic_cast<PlayerChunkEvent*>(chunkEvent);
+	if(playerChunkEvent != 0)
+	{
+		switch(playerChunkEvent->type())
+		{
+		case Connect_PlayerChunkEventId:
+			qDebug() << "Player" << playerChunkEvent->playerId() << "wants the Chunk" << playerChunkEvent->chunkPosition();
+			connectPlayer(m_world->player(playerChunkEvent->playerId()));
+			m_world->server()->sendNewChunkDataToPlayer(this, playerChunkEvent->playerId());
+			return true;
+		case Disconnect_PlayerChunkEventId:
+			qDebug() << "Player" << playerChunkEvent->playerId() << "doesn't want the Chunk" << playerChunkEvent->chunkPosition();
+			disconnectPlayer(playerChunkEvent->playerId());
+			return true;
+		case ChunkNewDataEventId:
+		{
+			ChunkNewDataEvent* cndEvent = static_cast<ChunkNewDataEvent*>(playerChunkEvent);
+			activate(cndEvent->compressedData());
+			return true;
+		}
+		default:
+			return false;
+		}
+	}
+
 	return true;
 }
 
 bool Chunk::blockEvent(BlockEvent* blockEvent)
 {
 	//qDebug() << "Chunk received BlockEvent ##" << blockEvent->type();
+
 	return true;
 }
 
@@ -39,18 +72,61 @@ void Chunk::activate()
 {
 	QWriteLocker locker(&m_rwLock);
 	if(m_state != ChunkState_Active) {
-		m_chunkDrawer = new ChunkDrawer(this);
 		b_dirty = true; // we must redraw the chunk
 		m_state = ChunkState_Active;
+		emit activated();
 	}
+}
+
+void Chunk::activate(const QByteArray& data)
+{
+	QWriteLocker wLocker(&m_rwLock);
+	fba_uncompressedChunk = QtConcurrent::run(qUncompress, data);
+	fba_uncompressedChunkWatcher.setFuture(fba_uncompressedChunk);
+}
+
+void Chunk::compress()
+{
+	QWriteLocker wLocker(&m_rwLock);
+	b_compressed = false;
+	fba_compressedChunk = QtConcurrent::run(qCompress, (uchar*)p_BlockInfos, CHUNK_X_SIZE * CHUNK_Z_SIZE * CHUNK_Y_SIZE * sizeof(BlockInfo), 9);
+	fba_compressedChunkWatcher.setFuture(fba_compressedChunk);
+}
+
+void Chunk::onCompressed()
+{
+	QWriteLocker wLocker(&m_rwLock);
+	b_compressed = true;
+
+	foreach (quint32 playerId, m_playersWantCompressedChunk) {
+		// SEND COMPRESSED CHUNK DATA TO PLAYER
+		Player* toPlayer = player(playerId);
+		if(toPlayer == NULL) continue;
+		qDebug() << "compressed chunk" << m_position << "for player" << playerId;
+		ChunkNewDataEvent* event = new ChunkNewDataEvent(ChunkNewDataEventId, m_world->id(), m_position, playerId, fba_compressedChunk.result());
+		QCoreApplication::sendEvent(toPlayer, event);
+		m_playersWantCompressedChunk.removeAt(m_playersWantCompressedChunk.indexOf(playerId));
+	}
+}
+
+void Chunk::onUncompressed()
+{
+	QWriteLocker wLocker(&m_rwLock);
+	QByteArray blockInfos = fba_uncompressedChunk.result();
+	delete[] p_BlockInfos; // free and reallocate block infos array
+	char* blockInfosChar = new char[blockInfos.size()];
+	memcpy(blockInfosChar, blockInfos.data(), blockInfos.size());
+	p_BlockInfos = reinterpret_cast<BlockInfo*>(blockInfosChar);
+	wLocker.unlock();
+	activate(); // to quit this function to unlock mutex
 }
 
 void Chunk::idle()
 {
 	QWriteLocker locker(&m_rwLock);
 	if(m_state != ChunkState_Idle) {
-		delete m_chunkDrawer;
 		m_state = ChunkState_Idle;
+		emit idled();
 	}
 }
 
@@ -95,6 +171,8 @@ void Chunk::makeDirty()
 {
 	QWriteLocker locker(&m_rwLock);
 	b_dirty = true;
+	b_compressed = false;
+	emit dirtied();
 }
 
 void Chunk::makeSurroundingChunksDirty() const
@@ -105,16 +183,13 @@ void Chunk::makeSurroundingChunksDirty() const
 	world().chunk(ChunkPosition(m_position.first    , m_position.second + 1))->makeDirty();
 }
 
-void Chunk::render3D()
+Chunk::ChunkState Chunk::state()
 {
 	QReadLocker locker(&m_rwLock);
-	if(m_state == ChunkState_Active) {
-		if(b_dirty) {
-			// Regenerate chunk geometry in another thread
-			QMetaObject::invokeMethod(m_chunkDrawer, "generateVBO");
-			b_dirty = false;
-		}
+	return m_state;
+}
 
-		m_chunkDrawer->render(); // Incredibly fast !
-	}
+void Chunk::addPlayerWhoWantCompressedChunk(quint32 playerId)
+{
+	m_playersWantCompressedChunk.append(playerId);
 }

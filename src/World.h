@@ -21,15 +21,17 @@ public:
 	explicit World(Server* parentServer, const int seed);
 	~World();
 
+	Server* server();
+	int id() const;
+
 	/*! Return the PhysicEngine of the world */
 	inline PhysicEngine* physicEngine() const {return m_physicEngine;}
 	/*! Return a reference to an entity */
 	const PhysicObject* po(const int id) const;
 
-	/*! Creates a player in this World */
-	Player* newPlayer();
-
 	int nextPhysicObjectId();
+
+	const QHash<ChunkPosition, Chunk*>* chunks() const;
 
 	/*! Access to a chunk of the world from a chunk position */
 	Chunk* chunk(const ChunkPosition& position) const;
@@ -48,8 +50,13 @@ public:
 	/*! Return true if the Chunk is loaded, false otherwise */
 	bool isChunkLoaded(const ChunkPosition& position) const;
 
-	/*! Load a chunk in the workd into RAM */
+	void enableChunkGeneration(bool yes);
+
+	/*! Load a chunk of the workd into RAM */
 	void loadChunk(const ChunkPosition& position);
+	/*! Create a chunk
+		If b_canGenerateChunks == true it will generate it, otherwise, it will create a void chunk */
+	void createChunk(const ChunkPosition& position);
 	/*! Free the chunk from the RAM, it will not be rendered anymore */
 	void unloadChunk(Chunk* chunk);
 	void unloadChunk(const ChunkPosition& position);
@@ -64,8 +71,6 @@ public:
 	inline int seed() const {return i_seed;}
 	inline void setSeed(const int seed) {i_seed = seed;}
 
-	void render3D();
-
 public slots:
 
 private:
@@ -73,6 +78,7 @@ private:
 
 	Server* m_server; //!< The Server this World belongs to
 	int i_worldId; //!< The Id of the World
+	bool b_canGenerateChunks; //!< Whether this World is authorized to generate chunks
 	QHash<ChunkPosition, Chunk*> * m_chunks;
 	Chunk* m_voidChunk; //!< The void chunk is given when you try to access a too far chunk
 	QMap<int, Player*> m_players; //!< Players who are in this world

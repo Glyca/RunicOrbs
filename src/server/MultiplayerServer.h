@@ -23,8 +23,14 @@ public:
 	MultiplayerServer(ServerConfiguration* serverConfiguration);
 	virtual ~MultiplayerServer();
 
+	virtual bool event(QEvent* event); //!< To redirect all events to Server class
+
+	virtual void sendNewChunkDataToPlayer(Chunk* chunk, quint32 playerId);
+
 protected:
 	void incomingConnection(int handle);
+
+private slots:
 
 private:
 	ServerConfiguration* m_configuration;

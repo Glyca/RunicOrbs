@@ -14,6 +14,7 @@ class ChunkGenerator : public QThread
 public:
 	ChunkGenerator(Chunk* chunkToGenerate, const int seed);
 	ChunkGenerator(const ChunkGenerator&);
+	virtual ~ChunkGenerator();
 
 	/*! Called to generate the chunk in fact */
 	void run();

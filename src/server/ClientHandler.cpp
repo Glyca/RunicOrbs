@@ -1,11 +1,13 @@
 #include <QThread>
 
+#include "server/events/BaseEvent.h"
 #include "ClientHandler.h"
 #include "Log.h"
+#include "MultiplayerServer.h"
 #include "version.h"
 
 ClientHandler::ClientHandler(int socketDescriptor, MultiplayerServer* server)
-	: m_parentServer(server), b_socketCreated(false), i_socketDescriptor(socketDescriptor)
+	: m_parentServer(server), b_socketCreated(false), i_socketDescriptor(socketDescriptor), m_player(NULL)
 {
 }
 
@@ -55,6 +57,13 @@ void ClientHandler::disconnected()
 	ldebug(Channel_Server, "Client disconnected!");
 }
 
+void ClientHandler::sendPlayerEvent(BaseEvent* baseEvent)
+{
+	if(!baseEvent->transmitted()) {
+		sendEvent(baseEvent);
+	}
+}
+
 void ClientHandler::error(QAbstractSocket::SocketError socketError)
 {
 	switch (socketError) {
@@ -92,6 +101,15 @@ void ClientHandler::readPacket(QByteArray& data)
 		if(true) { // nickname validity check
 			ldebug(Channel_Server, tr("nickname \"%1\" : OK").arg(QString::fromUtf8(data)));
 			b_identityConfirmed = true;
+
+			m_player = m_parentServer->newPlayer();
+
+			sendPacket(QByteArray(PLAYER_ID_FOLLOWING));
+			sendPacket(QString::number(m_player->id()).toUtf8());
+
+			connect(m_player, SIGNAL(eventReceived(BaseEvent*)), this, SLOT(sendPlayerEvent(BaseEvent*)));
+			m_parentServer->connectPlayer(m_player);
+			m_parentServer->world()->connectPlayer(m_player);
 		}
 		else {
 			sendPacket(QByteArray(BAD_NICKNAME));
@@ -106,7 +124,7 @@ void ClientHandler::readPacket(QByteArray& data)
 
 void ClientHandler::processReadEvent(BaseEvent* event)
 {
-	Q_UNUSED(event);
+	QCoreApplication::postEvent(reinterpret_cast<QObject*>(m_parentServer), reinterpret_cast<QEvent*>(event));
 }
 
 void ClientHandler::disconnect()

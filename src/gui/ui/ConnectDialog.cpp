@@ -3,9 +3,7 @@
 #include "server/ClientServer.h"
 #include "ConnectDialog.h"
 #include "ui_ConnectDialog.h"
-#include "gui/GameWindow.h"
 #include "LoadingWidget.h"
-#include "ServerConnector.h"
 
 const int MAX_SERVERS_IN_LIST = 8;
 const char* SERVERS_FILENAME = "/last_servers.xml";
@@ -26,17 +24,10 @@ ConnectDialog::~ConnectDialog()
 void ConnectDialog::onClick(QAbstractButton* button)
 {
 	if(ui->buttonBox->standardButton(button) == QDialogButtonBox::Ok) {
-		LoadingWidget loadingWidget;
-		ClientServer* clientServer = new ClientServer(ui->adressLineEdit->text(), ui->portSpinBox->value(), ui->nameLineEdit->text());
-
-		if(clientServer->connect()) {
-			m_connectorToBeUsed = new ServerConnector(clientServer);
-			connect(m_connectorToBeUsed, SIGNAL(connected()), this, SLOT(startGame()));
-			m_connectorToBeUsed->connect();
+		LoadingWidget* loadingWidget = new LoadingWidget();
+		if(loadingWidget->loadMultiplayerGame(ui->adressLineEdit->text(), ui->portSpinBox->value(), ui->nameLineEdit->text()))
+		{
 			saveServers();
-		}
-		else {
-			delete clientServer;
 		}
 	}
 }
@@ -46,13 +37,6 @@ void ConnectDialog::selectServer(QListWidgetItem* item)
 	QStringList splittedServer = item->text().split(":");
 	ui->adressLineEdit->setText(splittedServer[0]);
 	ui->portSpinBox->setValue(QVariant(splittedServer[1]).toInt());
-}
-
-void ConnectDialog::startGame()
-{
-	GameWindow* window = new GameWindow(m_connectorToBeUsed);
-	window->show();
-	close();
 }
 
 void ConnectDialog::loadServers()

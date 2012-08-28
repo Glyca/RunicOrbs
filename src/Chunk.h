@@ -1,6 +1,7 @@
 #ifndef CHUNK_H
 #define CHUNK_H
 
+#include <QFutureWatcher>
 #include <QList>
 #include <QReadWriteLock>
 #include <QPair>
@@ -58,13 +59,25 @@ public:
 
 	void makeSurroundingChunksDirty() const;
 
-	//! Render all blocks of the chunk
-	void render3D();
+	bool isCompressed() const;
+
+	ChunkState state();
+
+	void addPlayerWhoWantCompressedChunk(quint32 playerId);
 
 signals:
+	void activated();
+	void compressed(); //!< Emitted when the chunk has been compressed
+	void uncompressed();
+	void dirtied();
+	void idled();
 
 public slots:
 	void activate(); //!< Activate the chunk (it will be drawed)
+	void activate(const QByteArray& data); //!< Activate thr chunk with compressed data
+	void compress(); //!< Compress the chunk
+	void onCompressed();
+	void onUncompressed();
 	void idle(); //!< Make the Chunk enter in an idle state (it will not be drawed)
 
 private:
@@ -72,9 +85,17 @@ private:
 	QReadWriteLock m_rwLock; //!< R/W mutex
 	ChunkState m_state;
 	bool b_dirty; //!< If we need to redraw the chunk
+
+	bool b_compressed;
+	QFuture<QByteArray> fba_compressedChunk; //!< The chunk, compressed if != NULL
+	QFutureWatcher<void> fba_compressedChunkWatcher;
+	QList<quint32> m_playersWantCompressedChunk; //!< A list of players who want to be informed when a chunk has been compressed
+
+	QFuture<QByteArray> fba_uncompressedChunk;
+	QFutureWatcher<void> fba_uncompressedChunkWatcher;
+
 	ChunkPosition m_position; //!< The postion of the chunk in chunk unit.
 	BlockInfo* p_BlockInfos; //!< A big array of all BlockInfo of the Chunk
-	ChunkDrawer* m_chunkDrawer;
 };
 
 #endif // CHUNK_H

@@ -31,7 +31,7 @@ bool EventReadyObject::event(QEvent* event)
 		ChunkEvent* theChunkEvent = dynamic_cast<ChunkEvent*>(theBaseEvent);
 		if(theChunkEvent != 0)  // event IS_A ChunkEvent
 		{
-			if(chunkEvent(theChunkEvent) || worldEvent(theChunkEvent)) { // If the ChunkEvent is handled
+			if(chunkEvent(theChunkEvent) || worldEvent(theChunkEvent) ) { // If the ChunkEvent is handled
 				return true;
 			}
 		}
